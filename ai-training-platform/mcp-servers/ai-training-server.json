@@ -1,0 +1,407 @@
+{
+  "name": "ai-training-server",
+  "version": "1.0.0",
+  "description": "Unified MCP server for TBS AI Training Platform LMS - comprehensive training management tools",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.20.1"
+  },
+  "mcp": {
+    "name": "AI Training LMS Server",
+    "version": "1.0.0",
+    "description": "Provides comprehensive LMS tools for content management, assessments, gamification, and progress tracking",
+    "tools": [
+      {
+        "name": "cursor_ide_demo",
+        "description": "Demonstrates Cursor IDE features for AI-assisted coding training",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "feature": {
+              "type": "string",
+              "description": "The Cursor feature to demonstrate",
+              "enum": ["autocomplete", "chat", "codebase", "refactor", "debug"]
+            },
+            "language": {
+              "type": "string",
+              "description": "Programming language for the demo",
+              "enum": ["typescript", "javascript", "react", "nextjs"]
+            }
+          },
+          "required": ["feature"]
+        }
+      },
+      {
+        "name": "github_workflow_demo",
+        "description": "Demonstrates GitHub workflows and best practices for team collaboration",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "workflow": {
+              "type": "string",
+              "description": "The GitHub workflow to demonstrate",
+              "enum": ["pull_request", "code_review", "branching", "ci_cd"]
+            }
+          },
+          "required": ["workflow"]
+        }
+      },
+      {
+        "name": "project_structure_guide",
+        "description": "Provides guidance on proper project structure and organisation for Next.js projects",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "project_type": {
+              "type": "string",
+              "description": "Type of project structure to demonstrate",
+              "enum": ["web_app", "api", "monorepo"]
+            }
+          },
+          "required": ["project_type"]
+        }
+      },
+      {
+        "name": "create_quiz",
+        "description": "Creates a quiz or questionnaire for a training module with multiple question types",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "module_id": {
+              "type": "string",
+              "description": "ID of the module this quiz belongs to"
+            },
+            "title": {
+              "type": "string",
+              "description": "Title of the quiz"
+            },
+            "question_type": {
+              "type": "string",
+              "description": "Type of questions in the quiz",
+              "enum": ["multiple_choice", "true_false", "short_answer", "mixed"]
+            },
+            "difficulty": {
+              "type": "string",
+              "description": "Difficulty level of the quiz",
+              "enum": ["beginner", "intermediate", "advanced"]
+            },
+            "num_questions": {
+              "type": "number",
+              "description": "Number of questions in the quiz",
+              "minimum": 1,
+              "maximum": 50
+            }
+          },
+          "required": ["module_id", "title", "question_type"]
+        }
+      },
+      {
+        "name": "grade_assessment",
+        "description": "Grades a quiz or assessment submission and calculates score, XP earned, and provides feedback",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "quiz_id": {
+              "type": "string",
+              "description": "ID of the quiz being graded"
+            },
+            "user_id": {
+              "type": "string",
+              "description": "ID of the user who submitted the assessment"
+            },
+            "answers": {
+              "type": "object",
+              "description": "User's answers to quiz questions",
+              "additionalProperties": true
+            }
+          },
+          "required": ["quiz_id", "user_id", "answers"]
+        }
+      },
+      {
+        "name": "track_progress",
+        "description": "Tracks and updates user progress for modules, lessons, and overall training completion",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "user_id": {
+              "type": "string",
+              "description": "ID of the user"
+            },
+            "module_id": {
+              "type": "string",
+              "description": "ID of the module"
+            },
+            "completion_percentage": {
+              "type": "number",
+              "description": "Percentage of module completed",
+              "minimum": 0,
+              "maximum": 100
+            },
+            "mark_complete": {
+              "type": "boolean",
+              "description": "Whether to mark the module as fully completed"
+            }
+          },
+          "required": ["user_id", "module_id"]
+        }
+      },
+      {
+        "name": "award_achievement",
+        "description": "Awards an achievement or badge to a user based on milestones or accomplishments",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "user_id": {
+              "type": "string",
+              "description": "ID of the user receiving the achievement"
+            },
+            "achievement_type": {
+              "type": "string",
+              "description": "Type of achievement to award",
+              "enum": ["module_completion", "perfect_score", "streak", "milestone", "first_completion", "expert_level"]
+            },
+            "title": {
+              "type": "string",
+              "description": "Title of the achievement"
+            },
+            "description": {
+              "type": "string",
+              "description": "Description of what the achievement represents"
+            },
+            "xp_bonus": {
+              "type": "number",
+              "description": "Bonus XP awarded with this achievement",
+              "minimum": 0
+            }
+          },
+          "required": ["user_id", "achievement_type", "title"]
+        }
+      },
+      {
+        "name": "calculate_xp",
+        "description": "Calculates and awards XP to a user based on activities (quiz completion, module completion, etc.)",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "user_id": {
+              "type": "string",
+              "description": "ID of the user"
+            },
+            "activity_type": {
+              "type": "string",
+              "description": "Type of activity that earned XP",
+              "enum": ["quiz_completion", "module_completion", "lesson_completion", "perfect_score", "daily_login", "streak"]
+            },
+            "base_xp": {
+              "type": "number",
+              "description": "Base XP amount for this activity",
+              "minimum": 0
+            },
+            "multiplier": {
+              "type": "number",
+              "description": "XP multiplier (e.g., 1.5 for bonus, 2.0 for double XP event)",
+              "minimum": 1,
+              "default": 1
+            }
+          },
+          "required": ["user_id", "activity_type", "base_xp"]
+        }
+      },
+      {
+        "name": "update_user_level",
+        "description": "Updates user level based on total XP and level progression thresholds",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "user_id": {
+              "type": "string",
+              "description": "ID of the user"
+            },
+            "level_thresholds": {
+              "type": "object",
+              "description": "XP thresholds for each level (optional, uses defaults if not provided)",
+              "additionalProperties": {
+                "type": "number"
+              }
+            }
+          },
+          "required": ["user_id"]
+        }
+      },
+      {
+        "name": "get_leaderboard",
+        "description": "Retrieves leaderboard data for gamification, showing top users by XP, level, or module completion",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "leaderboard_type": {
+              "type": "string",
+              "description": "Type of leaderboard to retrieve",
+              "enum": ["xp", "level", "modules_completed", "streak", "achievements"]
+            },
+            "time_period": {
+              "type": "string",
+              "description": "Time period for leaderboard",
+              "enum": ["all_time", "weekly", "monthly"]
+            },
+            "limit": {
+              "type": "number",
+              "description": "Number of top users to return",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 10
+            },
+            "role_filter": {
+              "type": "string",
+              "description": "Filter by user role/class",
+              "enum": ["developers", "designers", "project-managers", "content-creators", "sales-business-dev", "all"]
+            }
+          },
+          "required": ["leaderboard_type"]
+        }
+      },
+      {
+        "name": "create_content_module",
+        "description": "Creates a new training module with lessons, content, and metadata",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "title": {
+              "type": "string",
+              "description": "Title of the module"
+            },
+            "description": {
+              "type": "string",
+              "description": "Description of what the module covers"
+            },
+            "role": {
+              "type": "string",
+              "description": "Target role for this module",
+              "enum": ["developers", "designers", "project-managers", "content-creators", "sales-business-dev", "all"]
+            },
+            "difficulty": {
+              "type": "string",
+              "description": "Difficulty level",
+              "enum": ["beginner", "intermediate", "advanced"]
+            },
+            "estimated_time": {
+              "type": "number",
+              "description": "Estimated completion time in minutes"
+            },
+            "xp_reward": {
+              "type": "number",
+              "description": "XP awarded upon completion",
+              "minimum": 0
+            }
+          },
+          "required": ["title", "description", "role", "difficulty"]
+        }
+      },
+      {
+        "name": "get_user_analytics",
+        "description": "Retrieves comprehensive analytics for a user including progress, achievements, XP history, and learning patterns",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "user_id": {
+              "type": "string",
+              "description": "ID of the user"
+            },
+            "analytics_type": {
+              "type": "string",
+              "description": "Type of analytics to retrieve",
+              "enum": ["overview", "progress", "achievements", "xp_history", "learning_path", "time_spent", "all"]
+            },
+            "time_range": {
+              "type": "string",
+              "description": "Time range for analytics",
+              "enum": ["week", "month", "quarter", "all_time"]
+            }
+          },
+          "required": ["user_id"]
+        }
+      },
+      {
+        "name": "get_module_analytics",
+        "description": "Retrieves analytics for a specific module including completion rates, average scores, and user engagement",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "module_id": {
+              "type": "string",
+              "description": "ID of the module"
+            },
+            "metrics": {
+              "type": "array",
+              "description": "Specific metrics to retrieve",
+              "items": {
+                "type": "string",
+                "enum": ["completion_rate", "average_score", "average_time", "dropoff_points", "user_feedback", "all"]
+              }
+            }
+          },
+          "required": ["module_id"]
+        }
+      },
+      {
+        "name": "manage_user_enrollment",
+        "description": "Manages user enrollment in training classes/roles and tracks their selected learning path",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "user_id": {
+              "type": "string",
+              "description": "ID of the user"
+            },
+            "action": {
+              "type": "string",
+              "description": "Action to perform",
+              "enum": ["enroll", "unenroll", "update_role", "get_enrollment"]
+            },
+            "role": {
+              "type": "string",
+              "description": "Role/class to enroll in",
+              "enum": ["developers", "designers", "project-managers", "content-creators", "sales-business-dev"]
+            }
+          },
+          "required": ["user_id", "action"]
+        }
+      },
+      {
+        "name": "generate_learning_path",
+        "description": "Generates a personalised learning path for a user based on their role, current level, and progress",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "user_id": {
+              "type": "string",
+              "description": "ID of the user"
+            },
+            "role": {
+              "type": "string",
+              "description": "User's role/class",
+              "enum": ["developers", "designers", "project-managers", "content-creators", "sales-business-dev"]
+            },
+            "include_recommendations": {
+              "type": "boolean",
+              "description": "Whether to include AI-powered module recommendations",
+              "default": true
+            },
+            "focus_areas": {
+              "type": "array",
+              "description": "Specific areas to focus on in the learning path",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "required": ["user_id", "role"]
+        }
+      }
+    ]
+  }
+}

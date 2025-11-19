@@ -1,0 +1,192 @@
+# TBS Digital Labs - AI Training Platform
+
+## Project Context
+
+This is a Next.js training platform for TBS Digital Labs team members to learn AI tools and workflows. The platform provides role-specific training modules for developers, designers, project managers, content creators, and sales teams.
+
+**Project Path**: `C:\Users\ddahd\Desktop\Projects\Tools\Documentation for TBS\ai-training-platform`
+
+## Brand Guidelines
+
+**CRITICAL**: Always follow TBS Digital Labs brand guidelines:
+- Reference: `brand-guidelines/README.md` and `ai-training-platform/brand-guidelines/`
+- Use brand tokens from `brand-guidelines/brand-tokens.css` and `ai-training-platform/src/app/globals.css`
+- Colours: Oxford Blue (`#02022B`), Ultramarine (`#121856`), Light Magenta (`#D56EED`), Sage (`#61BDBA`)
+- Typography: Funnel Display (headings), Rethink Sans (body)
+- Never use inline styles - always use composition and semantic tokens
+
+## Language & Style
+
+**Australian English Required**:
+- Reference: `docs/australian-english-guide.md`
+- Use: colour (not color), organisation (not organization), optimise (not optimize)
+- Dates: DD/MM/YYYY format
+- Currency: AUD format ($X.XX AUD)
+- Terminology: team member (not employee), client (not customer), project (not assignment)
+
+## Code Style
+
+### Composition Over Inline Styles
+- **NEVER** use inline styles
+- Use semantic tokens from `brand-tokens.css` and `globals.css`
+- Use composition primitives: `Section`, `Container`, `Heading`
+- Follow existing component patterns
+
+### Component Patterns
+- Use existing primitives: `Section.tsx`, `Container.tsx`, `Heading.tsx`
+- Follow `ModuleLayout.tsx` for module pages
+- Use `HeaderNav.tsx` for navigation
+- Maintain consistent spacing and sizing
+
+### File Organisation
+- Components: `src/components/`
+- Pages: `src/app/*/page.tsx`
+- Styles: `src/app/globals.css` (semantic tokens)
+- Utilities: `src/lib/`
+
+## Technical Standards
+
+### Next.js
+- App Router (not Pages Router)
+- Server Components by default
+- Client Components only when needed (use 'use client')
+- TypeScript strict mode
+
+### Styling
+- Tailwind CSS v4
+- CSS custom properties for tokens
+- Dark/light theme support via `ThemeProvider`
+- No CSS-in-JS libraries
+
+### Accessibility
+- WCAG 2.1 AA minimum
+- 4.5:1 contrast ratio minimum
+- Keyboard navigation support
+- Focus states on all interactive elements
+- ARIA labels where needed
+
+### Performance
+- No heavy filters or effects
+- CSS transforms preferred over JavaScript animations
+- Lazy load images and heavy components
+- Optimise bundle size
+
+## Design System
+
+### Spacing
+- Use semantic spacing tokens
+- Consistent padding/margins across components
+- Equal-height cards in grids
+
+### Typography
+- Use `Heading` component with size variants (sm/md/lg)
+- Follow brand typography scale
+- Maintain readable line heights
+
+### Components
+- Buttons: Medium size standard, use `Button` component
+- Cards: Consistent padding, equal heights in grids
+- CTAs: Standard sizing, clear hierarchy
+
+## Testing & Quality
+
+### Before Committing
+- Run `npm run lint` from `ai-training-platform/`
+- Verify no console errors
+- Test both light and dark themes
+- Check keyboard navigation
+- Verify responsive breakpoints
+
+### Browser Testing
+- Test in Chrome, Firefox, Safari, Edge
+- Verify theme persistence
+- Check for hydration warnings
+- Ensure no layout shifts
+
+## Development Workflow
+
+### Terminal Usage
+- **CRITICAL**: Always `cd` to `ai-training-platform/` at the start of EVERY terminal command
+- The `run_terminal_cmd` tool starts in workspace root, not the project folder
+- Always use: `cd "${workspaceFolder}/ai-training-platform"` or relative path `cd ai-training-platform` before any command
+- This rule is specific to THIS project only - other projects have their own `.cursorrules`
+- Use single dev server (check `run.pid` before starting)
+- Kill existing server: `kill $(cat run.pid)` (if exists)
+
+### Environment
+- Use `.env.local` for environment variables
+- Reference: `AUTHENTICATION_SETUP.md` for auth config
+- Never commit secrets
+
+### Database
+- Prisma for database management
+- Run migrations: `npx prisma db push`
+- Generate client: `npx prisma generate`
+
+## Documentation
+
+### When Creating Documentation
+- Use Australian English
+- Follow `docs/australian-english-guide.md`
+- Markdown format with clear headings
+- Include examples where relevant
+
+### Code Comments
+- Use Australian English in comments
+- Explain 'why' not 'what'
+- Keep comments concise and relevant
+
+## MCP Servers
+
+Current status: Single unified LMS server configuration (template/example).
+- Location: `ai-training-platform/mcp-servers/ai-training-server.json`
+- Status: JSON schema only, no implementation code
+- Tools: 15 comprehensive LMS tools covering:
+  - Development training (3): Cursor IDE, GitHub workflows, project structure
+  - Content management (3): Quiz creation, assessment grading, module creation
+  - Gamification (5): Progress tracking, achievements, XP system, levels, leaderboards
+  - Analytics (2): User analytics, module analytics
+  - User management (2): Enrollment, learning path generation
+- Action: Document as template or implement if needed
+
+## Common Tasks
+
+### Adding a New Page
+1. Create `src/app/[route]/page.tsx`
+2. Use `ModuleLayout` or appropriate layout component
+3. Follow existing page patterns
+4. Add to `HeaderNav` if needed
+5. Test in both themes
+
+### Adding a New Component
+1. Create in `src/components/`
+2. Use semantic tokens (no inline styles)
+3. Support dark/light themes
+4. Add TypeScript types
+5. Export from component file
+
+### Updating Brand Tokens
+1. Update `brand-guidelines/brand-tokens.css`
+2. Update `src/app/globals.css` semantic tokens
+3. Test across all pages
+4. Verify contrast ratios
+5. Document changes
+
+## Questions & Clarifications
+
+When uncertain:
+1. Check existing code patterns first
+2. Reference brand guidelines
+3. Follow Australian English guide
+4. Ask one concise question with proposed default
+5. Proceed with competent default if no answer
+
+## Prohibited
+
+- ❌ Inline styles
+- ❌ American English spelling
+- ❌ Hardcoded colours (use tokens)
+- ❌ Breaking brand guidelines
+- ❌ Skipping accessibility checks
+- ❌ Committing secrets or credentials
+

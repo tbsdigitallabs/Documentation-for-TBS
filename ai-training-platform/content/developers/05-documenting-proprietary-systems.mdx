@@ -1,0 +1,76 @@
+# Documenting Proprietary Systems
+
+## Learning Objectives
+
+By the end of this module, you will be able to:
+
+- Generate "How-to" guides for internal tools (like this one) automatically
+- Keep documentation in sync with code changes using AI
+- Create architectural diagrams from codebases
+- Onboard new developers to your proprietary systems in half the time
+
+## The "Bus Factor" Problem
+
+You built a custom internal tool. It's great.
+But if you get hit by a bus, nobody knows how it works.
+Proprietary systems *die* without documentation.
+
+### 1. Code-to-Docs Pipeline
+Don't write the README manually.
+**Workflow**:
+1.  Select the core logic files.
+2.  **Prompt**: "Read this code. Write a `README.md` that explains:
+    - What this tool does.
+    - How to install it.
+    - The main architecture.
+    - Common troubleshooting steps."
+
+### 2. The "User Guide" Generator
+Developers write docs for developers. Users hate them.
+**Prompt**:
+> "I am a Project Manager, not a coder.
+> Read this technical documentation.
+> Rewrite it as a 'User Guide' for me.
+> Focus on *how to use it*, not *how it works*.
+> Use screenshots (placeholders) and step-by-step lists."
+
+### 3. Architectural Diagrams
+Paste your folder structure or core class definitions.
+**Prompt**:
+> "Generate a Mermaid.js diagram that visualises the data flow of this application.
+> Show how the Frontend talks to the API and the Database."
+
+## Practical Exercise: The Legacy Tool
+
+### Task
+Choose a script or tool you wrote 6 months ago.
+1.  **Diagram**: Generate a Mermaid chart of how it works.
+2.  **Guide**: Generate a "Quick Start" guide for a new hire.
+3.  **FAQ**: Generate 5 "Frequently Asked Questions" based on the code's complexity.
+
+### Questions to Consider
+-   Did the AI understand your code better than you remembered it?
+-   Is the User Guide actually usable?
+-   How easy is it to update this when the code changes?
+
+## Next Steps
+
+You've mastered the Developer Admin track.
+Your code is clean, tested, and documented.
+
+## Resources
+
+-   [Mermaid.js Live Editor](https://mermaid.live/)
+-   [Diataxis Framework](https://diataxis.fr/) (A framework for documentation)
+-   [TBS Documentation Standards](https://tbs.digital/docs) (Internal Link)
+
+---
+
+**Module Completion**: Mark this module as complete when you've:
+- [ ] Read through all content
+- [ ] Generated a README for an internal tool
+- [ ] Created a Mermaid architecture diagram
+
+**Estimated Time**: 50 minutes
+**Difficulty**: Intermediate
+**Prerequisites**: Refactoring & Legacy Code

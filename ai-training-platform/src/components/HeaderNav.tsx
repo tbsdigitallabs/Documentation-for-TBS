@@ -15,10 +15,10 @@ export default function HeaderNav() {
 
     return (
         <header className="sticky top-0 z-50 bg-surface-header backdrop-blur-md border-b border-primary shadow-lg">
-            <div className="container mx-auto container-padding py-4">
-                <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-4">
-                        <Link href="/">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+                <div className="flex items-center justify-between gap-6">
+                    <div className="flex items-center gap-6 flex-1 min-w-0">
+                        <Link href="/" className="flex-shrink-0">
                             <div className="flex items-center gap-3">
                                 <Image
                                     src={theme === 'dark' ? '/images/logo-white.png' : '/images/logo-primary.png'}
@@ -29,17 +29,17 @@ export default function HeaderNav() {
                                     style={{ width: 'auto', height: 'auto' }}
                                     priority
                                 />
-                                <span className="text-heading-3 text-content-primary">AI Training Hub</span>
+                                <span className="text-heading-3 text-content-primary hidden sm:inline">AI Training Hub</span>
                             </div>
                         </Link>
-                        <nav className="hidden md:flex items-center gap-6 text-content-secondary">
-                            <Link href="/" aria-current={pathname === '/' ? 'page' : undefined} className={`transition-colors ${pathname === '/' ? 'text-content-primary border-b-2 border-accent-designers' : 'hover:text-content-primary'}`}>Home</Link>
-                            <Link href="/class-selection" aria-current={pathname.startsWith('/class-selection') ? 'page' : undefined} className={`transition-colors ${pathname.startsWith('/class-selection') ? 'text-content-primary border-b-2 border-accent-designers' : 'hover:text-content-primary'}`}>Tracks</Link>
-                            <Link href="/developers" aria-current={pathname.startsWith('/developers') ? 'page' : undefined} className={`transition-colors ${pathname.startsWith('/developers') ? 'text-content-primary border-b-2 border-accent-designers' : 'hover:text-content-primary'}`}>My Progress</Link>
-                            <Link href="/docs/australian-english-guide" aria-current={pathname.startsWith('/docs') ? 'page' : undefined} className={`transition-colors ${pathname.startsWith('/docs') ? 'text-content-primary border-b-2 border-accent-designers' : 'hover:text-content-primary'}`}>Help</Link>
+                        <nav className="hidden md:flex items-center gap-2 lg:gap-4 text-content-secondary" style={{ flexShrink: 0 }}>
+                            <Link href="/" aria-current={pathname === '/' ? 'page' : undefined} className={`whitespace-nowrap transition-colors px-2 py-1 text-sm font-medium ${pathname === '/' ? 'text-content-primary border-b-2 border-accent-designers' : 'hover:text-content-primary'}`} style={{ display: 'block' }}>Home</Link>
+                            <Link href="/class-selection" aria-current={pathname.startsWith('/class-selection') ? 'page' : undefined} className={`whitespace-nowrap transition-colors px-2 py-1 text-sm font-medium ${pathname.startsWith('/class-selection') ? 'text-content-primary border-b-2 border-accent-designers' : 'hover:text-content-primary'}`} style={{ display: 'block' }}>Tracks</Link>
+                            <Link href="/developers" aria-current={pathname.startsWith('/developers') ? 'page' : undefined} className={`whitespace-nowrap transition-colors px-2 py-1 text-sm font-medium ${pathname.startsWith('/developers') ? 'text-content-primary border-b-2 border-accent-designers' : 'hover:text-content-primary'}`} style={{ display: 'block' }}>My Progress</Link>
+                            <Link href="/docs/australian-english-guide" aria-current={pathname.startsWith('/docs') ? 'page' : undefined} className={`whitespace-nowrap transition-colors px-2 py-1 text-sm font-medium ${pathname.startsWith('/docs') ? 'text-content-primary border-b-2 border-accent-designers' : 'hover:text-content-primary'}`} style={{ display: 'block' }}>Help</Link>
                         </nav>
                     </div>
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-3 flex-shrink-0">
                         <ThemeToggle />
                     </div>
                 </div>

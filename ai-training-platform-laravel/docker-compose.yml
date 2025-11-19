@@ -1,0 +1,57 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: tbs-ai-training-platform
+    container_name: tbs-ai-training-app
+    restart: unless-stopped
+    working_dir: /var/www/html
+    volumes:
+      - ./:/var/www/html
+      - ./docker/php/local.ini:/usr/local/etc/php/conf.d/local.ini
+    networks:
+      - tbs-network
+    depends_on:
+      - mysql
+
+  mysql:
+    image: mysql:8.0
+    container_name: tbs-ai-training-mysql
+    restart: unless-stopped
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: ai_training_platform
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_PASSWORD: root
+      MYSQL_USER: tbs_user
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - tbs-network
+
+  nginx:
+    image: nginx:alpine
+    container_name: tbs-ai-training-nginx
+    restart: unless-stopped
+    ports:
+      - "8000:80"
+    volumes:
+      - ./:/var/www/html
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+    networks:
+      - tbs-network
+    depends_on:
+      - app
+
+volumes:
+  mysql_data:
+    driver: local
+
+networks:
+  tbs-network:
+    driver: bridge
+

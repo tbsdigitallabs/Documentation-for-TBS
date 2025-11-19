@@ -1,0 +1,6 @@
+{
+  "terminal": {
+    "defaultWorkingDirectory": "${workspaceFolder}/ai-training-platform"
+  }
+}
+

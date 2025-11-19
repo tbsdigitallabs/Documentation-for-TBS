@@ -1,0 +1,19 @@
+{
+  "name": "tbs/ai-training-api",
+  "description": "PHP API for TBS AI Training Platform",
+  "type": "project",
+  "require": {
+    "php": ">=8.1",
+    "ext-pdo": "*",
+    "ext-json": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "App\\": "src/"
+    }
+  },
+  "config": {
+    "optimize-autoloader": true
+  }
+}
+

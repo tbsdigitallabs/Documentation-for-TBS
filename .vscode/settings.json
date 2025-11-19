@@ -1,0 +1,24 @@
+{
+  "terminal.integrated.cwd": "${workspaceFolder}/ai-training-platform",
+  "terminal.integrated.defaultLocation": "workspaceFolder",
+  "terminal.integrated.profiles.windows": {
+    "PowerShell": {
+      "path": "pwsh.exe",
+      "args": [
+        "-NoExit",
+        "-Command",
+        "Set-Location -LiteralPath '${workspaceFolder}/ai-training-platform'"
+      ],
+      "icon": "terminal-powershell"
+    }
+  },
+  "terminal.integrated.defaultProfile.windows": "PowerShell",
+  "terminal.integrated.automationProfile.windows": {
+    "path": "pwsh.exe",
+    "args": [
+      "-NoExit",
+      "-Command",
+      "Set-Location -LiteralPath '${workspaceFolder}/ai-training-platform'"
+    ]
+  }
+}

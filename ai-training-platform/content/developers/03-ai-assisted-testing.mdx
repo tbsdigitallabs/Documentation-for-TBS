@@ -1,0 +1,74 @@
+# AI-Assisted Testing
+
+## Learning Objectives
+
+By the end of this module, you will be able to:
+
+- Generate unit tests for complex functions in seconds
+- Create end-to-end (E2E) test scripts for Playwright/Cypress
+- Generate realistic mock data for local development
+- Identify edge cases that your manual tests missed
+
+## The Testing Paradox
+
+Everyone agrees testing is important.
+Nobody has time to do it.
+AI breaks this paradox by writing the boilerplate for you.
+
+### 1. Unit Tests
+Don't write `expect(add(1,1)).toBe(2)` by hand.
+Highlight the function in Cursor/VS Code.
+**Prompt**:
+> "Generate a comprehensive test suite for this function using Jest. Include happy paths, edge cases (null/undefined inputs), and error handling."
+
+### 2. E2E Testing
+Writing selectors for Playwright is tedious.
+**Workflow**:
+1.  Paste the HTML of the page (or a screenshot).
+2.  **Prompt**: "Write a Playwright test script that:
+    - Logs in as a user
+    - Navigates to the settings page
+    - Updates the profile picture
+    - Asserts that the success toast appears."
+
+### 3. Mock Data
+Need 100 users with Australian addresses?
+**Prompt**:
+> "Generate a JSON array of 50 users.
+> Fields: id, firstName, lastName, email, phone (Australian format), address (Australian cities).
+> Make the data look realistic, not 'Test User 1'."
+
+## Practical Exercise: The Test Suite
+
+### Task
+Take a utility function from your current project (e.g., a date formatter or a currency converter).
+1.  **Unit Test**: Generate a Jest test file with at least 5 test cases.
+2.  **Edge Cases**: Ask AI "What edge cases am I missing?" and add them.
+3.  **Refactor**: Ask AI to refactor the original function to make it more testable.
+
+### Questions to Consider
+-   Did the AI find a bug in your original function?
+-   Are the generated tests readable?
+-   How much time did this save vs writing from scratch?
+
+## Next Steps
+
+Your code is tested. Now let's clean it up.
+Next up: **Refactoring & Legacy Code**.
+
+## Resources
+
+-   [Jest Documentation](https://jestjs.io/)
+-   [Playwright Documentation](https://playwright.dev/)
+-   [Faker.js](https://fakerjs.dev/) (Great for combining with AI)
+
+---
+
+**Module Completion**: Mark this module as complete when you've:
+- [ ] Read through all content
+- [ ] Generated a test suite for one function
+- [ ] Created a mock dataset
+
+**Estimated Time**: 45 minutes
+**Difficulty**: Intermediate
+**Prerequisites**: Automated Research Pipelines

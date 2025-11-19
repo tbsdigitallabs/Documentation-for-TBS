@@ -1,0 +1,70 @@
+# Refactoring & Legacy Code
+
+## Learning Objectives
+
+By the end of this module, you will be able to:
+
+- Decipher "spaghetti code" using AI explanation tools
+- Safely refactor legacy class components to functional hooks
+- Identify security vulnerabilities in old dependencies
+- Document legacy systems automatically
+
+## The Legacy Nightmare
+
+We all inherit code we didn't write.
+It's often undocumented, complex, and scary to touch.
+AI is your translator.
+
+### 1. The "Explain Like I'm Junior" Prompt
+Highlight a block of terrifying regex or nested loops.
+**Prompt**:
+> "Explain what this code does in plain English. Break it down line by line. Identify any potential side effects."
+
+### 2. The Moderniser
+Converting old React Class components or jQuery to modern React?
+**Prompt**:
+> "Refactor this Class component to use Functional components and Hooks. Keep the logic identical. Add TypeScript types."
+
+### 3. Security Scanning
+Paste a `package.json` or a specific function.
+**Prompt**:
+> "Analyse this code for security vulnerabilities (e.g., XSS, SQL Injection). Suggest a secure alternative."
+
+## Practical Exercise: The Refactor
+
+### Task
+Find a "God Function" in your codebase (a function that does too many things).
+1.  **Explain**: Get AI to document what it does.
+2.  **Split**: Ask AI to "Extract the validation logic into a separate helper function."
+3.  **Type**: Add strict TypeScript types to the new function.
+
+### Questions to Consider
+-   Did the logic break during refactoring? (Run your new tests!)
+-   Is the code more readable now?
+-   Did you understand the code better after the AI explained it?
+
+## Next Steps
+
+You've completed the Developer Track!
+You now have the tools to:
+1.  Master your IDE.
+2.  Automate research.
+3.  Test everything.
+4.  Tame legacy code.
+
+## Resources
+
+-   [Refactoring.guru](https://refactoring.guru/)
+-   [OWASP Top 10](https://owasp.org/www-project-top-ten/)
+-   [React Legacy Documentation](https://react.dev/reference/react/Component)
+
+---
+
+**Module Completion**: Mark this module as complete when you've:
+- [ ] Read through all content
+- [ ] Refactored one legacy component
+- [ ] Documented a complex function
+
+**Estimated Time**: 60 minutes
+**Difficulty**: Advanced
+**Prerequisites**: AI-Assisted Testing

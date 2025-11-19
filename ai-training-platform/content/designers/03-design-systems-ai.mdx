@@ -1,0 +1,75 @@
+# Design Systems & AI
+
+## Learning Objectives
+
+By the end of this module, you will be able to:
+
+- Automate the documentation of your design system
+- Generate design tokens (JSON) from Figma styles
+- Use AI to check your designs for accessibility (WCAG) compliance
+- Create a "Chat with your Design System" bot for developers
+
+## The Documentation Nightmare
+
+Nobody likes writing documentation.
+AI loves it.
+
+### 1. Writing Component Docs
+Select a component in Figma (e.g., a Primary Button).
+Take a screenshot.
+Paste into ChatGPT.
+**Prompt**:
+> "Write documentation for this button component. Include:
+> - Usage guidelines (When to use vs Secondary)
+> - States (Hover, Active, Disabled)
+> - Accessibility requirements
+> - Format as Markdown."
+
+### 2. Accessibility Checks
+Don't wait for the audit.
+Use plugins like **Stark** (AI features) or simply export your screen and ask GPT-4 Vision:
+> "Analyse this UI for accessibility issues. Focus on colour contrast, font size, and touch target size. List the top 3 violations of WCAG 2.1 AA."
+
+### 3. Naming Things
+The hardest problem in computer science (and design).
+Let AI suggest semantic names for your tokens.
+> "I have a colour #0055FF. It is used for primary actions. Suggest a semantic name that follows the 'Category-Property-Value' structure."
+> *AI Suggestion*: `color-action-primary-default`
+
+## Practical Exercise: The System Audit
+
+### Task
+Take an old project file.
+1.  **Audit**: Run an AI accessibility check on the home screen.
+2.  **Doc**: Generate documentation for the "Card" component.
+3.  **Tokenise**: Ask AI to generate a JSON structure for your colour palette.
+
+### Questions to Consider
+-   Did the AI catch contrast issues you missed?
+-   Is the generated documentation actually useful for a developer?
+-   How much time did this save compared to manual writing?
+
+## Next Steps
+
+You've completed the Designer Track!
+You now have the tools to:
+1.  Speed up your workflow.
+2.  Generate custom assets.
+3.  Maintain a robust system.
+
+## Resources
+
+-   [Stark Accessibility Tools](https://www.getstark.co/)
+-   [Design Systems Repo](https://designsystemsrepo.com/)
+-   [WCAG 2.1 Guidelines](https://www.w3.org/TR/WCAG21/)
+
+---
+
+**Module Completion**: Mark this module as complete when you've:
+- [ ] Read through all content
+- [ ] Documented one component using AI
+- [ ] Performed an AI accessibility audit
+
+**Estimated Time**: 50 minutes
+**Difficulty**: Advanced
+**Prerequisites**: Generative Assets

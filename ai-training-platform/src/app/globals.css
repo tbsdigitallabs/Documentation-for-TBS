@@ -24,6 +24,34 @@ body {
   box-sizing: border-box;
 }
 
+/* Prevent text truncation in buttons and links */
+button, a {
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Ensure button text is never truncated */
+button,
+button * {
+  max-width: none !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+}
+
+/* Ensure navigation links display full text */
+nav a {
+  max-width: none !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+  white-space: nowrap !important;
+}
+
+/* Prevent text truncation in links */
+a {
+  text-overflow: clip !important;
+}
+
 img,
 svg,
 video,

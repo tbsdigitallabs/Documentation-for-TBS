@@ -1,0 +1,79 @@
+# Asana Automation & AI
+
+## Learning Objectives
+
+By the end of this module, you will be able to:
+
+- Turn a messy Google Chat thread into a structured Asana task using AI
+- Automate status updates so you never have to chase people
+- Use AI to identify "zombie tasks" that are clogging up the board
+- Generate subtasks and dependencies automatically from a brief
+
+## The Project Management Black Hole
+
+We spend 30% of our time *doing* the work, and 70% of our time *managing* the work.
+Asana is great, but manual data entry is the enemy.
+AI + Automation is the cure.
+
+### 1. Google Chat to Asana (The Smart Way)
+Don't copy-paste.
+**Workflow**:
+1.  Zapier/Make triggers when you star a message in Google Chat.
+2.  AI parses the message: "Extract the Action Item, Due Date, and Assignee."
+3.  Asana creates the task.
+
+**Prompt for the AI step**:
+> "Read this chat message. Identify the core task.
+> If it's a bug, format the title as '[BUG] - {Issue}'.
+> If it's a feature, format as '[FEAT] - {Feature}'.
+> Extract the due date if mentioned (default to next Friday if not)."
+
+### 2. The "Zombie Task" Hunter
+Projects get bloated with tasks nobody intends to do.
+Export your CSV. Upload to ChatGPT.
+**Prompt**:
+> "Analyse this list of 500 tasks.
+> Identify tasks that haven't been updated in 30 days but are not marked complete.
+> Suggest which ones should be archived based on their low priority."
+
+### 3. Brief to Subtasks
+Paste a client email or PDF brief.
+**Prompt**:
+> "Break this project down into Asana subtasks.
+> Group them by phase (Design, Dev, QA).
+> Estimate hours for each.
+> Output as a CSV format I can import directly into Asana."
+
+## Practical Exercise: The Board Cleanup
+
+### Task
+1.  **Export**: Download a CSV of your messiest Asana project.
+2.  **Analyse**: Use AI to find the "bottleneck" (the person with the most overdue tasks).
+3.  **Automate**: Set up a rule (or draft the logic for one) that auto-moves tasks to "Done" when a PR is merged (if using Jira/Github sync) or when a checkbox is ticked.
+
+### Questions to Consider
+-   Did the AI correctly identify the bottleneck?
+-   How much time would it take to manually clean that board?
+-   Are your task titles clear enough for an AI to understand?
+
+## Next Steps
+
+Your tasks are organised. Now let's fix your meetings.
+Next up: **Meeting Governance & Summaries**.
+
+## Resources
+
+-   [Asana Intelligence Guide](https://asana.com/product/ai)
+-   [Zapier Asana Integrations](https://zapier.com/apps/asana/integrations)
+-   [TBS Automation Rules](https://tbs.digital/automation) (Internal Link)
+
+---
+
+**Module Completion**: Mark this module as complete when you've:
+- [ ] Read through all content
+- [ ] Created an "Auto-Task" workflow
+- [ ] Cleaned up one project board using AI analysis
+
+**Estimated Time**: 45 minutes
+**Difficulty**: Intermediate
+**Prerequisites**: Strategy Workflows

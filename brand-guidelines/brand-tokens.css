@@ -1,0 +1,2 @@
+/* Forward to app master brand tokens to avoid duplication */
+@import '../ai-training-platform/brand-guidelines/brand-tokens.css';

@@ -56,16 +56,16 @@ export default function Home() {
   return (
     <div className="flex flex-col min-h-screen">
       <main className="flex-grow">
-        <div className="max-w-6xl mx-auto px-6 py-8 space-y-4 lg:space-y-6">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-4 lg:space-y-6">
           <motion.div
             className="bg-surface-primary"
             {...pageTransition}
           >
             {/* Hero Section - Compact Composition */}
-            <section className="py-4 lg:py-6 px-4 bg-surface-primary rounded-xl">
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
-                {/* Left Side - Hero Content (2 columns) */}
-                <div className="lg:col-span-2">
+            <section className="py-6 lg:py-8 px-6 lg:px-8 bg-surface-primary rounded-xl">
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
+                {/* Left Side - Hero Content (8 columns) */}
+                <div className="lg:col-span-8">
                   <motion.div
                     className="space-y-4"
                     initial={{ opacity: 0, x: -20 }}
@@ -85,16 +85,16 @@ export default function Home() {
                     </div>
 
                     <div className="flex flex-col sm:flex-row gap-3">
-                      <Link href="/class-selection">
-                        <Button variant="default" size="lg" className="group min-w-[180px]">
-                          <BookOpen className="w-5 h-5 mr-3" />
+                      <Link href="/class-selection" className="no-underline">
+                        <Button variant="default" size="lg" className="group whitespace-nowrap">
+                          <BookOpen className="w-5 h-5 mr-3 flex-shrink-0" />
                           Start Learning
-                          <ArrowRight className="w-5 h-5 ml-3 group-hover:translate-x-1 transition-transform" />
+                          <ArrowRight className="w-5 h-5 ml-3 flex-shrink-0 group-hover:translate-x-1 transition-transform" />
                         </Button>
                       </Link>
-                      <Link href="/developers">
-                        <Button variant="outline" size="lg" className="min-w-[160px]">
-                          <TrendingUp className="w-5 h-5 mr-3" />
+                      <Link href="/developers" className="no-underline">
+                        <Button variant="outline" size="lg" className="whitespace-nowrap">
+                          <TrendingUp className="w-5 h-5 mr-3 flex-shrink-0" />
                           View Progress
                         </Button>
                       </Link>
@@ -102,8 +102,8 @@ export default function Home() {
                   </motion.div>
                 </div>
 
-                {/* Right Side - Stats Dashboard (1 column) */}
-                <div className="lg:col-span-1">
+                {/* Right Side - Stats Dashboard (4 columns) */}
+                <div className="lg:col-span-4">
                   <motion.div
                     initial={{ opacity: 0, x: 20 }}
                     animate={{ opacity: 1, x: 0 }}
@@ -116,10 +116,10 @@ export default function Home() {
             </section>
 
             {/* Features + CTA Section - Dynamic Grid Composition */}
-            <section className="py-4 lg:py-6 px-4 bg-surface-secondary rounded-xl">
-              <div className={`grid gap-6 ${features.length > 2 ? "lg:grid-cols-3" : "lg:grid-cols-2"}`}>
-                {/* Left Side - Features (2 columns) */}
-                <div className="lg:col-span-2 space-y-6">
+            <section className="py-6 lg:py-8 px-6 lg:px-8 bg-surface-secondary rounded-xl">
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8">
+                {/* Left Side - Features (8 columns) */}
+                <div className="lg:col-span-8 space-y-6">
                   <motion.div
                     className="text-center lg:text-left"
                     initial={{ opacity: 0, y: 20 }}
@@ -134,7 +134,7 @@ export default function Home() {
                     </p>
                   </motion.div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     {features.map((feature, index) => (
                       <motion.div
                         key={index}
@@ -158,8 +158,8 @@ export default function Home() {
                   </div>
                 </div>
 
-                {/* Right Side - CTA with Progressive Disclosure (1 column) */}
-                <div className="lg:col-span-1 flex flex-col justify-between space-y-4">
+                {/* Right Side - CTA with Progressive Disclosure (4 columns) */}
+                <div className="lg:col-span-4 flex flex-col justify-between space-y-4">
                   <motion.div
                     className="space-y-4"
                     initial={{ opacity: 0, x: 20 }}
@@ -176,18 +176,20 @@ export default function Home() {
                     </div>
                     <div className="flex flex-col gap-3">
                       <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-                        <Link href="/class-selection">
-                          <Button variant="default" size="lg" className="w-full max-w-xs group">
-                            <BookOpen className="w-5 h-5 mr-3" />
-                            Choose Your Track
-                            <ArrowRight className="w-5 h-5 ml-3 group-hover:translate-x-1 transition-transform" />
+                        <Link href="/class-selection" className="block w-full" style={{ minWidth: 'fit-content' }}>
+                          <Button variant="default" size="lg" className="w-full group justify-between whitespace-nowrap">
+                            <div className="flex items-center">
+                              <BookOpen className="w-5 h-5 mr-3 flex-shrink-0" />
+                              Choose Your Track
+                            </div>
+                            <ArrowRight className="w-5 h-5 flex-shrink-0 ml-2 group-hover:translate-x-1 transition-transform" />
                           </Button>
                         </Link>
                       </motion.div>
                       <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-                        <Link href="/developers">
-                          <Button variant="outline" size="lg" className="w-full max-w-xs">
-                            <TrendingUp className="w-5 h-5 mr-3" />
+                        <Link href="/developers" className="block w-full" style={{ minWidth: 'fit-content' }}>
+                          <Button variant="outline" size="lg" className="w-full justify-start whitespace-nowrap">
+                            <TrendingUp className="w-5 h-5 mr-3 flex-shrink-0" />
                             View All Modules
                           </Button>
                         </Link>

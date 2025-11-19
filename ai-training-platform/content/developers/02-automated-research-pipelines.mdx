@@ -1,0 +1,89 @@
+# Automated Research and Data Pipelines
+
+## Learning Objectives
+
+By the end of this module, you will be able to:
+
+- Build automated scrapers using AI agents
+- Create data pipelines that feed into LLMs for analysis
+- Architect a "Research Engine" that runs 24/7
+- Handle rate limits and anti-bot protections ethically
+
+## The Problem with Manual Research
+
+Manual research is slow, biased, and unscalable.
+As developers, we can build tools that give our strategy team superpowers.
+Instead of "Googling for 2 hours," we want "Click button, get report."
+
+## Architecture of a Research Pipeline
+
+1.  **Ingestion**: Getting the data (APIs, Scraping, RSS).
+2.  **Processing**: Cleaning and chunking the text.
+3.  **Analysis**: Sending chunks to an LLM for extraction.
+4.  **Storage**: Saving structured data (JSON/SQL).
+5.  **Presentation**: Showing it to the user.
+
+### Tools
+- **Puppeteer / Playwright**: For headless browsing.
+- **LangChain / LlamaIndex**: For orchestration.
+- **OpenAI API / Anthropic API**: For the "brain".
+- **Supabase / Postgres**: For storage.
+
+## Building a Simple Scraper Agent
+
+Don't write regex for HTML parsing anymore. It's brittle.
+Use an LLM to extract structured data from raw HTML.
+
+```typescript
+// Pseudo-code for LLM extraction
+const rawHtml = await page.content();
+const prompt = `
+  Extract all news headlines and dates from this HTML.
+  Return as a JSON array: [{ headline: string, date: string }].
+  HTML: ${rawHtml.substring(0, 10000)}...
+`;
+const result = await llm.complete(prompt);
+```
+
+## Ethical Scraping
+
+Just because you *can* scrape it, doesn't mean you *should*.
+- **Respect robots.txt**: Check it first.
+- **Rate Limiting**: Don't hammer their servers. Add delays.
+- **User Agent**: Identify your bot honestly.
+
+## Practical Exercise: The News Aggregator
+
+### Task
+Write a script (Python or Node.js) that:
+1.  Visits a tech news site (e.g., Hacker News).
+2.  Extracts the top 5 stories.
+3.  Uses an LLM to summarise each story into one sentence.
+4.  Saves the result to a JSON file.
+
+### Questions to Consider
+- How did you handle the token limits of the LLM?
+- What happens if the website layout changes?
+- How would you scale this to 100 websites?
+
+## Next Steps
+
+You've built the engine. Now let's look at how to integrate this into the wider business.
+Next up: **MCP Server Development** (Module 3).
+
+## Resources
+
+- [LangChain Documentation](https://js.langchain.com/docs/)
+- [Puppeteer Guide](https://pptr.dev/)
+- [Robots.txt Specifications](https://developers.google.com/search/docs/crawling-indexing/robots/intro)
+
+---
+
+**Module Completion**: Mark this module as complete when you've:
+- [ ] Read through all content
+- [ ] Built the News Aggregator script
+- [ ] Reviewed the ethical scraping guidelines
+
+**Estimated Time**: 60 minutes
+**Difficulty**: Advanced
+**Prerequisites**: Cursor IDE Mastery

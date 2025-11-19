@@ -1,0 +1,760 @@
+@import './brand-tokens.css';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Tokens and font-face declarations are imported from brand-guidelines */
+
+/* Base Styles */
+body {
+  font-family: var(--font-body);
+  background-color: var(--color-off-white);
+  color: var(--color-text-primary-light);
+  line-height: var(--leading-normal);
+  overflow-x: hidden;
+}
+
+.dark body {
+  background-color: var(--color-oxford-blue);
+  color: var(--color-text-primary-dark);
+}
+
+/* Prevent elements from escaping containers */
+* {
+  box-sizing: border-box;
+}
+
+/* Button Base Reset - Override Tailwind Preflight */
+button,
+a.button,
+[role="button"] {
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-size: inherit;
+  line-height: inherit;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+/* Ensure button text is never truncated */
+button,
+button *,
+a.button,
+a.button * {
+  max-width: none !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+}
+
+/* Ensure navigation links display full text */
+nav a {
+  max-width: none !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+  white-space: nowrap !important;
+}
+
+/* Prevent text truncation in links */
+a {
+  text-overflow: clip !important;
+}
+
+img,
+svg,
+video,
+canvas,
+audio,
+iframe,
+embed,
+object {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Semantic Token Classes - Surface Colors */
+.bg-surface-primary {
+  background-color: var(--color-off-white);
+}
+
+.dark .bg-surface-primary {
+  background-color: var(--color-oxford-blue);
+}
+
+.bg-surface-secondary {
+  background-color: var(--color-gray-50);
+}
+
+.dark .bg-surface-secondary {
+  background-color: var(--color-ultramarine);
+}
+
+.bg-surface-tertiary {
+  background-color: var(--color-gray-100);
+}
+
+.dark .bg-surface-tertiary {
+  background-color: var(--color-gray-800);
+}
+
+.bg-surface-card {
+  background-color: var(--color-white);
+  border: 1px solid var(--color-gray-200);
+}
+
+.dark .bg-surface-card {
+  background-color: var(--color-gray-800);
+  border-color: var(--color-gray-700);
+}
+
+.bg-surface-header {
+  background-color: var(--color-white);
+  border-bottom: 1px solid var(--color-gray-200);
+}
+
+.dark .bg-surface-header {
+  background-color: var(--color-oxford-blue);
+  border-bottom-color: var(--color-gray-700);
+}
+
+.bg-surface-hero {
+  background-color: var(--color-off-white);
+}
+
+.dark .bg-surface-hero {
+  background-color: var(--color-oxford-blue);
+}
+
+.bg-gradient-surface {
+  background: linear-gradient(to bottom, var(--color-off-white), var(--color-gray-50));
+}
+
+.dark .bg-gradient-surface {
+  background: linear-gradient(to bottom, var(--color-oxford-blue), var(--color-ultramarine));
+}
+
+/* Semantic Token Classes - Text Colors */
+.text-content-primary {
+  color: var(--color-text-primary-light);
+}
+
+.dark .text-content-primary {
+  color: var(--color-text-primary-dark);
+}
+
+.text-content-secondary {
+  color: var(--color-text-secondary-light);
+}
+
+.dark .text-content-secondary {
+  color: var(--color-text-secondary-dark);
+}
+
+.text-content-tertiary {
+  color: var(--color-text-tertiary-light);
+}
+
+.dark .text-content-tertiary {
+  color: var(--color-text-tertiary-dark);
+}
+
+/* Semantic Token Classes - Border Colors */
+.border-primary {
+  border-color: var(--color-oxford-blue);
+}
+
+.dark .border-primary {
+  border-color: var(--color-gray-700);
+}
+
+.border-border-primary {
+  border-color: var(--color-gray-200);
+}
+
+.dark .border-border-primary {
+  border-color: var(--color-gray-700);
+}
+
+/* Brand Token Design System - Component Classes */
+
+/* Typography Classes */
+.heading-1 {
+  font-family: var(--font-heading);
+  font-size: var(--text-5xl);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--leading-tight);
+  color: var(--color-oxford-blue);
+  letter-spacing: -0.025em;
+}
+
+.dark .heading-1 {
+  color: var(--color-text-primary-dark);
+}
+
+.heading-2 {
+  font-family: var(--font-heading);
+  font-size: var(--text-4xl);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--leading-snug);
+  color: var(--color-oxford-blue);
+  letter-spacing: -0.025em;
+}
+
+.dark .heading-2 {
+  color: var(--color-text-primary-dark);
+}
+
+.heading-3 {
+  font-family: var(--font-heading);
+  font-size: var(--text-3xl);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--leading-snug);
+  color: var(--color-dark-grey);
+}
+
+.dark .heading-3 {
+  color: var(--color-text-primary-dark);
+}
+
+.body-large {
+  font-family: var(--font-body);
+  font-size: var(--text-lg);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--leading-relaxed);
+  color: var(--color-dark-grey);
+}
+
+.dark .body-large {
+  color: var(--color-text-secondary-dark);
+}
+
+.body-regular {
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--leading-normal);
+  color: var(--color-gray-600);
+}
+
+.dark .body-regular {
+  color: var(--color-text-secondary-dark);
+}
+
+.body-small {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--leading-normal);
+  color: var(--color-gray-500);
+}
+
+.dark .body-small {
+  color: var(--color-text-tertiary-dark);
+}
+
+/* Button Classes - Using Brand Tokens - Following Design System */
+/* High specificity to override Tailwind utilities */
+.btn-primary,
+a.btn-primary,
+button.btn-primary,
+a.btn-primary.text-sm,
+button.btn-primary.text-sm,
+.btn-primary.px-5,
+.btn-primary.py-2 {
+  background-color: var(--color-oxford-blue) !important;
+  color: var(--color-off-white) !important;
+  font-family: var(--font-body) !important;
+  font-weight: var(--font-weight-semibold) !important;
+  padding: var(--space-3) var(--space-6) !important;
+  border-radius: var(--radius-md) !important;
+  transition: var(--transition-fast) !important;
+  border: none !important;
+  cursor: pointer !important;
+  position: relative;
+  overflow: hidden;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  align-self: flex-start !important;
+  box-shadow: var(--shadow-sm) !important;
+  font-size: var(--text-base) !important;
+  line-height: var(--leading-normal) !important;
+  min-height: auto !important;
+  height: auto !important;
+  width: auto !important;
+  max-width: none !important;
+  text-decoration: none !important;
+}
+
+.btn-primary:hover {
+  background-color: var(--color-ultramarine) !important;
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+  box-shadow: var(--shadow-md);
+}
+
+.btn-secondary,
+a.btn-secondary,
+button.btn-secondary,
+a.btn-secondary.text-sm,
+button.btn-secondary.text-sm,
+.btn-secondary.px-5,
+.btn-secondary.py-2 {
+  background-color: transparent !important;
+  color: var(--color-oxford-blue) !important;
+  border: 2px solid var(--color-oxford-blue) !important;
+  font-family: var(--font-body) !important;
+  font-weight: var(--font-weight-semibold) !important;
+  padding: var(--space-3) var(--space-6) !important;
+  border-radius: var(--radius-md) !important;
+  transition: var(--transition-fast) !important;
+  cursor: pointer !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  align-self: flex-start !important;
+  font-size: var(--text-base) !important;
+  line-height: var(--leading-normal) !important;
+  min-height: auto !important;
+  height: auto !important;
+  width: auto !important;
+  max-width: none !important;
+  text-decoration: none !important;
+}
+
+.dark .btn-secondary {
+  color: var(--color-off-white);
+  border-color: var(--color-off-white);
+}
+
+/* Typography Classes - Using Brand Tokens - Following Design System */
+/* These classes match the design-system.md specifications exactly */
+.text-heading-1 {
+  font-family: var(--font-heading);
+  font-size: var(--text-5xl);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--leading-tight);
+  color: var(--color-oxford-blue);
+}
+
+.dark .text-heading-1 {
+  color: var(--color-text-primary-dark);
+}
+
+.text-heading-2 {
+  font-family: var(--font-heading);
+  font-size: var(--text-4xl);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--leading-snug);
+  color: var(--color-oxford-blue);
+}
+
+.dark .text-heading-2 {
+  color: var(--color-text-primary-dark);
+}
+
+.text-heading-3 {
+  font-family: var(--font-heading);
+  font-size: var(--text-3xl);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--leading-snug);
+  color: var(--color-dark-grey);
+}
+
+.dark .text-heading-3 {
+  color: var(--color-text-primary-dark);
+}
+
+.text-body {
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--leading-normal);
+  color: var(--color-gray-600);
+}
+
+.dark .text-body {
+  color: var(--color-text-secondary-dark);
+}
+
+.text-small {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--leading-normal);
+  color: var(--color-gray-500);
+}
+
+.dark .text-small {
+  color: var(--color-text-tertiary-dark);
+}
+
+/* Card Professional - Using Brand Tokens */
+.card-professional {
+  background-color: var(--color-white);
+  border: 1px solid var(--color-gray-200);
+  box-shadow: var(--shadow-md);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  max-width: 100%;
+  padding: var(--space-6);
+  transition: var(--transition-normal);
+}
+
+.dark .card-professional {
+  background-color: var(--color-gray-800);
+  border-color: rgba(213, 110, 237, 0.2);
+  box-shadow: var(--shadow-lg);
+}
+
+.card-professional:hover {
+  box-shadow: var(--shadow-xl);
+  transform: translateY(-2px);
+}
+
+/* Stat Display - Using Brand Tokens */
+.stat-display {
+  background: linear-gradient(135deg, rgba(213, 110, 237, 0.05) 0%, rgba(97, 189, 186, 0.05) 100%);
+  border: 1px solid rgba(213, 110, 237, 0.1);
+  color: var(--color-text-secondary-light);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-lg);
+  font-size: var(--text-sm);
+  font-weight: var(--font-weight-medium);
+  font-family: var(--font-body);
+}
+
+.dark .stat-display {
+  background: linear-gradient(135deg, rgba(213, 110, 237, 0.1) 0%, rgba(97, 189, 186, 0.1) 100%);
+  border-color: rgba(213, 110, 237, 0.2);
+  color: var(--color-text-secondary-dark);
+}
+
+/* Progress Tech - Using Brand Tokens */
+.progress-tech {
+  background-color: var(--color-gray-200);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+  height: var(--space-2);
+  width: 100%;
+}
+
+.dark .progress-tech {
+  background-color: var(--color-gray-700);
+}
+
+.progress-fill {
+  background: linear-gradient(90deg, var(--color-oxford-blue), var(--color-sage));
+  height: 100%;
+  transition: width var(--transition-normal);
+  border-radius: var(--radius-full);
+}
+
+/* Container Padding - Using Brand Tokens */
+.container-padding {
+  padding-left: var(--space-4);
+  padding-right: var(--space-4);
+}
+
+@media (min-width: 640px) {
+  .container-padding {
+    padding-left: var(--space-5);
+    padding-right: var(--space-5);
+  }
+}
+
+@media (min-width: 1024px) {
+  .container-padding {
+    padding-left: var(--space-6);
+    padding-right: var(--space-6);
+  }
+}
+
+/* Section Padding - Using Brand Tokens */
+.section-padding-sm {
+  padding-top: var(--space-8);
+  padding-bottom: var(--space-8);
+}
+
+.section-padding-md {
+  padding-top: var(--space-16);
+  padding-bottom: var(--space-16);
+}
+
+.section-padding-lg {
+  padding-top: var(--space-24);
+  padding-bottom: var(--space-24);
+}
+
+/* Semantic Spacing System - Using Brand Tokens */
+/* 
+  Spacing Scale:
+  - xs: 8px (--space-2)
+  - sm: 12px (--space-3)
+  - md: 16px (--space-4)
+  - lg: 24px (--space-6)
+  - xl: 32px (--space-8)
+*/
+
+/* Gap Classes - For flexbox/grid gap property */
+.gap-spacing-xs {
+  gap: var(--space-2);
+}
+
+.gap-spacing-sm {
+  gap: var(--space-3);
+}
+
+.gap-spacing-md {
+  gap: var(--space-4);
+}
+
+.gap-spacing-lg {
+  gap: var(--space-6);
+}
+
+.gap-spacing-xl {
+  gap: var(--space-8);
+}
+
+/* Vertical Spacing Classes - For space-y utility */
+.spacing-y-xs>*+* {
+  margin-top: var(--space-2);
+}
+
+.spacing-y-sm>*+* {
+  margin-top: var(--space-3);
+}
+
+.spacing-y-md>*+* {
+  margin-top: var(--space-4);
+}
+
+.spacing-y-lg>*+* {
+  margin-top: var(--space-6);
+}
+
+.spacing-y-xl>*+* {
+  margin-top: var(--space-8);
+}
+
+/* Margin Bottom Classes - Most commonly used */
+.mb-spacing-xs {
+  margin-bottom: var(--space-2);
+}
+
+.mb-spacing-sm {
+  margin-bottom: var(--space-3);
+}
+
+.mb-spacing-md {
+  margin-bottom: var(--space-4);
+}
+
+.mb-spacing-lg {
+  margin-bottom: var(--space-6);
+}
+
+.mb-spacing-xl {
+  margin-bottom: var(--space-8);
+}
+
+/* Margin Top Classes */
+.mt-spacing-xs {
+  margin-top: var(--space-2);
+}
+
+.mt-spacing-sm {
+  margin-top: var(--space-3);
+}
+
+.mt-spacing-md {
+  margin-top: var(--space-4);
+}
+
+.mt-spacing-lg {
+  margin-top: var(--space-6);
+}
+
+.mt-spacing-xl {
+  margin-top: var(--space-8);
+}
+
+/* Horizontal Spacing Classes - For space-x utility */
+.spacing-x-xs>*+* {
+  margin-left: var(--space-2);
+}
+
+.spacing-x-sm>*+* {
+  margin-left: var(--space-3);
+}
+
+.spacing-x-md>*+* {
+  margin-left: var(--space-4);
+}
+
+.spacing-x-lg>*+* {
+  margin-left: var(--space-6);
+}
+
+.spacing-x-xl>*+* {
+  margin-left: var(--space-8);
+}
+
+/* Margin Right Classes - For individual elements */
+.mr-spacing-xs {
+  margin-right: var(--space-2);
+}
+
+.mr-spacing-sm {
+  margin-right: var(--space-3);
+}
+
+.mr-spacing-md {
+  margin-right: var(--space-4);
+}
+
+.mr-spacing-lg {
+  margin-right: var(--space-6);
+}
+
+.mr-spacing-xl {
+  margin-right: var(--space-8);
+}
+
+/* Card Padding Classes */
+.card-padding-sm {
+  padding: var(--space-4);
+}
+
+.card-padding-md {
+  padding: var(--space-6);
+}
+
+.card-padding-lg {
+  padding: var(--space-8);
+}
+
+/* Component-Specific Spacing */
+.header-padding {
+  padding: var(--space-4) var(--space-4);
+}
+
+@media (min-width: 640px) {
+  .header-padding {
+    padding: var(--space-4) var(--space-6);
+  }
+}
+
+@media (min-width: 1024px) {
+  .header-padding {
+    padding: var(--space-4) var(--space-8);
+  }
+}
+
+.footer-padding {
+  padding-top: var(--space-6);
+  padding-bottom: var(--space-6);
+}
+
+.btn-secondary:hover {
+  background-color: var(--color-oxford-blue);
+  color: var(--color-off-white);
+}
+
+.dark .btn-secondary:hover {
+  background-color: var(--color-text-primary-dark);
+  color: var(--color-oxford-blue);
+}
+
+/* Card Classes - Using Brand Tokens - Following Design System */
+.card {
+  background-color: var(--color-white);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--color-gray-200);
+  transition: var(--transition-normal);
+  position: relative;
+  overflow: hidden;
+}
+
+.dark .card {
+  background-color: var(--color-gray-800);
+  border-color: var(--color-gray-700);
+}
+
+.card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+/* Navigation Classes - Following Design System */
+.nav-main {
+  background-color: var(--color-white);
+  border-bottom: 1px solid var(--color-gray-200);
+  padding: var(--space-4) 0;
+  position: sticky;
+  top: 0;
+  z-index: var(--z-sticky);
+}
+
+.dark .nav-main {
+  background-color: var(--color-oxford-blue);
+  border-bottom-color: var(--color-gray-700);
+}
+
+.nav-link {
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-gray-600);
+  text-decoration: none;
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-md);
+  transition: var(--transition-fast);
+}
+
+.dark .nav-link {
+  color: var(--color-text-secondary-dark);
+}
+
+.nav-link:hover,
+.nav-link.active {
+  color: var(--color-oxford-blue);
+  background-color: var(--color-gray-50);
+}
+
+.dark .nav-link:hover,
+.dark .nav-link.active {
+  color: var(--color-off-white);
+  background-color: var(--color-ultramarine);
+}
+
+.card-gradient {
+  background: linear-gradient(135deg, var(--color-oxford-blue), var(--color-ultramarine));
+  color: var(--color-off-white);
+  border: none;
+}
+
+/* Gradient Utilities - Using Brand Tokens */
+.gradient-brand {
+  background: linear-gradient(135deg, var(--color-oxford-blue) 0%, var(--color-ultramarine) 100%);
+}
+
+.gradient-hero {
+  background: linear-gradient(135deg, var(--color-oxford-blue) 0%, var(--color-ultramarine) 50%, var(--color-light-magenta) 100%);
+}
+
+.gradient-progress {
+  background: linear-gradient(90deg, var(--color-oxford-blue) 0%, var(--color-sage) 100%);
+}

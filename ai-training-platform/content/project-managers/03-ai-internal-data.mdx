@@ -1,0 +1,83 @@
+# Using AI to Analyse Internal Data Sources
+
+## Learning Objectives
+
+By the end of this module, you will be able to:
+
+- Securely upload and query internal datasets using AI
+- Extract insights from unstructured data (emails, meeting notes, PDFs)
+- Clean and format messy CSVs for analysis
+- Understand the privacy boundaries when using client data
+
+## The Hidden Goldmine
+
+Most organisations sit on a mountain of data they never use.
+- **Sales Logs**: Who bought what and when?
+- **Customer Support Tickets**: What are people complaining about?
+- **Meeting Transcripts**: What did we actually agree to?
+
+AI allows us to "chat" with this data without needing to be a SQL expert.
+
+## Security First
+
+Before you upload anything:
+1.  **Anonymise**: Remove PII (Names, Emails, Phone Numbers) unless the tool is enterprise-grade and approved (e.g., TBS Enterprise ChatGPT).
+2.  **Check Policy**: Does the client NDA allow third-party processing?
+3.  **Opt-Out**: Ensure your data isn't being used to train the public model.
+
+## Techniques for Analysis
+
+### 1. The "Interrogator" Method
+Upload a large PDF (e.g., an Annual Report).
+Ask:
+- "What are the top 3 risks mentioned in the CEO's letter?"
+- "Compare the financial outlook of 2024 vs 2023."
+- "List all mentions of 'AI' or 'Automation'."
+
+### 2. The "Data Cleaner" Method
+Upload a messy CSV where columns are misaligned or dates are in different formats.
+Prompt:
+> "This dataset is messy. Please standardise the date format to YYYY-MM-DD, remove any rows with missing email addresses, and output the clean version as a CSV code block."
+
+### 3. The "Sentiment Analyst" Method
+Upload a text file of customer reviews.
+Prompt:
+> "Analyse the sentiment of these reviews. Group them into 5 categories of complaints. Provide a quote for each category and suggest a strategic fix."
+
+## Practical Exercise: The Data Dive
+
+### Task
+Find a public dataset (e.g., from Kaggle or a government website) or use a sanitised internal file.
+Upload it to ChatGPT (Advanced Data Analysis) or Claude.
+
+Ask the AI to:
+1.  **Visualise**: Create a bar chart of the most common values.
+2.  **Correlate**: Find a relationship between two variables.
+3.  **Summarise**: Write a paragraph explaining the key finding to a CEO.
+
+### Questions to Consider
+- Did the AI hallucinate any patterns?
+- Was the visualisation accurate?
+- How would you present this to a client?
+
+## Next Steps
+
+Now that you have the insights, you need to put them to work.
+Next up: **Turning Strategy into Executable Workflows**.
+
+## Resources
+
+- [Kaggle Datasets](https://www.kaggle.com/datasets)
+- [TBS Data Privacy Guidelines](https://tbs.digital/privacy) (Internal Link)
+- [OpenAI Data Analysis Guide](https://platform.openai.com/docs/guides/data-analysis)
+
+---
+
+**Module Completion**: Mark this module as complete when you've:
+- [ ] Read through all content
+- [ ] Completed the Data Dive exercise
+- [ ] Reviewed the TBS Data Privacy Guidelines
+
+**Estimated Time**: 50 minutes
+**Difficulty**: Advanced
+**Prerequisites**: AI Research Strategy

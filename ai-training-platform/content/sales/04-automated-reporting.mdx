@@ -1,72 +1,399 @@
+---
+title: "Automated Reporting & Forecasting"
+description: "Learn to generate weekly sales reports in seconds, forecast revenue using data, and identify at-risk accounts before they churn."
+estimatedTime: "45 minutes"
+difficulty: "Advanced"
+questions:
+  - id: "q1"
+    question: "What is the main advantage of using AI for sales forecasting?"
+    options:
+      - "AI is always optimistic"
+      - "AI uses historical data and probability, not just gut feel"
+      - "AI doesn't need data"
+      - "AI is always wrong"
+    correctAnswer: 1
+  - id: "q2"
+    question: "What should you always do before presenting a forecast?"
+    options:
+      - "Just guess"
+      - "Use AI to analyse the pipeline and identify risks"
+      - "Copy last month's numbers"
+      - "Ask your manager"
+    correctAnswer: 1
+  - id: "q3"
+    question: "What is a key indicator of churn risk?"
+    options:
+      - "High login activity"
+      - "High support tickets + Low login activity"
+      - "Low support tickets"
+      - "No activity at all"
+    correctAnswer: 1
+---
+
 # Automated Reporting & Forecasting
+
+Welcome to the final sales module! This one is about something every salesperson dreads: **Friday afternoon reporting**.
+
+**This module will teach you:** How to generate weekly sales reports in 30 seconds, forecast revenue using data (not gut feel), and identify at-risk accounts before they churn. Think of it as having a sales analyst who works 24/7.
+
+![Automated Reporting](/images/automated-reporting.jpg)
+*'Friday 4pm: Sales Director wants the forecast. You: *panics* AI: I can help with that. You: *generates report in 30 seconds* Also you: This changes everything!'*
 
 ## Learning Objectives
 
-By the end of this module, you will be able to:
+By the end of this module, you'll be able to:
 
-- Generate your Weekly Sales Report in 30 seconds
+- Generate your Weekly Sales Report in 30 seconds (not 2 hours!)
 - Forecast revenue using data, not "gut feel"
 - Identify "At-Risk" accounts before they churn
+- Create board-ready reports automatically
 - Impress your boss with insights they didn't ask for
-
-## The Friday Afternoon Panic
-
-It's 4pm. The Sales Director wants the forecast.
-You spend 2 hours in Excel.
-Let's stop doing that.
-
-### 1. The "State of the Union" Prompt
-Export your pipeline to CSV.
-**Prompt**:
-> "Act as a Sales Director. Analyse this pipeline.
-> 1. What is the total weighted pipeline for Q4?
-> 2. Which 3 deals are most likely to slip based on the 'Last Activity' date?
-> 3. Write a 3-bullet summary for the executive team."
-
-### 2. Forecasting with AI
-AI is better at probability than you are.
-It looks at historical win rates, not your optimism.
-**Analysis**:
-> "Based on our historical win rate of 20% for 'Cold Outbound' leads, and 40% for 'Referrals', recalculate the expected revenue for this month."
-
-### 3. Churn Prediction
-For Account Managers.
-Feed usage data (if available) or support ticket volume into the AI.
-**Pattern**:
-High Support Tickets + Low Login Activity = **Churn Risk**.
-AI flags this account for an immediate "Success Call".
-
-## Practical Exercise: The Board Report
-
-### Task
-Imagine you have to present to the Board tomorrow.
-1.  **Generate**: Create a visual report (using a tool or describing the charts) of your current performance.
-2.  **Narrative**: Ask AI to write the "Story" behind the numbers. "Why are we up/down?"
-3.  **Strategy**: "Based on these numbers, what should be our focus for next week?"
-
-### Questions to Consider
--   Was the AI's forecast lower than yours? (It usually is).
--   Did the narrative sound convincing?
--   How much stress did this save you?
-
-## Next Steps
-
-You've mastered the Sales Admin track.
-You sell more, type less.
-
-## Resources
-
--   [Salesforce Einstein](https://www.salesforce.com/products/einstein/overview/)
--   [Gong.io Revenue Intelligence](https://www.gong.io/)
--   [TBS Reporting Templates](https://tbs.digital/reporting) (Internal Link)
 
 ---
 
-**Module Completion**: Mark this module as complete when you've:
-- [ ] Read through all content
-- [ ] Generated a Weekly Report using AI
-- [ ] Identified one At-Risk account
+## The Friday Afternoon Panic (The Problem We're Solving)
 
-**Estimated Time**: 45 minutes
-**Difficulty**: Advanced
-**Prerequisites**: HubSpot Hygiene
+Let's talk about the reality of sales reporting:
+
+**The situation:**
+- It's 4pm on Friday
+- Sales Director wants the forecast
+- You spend 2 hours in Excel
+- You're guessing at numbers
+- You're stressed and rushed
+- The report isn't great
+
+**The problem:**
+- Manual reporting takes forever
+- Gut-feel forecasts are often wrong
+- Easy to miss important insights
+- Takes time away from selling
+
+**The solution:**
+Let's stop doing that. AI can generate reports and forecasts in seconds, using actual data.
+
+![Friday Panic](/images/friday-panic.jpg)
+*'Friday 4pm: *panic* Sales Director: "Where's the forecast?" You: *spends 2 hours in Excel* AI: I can do that in 30 seconds. You: Show me how!'*
+
+---
+
+## Technique 1: The "State of the Union" Prompt (Instant Reports)
+
+Generate comprehensive sales reports in seconds, not hours.
+
+### How It Works
+
+**Step 1:** Export your pipeline to CSV
+
+**Step 2:** Upload to AI and ask:
+> "Act as a Sales Director. Analyse this pipeline. 
+> 1. What is the total weighted pipeline for Q4?
+> 2. Which 3 deals are most likely to slip based on the 'Last Activity' date?
+> 3. What's the average deal size?
+> 4. Which stage has the most deals stuck?
+> 5. Write a 3-bullet summary for the executive team."
+
+**What you get:**
+- Complete pipeline analysis
+- Risk identification
+- Key metrics
+- Executive summary
+- All in seconds!
+
+**Example output:**
+> "**Pipeline Analysis:**
+> - Total Weighted Pipeline: $450,000
+> - Average Deal Size: $15,000
+> - Deals at Risk: 3 deals haven't had activity in 14+ days
+> 
+> **Executive Summary:**
+> - Pipeline is healthy but needs attention on stalled deals
+> - Focus on 'Proposal Sent' stage (5 deals stuck)
+> - Q4 forecast: $180,000 (based on 40% win rate)"
+
+**See?** Complete analysis in seconds!
+
+![State of the Union](/images/state-of-union.jpg)
+*'Pipeline Data: *exists* AI Analysis: *processes* Complete Report: *appears* Time: 30 seconds. Manual: Would take 2 hours. You: This is magic!'*
+
+---
+
+## Technique 2: Forecasting with AI (Data, Not Gut Feel)
+
+AI is better at probability than you are. It looks at historical win rates, not your optimism.
+
+### The Problem with Gut-Feel Forecasting
+
+**Traditional forecasting:**
+- "I think we'll close $200k this month"
+- Based on optimism, not data
+- Often wrong
+- Hard to defend
+
+**The problem:**
+- You're optimistic (that's good for sales, bad for forecasting)
+- You don't account for historical win rates
+- You forget about deals that slip
+- Forecasts are inaccurate
+
+### The AI Solution
+
+**Ask AI:**
+> "Based on our historical win rate of 20% for 'Cold Outbound' leads, and 40% for 'Referrals', recalculate the expected revenue for this month. Use the weighted pipeline values. Be conservative—account for deals that typically slip."
+
+**What you get:**
+- Data-driven forecast
+- Based on actual win rates
+- Accounts for deal slippage
+- More accurate than gut feel
+- Defensible numbers
+
+**Example:**
+> "**Forecast Analysis:**
+> - Cold Outbound Pipeline: $100,000 × 20% = $20,000 expected
+> - Referral Pipeline: $150,000 × 40% = $60,000 expected
+> - Total Expected: $80,000
+> - Conservative Estimate (accounting for slippage): $65,000"
+
+**See?** Much more realistic than "I think we'll do $200k"!
+
+![Forecasting](/images/forecasting.jpg)
+*'Gut Feel: "We'll do $200k!" Reality: *$65k based on data* AI: I use historical data, not optimism. You: Okay, that's more realistic. Also you: And more accurate!'*
+
+---
+
+## Technique 3: Churn Prediction (Catch Problems Early)
+
+For Account Managers: identify at-risk accounts before they churn.
+
+### The Problem
+
+**Common scenario:**
+- Account seems fine
+- Suddenly they cancel
+- You're surprised
+- Too late to save them
+
+**The solution:**
+Use AI to identify churn signals early.
+
+### How It Works
+
+**Step 1:** Gather account data
+- Support ticket volume
+- Login activity
+- Feature usage
+- Recent interactions
+
+**Step 2:** Ask AI to analyse:
+> "Based on this account data:
+> - Support Tickets: 15 in last month (usually 2)
+> - Login Activity: 3 logins in last month (usually 20)
+> - Last Contact: 30 days ago
+> 
+> Analyse churn risk. What's the probability they'll churn? What should we do?"
+
+**What you get:**
+- Churn risk score
+- Identified warning signs
+- Recommended actions
+- Early intervention opportunity
+
+**Example output:**
+> "**Churn Risk: HIGH (8/10)**
+> 
+> **Warning Signs:**
+> - Support tickets increased 650% (frustration indicator)
+> - Login activity dropped 85% (not using the product)
+> - No contact in 30 days (relationship cooling)
+> 
+> **Recommended Action:**
+> - Immediate 'Success Call' to address issues
+> - Review support tickets to identify problems
+> - Offer training or additional support
+> - Consider account review meeting"
+
+**See?** Early warning system for churn!
+
+![Churn Prediction](/images/churn-prediction.jpg)
+*'Account: *showing churn signals* AI Analysis: *identifies risk* You: *intervenes early* Result: Account saved! You: This is proactive account management!'*
+
+---
+
+## Your Practice Exercise: The Board Report
+
+Ready to create a board-ready report? Let's do it!
+
+### The Challenge
+
+Imagine you have to present to the Board tomorrow. Create a complete report using AI.
+
+### Step 1: Generate Visual Report (15 minutes)
+
+**What to do:**
+1. Export your sales data (pipeline, closed deals, activity)
+2. Upload to AI
+
+**Ask AI:**
+> "Create a visual report description of current sales performance. Include:
+> - Pipeline value over time (trend)
+> - Deal stage distribution (funnel)
+> - Win rate by source (referral vs outbound)
+> - Top 5 deals by value
+> 
+> Describe what each chart should show. I'll create them, but tell me what to visualise."
+
+**What you get:**
+- Report structure
+- Chart descriptions
+- Key metrics to highlight
+- Professional presentation plan
+
+### Step 2: Write the Narrative (10 minutes)
+
+**Ask AI:**
+> "Write the 'Story' behind these numbers: [paste your data summary]. Explain: Why are we up/down? What are the key trends? What should the board know?"
+
+**What you get:**
+- Narrative that explains the numbers
+- Context and insights
+- Professional presentation
+- Ready for board meeting
+
+### Step 3: Strategic Recommendations (10 minutes)
+
+**Ask AI:**
+> "Based on these numbers: [summary], what should be our focus for next quarter? Provide 3 strategic recommendations with rationale."
+
+**What you get:**
+- Strategic recommendations
+- Data-backed rationale
+- Actionable next steps
+- Professional insights
+
+### Questions to Reflect On
+
+- Was the AI's forecast lower than yours? (It usually is—and that's good!)
+- Did the narrative sound convincing?
+- How much stress did this save you?
+- Would you feel confident presenting this to the board?
+
+![Board Report](/images/board-report.jpg)
+*'Board Meeting Tomorrow: *panic* AI Report: *generates* Complete Presentation: *ready* You: *confident* Board: Impressive insights! You: (quietly) AI helped with that.'*
+
+---
+
+## Advanced: Predictive Analytics (What Will Happen?)
+
+Go beyond reporting—predict what will happen.
+
+### Sales Velocity Analysis
+
+**Ask AI:**
+> "Based on historical data:
+> - Average sales cycle: 45 days
+> - Current pipeline: $500,000
+> - Average deal size: $20,000
+> - Win rate: 25%
+> 
+> Predict: When will we hit our $200,000 monthly target? What's the probability? What could go wrong?"
+
+**What you get:**
+- Predictive analysis
+- Timeline estimates
+- Risk assessment
+- Strategic planning data
+
+### Deal Probability Scoring
+
+**Ask AI:**
+> "Score these deals for probability of closing:
+> - Deal A: In 'Proposal' stage, last activity 2 days ago, decision maker engaged
+> - Deal B: In 'Discovery' stage, last activity 14 days ago, no decision maker contact
+> - Deal C: In 'Negotiation' stage, last activity 1 day ago, budget approved
+> 
+> Rank them by probability and explain why."
+
+**What you get:**
+- Probability scores
+- Ranking
+- Reasoning
+- Focus areas
+
+![Predictive Analytics](/images/predictive-analytics.jpg)
+*'Historical Data: *exists* AI Analysis: *predicts future* You: Now I know what to expect. Strategy: *adjusted based on predictions* Result: Better planning!'*
+
+---
+
+## Common Mistakes (And How to Avoid Them)
+
+### Mistake #1: Over-Optimistic Forecasting
+
+**The problem:** "We'll definitely close everything!"
+
+**The solution:** Use AI to apply historical win rates. Be realistic. Account for slippage.
+
+### Mistake #2: Ignoring Churn Signals
+
+**The problem:** Not noticing accounts at risk until it's too late
+
+**The solution:** Use AI to analyse account data regularly. Identify warning signs early.
+
+### Mistake #3: Manual Report Generation
+
+**The problem:** Spending hours creating reports manually
+
+**The solution:** Automate with AI. Generate reports in seconds, not hours.
+
+### Mistake #4: Not Analysing Patterns
+
+**The problem:** Missing trends and insights
+
+**The solution:** Use AI to find patterns in your data. Understand what's really happening.
+
+![Common Mistakes](/images/common-mistakes-reporting.jpg)
+*'Mistake: Manual reporting, gut-feel forecasting. Result: Wasted time, inaccurate numbers. Solution: AI automation. Result: Fast, accurate, insightful!'*
+
+---
+
+## Next Steps
+
+Congratulations! You've completed the entire Sales Track! 🎉
+
+You've learned:
+1. ✅ How to plan your GTM strategy
+2. ✅ How to generate and nurture leads
+3. ✅ How to keep your CRM clean
+4. ✅ How to report and forecast accurately
+
+**Your sales process is now:** More efficient, data-driven, and strategic. You can generate reports in seconds, forecast accurately, and identify risks early.
+
+**What's next?** Keep practising! The more you use these techniques, the more natural they'll become. You're now equipped to be a data-driven sales professional!
+
+---
+
+## Resources
+
+- [Salesforce Einstein](https://www.salesforce.com/products/einstein/overview/) - AI-powered sales insights
+- [Gong.io Revenue Intelligence](https://www.gong.io/) - Conversation analytics
+- [TBS Reporting Templates](https://tbs.digital/reporting) - Internal reporting templates
+
+---
+
+## Module Checklist
+
+Before completing the Sales Track:
+
+- [ ] Read through all the content
+- [ ] Generated a Weekly Report using AI
+- [ ] Created a data-driven forecast
+- [ ] Identified at least one At-Risk account
+- [ ] Understood how to use AI for predictive analytics
+
+**Estimated Time:** 45 minutes (longer if you're doing the exercises)
+
+**Difficulty:** Advanced (but we've broken it down into simple steps!)
+
+**You've Mastered the Sales Track!** 🚀📊
+
+**Remember:** Good reporting isn't about spending hours in Excel—it's about getting insights quickly so you can make better decisions!

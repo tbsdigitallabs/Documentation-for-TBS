@@ -1,9 +1,39 @@
 "use client";
 
 import { useTheme } from './ThemeProvider';
+import { useEffect, useState } from 'react';
 
 export default function ThemeToggle() {
   const { theme, toggleTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  // Prevent hydration mismatch by only rendering after mount
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    // Return a placeholder that matches the initial render
+    return (
+      <button
+        className="relative inline-flex h-10 w-16 items-center rounded-full border-2 border-[var(--color-gray-300)] cursor-pointer transition-all duration-200"
+        aria-label="Toggle theme"
+        role="switch"
+        disabled
+      >
+        <span className="absolute flex h-7 w-7 rounded-full bg-white shadow-md items-center justify-center transition-transform duration-200 translate-x-[4px]">
+          <svg
+            className="h-4 w-4 flex-shrink-0"
+            style={{ color: 'var(--accent-magenta-500)' }}
+            fill="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+          </svg>
+        </span>
+      </button>
+    );
+  }
 
   return (
     <button
@@ -23,15 +53,15 @@ export default function ThemeToggle() {
     >
       {/* Toggle circle */}
       <span
-        className="absolute inline-block h-6 w-6 rounded-full bg-white shadow-md flex items-center justify-center transition-transform duration-200"
+        className="absolute flex h-7 w-7 rounded-full bg-white dark:bg-gray-800 shadow-md items-center justify-center transition-transform duration-200"
         style={{
           transform: theme === 'dark' ? 'translateX(28px)' : 'translateX(4px)',
         }}
       >
         {theme === 'dark' ? (
           <svg
-            className="h-3 w-3"
-            style={{ color: 'var(--color-gray-600)' }}
+            className="h-4 w-4 flex-shrink-0"
+            style={{ color: 'var(--color-gray-300)' }}
             fill="currentColor"
             viewBox="0 0 24 24"
           >
@@ -39,7 +69,7 @@ export default function ThemeToggle() {
           </svg>
         ) : (
           <svg
-            className="h-3 w-3"
+            className="h-4 w-4 flex-shrink-0"
             style={{ color: 'var(--accent-magenta-500)' }}
             fill="currentColor"
             viewBox="0 0 24 24"

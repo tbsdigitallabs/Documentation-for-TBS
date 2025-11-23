@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>TBSLab LearningLab Module</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+<script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            primary: "#0A84FF", // A vibrant blue for primary actions
+            "background-light": "#F3F4F6", // Light grey for light mode background
+            "background-dark": "#121212", // Very dark grey for dark mode background
+          },
+          fontFamily: {
+            display: ["Inter", "sans-serif"],
+          },
+          borderRadius: {
+            DEFAULT: "1rem",
+          },
+        },
+      },
+    };
+  </script>
+<style>
+    .glassmorphism-card {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="font-display bg-background-light dark:bg-background-dark text-gray-900 dark:text-white min-h-screen">
+<div class="flex flex-col h-screen">
+<header class="p-6 border-b border-gray-200/10 dark:border-gray-700/50">
+<div class="max-w-screen-2xl mx-auto flex items-center justify-between">
+<div class="flex items-center space-x-4">
+<button class="p-2 rounded-full hover:bg-white/10 transition-colors">
+<span class="material-icons-outlined">arrow_back</span>
+</button>
+<div class="flex items-center space-x-3">
+<img alt="TBSLab Logo" class="h-8 w-auto" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAVTmJSXOXEbv6-g0mYvjz9utiCjR6fIx3pZGjL1iGRqJKXh6u9pDAPoMaGPbQQMDm7fvCVyDnrsjfFQMRMbHBPpGmC9ifzUkabwnTLqjcF-QjA24h2c5YyK9MkYzX2loOsmfe_U-yUTd1uUWgSR2JQvbzB5oTs1mCXv1x1-hg4W62Oi4Pj9MR2Cvyhtt-U4hta_9Z_s9BZpj3UlaUBa4-JZUXB_QkOEbf17qAEO3eAGiEKWvkSwJEo96sRguL0x16zNHWHNrJJ_4zH"/>
+<div>
+<p class="text-lg font-bold">LearningLab</p>
+<p class="text-sm text-gray-500 dark:text-gray-400">Intro to Neural Networks</p>
+</div>
+</div>
+</div>
+<div class="flex items-center space-x-4">
+<button class="p-2 rounded-full hover:bg-white/10 transition-colors">
+<span class="material-icons-outlined">notifications</span>
+</button>
+<div class="w-10 h-10 bg-gradient-to-br from-purple-500 to-blue-500 rounded-full"></div>
+</div>
+</div>
+</header>
+<main class="flex-grow p-8 overflow-y-auto">
+<div class="max-w-screen-2xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+<div class="lg:col-span-1 space-y-6 lg:sticky lg:top-8">
+<div class="mb-4">
+<div class="flex justify-between items-center mb-2 text-sm text-gray-400">
+<span>Progress</span>
+<span>1 / 3</span>
+</div>
+<div class="w-full bg-gray-200/20 dark:bg-gray-700/50 rounded-full h-2">
+<div class="bg-gradient-to-r from-cyan-400 to-blue-500 h-2 rounded-full" style="width: 33%"></div>
+</div>
+</div>
+<h1 class="text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-teal-400">What is a Neural Network?</h1>
+<p class="text-lg text-gray-600 dark:text-gray-300 leading-relaxed">
+            A neural network is a series of algorithms that endeavors to recognize underlying relationships in a set of data through a process that mimics the way the human brain operates. In this sense, neural networks refer to systems of neurons, either organic or artificial in nature.
+          </p>
+</div>
+<div class="lg:col-span-1 flex flex-col items-center">
+<img alt="Abstract visualization of a neural network structure with interconnected nodes in blue and purple" class="rounded-lg shadow-2xl shadow-blue-500/10 w-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD8FLKoGn3QjFkV0zvl2n5B9s1F64o_efIfJbgJB_0rllLvMBnAKJTJMiJJ9afBQQrNMfJs2_Htox1mSUgniQ1lsfHlOoJJEbMRu1AeloEXYESS-iLW8c21egy-Whi_n0Ev7cMKNsUo8XPo4cTR7FL_14xNia4r_z1-eZ2iWbD-KIEDr2oFil7xdPA1ncnlFksXX5Q2AoW_dleBdEKHj5NhTQO_vofvc1LmUL4NNJbpiwm5gvgaUXfAINj5dlefm01SjrapXqHGIIIY"/>
+<p class="mt-4 text-sm text-gray-500 dark:text-gray-400">A basic neural network structure.</p>
+</div>
+<div class="lg:col-span-1 space-y-4">
+<div class="glassmorphism-card p-6 rounded-lg flex items-start space-x-4">
+<div class="w-8 h-8 flex-shrink-0 rounded-full bg-blue-500/20 flex items-center justify-center">
+<span class="material-icons text-blue-400">layers</span>
+</div>
+<p class="text-gray-300">Composed of layers of interconnected nodes or 'neurons'.</p>
+</div>
+<div class="glassmorphism-card p-6 rounded-lg flex items-start space-x-4">
+<div class="w-8 h-8 flex-shrink-0 rounded-full bg-purple-500/20 flex items-center justify-center">
+<span class="material-icons text-purple-400">model_training</span>
+</div>
+<p class="text-gray-300">They 'learn' from large amounts of data to perform tasks.</p>
+</div>
+<div class="glassmorphism-card p-6 rounded-lg flex items-start space-x-4">
+<div class="w-8 h-8 flex-shrink-0 rounded-full bg-teal-500/20 flex items-center justify-center">
+<span class="material-icons text-teal-400">psychology</span>
+</div>
+<p class="text-gray-300">Inspired by the structure and function of the human brain.</p>
+</div>
+</div>
+</div>
+</main>
+<footer class="p-6 border-t border-gray-200/10 dark:border-gray-700/50 mt-auto">
+<div class="max-w-screen-2xl mx-auto flex justify-between items-center">
+<button class="flex items-center space-x-2 px-6 py-3 rounded-lg bg-gray-200/20 dark:bg-gray-700/50 hover:bg-gray-200/30 dark:hover:bg-gray-700/70 transition-colors">
+<span class="material-icons-outlined">arrow_back</span>
+<span>Prev</span>
+</button>
+<button class="px-8 py-3 rounded-lg text-white font-semibold bg-gradient-to-r from-cyan-400 to-blue-500 hover:opacity-90 transition-opacity shadow-lg shadow-cyan-500/20">
+          Continue
+        </button>
+</div>
+</footer>
+</div>
+
+</body></html>

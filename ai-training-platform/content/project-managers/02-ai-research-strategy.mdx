@@ -1,81 +1,506 @@
+---
+title: "Using AI for Research and Strategic Thinking"
+description: "Learn to use AI tools to gather market research 10x faster and challenge your strategic assumptions."
+estimatedTime: "40 minutes"
+difficulty: "Intermediate"
+questions:
+  - id: "q1"
+    question: "What is the main advantage of using AI for research?"
+    options:
+      - "AI is always 100% accurate"
+      - "AI can gather and synthesise information 10x faster than manual research"
+      - "You don't need to verify anything"
+      - "AI replaces all strategic thinking"
+    correctAnswer: 1
+  - id: "q2"
+    question: "What should you always do with AI research results?"
+    options:
+      - "Use them immediately without checking"
+      - "Verify the sources and check for accuracy"
+      - "Ignore them"
+      - "Delete them"
+    correctAnswer: 1
+  - id: "q3"
+    question: "What is a 'hallucination' in AI research?"
+    options:
+      - "AI seeing things that aren't there"
+      - "AI making up information that sounds plausible but isn't true"
+      - "AI getting tired"
+      - "AI having dreams"
+    correctAnswer: 1
+---
+
 # Using AI for Research and Strategic Thinking
+
+Welcome back! Now that you understand strategy foundations, let's talk about research. Traditional research involves hours of Googling, reading PDFs, and manually collating notes. AI changes this from 'Gather → Read → Synthesise' to 'Direct → Verify → Refine'.
+
+**This module will teach you:** How to use AI tools to gather market research 10x faster, challenge your assumptions, and create a 'research sandbox' for rapid hypothesis testing.
+
+![Research Revolution](https://via.placeholder.com/800x600/02022B/D56EED?text=Image)
+*'Traditional Research: 4 hours of Googling. AI Research: 20 minutes of asking the right questions. You: This changes everything!'*
 
 ## Learning Objectives
 
-By the end of this module, you will be able to:
+By the end of this module, you'll be able to:
 
 - Use AI tools to gather and synthesise market research 10x faster
-- Construct prompts that force AI to challenge your assumptions
-- Identify "hallucinations" in strategic data
-- Create a "Research Sandbox" for rapid hypothesis testing
-
-## The Research Revolution
-
-Traditional research involves hours of Googling, reading PDFs, and manually collating notes. AI changes this workflow from "Gather -> Read -> Synthesise" to "Direct -> Verify -> Refine".
-
-### The New Workflow
-1.  **Broad Sweep**: Use AI to scan the landscape (e.g., "What are the top 5 trends in FinTech in Australia for 2025?").
-2.  **Deep Dive**: Drill down into specific areas (e.g., "Explain the regulatory changes affecting Buy Now Pay Later").
-3.  **Synthesis**: Ask AI to connect the dots (e.g., "How do these regulatory changes impact the trends you identified?").
-
-## Tools of the Trade
-
-### Perplexity AI
-Best for: Real-time web search and citation.
-- **Tip**: Always check the sources. Perplexity is good, but it can misinterpret a paywalled article.
-
-### ChatGPT / Claude
-Best for: Synthesis and reasoning.
-- **Tip**: Paste in raw data (PDFs, CSVs) and ask it to find patterns. Don't just ask it to "guess" market data.
-
-### NotebookLM
-Best for: Deep reading of your own documents.
-- **Tip**: Upload all your client briefs and previous strategy docs to create a "Client Brain".
-
-## Prompt Engineering for Strategy
-
-Don't ask: "Give me a strategy for a coffee shop."
-Ask: "Act as a senior strategist. I am opening a high-end coffee shop in Melbourne CBD. The market is saturated. Critique my assumption that 'better beans' is a sufficient differentiator. Offer 3 alternative differentiation strategies based on current consumer behaviour."
-
-### The "Devil's Advocate" Prompt
-One of the best uses of AI is to kill your bad ideas before a client does.
-> "Here is my strategic hypothesis: [Insert Idea]. Act as a skeptical investor. Tear this apart. Find the logical gaps, the missing data, and the operational risks."
-
-## Practical Exercise: The Research Sprint
-
-### Task
-Choose a topic you know nothing about (e.g., "The future of hydroponic farming in urban areas").
-Spend 15 minutes using AI tools to produce a 1-page "State of the Nation" report.
-
-Include:
-1.  **Market Size**: Rough estimates with sources.
-2.  **Key Players**: Who is winning and why?
-3.  **Major Headwinds**: What is stopping growth?
-
-### Questions to Consider
-- How much time did you save compared to manual searching?
-- Did you catch any AI errors or outdated info?
-- How did you verify the data?
-
-## Next Steps
-
-Research is useless without data to back it up. Next, we look at:
-1.  **Internal Data**: Mining our own archives.
-2.  **Data Pipelines**: Automating the flow of information.
-
-## Resources
-
-- [Perplexity AI](https://www.perplexity.ai/)
-- [Ethan Mollick's "One Useful Thing"](https://www.oneusefulthing.org/)
-- [TBS Prompt Library](https://tbs.digital/prompts) (Internal Link)
+- Write prompts that force AI to challenge your assumptions
+- Identify 'hallucinations' (made-up information) in AI research
+- Create a 'Research Sandbox' for rapid hypothesis testing
+- Verify AI research results effectively
 
 ---
 
-**Module Completion**: Mark this module as complete when you've:
-- [ ] Read through all content
-- [ ] Completed the Research Sprint
-- [ ] Created a "Devil's Advocate" prompt for a current project
+## The Research Revolution (What's Changed?)
 
-**Estimated Time**: 40 minutes
-**Difficulty**: Intermediate
-**Prerequisites**: Strategy Foundations
+Let's talk about how research used to work vs. how it works now.
+
+### The Old Way (Why It's Slow)
+
+**Traditional research process:**
+1. Google search → Find 20 articles
+2. Read each article → Take notes
+3. Try to remember what you read
+4. Manually collate information
+5. Write a summary
+6. Realise you missed something → Start over
+
+**Time:** 4-6 hours for a basic research task
+
+**Problems:**
+- Information overload
+- Hard to remember everything
+- Easy to miss important details
+- Takes forever
+
+### The New Way (Using AI)
+
+**AI-powered research process:**
+1. Ask AI a question → Get synthesised answer
+2. Ask follow-up questions → Drill deeper
+3. Ask AI to connect the dots → See relationships
+4. Verify key facts → Check sources
+5. Refine and use
+
+**Time:** 20-30 minutes for the same research task
+
+**Benefits:**
+- Fast synthesis
+- Can ask follow-up questions
+- AI remembers everything
+- Can challenge your assumptions
+
+![Research Comparison](https://via.placeholder.com/800x600/02022B/D56EED?text=Image)
+*'Old Way: Read 20 articles, take notes, try to remember. New Way: Ask AI, get answer, ask follow-ups. Time saved: Hours!'*
+
+---
+
+## The New Research Workflow (Step by Step)
+
+Here's how to do research efficiently with AI:
+
+### Step 1: Broad Sweep (The Big Picture)
+
+**What to do:** Get an overview of the topic
+
+**Example prompt:**
+> "What are the top 5 trends in FinTech in Australia for 2025? Include sources."
+
+**What you get:**
+- Overview of the landscape
+- Key trends identified
+- Sources to verify
+
+**Time:** 2 minutes
+
+### Step 2: Deep Dive (Specific Areas)
+
+**What to do:** Drill down into areas that interest you
+
+**Example prompt:**
+> "Explain the regulatory changes affecting Buy Now Pay Later services in Australia. How do these impact consumers and businesses?"
+
+**What you get:**
+- Detailed explanation
+- Context and implications
+- More specific information
+
+**Time:** 5 minutes
+
+### Step 3: Synthesis (Connect the Dots)
+
+**What to do:** Ask AI to find relationships
+
+**Example prompt:**
+> "How do the regulatory changes you mentioned impact the FinTech trends you identified earlier? What are the strategic implications?"
+
+**What you get:**
+- Connections between different pieces of information
+- Strategic insights
+- Actionable conclusions
+
+**Time:** 3 minutes
+
+**Total time:** 10 minutes vs. 4 hours manually!
+
+![Research Workflow](https://via.placeholder.com/800x600/02022B/D56EED?text=Image)
+*'Research Workflow: Broad → Deep → Synthesise. Time: 10 minutes. Quality: Better than manual research. You: I'm never going back!'*
+
+---
+
+## Tools of the Trade (Your Research Arsenal)
+
+Let's meet the tools that will make you a research superhero.
+
+### Perplexity AI (Real-Time Web Search)
+
+**What it does:** Searches the web in real-time and provides citations
+
+**Best for:**
+- Current information (not training data)
+- Finding recent articles and sources
+- Getting cited answers
+
+**Pro tip:** Always check the sources! Perplexity is good, but it can misinterpret paywalled articles.
+
+**Example use:**
+> "What are the latest changes to Australian privacy laws in 2024? Include sources."
+
+![Perplexity](https://via.placeholder.com/800x600/02022B/D56EED?text=Image)
+*'Perplexity: Real-time research with citations. You: Finally, someone who shows their sources!'*
+
+### ChatGPT / Claude (Synthesis and Reasoning)
+
+**What it does:** Analyses and synthesises information
+
+**Best for:**
+- Connecting ideas
+- Finding patterns
+- Strategic thinking
+- Analysing your own documents
+
+**Pro tip:** Paste in raw data (PDFs, CSVs) and ask it to find patterns. Don't just ask it to 'guess' market data—give it actual data to analyse.
+
+**Example use:**
+> "I've pasted a client's annual report. What are the top 3 risks mentioned, and how do they compare to last year?"
+
+### NotebookLM (Your Document Brain)
+
+**What it does:** Deep reading of your own documents
+
+**Best for:**
+- Analysing client briefs
+- Reviewing previous strategy docs
+- Creating a 'Client Brain' (all your knowledge about a client in one place)
+
+**Pro tip:** Upload all your client briefs and previous strategy docs to create a searchable knowledge base.
+
+**Example use:**
+> "Based on all the documents I've uploaded about Client X, what are their main pain points and goals?"
+
+![NotebookLM](https://via.placeholder.com/800x600/02022B/D56EED?text=Image)
+*'NotebookLM: Your document brain. Upload everything, ask anything. You: Finally, I can find that thing I read 6 months ago!'*
+
+---
+
+## Prompt Engineering for Strategy (Asking the Right Questions)
+
+Here's the secret: **How you ask matters more than what you ask.**
+
+### Bad Prompts (Vague and Useless)
+
+**Don't ask:**
+> "Give me a strategy for a coffee shop."
+
+**Why it's bad:**
+- Too vague
+- No context
+- AI will give generic advice
+- Not useful for real projects
+
+### Good Prompts (Specific and Actionable)
+
+**Do ask:**
+> "Act as a senior strategist. I am opening a high-end coffee shop in Melbourne CBD. The market is saturated. Critique my assumption that 'better beans' is a sufficient differentiator. Offer 3 alternative differentiation strategies based on current consumer behaviour in the Australian coffee market."
+
+**Why it's good:**
+- Specific context (Melbourne CBD, high-end)
+- Identifies the challenge (saturated market)
+- Challenges assumptions (better beans)
+- Asks for alternatives
+- Focuses on real data (Australian market)
+
+![Good Prompts](https://via.placeholder.com/800x600/02022B/D56EED?text=Image)
+*'Bad Prompt: "Give me a strategy." Good Prompt: "Act as a strategist, here's the context, challenge my assumptions, give me alternatives." AI: Now we're talking!'*
+
+---
+
+## The "Devil's Advocate" Prompt (Kill Bad Ideas Early)
+
+One of the best uses of AI is to kill your bad ideas before a client does.
+
+### Why This Matters
+
+**The problem:**
+- You get excited about an idea
+- You present it to the client
+- Client tears it apart
+- You look unprepared
+
+**The solution:**
+Let AI tear it apart first. Fix the issues. Then present a stronger idea.
+
+### How to Use It
+
+**The prompt:**
+> "Here is my strategic hypothesis: [Insert Your Idea]. Act as a skeptical investor. Tear this apart. Find the logical gaps, the missing data, and the operational risks. Be harsh but constructive."
+
+**What you get:**
+- Honest critique
+- Identified weaknesses
+- Missing information
+- Risks you hadn't considered
+
+**Then you can:**
+- Fix the issues
+- Fill the gaps
+- Address the risks
+- Present a stronger strategy
+
+![Devil's Advocate](https://via.placeholder.com/800x600/02022B/D56EED?text=Image)
+*'You: I have a great idea! AI Devil's Advocate: Let me tear that apart for you. You: *fixes issues* Also you: Okay, NOW it's a great idea!'*
+
+### Example: Testing a Strategy
+
+**Your hypothesis:**
+> "We should focus on social media marketing because our target audience is active on Instagram."
+
+**AI critique:**
+> "⚠️ Issues with this hypothesis:
+> 1. **Missing data**: How do you know they're active on Instagram? Do you have data?
+> 2. **Assumption**: You're assuming social media = Instagram. What about TikTok, LinkedIn, or Facebook?
+> 3. **Competition**: Is the Instagram space already crowded? Can you stand out?
+> 4. **ROI**: How will you measure success? What's the expected return?
+> 
+> **Suggestions:**
+> - Research actual social media usage data for your audience
+> - Test multiple platforms, not just Instagram
+> - Define success metrics before starting"
+
+**See?** AI found real issues you can fix before presenting to the client!
+
+---
+
+## Identifying "Hallucinations" (When AI Makes Stuff Up)
+
+AI sometimes makes up information that sounds plausible but isn't true. This is called 'hallucination.'
+
+### What Are Hallucinations?
+
+**Hallucination** = AI confidently stating something that isn't true
+
+**Example:**
+- AI says: "According to a 2024 study, 85% of Australian businesses use AI"
+- Reality: That study doesn't exist, or the number is wrong
+
+**Why it happens:**
+- AI is trained to be helpful, not always accurate
+- It fills in gaps with plausible-sounding information
+- It doesn't always distinguish between 'I know this' and 'I'm guessing'
+
+### How to Spot Hallucinations
+
+**Red flags:**
+- Specific numbers without sources
+- Claims that sound too good to be true
+- Information that contradicts what you know
+- No citations or sources provided
+
+### How to Verify
+
+**Always verify:**
+1. Check the sources AI provides
+2. Cross-reference with known information
+3. Ask AI: "What are your sources for this claim?"
+4. Use Perplexity (which provides citations) for fact-checking
+
+**Example verification:**
+> "You mentioned that 85% of Australian businesses use AI. What is your source for this statistic? Can you provide a link?"
+
+If AI can't provide a source, treat it as unverified!
+
+![Hallucinations](https://via.placeholder.com/800x600/02022B/D56EED?text=Image)
+*'AI: 85% of businesses use AI! You: Source? AI: *sweats nervously* You: That's what I thought. Always verify!'*
+
+---
+
+## Your Practice Exercise: The Research Sprint
+
+Ready to try this yourself? Let's do a research sprint!
+
+### The Challenge
+
+Choose a topic you know **nothing** about. Examples:
+- "The future of hydroponic farming in urban areas"
+- "The impact of AI on the Australian legal industry"
+- "Sustainable packaging trends in e-commerce"
+
+**Goal:** Produce a 1-page 'State of the Nation' report in 15 minutes.
+
+### Step 1: Broad Sweep (3 minutes)
+
+**Ask AI:**
+> "What are the top 5 trends in [your topic] for 2024-2025? Include sources."
+
+**Take notes on:**
+- Key trends
+- Sources to check
+- Areas that interest you
+
+### Step 2: Deep Dive (5 minutes)
+
+**Pick 2 trends** that seem most relevant
+
+**Ask AI:**
+> "Explain [trend 1] in detail. What are the implications? Who are the key players?"
+
+**Then ask:**
+> "Explain [trend 2] in detail. How does it relate to [trend 1]?"
+
+### Step 3: Market Analysis (4 minutes)
+
+**Ask AI:**
+> "What is the approximate market size for [your topic]? Who are the major players? What are the main challenges or headwinds?"
+
+### Step 4: Synthesis (3 minutes)
+
+**Ask AI:**
+> "Based on everything we've discussed, write a 1-page 'State of the Nation' report on [your topic]. Include: market size, key players, major trends, and main challenges."
+
+### Step 5: Verify (Important!)
+
+**Check:**
+- Are the sources real? (Click the links)
+- Do the numbers make sense?
+- Does anything contradict what you know?
+
+**Fix any issues** you find.
+
+### Questions to Reflect On
+
+- How much time did you save compared to manual searching?
+- Did you catch any AI errors or outdated information?
+- How did you verify the data?
+- Would you feel confident presenting this research?
+
+![Research Sprint](https://via.placeholder.com/800x600/02022B/D56EED?text=Image)
+*'15 minutes later: Complete research report. Manual research: Would take 4 hours. You: I'm a research superhero now!'*
+
+---
+
+## Creating a "Research Sandbox" (Rapid Hypothesis Testing)
+
+A 'Research Sandbox' lets you test ideas quickly before committing to them.
+
+### What is a Research Sandbox?
+
+**Think of it as:** A safe space to explore ideas, test hypotheses, and get quick feedback.
+
+**How it works:**
+1. You have an idea or hypothesis
+2. Ask AI to research it quickly
+3. Get feedback and data
+4. Refine or abandon the idea
+5. Move to the next hypothesis
+
+### Example: Testing Multiple Strategies
+
+**Hypothesis 1:**
+> "We should focus on email marketing because it has high ROI."
+
+**Ask AI:**
+> "Research the ROI of email marketing vs. social media marketing for B2B companies in Australia. What does the data say?"
+
+**Get answer, then test Hypothesis 2:**
+> "We should focus on content marketing because it builds trust."
+
+**Ask AI:**
+> "Research the effectiveness of content marketing for B2B companies. How long does it take to see results?"
+
+**Compare answers, pick the best strategy!**
+
+**Time:** 10 minutes to test 3-4 hypotheses vs. days of manual research!
+
+![Research Sandbox](https://via.placeholder.com/800x600/02022B/D56EED?text=Image)
+*'Research Sandbox: Test 5 ideas in 10 minutes. Find the best one. Implement it. Success! Manual research: Test 1 idea in 4 hours. Too slow!'*
+
+---
+
+## Common Mistakes (And How to Avoid Them)
+
+### Mistake #1: Trusting AI Blindly
+
+**The problem:** Assuming AI research is always accurate
+
+**The solution:** Always verify key facts. Check sources. Cross-reference.
+
+### Mistake #2: Vague Prompts
+
+**The problem:** Asking "Tell me about marketing" and getting generic answers
+
+**The solution:** Be specific. Include context. Ask for sources.
+
+### Mistake #3: Not Challenging Assumptions
+
+**The problem:** Only asking AI to confirm what you already think
+
+**The solution:** Use the Devil's Advocate prompt. Let AI challenge you!
+
+### Mistake #4: Ignoring Hallucinations
+
+**The problem:** Not checking if AI made something up
+
+**The solution:** Always verify statistics and claims. Ask for sources.
+
+![Common Mistakes](https://via.placeholder.com/800x600/02022B/D56EED?text=Image)
+*'Mistake: Trusting AI without verification. Reality: AI is helpful but not perfect. Solution: Always verify, especially numbers and claims!'*
+
+---
+
+## Next Steps
+
+You've learned to research efficiently! Here's what's next:
+
+1. **Internal Data Analysis**: Learn to analyse your own company's data
+2. **Strategy Workflows**: Turn research into actionable plans
+
+**Remember:** Research is a skill. The more you practice with AI, the better you'll get at asking the right questions and verifying the answers!
+
+---
+
+## Resources
+
+- [Perplexity AI](https://www.perplexity.ai/) - Real-time research with citations
+- [Ethan Mollick's "One Useful Thing"](https://www.oneusefulthing.org/) - Great blog on AI strategy
+- [TBS Prompt Library](https://tbs.digital/prompts) - Internal collection of effective prompts
+
+---
+
+## Module Checklist
+
+Before moving on:
+
+- [ ] Read through all the content
+- [ ] Completed the Research Sprint exercise
+- [ ] Created a 'Devil's Advocate' prompt for a current project
+- [ ] Understood how to verify AI research
+- [ ] Tested at least one hypothesis in a Research Sandbox
+
+**Estimated Time:** 40 minutes (longer if you're doing the exercises)
+
+**Difficulty:** Intermediate (but we've broken it down into simple steps!)
+
+**Feeling confident?** Move on to Internal Data Analysis!
+**Still practising?** That's great! Keep doing research sprints on different topics.
+
+**You're becoming a research powerhouse!** 🔍✨

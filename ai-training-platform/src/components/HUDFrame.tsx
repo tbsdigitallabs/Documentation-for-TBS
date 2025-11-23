@@ -15,9 +15,9 @@ export function HUDFrame({
   intensity = 'subtle'
 }: HUDFrameProps) {
   const variantClasses = {
-    default: 'border border-primary',
+    default: 'border border-border-primary',
     glow: 'border border-accent shadow-lg',
-    grid: 'border border-primary bg-tech-grid-subtle'
+    grid: 'border border-border-primary bg-tech-grid-subtle'
   };
 
   const intensityClasses = {

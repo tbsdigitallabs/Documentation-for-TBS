@@ -198,6 +198,31 @@
   --breakpoint-lg: 1024px;
   --breakpoint-xl: 1280px;
   --breakpoint-2xl: 1536px;
+
+  /* Theme-Aware UI State Colors - Light Mode */
+  /* Error/Alert States */
+  --color-error-bg: #fef2f2;
+  --color-error-border: #fecaca;
+  --color-error-text: #dc2626;
+  --color-error-text-light: #991b1b;
+
+  /* Info States */
+  --color-info-bg: #eff6ff;
+  --color-info-border: #bfdbfe;
+  --color-info-text: #1e40af;
+  --color-info-text-light: #1e3a8a;
+
+  /* Button States - Light Mode */
+  --color-button-bg: #ffffff;
+  --color-button-border: #d1d5db;
+  --color-button-text: #374151;
+  --color-button-hover-bg: #f9fafb;
+  --color-button-hover-border: #9ca3af;
+
+  /* Disabled States - Light Mode */
+  --color-disabled-bg: #e5e7eb;
+  --color-disabled-text: #6b7280;
+  --color-disabled-border: #d1d5db;
 }
 
 /* Dark Mode Variables - Applied when .dark class is present */
@@ -226,6 +251,31 @@
   /* Dark mode visualization tokens */
   --viz-bar-bg: #334155;
   --viz-bar-fill: linear-gradient(90deg, #D56EED 0%, #61BDBA 100%);
+
+  /* Theme-Aware UI State Colors - Dark Mode */
+  /* Error/Alert States */
+  --color-error-bg: rgba(127, 29, 29, 0.2);
+  --color-error-border: rgba(153, 27, 27, 0.8);
+  --color-error-text: #fca5a5;
+  --color-error-text-light: #fca5a5;
+
+  /* Info States */
+  --color-info-bg: rgba(30, 58, 138, 0.2);
+  --color-info-border: rgba(30, 64, 175, 0.8);
+  --color-info-text: #93c5fd;
+  --color-info-text-light: #bfdbfe;
+
+  /* Button States - Dark Mode */
+  --color-button-bg: #9ca3af;
+  --color-button-border: #e5e7eb;
+  --color-button-text: #02022B;
+  --color-button-hover-bg: #d1d5db;
+  --color-button-hover-border: #f3f4f6;
+
+  /* Disabled States - Dark Mode */
+  --color-disabled-bg: #374151;
+  --color-disabled-text: #9ca3af;
+  --color-disabled-border: #4b5563;
 }
 
 /* Font Face Declarations */

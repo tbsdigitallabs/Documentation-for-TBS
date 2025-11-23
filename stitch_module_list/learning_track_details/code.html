@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Advanced Neural Networks - TBSLab LearningLab</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+<script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            primary: "#0D6EFF",
+            "background-dark": "#0D1117",
+            'cyber-cyan': '#00F5FF',
+            'cyber-magenta': '#FF00A8',
+          },
+          fontFamily: {
+            display: ["Inter", "sans-serif"],
+          },
+          borderRadius: {
+            DEFAULT: "1rem",
+            'lg': '1rem',
+          },
+        },
+      },
+    };
+  </script>
+<style>
+    .glass-card {
+      background-color: rgba(28, 33, 40, 0.5);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="font-display bg-background-dark text-gray-200">
+<div class="flex h-screen">
+<aside class="w-64 bg-gray-900/40 p-6 flex flex-col justify-between hidden md:flex">
+<div>
+<div class="flex items-center gap-3 mb-10">
+<img alt="TBSLab Logo" class="h-10 w-10" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA5wFLpn5SWGoF3QKq81P78viEWUnUgkLx-OMoi9XWV7avFfaoR0A5fbtj14abKmhui0dzWkWDSd_QFcPaSacF18jhrtD-DKr5a4apKRgK3AWU1LgTkxBsUUrBsODZBfuaOS34nxdAwU9POPbJzyNsaxjWTEfPAYVhz8LWxvF20xd52brpBnmeHqVf4CqFNy714D0ZFslxBNU5i1cCNSWPHzZIjwijjx0vlSvZZAsETSGr5azCUocsaWvveJBm1quo2zMDSgUbiGfvg"/>
+<div>
+<span class="text-xl font-bold text-white">TBSLab</span>
+<span class="block text-sm text-gray-400">LearningLab</span>
+</div>
+</div>
+<nav class="space-y-2">
+<a class="flex items-center gap-3 px-4 py-2 text-gray-400 hover:bg-gray-700/50 rounded-lg" href="#">
+<span class="material-icons-outlined">home</span>
+<span>Home</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-cyber-cyan bg-cyber-cyan/10 font-semibold rounded-lg" href="#">
+<span class="material-icons-outlined">school</span>
+<span>Learning</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-gray-400 hover:bg-gray-700/50 rounded-lg" href="#">
+<span class="material-icons-outlined">trending_up</span>
+<span>Progress</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-gray-400 hover:bg-gray-700/50 rounded-lg" href="#">
+<span class="material-icons-outlined">person</span>
+<span>Profile</span>
+</a>
+</nav>
+</div>
+<div class="glass-card p-4 rounded-lg text-center">
+<span class="material-icons-outlined text-yellow-400 text-3xl">emoji_events</span>
+<p class="text-sm font-medium mt-2 text-white">Unlock Pro</p>
+<p class="text-xs text-gray-400 mt-1">Get access to all courses.</p>
+<button class="w-full mt-4 bg-gradient-to-r from-cyber-cyan to-cyber-magenta text-white py-2 rounded-lg text-sm font-semibold hover:opacity-90 transition-opacity">Upgrade</button>
+</div>
+</aside>
+<main class="flex-1 p-12 overflow-y-auto">
+<div class="max-w-7xl mx-auto">
+<header class="flex items-center justify-between mb-8">
+<button class="p-2 rounded-full hover:bg-gray-800">
+<span class="material-icons-outlined">arrow_back</span>
+</button>
+<div class="flex items-center gap-4">
+<button class="p-2 rounded-full hover:bg-gray-800 relative">
+<span class="material-icons-outlined">notifications</span>
+<span class="absolute top-2 right-2 block h-2 w-2 rounded-full bg-red-500"></span>
+</button>
+<img alt="User avatar" class="w-10 h-10 rounded-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBCWCuDtPom8k9TIL-HhLGNp3hSCSk85C_xUFjdswLOMKGzm9K-G1gpCnqo5T7v_nBDhMdtE4ZDV0hddch8uJpeuRo06j53JZvZ6yV36TbmgS9qzpLmJoSAqkyQk2Oowpaif5OB6yj_cwVb086fLXnMjAQdfXmpU9jdrc4cZ7MrevXheSlQ6gEhOYDyoy1gEJJDHabOirJiZU7zQJHC_NNzn045lQBLOXyJ1K8Ohc--n1Pk_8qVWE9HWpY57-2N-whNw4sPLY-A-lPI"/>
+</div>
+</header>
+<div class="mb-12">
+<h1 class="text-5xl font-bold tracking-tight text-white mb-3">Advanced Neural Networks</h1>
+<p class="text-lg text-gray-400 max-w-3xl">
+            A comprehensive track covering the principles and applications of advanced neural network architectures.
+          </p>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-3 items-center gap-8 mb-12">
+<div class="glass-card p-6 rounded-lg text-center">
+<span class="block text-3xl font-bold text-white">12h 30m</span>
+<span class="text-sm text-gray-400">Total Duration</span>
+</div>
+<div class="glass-card p-6 rounded-lg text-center">
+<span class="block text-3xl font-bold text-white">15</span>
+<span class="text-sm text-gray-400">Modules</span>
+</div>
+<button class="w-full text-lg font-semibold text-white py-5 px-8 rounded-lg bg-gradient-to-r from-cyber-cyan to-cyber-magenta hover:from-cyan-500 hover:to-fuchsia-600 transition-all duration-300 shadow-lg shadow-cyan-500/30">
+            Start Track
+          </button>
+</div>
+<div>
+<h2 class="text-2xl font-bold text-white mb-6">Modules in this Track</h2>
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+<div class="glass-card p-5 rounded-lg">
+<div class="flex items-center gap-4 mb-4">
+<div class="w-12 h-12 rounded-lg bg-cyan-400/20 flex items-center justify-center">
+<span class="material-icons-outlined text-cyan-400">layers</span>
+</div>
+<div>
+<h3 class="font-semibold text-white">Introduction to CNNs</h3>
+<p class="text-sm text-gray-400">45m</p>
+</div>
+</div>
+<p class="text-sm text-gray-400 mb-4">Learn the fundamentals of Convolutional Neural Networks, a class of deep neural networks, most commonly applied to analyzing visual imagery.</p>
+<button class="w-full text-center py-2 bg-white/10 hover:bg-white/20 rounded-lg text-sm font-medium transition-colors">View Module</button>
+</div>
+<div class="glass-card p-5 rounded-lg">
+<div class="flex items-center gap-4 mb-4">
+<div class="w-12 h-12 rounded-lg bg-purple-400/20 flex items-center justify-center">
+<span class="material-icons-outlined text-purple-400">memory</span>
+</div>
+<div>
+<h3 class="font-semibold text-white">Recurrent Neural Networks</h3>
+<p class="text-sm text-gray-400">1h 15m</p>
+</div>
+</div>
+<p class="text-sm text-gray-400 mb-4">Explore RNNs, a class of artificial neural networks where connections between nodes form a directed graph along a temporal sequence.</p>
+<button class="w-full text-center py-2 bg-white/10 hover:bg-white/20 rounded-lg text-sm font-medium transition-colors">View Module</button>
+</div>
+<div class="glass-card p-5 rounded-lg">
+<div class="flex items-center gap-4 mb-4">
+<div class="w-12 h-12 rounded-lg bg-green-400/20 flex items-center justify-center">
+<span class="material-icons-outlined text-green-400">code</span>
+</div>
+<div>
+<h3 class="font-semibold text-white">Transformers &amp; Attention</h3>
+<p class="text-sm text-gray-400">2h 00m</p>
+</div>
+</div>
+<p class="text-sm text-gray-400 mb-4">Dive deep into the transformer architecture and the attention mechanism, which have revolutionized natural language processing.</p>
+<button class="w-full text-center py-2 bg-white/10 hover:bg-white/20 rounded-lg text-sm font-medium transition-colors">View Module</button>
+</div>
+<div class="glass-card p-5 rounded-lg">
+<div class="flex items-center gap-4 mb-4">
+<div class="w-12 h-12 rounded-lg bg-red-400/20 flex items-center justify-center">
+<span class="material-icons-outlined text-red-400">hub</span>
+</div>
+<div>
+<h3 class="font-semibold text-white">Generative Adversarial Networks</h3>
+<p class="text-sm text-gray-400">1h 45m</p>
+</div>
+</div>
+<p class="text-sm text-gray-400 mb-4">Understand GANs, a class of machine learning frameworks designed by Ian Goodfellow and his colleagues in 2014.</p>
+<button class="w-full text-center py-2 bg-white/10 hover:bg-white/20 rounded-lg text-sm font-medium transition-colors">View Module</button>
+</div>
+<div class="glass-card p-5 rounded-lg">
+<div class="flex items-center gap-4 mb-4">
+<div class="w-12 h-12 rounded-lg bg-yellow-400/20 flex items-center justify-center">
+<span class="material-icons-outlined text-yellow-400">model_training</span>
+</div>
+<div>
+<h3 class="font-semibold text-white">Reinforcement Learning</h3>
+<p class="text-sm text-gray-400">2h 30m</p>
+</div>
+</div>
+<p class="text-sm text-gray-400 mb-4">Learn about an area of machine learning concerned with how intelligent agents ought to take actions in an environment.</p>
+<button class="w-full text-center py-2 bg-white/10 hover:bg-white/20 rounded-lg text-sm font-medium transition-colors">View Module</button>
+</div>
+<div class="glass-card p-5 rounded-lg">
+<div class="flex items-center gap-4 mb-4">
+<div class="w-12 h-12 rounded-lg bg-indigo-400/20 flex items-center justify-center">
+<span class="material-icons-outlined text-indigo-400">auto_awesome</span>
+</div>
+<div>
+<h3 class="font-semibold text-white">Autoencoders</h3>
+<p class="text-sm text-gray-400">1h 00m</p>
+</div>
+</div>
+<p class="text-sm text-gray-400 mb-4">Discover autoencoders, a type of artificial neural network used to learn efficient data codings in an unsupervised manner.</p>
+<button class="w-full text-center py-2 bg-white/10 hover:bg-white/20 rounded-lg text-sm font-medium transition-colors">View Module</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+
+</body></html>

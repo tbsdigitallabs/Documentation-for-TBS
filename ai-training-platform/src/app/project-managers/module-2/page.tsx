@@ -22,7 +22,7 @@ export default function ProjectManagersModule2Page() {
                     <div className="flex items-center justify-between">
                         <span className="text-sm text-gray-500 dark:text-gray-400">⏱️ 10 minutes</span>
                         <Link href="/project-managers/module-2/lesson-1">
-                            <button className="bg-accent-blue text-white px-4 py-2 rounded-md hover:bg-accent-blue/90">
+                            <button className="bg-accent-project-managers text-white px-4 py-2 rounded-md hover:bg-accent-project-managers-90">
                                 Start Lesson
                             </button>
                         </Link>

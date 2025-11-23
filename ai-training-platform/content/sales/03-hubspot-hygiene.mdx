@@ -1,74 +1,383 @@
+---
+title: "HubSpot Hygiene & Data Entry"
+description: "Learn to eliminate manual data entry, enrich contact records automatically, and keep your CRM clean using AI."
+estimatedTime: "40 minutes"
+difficulty: "Intermediate"
+questions:
+  - id: "q1"
+    question: "Why is clean CRM data important?"
+    options:
+      - "It looks nice"
+      - "Dirty data kills deals and makes it hard to sell effectively"
+      - "It's required by law"
+      - "It makes the CRM faster"
+    correctAnswer: 1
+  - id: "q2"
+    question: "What is the best way to handle business card data entry?"
+    options:
+      - "Type everything manually"
+      - "Use AI to scan and extract information automatically"
+      - "Ignore business cards"
+      - "Throw them away"
+    correctAnswer: 1
+  - id: "q3"
+    question: "What does email sentiment analysis help with?"
+    options:
+      - "Writing emails"
+      - "Prioritising which leads to call based on their buying intent"
+      - "Deleting emails"
+      - "Nothing"
+    correctAnswer: 1
+---
+
 # HubSpot Hygiene & Data Entry
+
+Welcome back! If you've ever heard "If it's not in HubSpot, it didn't happen," you know how important CRM data is. But keeping that data clean and useful? That's the challenge.
+
+**This module will teach you:** How to eliminate manual data entry, enrich contact records automatically, and use AI to keep your pipeline clean without spending your Friday afternoons on it.
+
+![HubSpot Hygiene](/images/hubspot-hygiene.jpg)
+*'CRM Data: Critical for sales, but always messy. AI: I can help you keep it clean. You: Finally, a system that actually works!'*
 
 ## Learning Objectives
 
-By the end of this module, you will be able to:
+By the end of this module, you'll be able to:
 
 - Eliminate manual data entry from your sales workflow
 - Enrich contact records automatically using AI
 - Use sentiment analysis to prioritise your follow-ups
-- Keep your pipeline clean without spending Friday afternoon on it
-
-## "If it's not in HubSpot, it didn't happen."
-
-We all hate hearing that.
-But dirty data kills deals.
-The solution isn't discipline. It's automation.
-
-### 1. The Business Card Scanner
-Stop typing names.
-Use the HubSpot Mobile App (or a dedicated AI scanner).
-**Workflow**:
-1.  Scan card.
-2.  AI extracts Name, Title, Company, Email.
-3.  **Enrichment**: Zapier triggers a lookup (Clearbit/Apollo) to add Company Size, Industry, and Location.
-
-### 2. Email Sentiment Analysis
-You have 50 open deals. Who do you call?
-AI analyses the last email from each prospect.
-**Prompt**:
-> "Read the last email from these 10 leads.
-> Score their 'Buying Intent' from 1-10.
-> Flag any objections (e.g., 'Budget', 'Timing').
-> Suggest the top 3 to call today."
-
-### 3. The "Stalled Deal" Wake-Up
-Deals rot in the "Proposal Sent" stage.
-**Automation**:
-If a deal sits in "Proposal" for > 14 days with no activity:
-1.  AI drafts a "check-in" email (referencing the specific proposal details).
-2.  Task is created for the rep: "Review and Send Wake-Up Email".
-
-## Practical Exercise: The Pipeline Purge
-
-### Task
-1.  **Audit**: Look at your "Closed Lost" reasons for the last quarter.
-2.  **Analyse**: Ask AI "What is the most common reason we lose deals? Is there a pattern in the company size or industry?"
-3.  **Clean**: Use an AI tool to identify duplicate contacts and merge them.
-
-### Questions to Consider
--   Did the analysis reveal a weakness in your pitch?
--   How many duplicates did you find?
--   Did the "Wake-Up" email draft sound human?
-
-## Next Steps
-
-Your data is clean. Now let's report on it.
-Next up: **Automated Reporting & Forecasting**.
-
-## Resources
-
--   [HubSpot AI Tools](https://www.hubspot.com/products/artificial-intelligence)
--   [Zapier Data Enrichment Guide](https://zapier.com/blog/data-enrichment/)
--   [TBS Sales Process](https://tbs.digital/sales) (Internal Link)
+- Keep your pipeline clean without spending hours on it
+- Automate CRM maintenance tasks
 
 ---
 
-**Module Completion**: Mark this module as complete when you've:
-- [ ] Read through all content
-- [ ] Enriched 5 contacts using automation
-- [ ] Set up a "Stalled Deal" alert
+## "If It's Not in HubSpot, It Didn't Happen" (Why Data Matters)
 
-**Estimated Time**: 40 minutes
-**Difficulty**: Intermediate
-**Prerequisites**: Lead Generation Systems
+Let's be honest about CRM data:
+
+**The reality:**
+- We all hate hearing "If it's not in HubSpot, it didn't happen"
+- But dirty data kills deals
+- Missing information means missed opportunities
+- Inconsistent data makes reporting useless
+
+**The problem:**
+- Manual data entry is tedious
+- People forget to update records
+- Data gets outdated quickly
+- Pipeline becomes a mess
+
+**The solution:**
+The solution isn't discipline. It's automation. Let AI handle the boring data entry so you can focus on selling.
+
+![Data Matters](/images/data-matters.jpg)
+*'Dirty Data: Missing info, outdated records, duplicates. Result: Lost deals. Clean Data: Complete, accurate, up-to-date. Result: Better sales. AI: I can help you keep it clean!'*
+
+---
+
+## Technique 1: The Business Card Scanner (Stop Typing Names)
+
+Stop manually typing information from business cards. Let AI do it!
+
+### The Old Way (Why It's Painful)
+
+**Traditional approach:**
+1. Get a business card
+2. Open HubSpot
+3. Type name, title, company, email, phone
+4. Repeat for every card
+5. Takes forever
+6. Easy to make mistakes
+
+**Time:** 5 minutes per card × 20 cards = 100 minutes wasted!
+
+### The New Way (Automated)
+
+**Step 1:** Scan the card
+
+**Tools:**
+- HubSpot Mobile App (has built-in scanner)
+- Dedicated AI scanner apps
+- Camera + AI extraction
+
+**Step 2:** AI extracts information
+
+**What AI does:**
+- Reads the card
+- Extracts: Name, Title, Company, Email, Phone
+- Formats it correctly
+- Ready to import
+
+**Step 3:** Automatic enrichment
+
+**Workflow:**
+1. AI extracts basic info
+2. Zapier/Make triggers enrichment
+3. Looks up: Company Size, Industry, Location (using Clearbit/Apollo)
+4. Adds all data to HubSpot automatically
+
+**Time:** 30 seconds per card × 20 cards = 10 minutes total!
+
+**Time saved:** 90 minutes!
+
+![Business Card Scanner](/images/business-card-scanner.jpg)
+*'Old Way: Type everything manually. New Way: Scan, AI extracts, auto-enriches. Time: 30 seconds vs 5 minutes. You: This is the future!'*
+
+---
+
+## Technique 2: Email Sentiment Analysis (Who to Call First)
+
+You have 50 open deals. Who do you call? AI can help you prioritise.
+
+### The Problem
+
+**The situation:**
+- 50 deals in your pipeline
+- Not enough time to call everyone
+- Need to prioritise
+- Hard to know who's hot and who's not
+
+**The solution:**
+Use AI to analyse email sentiment and identify buying intent.
+
+### How It Works
+
+**Step 1:** Export recent emails from your deals
+
+**Step 2:** Ask AI:
+> "Read the last email from these 10 leads. Score their 'Buying Intent' from 1-10. Flag any objections (e.g., 'Budget', 'Timing'). Suggest the top 3 to call today."
+
+**What you get:**
+- Buying intent scores
+- Identified objections
+- Prioritised call list
+- Focus on hot leads
+
+**Example output:**
+> "**Top 3 to Call Today:**
+> 1. Sarah at Acme Corp (Intent: 9/10) - Said 'ready to move forward'
+> 2. Mike at TechCo (Intent: 8/10) - Asked about implementation timeline
+> 3. Lisa at StartupX (Intent: 7/10) - Mentioned budget approval
+> 
+> **Objections Found:**
+> - Budget: 3 leads
+> - Timing: 2 leads
+> - Need more info: 5 leads"
+
+**See?** Now you know exactly who to call!
+
+![Sentiment Analysis](/images/sentiment-analysis.jpg)
+*'50 Deals: *all seem important* AI Analysis: *prioritises* You: Now I know who to call first. Result: Better use of time, higher close rates!'*
+
+---
+
+## Technique 3: The "Stalled Deal" Wake-Up (Automating Follow-Ups)
+
+Deals rot in the "Proposal Sent" stage. Automate wake-up calls!
+
+### The Problem
+
+**Common scenario:**
+- Deal sits in "Proposal Sent" for 14+ days
+- No activity
+- You forget to follow up
+- Deal goes cold
+- Opportunity lost
+
+**The solution:**
+Automate wake-up emails for stalled deals.
+
+### How to Set It Up
+
+**Automation rule:**
+- **Trigger:** Deal in "Proposal Sent" stage for > 14 days with no activity
+- **Action:** AI drafts a "check-in" email
+
+**The AI prompt:**
+> "Draft a check-in email for [Deal Name]. Reference the specific proposal we sent on [Date]. Mention [specific details from proposal]. Keep it friendly, not pushy. Ask if they have questions or need anything."
+
+**What you get:**
+- Personalised follow-up email
+- References specific proposal
+- Natural, not robotic
+- Task created for you to review and send
+
+**Result:**
+- Stalled deals get attention
+- No deals fall through cracks
+- Automated, but still personal
+- Saves time
+
+![Stalled Deal Wake-Up](/images/stalled-deal.jpg)
+*'Stalled Deal: *sits for 14 days* Automation: *drafts wake-up email* You: *reviews and sends* Deal: *comes back to life* You: Automation that actually works!'*
+
+---
+
+## Your Practice Exercise: The Pipeline Purge
+
+Ready to clean up your pipeline? Let's do it!
+
+### The Challenge
+
+Clean up your HubSpot pipeline using AI to identify issues and opportunities.
+
+### Step 1: Audit Closed Lost Reasons (15 minutes)
+
+**What to do:**
+1. Export your "Closed Lost" deals from the last quarter
+2. List the reasons they gave
+
+**Ask AI:**
+> "Analyse these closed-lost reasons: [list reasons]. What is the most common reason we lose deals? Is there a pattern in the company size or industry? What should we focus on to improve?"
+
+**What you get:**
+- Understanding of why you lose deals
+- Patterns you might have missed
+- Actionable insights
+- Areas to improve
+
+### Step 2: Analyse Patterns (10 minutes)
+
+**Ask AI:**
+> "Based on the closed-lost data, is there a pattern? Do we lose more deals from certain industries? Company sizes? What does this tell us about our ideal customer?"
+
+**What you get:**
+- Pattern recognition
+- Better understanding of your ICP
+- Data to refine your targeting
+- Strategic insights
+
+### Step 3: Clean Duplicates (10 minutes)
+
+**What to do:**
+1. Export your contacts
+2. Ask AI to identify duplicates
+
+**Or use HubSpot's built-in duplicate finder**, but AI can help you decide which records to keep:
+
+> "These contacts appear to be duplicates: [list]. Which record has the most complete information? Which should we keep as the primary?"
+
+**What you get:**
+- Clean contact list
+- No duplicate confusion
+- Better data quality
+- More accurate reporting
+
+### Step 4: Set Up Automation (5 minutes)
+
+**What to do:**
+Draft the logic for a "Stalled Deal" automation:
+- When: Deal in "Proposal Sent" > 14 days, no activity
+- Action: AI drafts check-in email
+- Result: Task for you to review and send
+
+**Even if you don't set it up now**, you have the plan!
+
+### Questions to Reflect On
+
+- Did the analysis reveal a weakness in your pitch?
+- How many duplicates did you find?
+- Did the "Wake-Up" email draft sound human?
+- How much time would automation save you?
+
+![Pipeline Purge](/images/pipeline-purge.jpg)
+*'Messy Pipeline: *exists* AI Analysis: *finds issues* Clean Pipeline: *organised* You: Finally, data I can actually use!'*
+
+---
+
+## Automating Data Enrichment (Complete Records Automatically)
+
+Don't manually research every contact. Let AI enrich them automatically.
+
+### How It Works
+
+**Step 1:** New contact added to HubSpot
+
+**Step 2:** Automation triggers:
+- Look up company information
+- Add: Industry, Company Size, Location, Tech Stack
+- Enrich contact: Social profiles, recent news
+
+**Step 3:** AI summarises the enrichment:
+> "Summarise this company: [enrichment data]. What are their likely pain points? What's their growth trajectory? What should our sales team know?"
+
+**What you get:**
+- Complete contact records
+- Company insights
+- Sales intelligence
+- Ready for personalised outreach
+
+**All automatic!** No manual research needed.
+
+![Data Enrichment](/images/data-enrichment.jpg)
+*'New Contact: *basic info only* Auto-Enrichment: *adds company data* Complete Record: *ready for sales* You: No manual research needed!'*
+
+---
+
+## Common Mistakes (And How to Avoid Them)
+
+### Mistake #1: Not Enriching Contacts
+
+**The problem:** Incomplete contact records
+
+**The solution:** Set up automatic enrichment. Let AI add company data, industry, size, etc.
+
+### Mistake #2: Ignoring Stalled Deals
+
+**The problem:** Deals sit in pipeline forever
+
+**The solution:** Automate wake-up emails. Use AI to draft personalised follow-ups.
+
+### Mistake #3: Not Analysing Lost Deals
+
+**The problem:** Repeating the same mistakes
+
+**The solution:** Use AI to analyse closed-lost reasons. Find patterns. Improve your approach.
+
+### Mistake #4: Manual Data Entry
+
+**The problem:** Wasting time typing information
+
+**The solution:** Automate everything possible. Use scanners, enrichment, AI extraction.
+
+![Common Mistakes](/images/common-mistakes-hubspot.jpg)
+*'Mistake: Manual data entry, ignoring stalled deals. Result: Wasted time, lost opportunities. Solution: Automate with AI. Result: Clean data, active pipeline!'*
+
+---
+
+## Next Steps
+
+You've learned to keep your CRM clean! Here's what's next:
+
+1. **Automated Reporting**: Learn to generate reports and forecasts automatically
+
+**Remember:** Clean CRM data is the foundation of good sales. Automation makes it possible without the pain!
+
+---
+
+## Resources
+
+- [HubSpot AI Tools](https://www.hubspot.com/products/artificial-intelligence) - Official HubSpot AI features
+- [Zapier Data Enrichment Guide](https://zapier.com/blog/data-enrichment/) - Learn to automate enrichment
+- [TBS Sales Process](https://tbs.digital/sales) - Internal sales processes and guidelines
+
+---
+
+## Module Checklist
+
+Before moving on:
+
+- [ ] Read through all the content
+- [ ] Enriched at least 5 contacts using automation (or planned how to)
+- [ ] Set up (or drafted) a "Stalled Deal" alert
+- [ ] Analysed closed-lost reasons
+- [ ] Cleaned up duplicate contacts
+
+**Estimated Time:** 40 minutes (longer if you're doing the exercises)
+
+**Difficulty:** Intermediate (but we've broken it down into simple steps!)
+
+**Feeling confident?** Move on to Automated Reporting!
+**Still working on it?** That's fine! CRM hygiene takes time to set up. Keep automating tasks.
+
+**You're building efficient sales systems!** 📊✨

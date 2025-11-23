@@ -22,7 +22,7 @@ export default function SalesBusinessDevModule2Page() {
                     <div className="flex items-center justify-between">
                         <span className="text-sm text-gray-500 dark:text-gray-400">⏱️ 15 minutes</span>
                         <Link href="/sales-business-dev/module-2/lesson-1">
-                            <button className="bg-accent-blue text-white px-4 py-2 rounded-md hover:bg-accent-blue/90">
+                            <button className="bg-accent-sales-business text-white px-4 py-2 rounded-md hover:bg-accent-sales-business-90">
                                 Start Lesson
                             </button>
                         </Link>

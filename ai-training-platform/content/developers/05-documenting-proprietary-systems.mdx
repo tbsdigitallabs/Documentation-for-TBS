@@ -1,76 +1,412 @@
+---
+title: "Documenting Proprietary Systems"
+description: "Learn to automatically generate documentation for internal tools and systems, preventing the 'bus factor' problem."
+estimatedTime: "45 minutes"
+difficulty: "Intermediate"
+questions:
+  - id: "q1"
+    question: "Why is documentation critical for proprietary systems?"
+    options:
+      - "It looks nice"
+      - "It prevents the 'Bus Factor' problem—if you leave, others can still use the system"
+      - "It makes the code run faster"
+      - "It is required by law"
+    correctAnswer: 1
+  - id: "q2"
+    question: "What is the recommended workflow for creating documentation?"
+    options:
+      - "Write it all manually from scratch"
+      - "Copy paste from Stack Overflow"
+      - "Use AI to generate READMEs and guides from code, then review and refine"
+      - "Hire a technical writer"
+    correctAnswer: 2
+  - id: "q3"
+    question: "Which tool is suggested for generating architectural diagrams?"
+    options:
+      - "Microsoft Paint"
+      - "Mermaid.js"
+      - "Adobe Photoshop"
+      - "Hand drawing"
+    correctAnswer: 1
+---
+
 # Documenting Proprietary Systems
+
+Welcome to the final developer module! This one is about something every developer hates doing but everyone needs: **documentation**.
+
+**Here's the truth:** You built an amazing internal tool. It works perfectly. But if you get hit by a bus (or just take a holiday), nobody knows how it works. Documentation prevents this 'bus factor' problem.
+
+**The good news:** AI can write most of the documentation for you. You just need to review and refine it.
+
+![Documentation](https://via.placeholder.com/800x600/02022B/D56EED?text=Image)
+*'You: I should document this. Also you: But I don't have time. AI: I'll write it, you just review it. You: Deal!'*
 
 ## Learning Objectives
 
-By the end of this module, you will be able to:
+By the end of this module, you'll be able to:
 
-- Generate "How-to" guides for internal tools (like this one) automatically
+- Generate 'How-to' guides for internal tools automatically
 - Keep documentation in sync with code changes using AI
 - Create architectural diagrams from codebases
-- Onboard new developers to your proprietary systems in half the time
-
-## The "Bus Factor" Problem
-
-You built a custom internal tool. It's great.
-But if you get hit by a bus, nobody knows how it works.
-Proprietary systems *die* without documentation.
-
-### 1. Code-to-Docs Pipeline
-Don't write the README manually.
-**Workflow**:
-1.  Select the core logic files.
-2.  **Prompt**: "Read this code. Write a `README.md` that explains:
-    - What this tool does.
-    - How to install it.
-    - The main architecture.
-    - Common troubleshooting steps."
-
-### 2. The "User Guide" Generator
-Developers write docs for developers. Users hate them.
-**Prompt**:
-> "I am a Project Manager, not a coder.
-> Read this technical documentation.
-> Rewrite it as a 'User Guide' for me.
-> Focus on *how to use it*, not *how it works*.
-> Use screenshots (placeholders) and step-by-step lists."
-
-### 3. Architectural Diagrams
-Paste your folder structure or core class definitions.
-**Prompt**:
-> "Generate a Mermaid.js diagram that visualises the data flow of this application.
-> Show how the Frontend talks to the API and the Database."
-
-## Practical Exercise: The Legacy Tool
-
-### Task
-Choose a script or tool you wrote 6 months ago.
-1.  **Diagram**: Generate a Mermaid chart of how it works.
-2.  **Guide**: Generate a "Quick Start" guide for a new hire.
-3.  **FAQ**: Generate 5 "Frequently Asked Questions" based on the code's complexity.
-
-### Questions to Consider
--   Did the AI understand your code better than you remembered it?
--   Is the User Guide actually usable?
--   How easy is it to update this when the code changes?
-
-## Next Steps
-
-You've mastered the Developer Admin track.
-Your code is clean, tested, and documented.
-
-## Resources
-
--   [Mermaid.js Live Editor](https://mermaid.live/)
--   [Diataxis Framework](https://diataxis.fr/) (A framework for documentation)
--   [TBS Documentation Standards](https://tbs.digital/docs) (Internal Link)
+- Onboard new developers to proprietary systems quickly
+- Understand why documentation doesn't have to be painful
 
 ---
 
-**Module Completion**: Mark this module as complete when you've:
-- [ ] Read through all content
-- [ ] Generated a README for an internal tool
-- [ ] Created a Mermaid architecture diagram
+## The "Bus Factor" Problem (Why Documentation Matters)
 
-**Estimated Time**: 50 minutes
-**Difficulty**: Intermediate
-**Prerequisites**: Refactoring & Legacy Code
+Let's talk about a real problem in software development.
+
+### What is the Bus Factor?
+
+**The Bus Factor** = The number of people who need to get hit by a bus before your project is in trouble.
+
+**Example:**
+- You built a custom internal tool
+- It's great and everyone uses it
+- But you're the only one who knows how it works
+- Bus Factor = 1 (if you leave, the tool dies)
+
+**The problem:**
+- You go on holiday → Tool breaks → Nobody can fix it
+- You leave the company → Tool becomes unusable
+- You get sick → Project is blocked
+
+**The solution:**
+Good documentation means other people can understand and maintain your tools.
+
+![Bus Factor](https://via.placeholder.com/800x600/02022B/D56EED?text=Image)
+*'The Bus Factor: How many people need to disappear before your project dies? Documentation: Makes that number higher.'*
+
+### Why Proprietary Systems Need Documentation Most
+
+**Proprietary systems** = Custom tools built specifically for your company. They're not like commercial software with public documentation.
+
+**Why they're vulnerable:**
+- No public documentation exists
+- Only a few people understand them
+- They're often built quickly without docs
+- When the builder leaves, knowledge leaves with them
+
+**The reality:**
+Proprietary systems *die* without documentation. They become 'black boxes' that nobody dares to touch.
+
+---
+
+## Technique 1: Code-to-Docs Pipeline (Automatic READMEs)
+
+Don't write README files manually. Let AI do it!
+
+### The Old Way (Why It's Painful)
+
+**Traditional approach:**
+- Write README from scratch
+- Try to remember what the code does
+- Forget important details
+- Documentation gets outdated quickly
+- Nobody reads it anyway
+
+**The problem:** Writing docs is boring, and they get outdated fast.
+
+### The New Way (Using AI)
+
+**Step 1:** Select the core logic files from your tool
+
+**Step 2:** Ask AI:
+> "Read this code. Write a `README.md` that explains:
+> - What this tool does
+> - How to install it
+> - The main architecture
+> - Common troubleshooting steps
+> - How to contribute or modify it"
+
+**Step 3:** Review the generated README
+- Is it accurate?
+- Does it cover everything?
+- Is it clear for someone new?
+
+**Step 4:** Refine it
+- Add screenshots if needed
+- Add examples
+- Update any sections that aren't clear
+
+**What this saves:** Hours of writing, and the docs are based on actual code (so they're more accurate!)
+
+![Code to Docs](https://via.placeholder.com/800x600/02022B/D56EED?text=Image)
+*'Code: *exists* AI: I'll document that for you. README: *appears* You: That was fast. Also you: And it's actually accurate!'*
+
+### Example: Documenting a Data Processing Tool
+
+**Your code:** A Python script that processes CSV files and generates reports
+
+**AI-generated README:**
+```markdown
+# Data Processing Tool
+
+## What It Does
+
+This tool processes CSV files containing sales data and generates monthly reports with statistics and visualisations.
+
+## Installation
+
+1. Install Python 3.8+
+2. Install dependencies: `pip install -r requirements.txt`
+3. Configure settings in `config.json`
+
+## Architecture
+
+- `main.py`: Entry point, handles file processing
+- `processors.py`: Contains data processing logic
+- `reporters.py`: Generates report outputs
+- `utils.py`: Helper functions
+
+## Usage
+
+```bash
+python main.py input.csv output/
+```
+
+## Troubleshooting
+
+- **Error: File not found**: Check file path is correct
+- **Error: Invalid CSV format**: Ensure CSV has required columns
+- **Slow performance**: Large files may take several minutes
+```
+
+**See?** AI wrote a complete README based on your code!
+
+---
+
+## Technique 2: The "User Guide" Generator (For Non-Developers)
+
+Developers write documentation for developers. But what if your users aren't developers?
+
+### The Problem
+
+**Technical documentation:**
+- Full of jargon
+- Assumes programming knowledge
+- Focuses on 'how it works' not 'how to use it'
+- Scares non-technical users
+
+**User guides:**
+- Written in plain English
+- Focus on 'how to use it'
+- Step-by-step instructions
+- Screenshots and examples
+
+### How AI Helps
+
+**Step 1:** Get your technical documentation (or code)
+
+**Step 2:** Ask AI:
+> "I am a Project Manager, not a coder. Read this technical documentation. Rewrite it as a 'User Guide' for me. Focus on *how to use it*, not *how it works*. Use step-by-step lists and include placeholders for screenshots."
+
+**Step 3:** Review and add actual screenshots
+
+**What you get:** Documentation that non-technical team members can actually use!
+
+![User Guide](https://via.placeholder.com/800x600/02022B/D56EED?text=Image)
+*'Technical Docs: "The system utilises a RESTful API..." User Guide: "Click this button, then click that button. Done!" Users: Finally, something I understand!'*
+
+### Example: User Guide vs Technical Docs
+
+**Technical documentation:**
+> "The system exposes a REST API endpoint at `/api/users` that accepts POST requests with JSON payloads containing user data. Authentication is handled via JWT tokens in the Authorization header."
+
+**AI-generated user guide:**
+> "## How to Add a New User
+> 
+> 1. Log into the system (you'll need your username and password)
+> 2. Click the 'Users' button in the top menu
+> 3. Click 'Add New User' (green button on the right)
+> 4. Fill in the form:
+>    - Name: Enter the user's full name
+>    - Email: Enter their email address
+>    - Role: Select from the dropdown (Admin, User, or Viewer)
+> 5. Click 'Save'
+> 6. You'll see a success message confirming the user was added
+> 
+> **Troubleshooting:** If you get an error, make sure the email isn't already in use."
+
+**Much better for non-technical users!**
+
+---
+
+## Technique 3: Architectural Diagrams (Visualising Your System)
+
+Sometimes you need to see how everything fits together. Diagrams help!
+
+### Why Diagrams Matter
+
+**Text documentation:**
+- "The frontend sends requests to the API, which queries the database..."
+- Hard to visualise
+- Easy to get lost in details
+
+**Diagrams:**
+- Visual representation
+- Easy to understand at a glance
+- Shows relationships clearly
+
+### How to Generate Diagrams with AI
+
+**Step 1:** Paste your folder structure or core class definitions
+
+**Step 2:** Ask AI:
+> "Generate a Mermaid.js diagram that visualises the data flow of this application. Show how the Frontend talks to the API and the Database. Include the main components."
+
+**Step 3:** Copy the Mermaid code into [Mermaid Live Editor](https://mermaid.live/) to see the diagram
+
+**Step 4:** Add it to your documentation!
+
+### Example: System Architecture Diagram
+
+**AI-generated Mermaid code:**
+```mermaid
+graph TD
+    A[Frontend] -->|HTTP Requests| B[API Server]
+    B -->|Queries| C[Database]
+    B -->|Calls| D[External Service]
+    E[Admin Panel] -->|Manages| B
+    B -->|Sends| F[Email Service]
+```
+
+**This shows:** How all the pieces connect. Much clearer than paragraphs of text!
+
+![Architecture Diagram](https://via.placeholder.com/800x600/02022B/D56EED?text=Image)
+*'Before: "The system has a frontend and backend and database and..." After: *beautiful diagram* Everyone: Oh! Now I get it!'*
+
+---
+
+## Your Practice Exercise: Document a Legacy Tool
+
+Ready to document something? Let's practice on a real tool (or make one up).
+
+### Step 1: Choose Your Tool
+
+Pick a script or tool you wrote (or find one in your codebase):
+- A data processing script
+- An internal dashboard
+- A deployment tool
+- A reporting system
+
+**Don't have one?** That's okay! Use this example: A script that backs up files to cloud storage.
+
+### Step 2: Generate a Diagram
+
+**Ask AI:**
+> "Generate a Mermaid.js diagram showing how this tool works. Include the main steps and data flow."
+
+**Copy the code** into Mermaid Live Editor to see your diagram!
+
+### Step 3: Generate a Quick Start Guide
+
+**Ask AI:**
+> "Read this code/tool. Write a 'Quick Start Guide' for a new team member. Include:
+> - What it does (one sentence)
+> - How to set it up (step-by-step)
+> - How to use it (basic usage)
+> - Common issues and how to fix them"
+
+### Step 4: Generate an FAQ
+
+**Ask AI:**
+> "Based on this code's complexity, generate 5 'Frequently Asked Questions' that new users might have. Include the answers."
+
+**Example questions AI might generate:**
+- "What happens if the tool fails mid-process?"
+- "Can I run this on multiple files at once?"
+- "How do I change the output location?"
+- "What file formats are supported?"
+- "How long does it usually take to run?"
+
+### Step 5: Create a User Guide
+
+**Ask AI:**
+> "Rewrite this technical documentation as a user guide for non-technical team members. Use simple language and step-by-step instructions."
+
+### Questions to Reflect On
+
+- Did AI understand your code better than you remembered it?
+- Is the User Guide actually usable by non-developers?
+- How easy would it be to update this documentation when the code changes?
+- Would a new team member be able to use your tool with this documentation?
+
+![Documentation Complete](https://via.placeholder.com/800x600/02022B/D56EED?text=Image)
+*'Before: Undocumented tool that only you understand. After: Complete documentation that anyone can use. Your team: Thank you!'*
+
+---
+
+## Keeping Documentation Updated (The Ongoing Challenge)
+
+Documentation gets outdated. Here's how to keep it fresh.
+
+### The Problem
+
+- Code changes
+- Documentation doesn't
+- Soon they don't match
+- Documentation becomes useless
+
+### The Solution: Update with AI
+
+**When code changes:**
+1. Show AI the updated code
+2. Ask: "Update this README to match the current code. Highlight what changed."
+3. Review and merge
+
+**Regular maintenance:**
+- Set a reminder to review docs quarterly
+- Use AI to check if docs match code
+- Update diagrams when architecture changes
+
+**Pro tip:** Some teams include 'update docs' as part of their code review process!
+
+![Updating Docs](https://via.placeholder.com/800x600/02022B/D56EED?text=Image)
+*'Code: *changes* Documentation: *stays the same* Reality: They don't match anymore. Solution: AI, update the docs! AI: Done!'*
+
+---
+
+## Next Steps
+
+Congratulations! You've completed the entire Developer Track! 🎉
+
+You've learned:
+1. ✅ AI fundamentals for developers
+2. ✅ Building automated research tools
+3. ✅ Testing efficiently with AI
+4. ✅ Refactoring legacy code
+5. ✅ Documenting proprietary systems
+
+**Your code is now:** Clean, tested, documented, and maintainable. That's impressive!
+
+**What's next?** Keep practising these skills. The more you use them, the more natural they become. You're now equipped to work efficiently with AI as your coding assistant!
+
+---
+
+## Resources
+
+- [Mermaid.js Live Editor](https://mermaid.live/) - Create diagrams easily
+- [Diataxis Framework](https://diataxis.fr/) - A framework for documentation structure
+- [TBS Documentation Standards](https://tbs.digital/docs) - Internal documentation guidelines
+
+---
+
+## Module Checklist
+
+Before completing the Developer Track:
+
+- [ ] Read through all the content
+- [ ] Generated documentation for at least one tool
+- [ ] Created an architectural diagram
+- [ ] Written a user guide for non-technical users
+- [ ] Understood the importance of keeping docs updated
+
+**Estimated Time:** 45 minutes (longer if you're doing the exercises)
+
+**Difficulty:** Intermediate (but we've made it simple!)
+
+**You've Mastered the Developer Track!** 🚀🎓
+
+**Remember:** Good documentation is a gift to your future self (and your team). You'll thank yourself later!

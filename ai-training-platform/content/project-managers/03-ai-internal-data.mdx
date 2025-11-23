@@ -1,83 +1,430 @@
+---
+title: "Using AI to Analyse Internal Data Sources"
+description: "Learn to securely analyse your company's internal data using AI—extract insights from emails, meeting notes, and spreadsheets."
+estimatedTime: "50 minutes"
+difficulty: "Advanced"
+questions:
+  - id: "q1"
+    question: "What should you always do before uploading data to AI tools?"
+    options:
+      - "Upload immediately"
+      - "Anonymise personal information and check privacy policies"
+      - "Delete everything"
+      - "Share with everyone"
+    correctAnswer: 1
+  - id: "q2"
+    question: "What is the main advantage of using AI to analyse internal data?"
+    options:
+      - "AI is always 100% accurate"
+      - "You can 'chat' with your data without needing to be a SQL expert"
+      - "You don't need to understand the data"
+      - "AI replaces all analysis"
+    correctAnswer: 1
+  - id: "q3"
+    question: "What should you check before uploading client data to AI?"
+    options:
+      - "The file size"
+      - "Whether the client NDA allows third-party processing"
+      - "The file format"
+      - "The file name"
+    correctAnswer: 1
+---
+
 # Using AI to Analyse Internal Data Sources
+
+Welcome back! You've learned to research external information. Now let's talk about the data you already have—the hidden goldmine sitting in your company's files, emails, and databases.
+
+**This module will teach you:** How to securely analyse internal data using AI, extract insights from unstructured information, and understand the privacy boundaries when working with client data.
+
+![Internal Data](https://via.placeholder.com/800x600/02022B/D56EED?text=Image)
+*'Your Company: We have all this data but don't know what to do with it. AI: I can help you understand it. You: Finally, someone who speaks data!'*
 
 ## Learning Objectives
 
-By the end of this module, you will be able to:
+By the end of this module, you'll be able to:
 
 - Securely upload and query internal datasets using AI
 - Extract insights from unstructured data (emails, meeting notes, PDFs)
 - Clean and format messy CSVs for analysis
-- Understand the privacy boundaries when using client data
-
-## The Hidden Goldmine
-
-Most organisations sit on a mountain of data they never use.
-- **Sales Logs**: Who bought what and when?
-- **Customer Support Tickets**: What are people complaining about?
-- **Meeting Transcripts**: What did we actually agree to?
-
-AI allows us to "chat" with this data without needing to be a SQL expert.
-
-## Security First
-
-Before you upload anything:
-1.  **Anonymise**: Remove PII (Names, Emails, Phone Numbers) unless the tool is enterprise-grade and approved (e.g., TBS Enterprise ChatGPT).
-2.  **Check Policy**: Does the client NDA allow third-party processing?
-3.  **Opt-Out**: Ensure your data isn't being used to train the public model.
-
-## Techniques for Analysis
-
-### 1. The "Interrogator" Method
-Upload a large PDF (e.g., an Annual Report).
-Ask:
-- "What are the top 3 risks mentioned in the CEO's letter?"
-- "Compare the financial outlook of 2024 vs 2023."
-- "List all mentions of 'AI' or 'Automation'."
-
-### 2. The "Data Cleaner" Method
-Upload a messy CSV where columns are misaligned or dates are in different formats.
-Prompt:
-> "This dataset is messy. Please standardise the date format to YYYY-MM-DD, remove any rows with missing email addresses, and output the clean version as a CSV code block."
-
-### 3. The "Sentiment Analyst" Method
-Upload a text file of customer reviews.
-Prompt:
-> "Analyse the sentiment of these reviews. Group them into 5 categories of complaints. Provide a quote for each category and suggest a strategic fix."
-
-## Practical Exercise: The Data Dive
-
-### Task
-Find a public dataset (e.g., from Kaggle or a government website) or use a sanitised internal file.
-Upload it to ChatGPT (Advanced Data Analysis) or Claude.
-
-Ask the AI to:
-1.  **Visualise**: Create a bar chart of the most common values.
-2.  **Correlate**: Find a relationship between two variables.
-3.  **Summarise**: Write a paragraph explaining the key finding to a CEO.
-
-### Questions to Consider
-- Did the AI hallucinate any patterns?
-- Was the visualisation accurate?
-- How would you present this to a client?
-
-## Next Steps
-
-Now that you have the insights, you need to put them to work.
-Next up: **Turning Strategy into Executable Workflows**.
-
-## Resources
-
-- [Kaggle Datasets](https://www.kaggle.com/datasets)
-- [TBS Data Privacy Guidelines](https://tbs.digital/privacy) (Internal Link)
-- [OpenAI Data Analysis Guide](https://platform.openai.com/docs/guides/data-analysis)
+- Understand privacy boundaries when using client data
+- Turn data into actionable insights
 
 ---
 
-**Module Completion**: Mark this module as complete when you've:
-- [ ] Read through all content
+## The Hidden Goldmine (Data You Already Have)
+
+Most organisations sit on a mountain of data they never use. Let's talk about what you might have:
+
+### Types of Internal Data
+
+**Sales Logs**
+- Who bought what and when?
+- What are the patterns?
+- Which products sell together?
+
+**Customer Support Tickets**
+- What are people complaining about?
+- What are the common issues?
+- How can we prevent problems?
+
+**Meeting Transcripts**
+- What did we actually agree to?
+- What decisions were made?
+- Who owns which action items?
+
+**Email Threads**
+- What are clients asking for?
+- What are the common themes?
+- What did we promise?
+
+**Project Files**
+- What worked in past projects?
+- What didn't work?
+- What can we learn?
+
+**The problem:** This data exists, but it's hard to analyse without technical skills.
+
+**The solution:** AI lets you 'chat' with your data without needing to be a SQL expert!
+
+![Hidden Data](https://via.placeholder.com/800x600/02022B/D56EED?text=Image)
+*'Your Company: We have all this data! Also Your Company: But we don't know what it means. AI: Let me help you understand it!'*
+
+---
+
+## Security First (This is Critical!)
+
+Before we dive into analysis, let's talk about security. This is **the most important part** of this module.
+
+### Rule #1: Anonymise Personal Information
+
+**What is PII?** Personally Identifiable Information:
+- Names
+- Email addresses
+- Phone numbers
+- Addresses
+- Any information that identifies a person
+
+**What to do:**
+- Remove PII before uploading to public AI tools
+- Replace names with "User 1", "User 2", etc.
+- Remove email addresses and phone numbers
+- Only use enterprise-grade tools (like TBS Enterprise ChatGPT) for sensitive data
+
+**Why it matters:**
+- Privacy laws (GDPR, Australian Privacy Act)
+- Client confidentiality
+- Ethical responsibility
+- Legal compliance
+
+![Security First](https://via.placeholder.com/800x600/02022B/D56EED?text=Image)
+*'Security: Always first. Privacy: Always important. AI: I can help, but only with safe data. You: Got it!'*
+
+### Rule #2: Check Client NDAs
+
+**Before uploading client data:**
+1. Read the client's NDA (Non-Disclosure Agreement)
+2. Does it allow third-party processing?
+3. Is the AI tool you're using approved?
+4. When in doubt, ask your legal team or manager
+
+**Safe approach:**
+- Use enterprise AI tools (approved by your company)
+- Anonymise data before uploading
+- Get approval for sensitive projects
+
+### Rule #3: Opt-Out of Training
+
+**Important:** Make sure your data isn't being used to train public AI models.
+
+**How to check:**
+- Look for 'Training Data' or 'Model Training' settings
+- Turn off data training/sharing
+- Use enterprise tools that don't train on your data
+
+**Why it matters:**
+- Your data could appear in responses to other users
+- Client confidentiality could be breached
+- Competitive information could leak
+
+![Privacy Settings](https://via.placeholder.com/800x600/02022B/D56EED?text=Image)
+*'AI Tool: Use your data to train our model? You: NO. Also You: *turns off training* Privacy: Protected!'*
+
+---
+
+## Technique 1: The "Interrogator" Method (Analysing Documents)
+
+This technique lets you ask questions about large documents.
+
+### When to Use This
+
+- Annual reports
+- Long strategy documents
+- Client briefs
+- Research papers
+- Any large PDF or document
+
+### How It Works
+
+**Step 1:** Upload the document to ChatGPT or Claude
+
+**Step 2:** Ask specific questions:
+
+> "What are the top 3 risks mentioned in the CEO's letter?"
+
+> "Compare the financial outlook of 2024 vs 2023."
+
+> "List all mentions of 'AI' or 'Automation' and summarise the context."
+
+**Step 3:** Get instant answers without reading the whole document!
+
+### Example: Analysing an Annual Report
+
+**The document:** 50-page annual report
+
+**Your questions:**
+1. "What are the main challenges the company faces?"
+2. "What are their growth strategies?"
+3. "How does this year compare to last year?"
+
+**Time saved:** Reading 50 pages = 2 hours. AI analysis = 5 minutes!
+
+![Document Analysis](https://via.placeholder.com/800x600/02022B/D56EED?text=Image)
+*'50-page document: *exists* You: I need to understand this. AI: Ask me anything. You: What are the key points? AI: *summarises in 30 seconds* You: This is magic!'*
+
+---
+
+## Technique 2: The "Data Cleaner" Method (Fixing Messy Data)
+
+Real-world data is messy. AI can clean it up!
+
+### The Problem with Real Data
+
+**Common issues:**
+- Dates in different formats (DD/MM/YYYY, MM-DD-YYYY, etc.)
+- Missing information
+- Misaligned columns
+- Inconsistent formatting
+- Duplicate entries
+
+**Manual cleaning:** Hours of tedious work
+
+**AI cleaning:** Minutes of work!
+
+### How to Clean Data with AI
+
+**Step 1:** Upload your messy CSV
+
+**Step 2:** Ask AI:
+> "This dataset is messy. Please:
+> - Standardise the date format to YYYY-MM-DD
+> - Remove any rows with missing email addresses
+> - Fix misaligned columns
+> - Remove duplicate entries
+> - Output the clean version as a CSV code block."
+
+**Step 3:** Copy the cleaned data and use it!
+
+### Example: Cleaning Customer Data
+
+**Messy data:**
+```
+Name,Email,Date
+John,john@email,15/01/2024
+Jane,,2024-02-20
+Bob,bob@email,20-03-2024
+John,john@email,15/01/2024  (duplicate)
+```
+
+**AI cleans it:**
+```
+Name,Email,Date
+John,john@email,2024-01-15
+Bob,bob@email,2024-03-20
+```
+
+**Clean, standardised, ready to use!**
+
+![Data Cleaning](https://via.placeholder.com/800x600/02022B/D56EED?text=Image)
+*'Messy Data: Dates in 5 formats, missing info, duplicates. AI: *cleans it* Clean Data: Perfect, standardised, ready to use. You: How did you do that so fast?!'*
+
+---
+
+## Technique 3: The "Sentiment Analyst" Method (Understanding Feelings)
+
+Want to know how customers really feel? Analyse their text!
+
+### When to Use This
+
+- Customer reviews
+- Support tickets
+- Feedback forms
+- Social media comments
+- Any text feedback
+
+### How It Works
+
+**Step 1:** Upload your text data (reviews, tickets, etc.)
+
+**Step 2:** Ask AI:
+> "Analyse the sentiment of these reviews. Group them into 5 categories of complaints. Provide a quote for each category and suggest a strategic fix."
+
+**What you get:**
+- Understanding of customer sentiment
+- Categorised issues
+- Real quotes from customers
+- Suggested solutions
+
+### Example: Analysing Customer Reviews
+
+**Your data:** 100 customer reviews
+
+**AI analysis:**
+> "Sentiment Analysis Results:
+> 
+> **Category 1: Slow Response Time (35 reviews)**
+> Quote: 'Took 3 days to get a response'
+> Fix: Implement automated responses and set response time targets
+> 
+> **Category 2: Product Quality Issues (28 reviews)**
+> Quote: 'Product broke after 2 weeks'
+> Fix: Review quality control processes
+> 
+> **Category 3: Shipping Problems (20 reviews)**
+> Quote: 'Package arrived damaged'
+> Fix: Improve packaging and shipping partners
+> 
+> ...and so on"
+
+**See?** Actionable insights from raw text!
+
+![Sentiment Analysis](https://via.placeholder.com/800x600/02022B/D56EED?text=Image)
+*'100 Reviews: *exist* You: What do customers think? AI: *analyses sentiment* You: 35% complain about response time. Also you: We should fix that!'*
+
+---
+
+## Your Practice Exercise: The Data Dive
+
+Ready to analyse some data? Let's do it!
+
+### Step 1: Find Your Data
+
+**Options:**
+- Use a public dataset from [Kaggle](https://www.kaggle.com/datasets)
+- Use a sanitised internal file (with PII removed!)
+- Create a sample dataset for practice
+
+**Don't have data?** That's okay! Use this example: A CSV of customer orders with dates, products, and amounts.
+
+### Step 2: Upload to AI
+
+**Tools to use:**
+- ChatGPT (Advanced Data Analysis feature)
+- Claude (can handle file uploads)
+- Enterprise AI tools (if approved)
+
+**Upload your CSV or data file.**
+
+### Step 3: Visualise the Data
+
+**Ask AI:**
+> "Create a bar chart showing the most common values in the [column name] column."
+
+**What you get:** A visualisation that helps you understand the data!
+
+### Step 4: Find Relationships
+
+**Ask AI:**
+> "Find a relationship between [column 1] and [column 2]. What patterns do you see?"
+
+**Example:**
+> "Find a relationship between order date and order amount. Do people spend more at certain times?"
+
+**What you get:** Insights about correlations and patterns!
+
+### Step 5: Summarise for Leadership
+
+**Ask AI:**
+> "Write a paragraph explaining the key finding from this data. Write it for a CEO who doesn't have time for details."
+
+**What you get:** Executive summary that's clear and actionable!
+
+### Questions to Reflect On
+
+- Did AI find any patterns you didn't expect?
+- Were the visualisations accurate?
+- How would you present this to a client or manager?
+- Did AI 'hallucinate' any patterns that aren't real? (Always verify!)
+
+![Data Dive](https://via.placeholder.com/800x600/02022B/D56EED?text=Image)
+*'Data: *exists but is confusing* AI: Let me analyse that for you. Insights: *appear* You: Oh! Now I understand what this data means!'*
+
+---
+
+## Common Mistakes (And How to Avoid Them)
+
+### Mistake #1: Uploading Sensitive Data
+
+**The problem:** Uploading client data or PII to public AI tools
+
+**The solution:** Always anonymise first. Use enterprise tools for sensitive data.
+
+### Mistake #2: Trusting AI Analysis Blindly
+
+**The problem:** Assuming AI found real patterns
+
+**The solution:** Always verify. Check the data yourself. AI can 'hallucinate' patterns.
+
+### Mistake #3: Not Understanding the Data
+
+**The problem:** Asking AI to analyse data you don't understand
+
+**The solution:** Understand your data first. Then ask AI to help you analyse it.
+
+### Mistake #4: Ignoring Privacy Settings
+
+**The problem:** Data being used to train public models
+
+**The solution:** Always check and disable training data options.
+
+![Common Mistakes](https://via.placeholder.com/800x600/02022B/D56EED?text=Image)
+*'Mistake: Uploading sensitive data without thinking. Reality: Privacy laws exist for a reason. Solution: Always anonymise, always check settings!'*
+
+---
+
+## Next Steps
+
+You've learned to analyse internal data! Here's what's next:
+
+1. **Strategy Workflows**: Turn insights into actionable plans
+2. **QA Validation**: Make sure your strategies actually work
+
+**Remember:** Data analysis is powerful, but always respect privacy and verify your findings!
+
+---
+
+## Resources
+
+- [Kaggle Datasets](https://www.kaggle.com/datasets) - Practice with public data
+- [TBS Data Privacy Guidelines](https://tbs.digital/privacy) - Internal privacy policies
+- [OpenAI Data Analysis Guide](https://platform.openai.com/docs/guides/data-analysis) - Technical documentation
+
+---
+
+## Module Checklist
+
+Before moving on:
+
+- [ ] Read through all the content (especially the security section!)
 - [ ] Completed the Data Dive exercise
 - [ ] Reviewed the TBS Data Privacy Guidelines
+- [ ] Understood when to anonymise data
+- [ ] Know how to check privacy settings in AI tools
 
-**Estimated Time**: 50 minutes
-**Difficulty**: Advanced
-**Prerequisites**: AI Research Strategy
+**Estimated Time:** 50 minutes (longer if you're doing the exercises)
+
+**Difficulty:** Advanced (but we've made it step-by-step!)
+
+**Feeling confident?** Move on to Strategy Workflows!
+**Still working on it?** That's fine! Data analysis takes practice. Keep experimenting with safe, anonymised data.
+
+**You're learning valuable skills!** 📊✨

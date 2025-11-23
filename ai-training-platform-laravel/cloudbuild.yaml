@@ -1,0 +1,32 @@
+steps:
+  # Build the container image
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'gcr.io/learninglab-478822/learninglab-backend:$COMMIT_SHA', '.']
+  
+  # Push the container image to Container Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/learninglab-478822/learninglab-backend:$COMMIT_SHA']
+  
+  # Deploy container image to Cloud Run
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args:
+      - 'run'
+      - 'deploy'
+      - 'learninglab-backend'
+      - '--image'
+      - 'gcr.io/learninglab-478822/learninglab-backend:$COMMIT_SHA'
+      - '--region'
+      - 'australia-southeast1'
+      - '--platform'
+      - 'managed'
+      - '--allow-unauthenticated'
+      - '--port'
+      - '8000'
+      - '--set-env-vars'
+      - 'APP_KEY=base64:knFjhCIifkdH10QY8znKf4K0apWu7EMON9LfJTpCtrw=,APP_DEBUG=true,LOG_CHANNEL=stderr'
+      - '--set-secrets'
+      - 'DATABASE_URL=database-url:latest,GOOGLE_CLIENT_ID=google-client-id:latest,GOOGLE_CLIENT_SECRET=google-client-secret:latest'
+
+images:
+  - 'gcr.io/learninglab-478822/learninglab-backend:$COMMIT_SHA'

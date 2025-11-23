@@ -1,70 +1,415 @@
+---
+title: "Refactoring & Legacy Code"
+description: "Learn to understand, modernise, and improve old code using AI as your translator and assistant."
+estimatedTime: "60 minutes"
+difficulty: "Advanced"
+questions:
+  - id: "q1"
+    question: "What is the best first step when dealing with legacy code?"
+    options:
+      - "Delete it and start over"
+      - "Understand what it does using AI explanation tools"
+      - "Ignore it"
+      - "Complain about it"
+    correctAnswer: 1
+  - id: "q2"
+    question: "What should you always do after AI refactors code?"
+    options:
+      - "Deploy immediately"
+      - "Run tests to make sure nothing broke"
+      - "Delete the old code"
+      - "Celebrate and move on"
+    correctAnswer: 1
+  - id: "q3"
+    question: "What is a 'God Function'?"
+    options:
+      - "A function that does everything"
+      - "A function that's perfect"
+      - "A function that's very fast"
+      - "A function with a religious name"
+    correctAnswer: 0
+---
+
 # Refactoring & Legacy Code
+
+Welcome to one of the most practical modules! Every developer inherits code they didn't write. Sometimes it's well-documented and clean. Usually, it's... not.
+
+**This module will teach you:** How to use AI to understand, modernise, and improve old code without breaking everything. Think of AI as your translator for code that looks like it was written in an alien language.
+
+![Legacy Code](https://via.placeholder.com/800x600/02022B/D56EED?text=Image)
+*'Legacy Code: It works. Nobody knows why. Everyone's afraid to touch it. AI: I can help with that.'*
 
 ## Learning Objectives
 
-By the end of this module, you will be able to:
+By the end of this module, you'll be able to:
 
-- Decipher "spaghetti code" using AI explanation tools
-- Safely refactor legacy class components to functional hooks
-- Identify security vulnerabilities in old dependencies
+- Understand complex legacy code using AI explanation tools
+- Safely refactor old code to modern standards
+- Identify security vulnerabilities in old code
 - Document legacy systems automatically
-
-## The Legacy Nightmare
-
-We all inherit code we didn't write.
-It's often undocumented, complex, and scary to touch.
-AI is your translator.
-
-### 1. The "Explain Like I'm Junior" Prompt
-Highlight a block of terrifying regex or nested loops.
-**Prompt**:
-> "Explain what this code does in plain English. Break it down line by line. Identify any potential side effects."
-
-### 2. The Moderniser
-Converting old React Class components or jQuery to modern React?
-**Prompt**:
-> "Refactor this Class component to use Functional components and Hooks. Keep the logic identical. Add TypeScript types."
-
-### 3. Security Scanning
-Paste a `package.json` or a specific function.
-**Prompt**:
-> "Analyse this code for security vulnerabilities (e.g., XSS, SQL Injection). Suggest a secure alternative."
-
-## Practical Exercise: The Refactor
-
-### Task
-Find a "God Function" in your codebase (a function that does too many things).
-1.  **Explain**: Get AI to document what it does.
-2.  **Split**: Ask AI to "Extract the validation logic into a separate helper function."
-3.  **Type**: Add strict TypeScript types to the new function.
-
-### Questions to Consider
--   Did the logic break during refactoring? (Run your new tests!)
--   Is the code more readable now?
--   Did you understand the code better after the AI explained it?
-
-## Next Steps
-
-You've completed the Developer Track!
-You now have the tools to:
-1.  Master your IDE.
-2.  Automate research.
-3.  Test everything.
-4.  Tame legacy code.
-
-## Resources
-
--   [Refactoring.guru](https://refactoring.guru/)
--   [OWASP Top 10](https://owasp.org/www-project-top-ten/)
--   [React Legacy Documentation](https://react.dev/reference/react/Component)
+- Feel confident working with code you didn't write
 
 ---
 
-**Module Completion**: Mark this module as complete when you've:
-- [ ] Read through all content
-- [ ] Refactored one legacy component
-- [ ] Documented a complex function
+## The Legacy Code Nightmare (We've All Been There)
 
-**Estimated Time**: 60 minutes
-**Difficulty**: Advanced
-**Prerequisites**: AI-Assisted Testing
+Let's be honest about legacy code:
+
+**The situation:**
+- You inherit code you didn't write
+- It's often undocumented (or the docs are outdated)
+- It's complex and scary to touch
+- You're afraid you'll break something
+- The person who wrote it left the company 3 years ago
+
+**The reality:**
+- You need to update it
+- You need to add features
+- You need to fix bugs
+- But you don't understand how it works
+
+**The solution:**
+AI can help you understand legacy code, then help you modernise it safely.
+
+![Legacy Nightmare](https://via.placeholder.com/800x600/02022B/D56EED?text=Image)
+*'You: What does this code do? Code: *screams in JavaScript* You: AI, help me. AI: I got you, fam.'*
+
+---
+
+## Technique 1: The "Explain Like I'm a Junior" Prompt
+
+This is your secret weapon for understanding confusing code.
+
+### When to Use This
+
+- You see code that makes no sense
+- Complex regex patterns
+- Nested loops that go 5 levels deep
+- Functions with 20 parameters
+- Code with no comments
+
+### How It Works
+
+**Step 1:** Highlight the confusing code block
+
+**Step 2:** Ask AI:
+> "Explain what this code does in plain English. Break it down line by line. Identify any potential side effects or bugs."
+
+**Step 3:** Read the explanation. If something still doesn't make sense, ask follow-up questions!
+
+### Example: Understanding Complex Regex
+
+**The scary code:**
+```javascript
+const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+```
+
+**AI explanation:**
+> "This regex validates email addresses. It checks:
+> 1. Characters before the @ symbol (letters, numbers, and some special characters)
+> 2. The @ symbol itself
+> 3. The domain name (letters, numbers, hyphens)
+> 4. Optional subdomains (the part before the final domain)
+> 5. The top-level domain (.com, .au, etc.)
+> 
+> Potential issues: This is very complex and might reject some valid emails. Consider using a library instead."
+
+**See?** Now you understand what it does and whether it's good code!
+
+![Explain Code](https://via.placeholder.com/800x600/02022B/D56EED?text=Image)
+*'You: What does this do? AI: *explains in plain English* You: Oh! That makes sense now. Why didn't the original developer just write that?'*
+
+---
+
+## Technique 2: The Moderniser (Updating Old Code)
+
+Old code often uses outdated patterns. AI can help you modernise it safely.
+
+### Common Modernisation Tasks
+
+**React Class Components → Functional Components**
+- Old React used class components
+- Modern React uses functional components with hooks
+- AI can convert them automatically
+
+**jQuery → Modern JavaScript**
+- Old websites used jQuery for everything
+- Modern JavaScript can do most of it natively
+- AI can help convert jQuery to vanilla JS or modern frameworks
+
+**Old JavaScript → TypeScript**
+- Adding types makes code safer
+- AI can add TypeScript types to existing JavaScript
+
+### How to Use the Moderniser
+
+**Step 1:** Select the old code
+
+**Step 2:** Ask AI:
+> "Refactor this Class component to use Functional components and Hooks. Keep the logic identical. Add TypeScript types."
+
+**Step 3:** Review the refactored code
+- Does it do the same thing?
+- Is it more readable?
+- Are there any issues?
+
+**Step 4:** Run your tests! (This is crucial—make sure nothing broke)
+
+### Example: Modernising a React Component
+
+**Old code (Class Component):**
+```javascript
+class UserProfile extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { user: null };
+  }
+
+  componentDidMount() {
+    fetchUser(this.props.userId).then(user => {
+      this.setState({ user });
+    });
+  }
+
+  render() {
+    return <div>{this.state.user?.name}</div>;
+  }
+}
+```
+
+**AI refactored (Functional Component):**
+```typescript
+import { useState, useEffect } from 'react';
+
+interface UserProfileProps {
+  userId: string;
+}
+
+const UserProfile: React.FC<UserProfileProps> = ({ userId }) => {
+  const [user, setUser] = useState<User | null>(null);
+
+  useEffect(() => {
+    fetchUser(userId).then(setUser);
+  }, [userId]);
+
+  return <div>{user?.name}</div>;
+};
+```
+
+**Benefits:**
+- More readable
+- Uses modern React patterns
+- Has TypeScript types
+- Same functionality, better code
+
+![Modernising Code](https://via.placeholder.com/800x600/02022B/D56EED?text=Image)
+*'Old Code: Works but looks like it's from 2015. AI: Let me modernise that for you. New Code: Still works, but now it's 2024-ready.'*
+
+---
+
+## Technique 3: Security Scanning (Finding Vulnerabilities)
+
+Old code often has security issues. AI can help you find them.
+
+### Common Security Issues in Legacy Code
+
+- **SQL Injection**: User input directly in database queries
+- **XSS (Cross-Site Scripting)**: User input displayed without sanitisation
+- **Outdated Dependencies**: Old packages with known vulnerabilities
+- **Hardcoded Secrets**: Passwords or API keys in the code
+- **Missing Authentication**: Functions that should require login but don't
+
+### How to Scan for Vulnerabilities
+
+**Method 1: Scan a Function**
+> "Analyse this code for security vulnerabilities (e.g., XSS, SQL Injection). Suggest a secure alternative."
+
+**Method 2: Scan Dependencies**
+> "Review this package.json for outdated packages with known security vulnerabilities. Suggest updates."
+
+**Method 3: Scan for Secrets**
+> "Check this code for hardcoded API keys, passwords, or other secrets. Flag any you find."
+
+### Example: Finding SQL Injection
+
+**Vulnerable code:**
+```javascript
+function getUser(username) {
+  const query = `SELECT * FROM users WHERE username = '${username}'`;
+  return database.query(query);
+}
+```
+
+**AI analysis:**
+> "⚠️ Security Issue: SQL Injection vulnerability. The username is directly inserted into the query without sanitisation. An attacker could input: `admin' OR '1'='1` to access all users.
+> 
+> Secure alternative:
+> ```javascript
+> function getUser(username) {
+>   const query = 'SELECT * FROM users WHERE username = ?';
+>   return database.query(query, [username]);
+> }
+> ```"
+
+**AI found the problem and suggested a fix!**
+
+![Security Scanning](https://via.placeholder.com/800x600/02022B/D56EED?text=Image)
+*'Old Code: Works, but has security holes. AI: I found 5 vulnerabilities. You: *sweats nervously* AI: Don't worry, I'll help you fix them.'*
+
+---
+
+## Your Practice Exercise: The Refactor Challenge
+
+Ready to refactor some code? Let's find a 'God Function' and break it down.
+
+### What is a "God Function"?
+
+A 'God Function' is a function that does too many things. It's usually:
+- Very long (hundreds of lines)
+- Does multiple unrelated tasks
+- Hard to test
+- Hard to understand
+- Scary to modify
+
+### Step 1: Find Your God Function
+
+Look through your codebase (or use this example):
+
+```javascript
+function processUserData(userData) {
+  // Validates user data
+  if (!userData.email || !userData.email.includes('@')) {
+    throw new Error('Invalid email');
+  }
+  if (userData.age < 18) {
+    throw new Error('Must be 18+');
+  }
+  
+  // Formats the data
+  const formatted = {
+    name: userData.name.toUpperCase(),
+    email: userData.email.toLowerCase(),
+    age: parseInt(userData.age)
+  };
+  
+  // Saves to database
+  database.users.insert(formatted);
+  
+  // Sends welcome email
+  emailService.send({
+    to: formatted.email,
+    subject: 'Welcome!',
+    body: `Hi ${formatted.name}, welcome to our platform!`
+  });
+  
+  // Logs the action
+  logger.log(`User ${formatted.name} registered`);
+  
+  return formatted;
+}
+```
+
+**This function does 5 different things!** That's a God Function.
+
+### Step 2: Get AI to Explain It
+
+**Ask AI:**
+> "Explain what this function does. Break down each section. What are the potential issues?"
+
+**Read the explanation.** Understanding comes first!
+
+### Step 3: Split It Up
+
+**Ask AI:**
+> "Refactor this function by extracting the validation logic into a separate function called `validateUserData`. Keep the main function but call the new validation function."
+
+**Then ask:**
+> "Now extract the formatting logic into a function called `formatUserData`."
+
+**Keep going:** Extract each section into its own function.
+
+### Step 4: Add TypeScript Types
+
+**Ask AI:**
+> "Add strict TypeScript types to all these functions. Define interfaces for the user data."
+
+### Step 5: Test It!
+
+**Run your tests** (or generate new ones using the previous module's techniques). Make sure everything still works!
+
+### Questions to Reflect On
+
+- Did the logic break during refactoring? (If yes, that's okay—fix it!)
+- Is the code more readable now?
+- Did you understand the code better after AI explained it?
+- Would you feel confident modifying this code now?
+
+![Refactoring](https://via.placeholder.com/800x600/02022B/D56EED?text=Image)
+*'Before: One giant function that does everything. After: Clean, organised, understandable functions. You: I can actually read this now!'*
+
+---
+
+## Common Pitfalls (And How to Avoid Them)
+
+### Pitfall #1: Refactoring Without Tests
+
+**The problem:** Changing code without tests means you don't know if you broke something
+
+**The solution:** Always run tests after refactoring. If you don't have tests, generate them first (see the previous module!)
+
+### Pitfall #2: Changing Too Much at Once
+
+**The problem:** Refactoring everything at once makes it hard to find what broke
+
+**The solution:** Refactor one piece at a time. Test after each change.
+
+### Pitfall #3: Not Understanding Before Changing
+
+**The problem:** Refactoring code you don't understand
+
+**The solution:** Always use the 'Explain Like I'm a Junior' prompt first. Understand, then refactor.
+
+![Pitfalls](https://via.placeholder.com/800x600/02022B/D56EED?text=Image)
+*'Pitfall: Refactoring without understanding. Result: Everything breaks. Solution: Understand first, then refactor. AI: I can help with both!'*
+
+---
+
+## Next Steps
+
+Congratulations! You've completed the Developer Track! 🎉
+
+You now have the tools to:
+1. ✅ Master your IDE with AI
+2. ✅ Automate research and data gathering
+3. ✅ Test your code efficiently
+4. ✅ Tame legacy code
+
+**What's next?** Keep practising! The more you use these techniques, the more natural they'll become. You're now equipped to work with any codebase, no matter how scary it looks!
+
+---
+
+## Resources
+
+- [Refactoring.guru](https://refactoring.guru/) - Learn refactoring patterns
+- [OWASP Top 10](https://owasp.org/www-project-top-ten/) - Common security vulnerabilities
+- [React Legacy Documentation](https://react.dev/reference/react/Component) - Understanding old React patterns
+
+---
+
+## Module Checklist
+
+Before completing the Developer Track:
+
+- [ ] Read through all the content
+- [ ] Refactored at least one legacy component or function
+- [ ] Documented a complex function using AI
+- [ ] Scanned code for security vulnerabilities
+- [ ] Understood the importance of tests when refactoring
+
+**Estimated Time:** 60 minutes (longer if you're doing the exercises)
+
+**Difficulty:** Advanced (but we've broken it down into manageable steps!)
+
+**You've completed the Developer Track!** 🚀
+
+**Remember:** Every expert was once a beginner. You've learned powerful skills. Keep practising, and you'll get even better!

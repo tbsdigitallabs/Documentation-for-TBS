@@ -1,12 +1,12 @@
 "use client";
 
 import Link from 'next/link';
-import Image from 'next/image';
 import ThemeToggle from '@/components/ThemeToggle';
 import { useTheme } from '@/components/ThemeProvider';
 import { Container } from '@/components/Container';
 import { Section } from '@/components/Section';
 import { Heading } from '@/components/Heading';
+import Logo from '@/components/Logo';
 
 interface ModuleLayoutProps {
     children: React.ReactNode;
@@ -33,22 +33,27 @@ export default function ModuleLayout({
 }: ModuleLayoutProps) {
     const { theme } = useTheme();
 
+    // Map role to accent color class
+    const roleAccentMap: Record<string, string> = {
+        'Developer': 'bg-accent-developers',
+        'Designer': 'bg-accent-designers',
+        'Project Manager': 'bg-accent-project-managers',
+        'Content Creator': 'bg-accent-content-creators',
+        'Sales & Business Development': 'bg-accent-sales-business',
+    };
+
+    // Normalize role name for lookup
+    const normalizedRole = role.trim();
+    const avatarBgClass = roleAccentMap[normalizedRole] || 'bg-accent-developers';
+
     return (
         <div className="min-h-screen bg-surface-primary">
             {/* Header */}
-            <header className="bg-surface-header border-b border-primary">
+            <header className="bg-surface-header border-b border-border-primary">
                 <Container className="py-4">
                     <div className="flex items-center justify-between">
                         <div className="flex items-center space-x-4">
-                            <Image
-                                src={theme === 'dark' ? '/images/logo-white.png' : '/images/logo-primary.png'}
-                                alt="TBS Digital Labs"
-                                width={120}
-                                height={40}
-                                className="h-10 w-auto"
-                                style={{ width: 'auto', height: 'auto' }}
-                                priority
-                            />
+                            <Logo showText={false} linkTo="/" />
                             <div>
                                 <Heading level={2} className="text-content-primary">
                                     {title}
@@ -60,7 +65,7 @@ export default function ModuleLayout({
                         </div>
                         <div className="flex items-center space-x-4">
                             <ThemeToggle />
-                            <div className="w-10 h-10 bg-accent-developers rounded-full flex items-center justify-center">
+                            <div className={`w-10 h-10 ${avatarBgClass} rounded-full flex items-center justify-center`}>
                                 <span className="text-white font-semibold text-sm">
                                     {role.charAt(0).toUpperCase()}
                                 </span>
@@ -76,24 +81,24 @@ export default function ModuleLayout({
                     {/* Breadcrumb */}
                     <nav className="mb-6">
                         <ol className="flex items-center space-x-2 text-sm text-content-secondary">
-                            <li><Link href="/" className="hover:text-content-primary">AI Training Platform</Link></li>
+                            <li><Link href="/" className="hover:text-content-primary">LearningLab</Link></li>
                             <li className="text-content-tertiary">/</li>
-                            <li><Link href={rolePath} className="hover:text-content-primary">{role} Training</Link></li>
+                            <li><Link href={rolePath} className="hover:text-content-primary">{role} Class</Link></li>
                             <li className="text-content-tertiary">/</li>
                             <li className="text-content-primary">{title}</li>
                         </ol>
                     </nav>
 
-                    {/* Module Header */}
+                    {/* Adventure Header */}
                     <div className="mb-8">
                         <Heading level={1} className="text-content-primary mb-4">{title}</Heading>
                         <p className="text-content-secondary mb-6">{description}</p>
 
-                        {/* Module Metadata */}
+                        {/* Adventure Metadata */}
                         <div className="flex items-center space-x-6 text-sm text-content-tertiary mb-6">
                             <div className="flex items-center">
                                 <span className="mr-2">📚</span>
-                                {totalLessons} lessons
+                                {totalLessons} quests
                             </div>
                             <div className="flex items-center">
                                 <span className="mr-2">⏱️</span>
@@ -101,31 +106,32 @@ export default function ModuleLayout({
                             </div>
                             <div className="flex items-center">
                                 <span className="mr-2">🎯</span>
-                                Module {moduleNumber}
+                                Adventure {moduleNumber}
                             </div>
                         </div>
 
                         {/* Progress Bar */}
                         <div className="w-full bg-surface-tertiary rounded-full h-2 mb-6">
                             <div
-                                className="bg-accent-developers h-2 rounded-full transition-all duration-300"
+                                className={`${avatarBgClass} h-2 rounded-full transition-all duration-300`}
                                 style={{ width: `${progress}%` }}
                             ></div>
                         </div>
                     </div>
 
-                    {/* Module Content */}
-                    <div className="bg-surface-card rounded-lg border border-primary p-6">
+                    {/* Adventure Content */}
+                    <div className="bg-surface-card rounded-lg border border-border-primary p-6">
                         {children}
                     </div>
 
                     {/* Back Button */}
                     <div className="mt-8">
                         <Link href={rolePath} className="inline-flex items-center text-content-secondary hover:text-content-primary">
-                            ← Back to {role} Training
+                            ← Back to {role} Class
                         </Link>
                     </div>
                 </Container>
             </Section>
-            );
+        </div>
+    );
 }

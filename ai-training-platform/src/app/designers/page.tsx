@@ -1,253 +1,84 @@
-"use client";
-
+import { getAllModules } from '@/lib/mdx';
 import Link from 'next/link';
-import { motion } from 'framer-motion';
-import { Button } from '@/components/ui/button';
-import { Container } from '@/components/Container';
-import { Section } from '@/components/Section';
-import { Heading } from '@/components/Heading';
+import { Sparkles } from 'lucide-react';
 import { HoloCard } from '@/components/HoloCard';
-import { fadeIn, scaleIn, staggerContainer, staggerItem, hoverScale, buttonHover, pageTransition } from '@/lib/animations';
+import { Button } from '@/components/ui/button';
+import { Heading } from '@/components/Heading';
+import { Section } from '@/components/Section';
+import { Container } from '@/components/Container';
+import ThemeToggle from '@/components/ThemeToggle';
+import Logo from '@/components/Logo';
+
+export const dynamic = 'force-static';
 
 export default function DesignersPage() {
-    return (
-        <motion.div
-            className="min-h-screen bg-gradient-surface"
-            {...pageTransition}
-        >
-            {/* Hero Section */}
-            <Section className="bg-surface-hero" size="md">
-                <Container>
-                    <motion.div
-                        className="text-center mb-8"
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8 }}
-                    >
-                        <motion.div
-                            className="inline-flex items-center gap-2 bg-accent-designers/10 text-accent-designers px-3 py-1.5 rounded-full text-small font-medium mb-4 border border-accent-designers/20"
-                            initial={{ opacity: 0, scale: 0.9 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            transition={{ duration: 0.6, delay: 0.2 }}
-                        >
-                            <div className="w-1.5 h-1.5 bg-accent-designers rounded-full animate-pulse"></div>
-                            Designer Track
-                        </motion.div>
+    const modules = getAllModules('designers');
 
-                        <Heading level={1} className="text-content-primary mb-4">
-                            AI-Powered Design
-                        </Heading>
-                        <p className="text-heading-3 text-content-secondary mb-6 max-w-3xl mx-auto">
-                            Create stunning visuals with AI design tools and Sora 2 video generation. Master workflows that enhance creativity and efficiency for TBS client projects.
-                        </p>
-                        <div className="flex items-center justify-center text-content-tertiary">
-                            <span className="text-small">3 modules • 2-3 hours total • Self-paced learning</span>
+    return (
+        <div className="min-h-screen bg-gradient-surface">
+            {/* Header with Theme Toggle */}
+            <div className="fixed top-0 left-0 right-0 z-10 flex items-center justify-between bg-surface-header-80 px-5 py-3 backdrop-blur-sm border-b border-border-primary h-16 max-h-16">
+                <Logo />
+                <ThemeToggle />
+            </div>
+            {/* Hero Section */}
+            <Section className="bg-surface-hero py-16 pt-28" size="md">
+                <Container size="lg">
+                    <div className="text-center mb-16">
+                        <div className="inline-flex items-center justify-center p-3 mb-6 rounded-full bg-accent-designers-10 border border-accent-designers-20">
+                            <Sparkles className="w-12 h-12 text-accent-designers" />
                         </div>
-                    </motion.div>
+                        <Heading level={1} className="text-content-primary mb-2">
+                            Bard
+                        </Heading>
+                        <p className="text-content-secondary mb-6 text-lg">
+                            Designers
+                        </p>
+                        <p className="text-content-secondary max-w-2xl mx-auto text-xl leading-relaxed">
+                            Embark on creative adventures with AI design tools. Level up your visual skills and unlock powerful workflows.
+                        </p>
+                    </div>
                 </Container>
             </Section>
 
             {/* Modules Section */}
-            <Section className="bg-gradient-surface" size="lg">
-                <Container>
-                    <motion.div
-                        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ duration: 0.6, delay: 0.4 }}
-                    >
-                        {/* Module 1 */}
-                        <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.6, delay: 0.5 }}
-                            whileHover={{ y: -5 }}
-                        >
-                            <HoloCard role="designers" className="h-full flex flex-col">
-                                <div className="flex items-center mb-4">
-                                    <div className="w-12 h-12 bg-gradient-to-br from-accent-designers to-accent-designers/70 rounded-lg flex items-center justify-center mr-4">
-                                        <span className="text-lg font-bold text-white">1</span>
-                                    </div>
-                                    <div>
-                                        <h2 className="text-heading-3 text-content-primary">AI Design Tools</h2>
-                                        <div className="text-small text-content-tertiary bg-accent-designers/10 px-2 py-1 rounded">Foundation</div>
-                                    </div>
+            <Section className="bg-gradient-surface py-16" size="lg">
+                <Container size="xl">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
+                        {modules.map((module) => (
+                            <HoloCard key={module.slug} role="designers" className="flex flex-col h-full">
+                                <div className="mb-6">
+                                    <span className="text-xs font-mono text-accent-designers uppercase tracking-wider px-2 py-1 rounded-md bg-accent-designers-5 border border-accent-designers-10 inline-block">
+                                        ADVENTURE {module.slug.split('-')[0].padStart(2, '0')}
+                                    </span>
                                 </div>
-                                <p className="text-body text-content-secondary mb-6 leading-relaxed">
-                                    Master AI-powered design tools for creating professional visuals, logos, and marketing materials.
+                                <h2 className="heading-3 text-content-primary mb-4 flex-grow">{module.title}</h2>
+                                <p className="body-regular text-content-secondary mb-8">
+                                    {module.description || "Complete this adventure to unlock new skills."}
                                 </p>
-                                <div className="space-y-2 mb-6">
-                                    <div className="flex items-center text-small text-content-tertiary">
-                                        <span className="w-2 h-2 bg-accent-designers rounded-full mr-3"></span>
-                                        Midjourney workflows
-                                    </div>
-                                    <div className="flex items-center text-small text-content-tertiary">
-                                        <span className="w-2 h-2 bg-accent-designers rounded-full mr-3"></span>
-                                        DALL-E integration
-                                    </div>
-                                    <div className="flex items-center text-small text-content-tertiary">
-                                        <span className="w-2 h-2 bg-accent-designers rounded-full mr-3"></span>
-                                        Brand consistency tools
-                                    </div>
-                                </div>
-                                <div className="flex items-center justify-between mb-4">
-                                    <div className="stat-display">
-                                        <span className="text-heading-3 text-content-primary">45 min</span>
-                                        <span className="text-small text-content-secondary">Duration</span>
-                                    </div>
-                                    <div className="stat-display">
-                                        <span className="text-heading-3 text-content-primary">5</span>
-                                        <span className="text-small text-content-secondary">Lessons</span>
-                                    </div>
-                                </div>
-                                <div className="mb-4">
-                                    <div className="flex justify-between text-small text-content-secondary mb-1">
-                                        <span>Progress</span>
-                                        <span>0%</span>
-                                    </div>
-                                    <div className="progress-professional">
-                                        <div className="progress-fill-professional" style={{ width: '0%' }}></div>
-                                    </div>
-                                </div>
-                                <Link href="/designers/module-1" className="mt-auto">
-                                    <Button className="w-full bg-accent-designers text-white hover:bg-accent-designers/90">
-                                        Start Module 1
-                                    </Button>
-                                </Link>
-                            </HoloCard>
-                        </motion.div>
 
-                        {/* Module 2 */}
-                        <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.6, delay: 0.6 }}
-                            whileHover={{ y: -5 }}
-                        >
-                            <HoloCard role="designers" className="h-full flex flex-col">
-                                <div className="flex items-center mb-4">
-                                    <div className="w-12 h-12 bg-gradient-to-br from-accent-designers to-accent-designers/70 rounded-lg flex items-center justify-center mr-4">
-                                        <span className="text-lg font-bold text-white">2</span>
-                                    </div>
-                                    <div>
-                                        <h2 className="text-heading-3 text-content-primary">Sora 2 Video Creation</h2>
-                                        <div className="text-small text-content-tertiary bg-accent-designers/10 px-2 py-1 rounded">Advanced</div>
-                                    </div>
+                                <div className="flex items-center justify-between text-sm text-content-tertiary mb-8 pt-4 border-t border-border-primary">
+                                    <span className="flex items-center gap-2">⏱️ {module.estimatedTime || "45 mins"}</span>
+                                    <span className="flex items-center gap-2">🎯 {module.difficulty || "Intermediate"}</span>
                                 </div>
-                                <p className="text-body text-content-secondary mb-6 leading-relaxed">
-                                    Create compelling video content using Sora 2's advanced AI video generation capabilities.
-                                </p>
-                                <div className="space-y-2 mb-6">
-                                    <div className="flex items-center text-small text-content-tertiary">
-                                        <span className="w-2 h-2 bg-accent-designers rounded-full mr-3"></span>
-                                        Video prompt engineering
-                                    </div>
-                                    <div className="flex items-center text-small text-content-tertiary">
-                                        <span className="w-2 h-2 bg-accent-designers rounded-full mr-3"></span>
-                                        Style consistency
-                                    </div>
-                                    <div className="flex items-center text-small text-content-tertiary">
-                                        <span className="w-2 h-2 bg-accent-designers rounded-full mr-3"></span>
-                                        Post-production workflows
-                                    </div>
-                                </div>
-                                <div className="flex items-center justify-between mb-4">
-                                    <div className="stat-display">
-                                        <span className="text-heading-3 text-content-primary">60 min</span>
-                                        <span className="text-small text-content-secondary">Duration</span>
-                                    </div>
-                                    <div className="stat-display">
-                                        <span className="text-heading-3 text-content-primary">6</span>
-                                        <span className="text-small text-content-secondary">Lessons</span>
-                                    </div>
-                                </div>
-                                <div className="mb-4">
-                                    <div className="flex justify-between text-small text-content-secondary mb-1">
-                                        <span>Progress</span>
-                                        <span>0%</span>
-                                    </div>
-                                    <div className="progress-professional">
-                                        <div className="progress-fill-professional" style={{ width: '0%' }}></div>
-                                    </div>
-                                </div>
-                                <Link href="/designers/module-2" className="mt-auto">
-                                    <Button className="w-full bg-accent-designers text-white hover:bg-accent-designers/90">
-                                        Start Module 2
-                                    </Button>
-                                </Link>
-                            </HoloCard>
-                        </motion.div>
 
-                        {/* Module 3 */}
-                        <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.6, delay: 0.7 }}
-                            whileHover={{ y: -5 }}
-                        >
-                            <HoloCard role="designers" className="h-full flex flex-col">
-                                <div className="flex items-center mb-4">
-                                    <div className="w-12 h-12 bg-gradient-to-br from-accent-designers to-accent-designers/70 rounded-lg flex items-center justify-center mr-4">
-                                        <span className="text-lg font-bold text-white">3</span>
-                                    </div>
-                                    <div>
-                                        <h2 className="text-heading-3 text-content-primary">Asset Generation Workflows</h2>
-                                        <div className="text-small text-content-tertiary bg-accent-designers/10 px-2 py-1 rounded">Expert</div>
-                                    </div>
-                                </div>
-                                <p className="text-body text-content-secondary mb-6 leading-relaxed">
-                                    Streamline asset creation and management workflows for efficient project delivery.
-                                </p>
-                                <div className="space-y-2 mb-6">
-                                    <div className="flex items-center text-small text-content-tertiary">
-                                        <span className="w-2 h-2 bg-accent-designers rounded-full mr-3"></span>
-                                        Batch asset generation
-                                    </div>
-                                    <div className="flex items-center text-small text-content-tertiary">
-                                        <span className="w-2 h-2 bg-accent-designers rounded-full mr-3"></span>
-                                        Quality control processes
-                                    </div>
-                                    <div className="flex items-center text-small text-content-tertiary">
-                                        <span className="w-2 h-2 bg-accent-designers rounded-full mr-3"></span>
-                                        Client delivery systems
-                                    </div>
-                                </div>
-                                <div className="flex items-center justify-between mb-4">
-                                    <div className="stat-display">
-                                        <span className="text-heading-3 text-content-primary">45 min</span>
-                                        <span className="text-small text-content-secondary">Duration</span>
-                                    </div>
-                                    <div className="stat-display">
-                                        <span className="text-heading-3 text-content-primary">4</span>
-                                        <span className="text-small text-content-secondary">Lessons</span>
-                                    </div>
-                                </div>
-                                <div className="mb-4">
-                                    <div className="flex justify-between text-small text-content-secondary mb-1">
-                                        <span>Progress</span>
-                                        <span>0%</span>
-                                    </div>
-                                    <div className="progress-professional">
-                                        <div className="progress-fill-professional" style={{ width: '0%' }}></div>
-                                    </div>
-                                </div>
-                                <Link href="/designers/module-3" className="mt-auto">
-                                    <Button className="w-full bg-accent-designers text-white hover:bg-accent-designers/90">
-                                        Start Module 3
+                                <Link href={`/designers/${module.slug}`} className="mt-auto">
+                                    <Button className="w-full bg-accent-designers text-white hover:bg-accent-designers-90 py-3 text-base">
+                                        Begin Adventure
                                     </Button>
                                 </Link>
                             </HoloCard>
-                        </motion.div>
-                    </motion.div>
+                        ))}
+                    </div>
 
                     {/* Back Button */}
-                    <div className="text-center mt-12">
+                    <div className="text-center mt-16">
                         <Link href="/class-selection" className="inline-flex items-center text-content-secondary hover:text-content-primary transition-colors">
-                            ← Back to Track Selection
+                            ← Back to Class Selection
                         </Link>
                     </div>
                 </Container>
             </Section>
-        </motion.div>
+        </div>
     );
 }

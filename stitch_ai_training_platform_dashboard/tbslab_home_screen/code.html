@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>TBSLab - AI Training Platform</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<style>
+    .glassmorphism {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .scrollbar-hide::-webkit-scrollbar {
+        display: none;
+    }
+    .scrollbar-hide {
+        -ms-overflow-style: none;scrollbar-width: none;}
+  </style>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#850aff", // Original primary, will use user's colors
+            "background-light": "#f7f5f8",
+            "background-dark": "#1A1A1A", // User defined background
+            "accent-blue": "#0A84FF",
+            "accent-yellow": "#FFB800",
+            "accent-green": "#00C48C",
+          },
+          fontFamily: {
+            "display": ["Inter", "sans-serif"]
+          },
+          borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1rem", "full": "9999px"},
+        },
+      },
+    }
+  </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-dark font-display">
+<div class="relative flex h-auto min-h-screen w-full flex-col bg-background-dark dark group/design-root overflow-x-hidden">
+<main class="flex-1 pb-24">
+<div class="sticky top-0 z-10 flex items-center justify-between bg-background-dark/80 p-5 backdrop-blur-sm h-16">
+<div class="flex items-center gap-3">
+<svg fill="none" height="32" viewBox="0 0 32 32" width="32" xmlns="http://www.w3.org/2000/svg">
+<path d="M16 0C7.16344 0 0 7.16344 0 16C0 24.8366 7.16344 32 16 32C24.8366 32 32 24.8366 32 16C32 7.16344 24.8366 0 16 0ZM21.3283 23.9953H18.6652L15.9997 19.324L13.3341 23.9953H10.671L15.9997 14.6616L21.3283 23.9953ZM12.0023 10.6653H20.0023V13.332H12.0023V10.6653Z" fill="url(#paint0_linear_1_185)"></path>
+<defs>
+<linearGradient gradientUnits="userSpaceOnUse" id="paint0_linear_1_185" x1="0" x2="32" y1="0" y2="32">
+<stop stop-color="#4D00B0"></stop>
+<stop offset="1" stop-color="#850AFF"></stop>
+</linearGradient>
+</defs>
+</svg>
+<span class="text-white text-xl font-bold leading-tight tracking-[-0.015em]">LearningLab</span>
+</div>
+<div class="flex items-center justify-end space-x-2">
+<button class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 w-10 bg-transparent text-white/80 hover:text-white transition-colors">
+<span class="material-symbols-outlined text-2xl">notifications</span>
+</button>
+</div>
+</div>
+<div class="px-5 pt-8 pb-10">
+<h1 class="text-white tracking-tight text-[32px] font-bold leading-tight text-left pb-3">Master AI with TBSLab</h1>
+<p class="text-white/80 text-base font-normal leading-normal pb-8">
+          Your journey to becoming an AI expert starts here. Explore our hands-on courses and career-focused tracks.
+        </p>
+<div class="flex">
+<button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-12 px-6 flex-1 bg-accent-blue text-white text-base font-bold leading-normal tracking-[0.015em]">
+<span class="truncate">Explore Courses</span>
+</button>
+</div>
+</div>
+<div>
+<h2 class="text-white text-[22px] font-bold leading-tight tracking-[-0.015em] px-5 pb-4">Start Your Learning Track</h2>
+<div class="relative">
+<div class="flex space-x-4 overflow-x-auto px-5 pb-4 scrollbar-hide">
+<div class="flex flex-col shrink-0 w-40 rounded-2xl p-4 glassmorphism">
+<div class="flex items-center justify-center size-12 rounded-xl bg-accent-blue/20 mb-4">
+<span class="material-symbols-outlined text-accent-blue text-3xl">code</span>
+</div>
+<h3 class="text-white text-base font-semibold leading-tight mb-1">For Developers</h3>
+<p class="text-white/60 text-sm font-normal">12 Courses</p>
+</div>
+<div class="flex flex-col shrink-0 w-40 rounded-2xl p-4 glassmorphism">
+<div class="flex items-center justify-center size-12 rounded-xl bg-accent-yellow/20 mb-4">
+<span class="material-symbols-outlined text-accent-yellow text-3xl">design_services</span>
+</div>
+<h3 class="text-white text-base font-semibold leading-tight mb-1">For Designers</h3>
+<p class="text-white/60 text-sm font-normal">8 Courses</p>
+</div>
+<div class="flex flex-col shrink-0 w-40 rounded-2xl p-4 glassmorphism">
+<div class="flex items-center justify-center size-12 rounded-xl bg-accent-green/20 mb-4">
+<span class="material-symbols-outlined text-accent-green text-3xl">account_tree</span>
+</div>
+<h3 class="text-white text-base font-semibold leading-tight mb-1">For PMs</h3>
+<p class="text-white/60 text-sm font-normal">6 Courses</p>
+</div>
+<div class="flex flex-col shrink-0 w-40 rounded-2xl p-4 glassmorphism">
+<div class="flex items-center justify-center size-12 rounded-xl bg-primary/20 mb-4">
+<span class="material-symbols-outlined text-primary text-3xl">campaign</span>
+</div>
+<h3 class="text-white text-base font-semibold leading-tight mb-1">For Creators</h3>
+<p class="text-white/60 text-sm font-normal">9 Courses</p>
+</div>
+<div class="flex flex-col shrink-0 w-40 rounded-2xl p-4 glassmorphism">
+<div class="flex items-center justify-center size-12 rounded-xl bg-red-500/20 mb-4">
+<span class="material-symbols-outlined text-red-500 text-3xl">insights</span>
+</div>
+<h3 class="text-white text-base font-semibold leading-tight mb-1">For Sales</h3>
+<p class="text-white/60 text-sm font-normal">7 Courses</p>
+</div>
+</div>
+</div>
+</div>
+<div class="px-5 pt-8">
+<h2 class="text-white text-[22px] font-bold leading-tight tracking-[-0.015em] pb-5">Why TBSLab?</h2>
+<div class="space-y-4">
+<div class="flex items-start gap-4 p-4 rounded-2xl glassmorphism">
+<div class="flex items-center justify-center shrink-0 size-10 rounded-xl bg-accent-blue/20">
+<span class="material-symbols-outlined text-accent-blue text-2xl">school</span>
+</div>
+<div>
+<h3 class="text-white text-base font-semibold leading-tight">Expert-Led Courses</h3>
+<p class="text-white/70 text-sm font-normal leading-snug mt-1">Learn from industry leaders at the forefront of AI innovation.</p>
+</div>
+</div>
+<div class="flex items-start gap-4 p-4 rounded-2xl glassmorphism">
+<div class="flex items-center justify-center shrink-0 size-10 rounded-xl bg-accent-yellow/20">
+<span class="material-symbols-outlined text-accent-yellow text-2xl">labs</span>
+</div>
+<div>
+<h3 class="text-white text-base font-semibold leading-tight">Hands-On Projects</h3>
+<p class="text-white/70 text-sm font-normal leading-snug mt-1">Apply your skills with real-world projects and build your portfolio.</p>
+</div>
+</div>
+<div class="flex items-start gap-4 p-4 rounded-2xl glassmorphism">
+<div class="flex items-center justify-center shrink-0 size-10 rounded-xl bg-accent-green/20">
+<span class="material-symbols-outlined text-accent-green text-2xl">trending_up</span>
+</div>
+<div>
+<h3 class="text-white text-base font-semibold leading-tight">Career-Focused Tracks</h3>
+<p class="text-white/70 text-sm font-normal leading-snug mt-1">Follow curated learning paths designed to land you a job in AI.</p>
+</div>
+</div>
+</div>
+</div>
+</main>
+<nav class="fixed bottom-0 left-0 right-0 z-20 border-t border-white/10 bg-background-dark/80 backdrop-blur-md">
+<div class="flex h-20 items-center justify-around px-2">
+<a class="flex flex-col items-center justify-center w-1/4 text-center text-accent-blue" href="#">
+<span class="material-symbols-outlined text-2xl">home</span>
+<span class="text-xs font-medium mt-1">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center w-1/4 text-center text-white/60 hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined text-2xl">lightbulb</span>
+<span class="text-xs font-medium mt-1">Learning</span>
+</a>
+<a class="flex flex-col items-center justify-center w-1/4 text-center text-white/60 hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined text-2xl">assessment</span>
+<span class="text-xs font-medium mt-1">Progress</span>
+</a>
+<a class="flex flex-col items-center justify-center w-1/4 text-center text-white/60 hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined text-2xl">person</span>
+<span class="text-xs font-medium mt-1">Profile</span>
+</a>
+</div>
+</nav>
+</div>
+
+</body></html>

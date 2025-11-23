@@ -1,74 +1,377 @@
+---
+title: "AI-Assisted Testing"
+description: "Learn how AI can write tests for you, saving hours of tedious work while making your code more reliable."
+estimatedTime: "45 minutes"
+difficulty: "Intermediate"
+questions:
+  - id: "q1"
+    question: "What is the main benefit of using AI to generate tests?"
+    options:
+      - "Tests are always perfect"
+      - "AI writes the boilerplate, saving time while you focus on important test cases"
+      - "You don't need to understand testing"
+      - "Tests run faster"
+    correctAnswer: 1
+  - id: "q2"
+    question: "What should you always do after AI generates tests?"
+    options:
+      - "Deploy immediately"
+      - "Review and run the tests to make sure they work"
+      - "Delete them"
+      - "Ignore them"
+    correctAnswer: 1
+  - id: "q3"
+    question: "What is mock data used for?"
+    options:
+      - "Making your code look fancy"
+      - "Testing with realistic sample data without using real databases"
+      - "Slowing down your tests"
+      - "Breaking your code"
+    correctAnswer: 1
+---
+
 # AI-Assisted Testing
+
+Welcome back! Now that you've built some code, let's talk about testing it. If the word 'testing' makes you want to run away, don't worry—this module will change your mind.
+
+**Here's the truth:** Everyone agrees testing is important. Nobody has time to do it. AI breaks this paradox by writing the boring test code for you, so you can focus on what actually matters.
+
+![Testing Meme](https://via.placeholder.com/800x600/02022B/D56EED?text=Image)
+*'Developer: I should write tests. Also Developer: But I don't have time. AI: Hold my beer.'*
 
 ## Learning Objectives
 
-By the end of this module, you will be able to:
+By the end of this module, you'll be able to:
 
-- Generate unit tests for complex functions in seconds
-- Create end-to-end (E2E) test scripts for Playwright/Cypress
-- Generate realistic mock data for local development
-- Identify edge cases that your manual tests missed
-
-## The Testing Paradox
-
-Everyone agrees testing is important.
-Nobody has time to do it.
-AI breaks this paradox by writing the boilerplate for you.
-
-### 1. Unit Tests
-Don't write `expect(add(1,1)).toBe(2)` by hand.
-Highlight the function in Cursor/VS Code.
-**Prompt**:
-> "Generate a comprehensive test suite for this function using Jest. Include happy paths, edge cases (null/undefined inputs), and error handling."
-
-### 2. E2E Testing
-Writing selectors for Playwright is tedious.
-**Workflow**:
-1.  Paste the HTML of the page (or a screenshot).
-2.  **Prompt**: "Write a Playwright test script that:
-    - Logs in as a user
-    - Navigates to the settings page
-    - Updates the profile picture
-    - Asserts that the success toast appears."
-
-### 3. Mock Data
-Need 100 users with Australian addresses?
-**Prompt**:
-> "Generate a JSON array of 50 users.
-> Fields: id, firstName, lastName, email, phone (Australian format), address (Australian cities).
-> Make the data look realistic, not 'Test User 1'."
-
-## Practical Exercise: The Test Suite
-
-### Task
-Take a utility function from your current project (e.g., a date formatter or a currency converter).
-1.  **Unit Test**: Generate a Jest test file with at least 5 test cases.
-2.  **Edge Cases**: Ask AI "What edge cases am I missing?" and add them.
-3.  **Refactor**: Ask AI to refactor the original function to make it more testable.
-
-### Questions to Consider
--   Did the AI find a bug in your original function?
--   Are the generated tests readable?
--   How much time did this save vs writing from scratch?
-
-## Next Steps
-
-Your code is tested. Now let's clean it up.
-Next up: **Refactoring & Legacy Code**.
-
-## Resources
-
--   [Jest Documentation](https://jestjs.io/)
--   [Playwright Documentation](https://playwright.dev/)
--   [Faker.js](https://fakerjs.dev/) (Great for combining with AI)
+- Generate unit tests for functions in seconds (not hours!)
+- Create end-to-end test scripts automatically
+- Generate realistic mock data for testing
+- Find edge cases you might have missed
+- Understand why testing doesn't have to be painful
 
 ---
 
-**Module Completion**: Mark this module as complete when you've:
-- [ ] Read through all content
-- [ ] Generated a test suite for one function
-- [ ] Created a mock dataset
+## The Testing Paradox (And How AI Solves It)
 
-**Estimated Time**: 45 minutes
-**Difficulty**: Intermediate
-**Prerequisites**: Automated Research Pipelines
+Let's be honest about testing:
+
+**The problem:**
+- Writing tests is tedious and time-consuming
+- It feels like you're writing code twice
+- You're never sure if you're testing the right things
+- It's easy to skip when you're under pressure
+
+**The solution:**
+AI can write the boilerplate test code for you. You still need to understand what to test, but AI handles the repetitive writing part.
+
+**Think of it like this:** You tell AI what to test, and it writes the test code. You review it, run it, and fix any issues. Much faster than writing everything from scratch!
+
+![Testing Paradox](https://via.placeholder.com/800x600/02022B/D56EED?text=Image)
+*'The Testing Paradox: Everyone knows it's important. Nobody does it. AI: I can help with that!'*
+
+---
+
+## Type 1: Unit Tests (Testing Individual Functions)
+
+Unit tests check if individual functions work correctly. They're the foundation of good testing.
+
+### The Old Way (Why It's Tedious)
+
+**Traditional approach:**
+```javascript
+// You write this manually, over and over
+test('add function works', () => {
+  expect(add(1, 1)).toBe(2);
+  expect(add(2, 3)).toBe(5);
+  expect(add(-1, 1)).toBe(0);
+  // ... and so on for every function
+});
+```
+
+**The problem:** You write similar code for every function. It's repetitive and boring.
+
+### The New Way (Using AI)
+
+**Step 1:** Highlight the function you want to test in Cursor or VS Code
+
+**Step 2:** Ask AI:
+> "Generate a comprehensive test suite for this function using Jest. Include happy paths, edge cases (null/undefined inputs), and error handling."
+
+**Step 3:** Review the generated tests, adjust if needed, and run them!
+
+**What AI does:**
+- Writes all the test cases
+- Includes edge cases you might forget
+- Adds error handling tests
+- Formats everything properly
+
+**What you do:**
+- Review the tests (make sure they make sense)
+- Run them to see if they pass
+- Adjust if needed
+
+![Unit Tests](https://via.placeholder.com/800x600/02022B/D56EED?text=Image)
+*'You: Test this function. AI: Done. You: But I wanted to... AI: Already included that test case too.'*
+
+### Example: Testing a Date Formatter
+
+**Your function:**
+```javascript
+function formatDate(date) {
+  return date.toLocaleDateString('en-AU');
+}
+```
+
+**AI-generated tests:**
+```javascript
+describe('formatDate', () => {
+  test('formats valid date correctly', () => {
+    const date = new Date('2024-01-15');
+    expect(formatDate(date)).toBe('15/01/2024');
+  });
+
+  test('handles null input', () => {
+    expect(() => formatDate(null)).toThrow();
+  });
+
+  test('handles undefined input', () => {
+    expect(() => formatDate(undefined)).toThrow();
+  });
+
+  // ... more test cases
+});
+```
+
+**See?** AI wrote all that test code. You just need to review it and make sure it's testing the right things!
+
+---
+
+## Type 2: End-to-End (E2E) Testing (Testing the Whole App)
+
+E2E tests check if your entire application works from a user's perspective—like clicking buttons and filling forms.
+
+### Why E2E Tests Are Hard to Write
+
+Writing E2E tests means:
+- Finding the right CSS selectors (which change when you update styles)
+- Writing code to click buttons, fill forms, wait for pages to load
+- Dealing with timing issues (waiting for things to appear)
+- It's tedious and breaks easily
+
+### How AI Helps
+
+**The workflow:**
+
+1. **Paste the HTML** of the page (or take a screenshot)
+2. **Ask AI:**
+   > "Write a Playwright test script that:
+   > - Logs in as a user
+   > - Navigates to the settings page
+   > - Updates the profile picture
+   > - Asserts that the success toast appears."
+
+3. **AI generates the test code** with all the selectors and steps
+4. **You review and run it**
+
+**What this saves:** Hours of finding selectors and writing click/wait code.
+
+![E2E Testing](https://via.placeholder.com/800x600/02022B/D56EED?text=Image)
+*'E2E Testing: Because sometimes you need to test if clicking a button actually works. AI: I'll write the code to click it 1000 times if you want.'*
+
+### Example: Testing a Login Flow
+
+**What you want to test:**
+- User enters email and password
+- Clicks login button
+- Gets redirected to dashboard
+- Sees welcome message
+
+**AI-generated test:**
+```javascript
+test('user can log in successfully', async ({ page }) => {
+  await page.goto('https://yourapp.com/login');
+  await page.fill('[data-testid="email"]', 'user@example.com');
+  await page.fill('[data-testid="password"]', 'password123');
+  await page.click('[data-testid="login-button"]');
+  await page.waitForURL('**/dashboard');
+  await expect(page.locator('text=Welcome')).toBeVisible();
+});
+```
+
+**AI wrote all that!** You just need to make sure the test IDs match your actual code.
+
+---
+
+## Type 3: Mock Data (Realistic Test Data)
+
+When testing, you need sample data. But writing realistic test data is boring and time-consuming.
+
+### The Problem with Manual Mock Data
+
+**Old way:**
+```javascript
+const users = [
+  { id: 1, name: 'Test User 1', email: 'test1@test.com' },
+  { id: 2, name: 'Test User 2', email: 'test2@test.com' },
+  // ... boring and unrealistic
+];
+```
+
+**Problems:**
+- Looks fake (because it is)
+- Takes time to write
+- Doesn't test edge cases well
+
+### The AI Solution
+
+**Ask AI:**
+> "Generate a JSON array of 50 users. Fields: id, firstName, lastName, email, phone (Australian format), address (Australian cities). Make the data look realistic, not 'Test User 1'."
+
+**What you get:**
+```json
+[
+  {
+    "id": 1,
+    "firstName": "Sarah",
+    "lastName": "Mitchell",
+    "email": "sarah.mitchell@email.com",
+    "phone": "+61 2 9123 4567",
+    "address": "123 Collins Street, Melbourne VIC 3000"
+  },
+  // ... 49 more realistic users
+]
+```
+
+**Benefits:**
+- Realistic data that tests your app properly
+- Australian formats (phone numbers, addresses)
+- Variety that catches edge cases
+- Generated in seconds
+
+![Mock Data](https://via.placeholder.com/800x600/02022B/D56EED?text=Image)
+*'Before: Test User 1, Test User 2, Test User 3... After: Realistic data that actually tests your app properly.'*
+
+---
+
+## Your Practice Exercise: Build a Test Suite
+
+Ready to try this yourself? Let's test a real function from your project.
+
+### Step 1: Choose a Function
+
+Pick a utility function from your current project. Good examples:
+- Date formatter
+- Currency converter
+- String validator
+- Calculator function
+
+**Don't have one?** That's okay! Use this example:
+
+```javascript
+function calculateDiscount(price, discountPercent) {
+  return price * (1 - discountPercent / 100);
+}
+```
+
+### Step 2: Generate Unit Tests
+
+**In Cursor or VS Code:**
+1. Highlight your function
+2. Ask AI: "Generate a comprehensive Jest test suite for this function. Include happy paths, edge cases (null/undefined, negative numbers, zero), and error handling."
+
+3. Review what AI generated
+4. Run the tests
+5. Fix any issues
+
+### Step 3: Find Missing Edge Cases
+
+**Ask AI:**
+> "What edge cases am I missing for this function? Generate additional test cases."
+
+**This is powerful!** AI might find cases you didn't think of:
+- What if price is negative?
+- What if discount is over 100%?
+- What if discount is 0%?
+- What about floating point precision issues?
+
+### Step 4: Generate Mock Data
+
+**Ask AI:**
+> "Generate a JSON array of 20 products with: name, price (Australian dollars), category, and discount percentage. Make it realistic."
+
+Use this data to test your function with various inputs!
+
+### Questions to Reflect On
+
+After you've done this:
+- Did AI find any bugs in your original function?
+- Are the generated tests readable? (They should be!)
+- How much time did this save vs writing from scratch?
+- Do you feel more confident about your code now?
+
+![Practice Time](https://via.placeholder.com/800x600/02022B/D56EED?text=Image)
+*'You: I wrote tests! Also you: Well, AI wrote them, but I reviewed them. That counts, right? Me: Absolutely it counts!'*
+
+---
+
+## Common Mistakes (And How to Avoid Them)
+
+### Mistake #1: Trusting AI Tests Blindly
+
+**The problem:** Assuming AI-generated tests are perfect
+
+**The solution:** Always review and run the tests. AI is helpful, but you're still responsible for quality.
+
+### Mistake #2: Not Understanding What You're Testing
+
+**The problem:** Using AI tests without understanding what they do
+
+**The solution:** Read through the generated tests. If you don't understand something, ask AI to explain it.
+
+### Mistake #3: Not Updating Tests When Code Changes
+
+**The problem:** Tests break when you change code, and you delete them instead of fixing them
+
+**The solution:** When code changes, ask AI to update the tests. It's quick!
+
+![Common Mistakes](https://via.placeholder.com/800x600/02022B/D56EED?text=Image)
+*'Mistake: Writing tests once and never updating them. Reality: Code changes, tests need to change too. AI: I can help with that!'*
+
+---
+
+## Next Steps
+
+You've learned how to test efficiently! Here's what's next:
+
+1. **Refactoring & Legacy Code**: Learn to clean up and modernise old code
+2. **Documentation**: Document your code so others can understand it
+
+**Remember:** Testing is a skill. The more you practice, the better you'll get at knowing what to test and how to test it. AI makes it faster, but you're still learning valuable skills!
+
+---
+
+## Resources
+
+- [Jest Documentation](https://jestjs.io/) - The testing framework we use
+- [Playwright Documentation](https://playwright.dev/) - For E2E testing
+- [Faker.js](https://fakerjs.dev/) - Great for generating realistic mock data (works well with AI!)
+
+---
+
+## Module Checklist
+
+Before moving on:
+
+- [ ] Read through all the content
+- [ ] Generated a test suite for at least one function
+- [ ] Created a mock dataset using AI
+- [ ] Understood the difference between unit tests and E2E tests
+
+**Estimated Time:** 45 minutes (longer if you're doing the exercises)
+
+**Difficulty:** Intermediate (but we've broken it down into simple steps!)
+
+**Feeling confident?** Move on to refactoring!
+**Still practising?** That's great! Keep generating tests for different functions.
+
+**You're building valuable skills!** 🧪✨

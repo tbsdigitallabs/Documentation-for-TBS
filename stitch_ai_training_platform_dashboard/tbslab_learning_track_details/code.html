@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Track Details - TBSLab</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<style>
+        .glassmorphism {
+            background: rgba(255, 255, 255, 0.05);
+            -webkit-backdrop-filter: blur(12px);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+    </style>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#0606f9",
+              "background-light": "#f5f5f8",
+              "background-dark": "#1A1A1A",
+              "accent-cyan": "#00FFFF",
+              "accent-magenta": "#FF00FF",
+              "accent-blue": "#007BFF",
+              "accent-purple": "#8A2BE2",
+            },
+            fontFamily: {
+              "display": ["Inter", "sans-serif"]
+            },
+            borderRadius: { "DEFAULT": "0.5rem", "lg": "0.75rem", "xl": "1rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-dark font-display">
+<div class="relative mx-auto flex h-auto min-h-screen w-full max-w-md flex-col overflow-x-hidden">
+<header class="sticky top-0 z-10 flex h-20 items-center justify-between bg-background-dark/80 px-6 backdrop-blur-sm">
+<button class="flex size-10 shrink-0 items-center justify-center rounded-full text-white">
+<span class="material-symbols-outlined text-2xl">arrow_back</span>
+</button>
+<div class="flex flex-col items-center">
+<div class="flex items-center gap-2">
+<svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M12 2L2 7V17L12 22L22 17V7L12 2Z" stroke="#00FFFF" stroke-linejoin="round" stroke-width="2"></path>
+<path d="M2 7L12 12L22 7" stroke="#00FFFF" stroke-linejoin="round" stroke-width="2"></path>
+<path d="M12 22V12" stroke="#FF00FF" stroke-linejoin="round" stroke-width="2"></path>
+<path d="M17 4.5L7 9.5" stroke="#FF00FF" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<span class="text-lg font-bold text-white">TBSLab</span>
+</div>
+<span class="text-sm font-medium text-gray-400">LearningLab</span>
+</div>
+<div class="w-10"></div>
+</header>
+<main class="flex-1 px-6 pb-28 pt-4">
+<h2 class="text-[34px] font-bold leading-tight tracking-tight text-white">Advanced Neural Networks</h2>
+<p class="pt-2 text-base font-normal leading-relaxed text-gray-300">
+            A comprehensive track covering the principles and applications of advanced neural network architectures.
+        </p>
+<div class="mt-8 flex gap-4">
+<div class="flex flex-1 flex-col gap-1.5 rounded-xl border border-white/10 bg-white/5 p-4">
+<p class="text-2xl font-bold leading-tight text-white">12h 30m</p>
+<p class="text-sm font-normal text-gray-400">Total Duration</p>
+</div>
+<div class="flex flex-1 flex-col gap-1.5 rounded-xl border border-white/10 bg-white/5 p-4">
+<p class="text-2xl font-bold leading-tight text-white">15</p>
+<p class="text-sm font-normal text-gray-400">Modules</p>
+</div>
+</div>
+<div class="py-8">
+<button class="flex h-14 w-full min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg bg-gradient-to-r from-accent-cyan to-accent-magenta text-base font-bold leading-normal tracking-[0.015em] text-white shadow-[0_0_20px_rgba(255,0,255,0.4)] transition-shadow duration-300 hover:shadow-[0_0_30px_rgba(0,255,255,0.6)]">
+<span class="truncate">Start Track</span>
+</button>
+</div>
+<div class="space-y-4">
+<h3 class="pt-2 text-xl font-bold text-white">Modules in this Track</h3>
+<details class="group overflow-hidden rounded-xl glassmorphism">
+<summary class="flex cursor-pointer list-none items-center justify-between p-4">
+<div class="flex items-center gap-4">
+<div class="flex size-10 shrink-0 items-center justify-center rounded-full bg-accent-blue/20 text-accent-blue">
+<span class="material-symbols-outlined">layers</span>
+</div>
+<div>
+<h4 class="font-semibold text-white">Introduction to CNNs</h4>
+<p class="text-sm text-gray-400">45m</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-white transition-transform duration-300 group-open:rotate-180">expand_more</span>
+</summary>
+<div class="border-t border-white/10 bg-black/20 p-4">
+<p class="text-sm text-gray-300">Dive into the fundamentals of Convolutional Neural Networks, the powerhouse behind modern computer vision.</p>
+</div>
+</details>
+<details class="group overflow-hidden rounded-xl glassmorphism">
+<summary class="flex cursor-pointer list-none items-center justify-between p-4">
+<div class="flex items-center gap-4">
+<div class="flex size-10 shrink-0 items-center justify-center rounded-full bg-accent-purple/20 text-accent-purple">
+<span class="material-symbols-outlined">psychology</span>
+</div>
+<div>
+<h4 class="font-semibold text-white">Recurrent Neural Networks</h4>
+<p class="text-sm text-gray-400">1h 15m</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-white transition-transform duration-300 group-open:rotate-180">expand_more</span>
+</summary>
+<div class="border-t border-white/10 bg-black/20 p-4">
+<p class="text-sm text-gray-300">Explore the architecture of RNNs and their application in sequential data processing and natural language understanding.</p>
+</div>
+</details>
+<details class="group overflow-hidden rounded-xl glassmorphism opacity-60">
+<summary class="flex cursor-pointer list-none items-center justify-between p-4">
+<div class="flex items-center gap-4">
+<div class="relative flex size-10 shrink-0 items-center justify-center rounded-full bg-green-500/20 text-green-400">
+<span class="material-symbols-outlined">data_object</span>
+<div class="absolute -bottom-1 -right-1 flex size-5 items-center justify-center rounded-full border-2 border-background-dark bg-green-500 text-background-dark">
+<span class="material-symbols-outlined !text-sm">check</span>
+</div>
+</div>
+<div>
+<h4 class="font-semibold text-white">Transformers &amp; Attention</h4>
+<p class="text-sm text-gray-400">2h 00m</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-white transition-transform duration-300 group-open:rotate-180">expand_more</span>
+</summary>
+<div class="border-t border-white/10 bg-black/20 p-4">
+<p class="text-sm text-gray-300">Uncover the mechanism behind the Transformer architecture, a key innovation in modern AI and large language models.</p>
+</div>
+</details>
+</div>
+</main>
+<nav class="fixed bottom-0 left-0 right-0 z-10 mx-auto max-w-md border-t border-white/10 bg-background-dark/80 backdrop-blur-sm">
+<div class="flex h-20 items-center justify-around">
+<a class="flex flex-col items-center gap-1 text-gray-400" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="text-xs font-medium">Home</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-accent-cyan" href="#">
+<span class="material-symbols-outlined">school</span>
+<span class="text-xs font-bold">Learning</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-gray-400" href="#">
+<span class="material-symbols-outlined">trending_up</span>
+<span class="text-xs font-medium">Progress</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-gray-400" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="text-xs font-medium">Profile</span>
+</a>
+</div>
+</nav>
+</div>
+
+</body></html>

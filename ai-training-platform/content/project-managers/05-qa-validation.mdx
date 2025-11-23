@@ -1,70 +1,351 @@
+---
+title: "Quality Assurance and Strategic Validation"
+description: "Learn to use AI to 'red team' your work, validate deliverables against briefs, and ensure quality."
+estimatedTime: "30 minutes"
+difficulty: "Intermediate"
+questions:
+  - id: "q1"
+    question: "What is 'red teaming'?"
+    options:
+      - "A type of team building exercise"
+      - "Actively trying to find flaws and weaknesses in your own work"
+      - "A colour coding system"
+      - "A type of meeting"
+    correctAnswer: 1
+  - id: "q2"
+    question: "What should you always do before sending work to a client?"
+    options:
+      - "Send it immediately"
+      - "Run it through a 'red team' prompt to find potential issues"
+      - "Delete it"
+      - "Ignore it"
+    correctAnswer: 1
+  - id: "q3"
+    question: "What is 'strategic QA'?"
+    options:
+      - "QA that takes a long time"
+      - "QA that asks 'Does this actually solve the strategic problem?'"
+      - "QA that only checks spelling"
+      - "QA that uses AI"
+    correctAnswer: 1
+---
+
 # Quality Assurance and Strategic Validation
+
+Welcome to the final core project manager module! This one is about something that often gets skipped in fast-paced agencies: **quality assurance**.
+
+**This module will teach you:** How to use AI to 'red team' your work, validate deliverables against briefs, and ensure that what you deliver actually solves the strategic problem.
+
+![QA Validation](https://via.placeholder.com/800x600/02022B/D56EED?text=Image)
+*'QA: The thing everyone knows is important but nobody has time for. AI: I can help with that. You: Finally, someone who understands!'*
 
 ## Learning Objectives
 
-By the end of this module, you will be able to:
+By the end of this module, you'll be able to:
 
-- Use AI to "red team" your own work
-- Automate the checking of deliverables against the original brief
+- Use AI to 'red team' your own work (find flaws before clients do)
+- Automate checking deliverables against original briefs
 - Create dynamic QA checklists based on project requirements
-- Validate that the output actually solves the strategic problem
-
-## Why QA Matters
-
-In a fast-paced agency, QA often gets skipped. "It looks good" isn't enough.
-**Strategic QA** asks: "Does this actually do what we said it would do?"
-
-## AI as the Inspector
-
-### 1. The "Red Team" Prompt
-Before sending a document to a client, ask AI to destroy it.
-Prompt:
-> "You are a grumpy client who hates spending money. Read this proposal. Find 3 reasons to say no. Be specific."
-
-### 2. The "Brief Matcher"
-Upload the Original Brief and the Final Deliverable (copy).
-Prompt:
-> "Compare the final output against the requirements in the brief. Rate the compliance on a scale of 1-10. List any missing requirements."
-
-### 3. The "Edge Case" Generator
-For software projects, we often forget the unhappy paths.
-Prompt:
-> "We are building a signup flow. List 10 edge cases we might have forgotten (e.g., user has no email, user is under 18, internet cuts out)."
-
-## Practical Exercise: The QA Gauntlet
-
-### Task
-Take a recent deliverable (an email, a report, a design mock-up description).
-Run it through the "Red Team" prompt.
-Then, try to fix the issues the AI identified.
-
-### Questions to Consider
-- Was the AI's feedback valid?
-- Did it catch things you were "blind" to because you worked on it too long?
-- How can you build this into your daily workflow?
-
-## Next Steps
-
-You've completed the Project Manager Track!
-You now have the tools to:
-1.  Build Strategy
-2.  Research with AI
-3.  Analyse Data
-4.  Create Workflows
-5.  Validate Quality
-
-## Resources
-
-- [TBS QA Checklists](https://tbs.digital/qa) (Internal Link)
-- [Farnam Street: Red Teaming](https://fs.blog/red-teaming/)
+- Validate that outputs actually solve strategic problems
+- Catch issues before they become problems
 
 ---
 
-**Module Completion**: Mark this module as complete when you've:
-- [ ] Read through all content
+## Why QA Matters (The Reality Check)
+
+Let's be honest about quality assurance in agencies.
+
+### The Problem
+
+**In fast-paced agencies:**
+- QA often gets skipped
+- "It looks good" becomes the standard
+- Issues are found by clients (embarrassing!)
+- Fixes cost more than prevention
+
+**The reality:**
+- "It looks good" isn't enough
+- Strategic QA asks: "Does this actually do what we said it would do?"
+- Catching issues early saves time and money
+- Clients notice quality (or lack of it)
+
+### The Solution
+
+AI can help you QA your work quickly and thoroughly. Think of it as having a critical reviewer who never gets tired.
+
+![Why QA Matters](https://via.placeholder.com/800x600/02022B/D56EED?text=Image)
+*'QA: The thing that prevents "Oh no, the client found a mistake!" moments. AI: I can help catch issues before clients do. You: Sign me up!'*
+
+---
+
+## Technique 1: The "Red Team" Prompt (Destroy Your Own Work)
+
+Before sending work to a client, ask AI to destroy it. Find the flaws before they do!
+
+### What is Red Teaming?
+
+**Red teaming** = Actively trying to find flaws and weaknesses in your own work
+
+**Why it works:**
+- You're too close to your work to see issues
+- AI has no emotional attachment
+- AI can be harsh (which is what you need)
+- Catches issues before clients do
+
+### How to Use It
+
+**Step 1:** Have your deliverable ready (proposal, report, design description, etc.)
+
+**Step 2:** Ask AI:
+> "You are a grumpy client who hates spending money. Read this proposal. Find 3 reasons to say no. Be specific. Be harsh."
+
+**Step 3:** Read the feedback (even if it hurts!)
+
+**Step 4:** Fix the issues AI found
+
+**Step 5:** Re-run the prompt to see if you fixed them
+
+### Example: Red Teaming a Proposal
+
+**Your proposal:** A website redesign proposal for $50,000
+
+**AI red team feedback:**
+> "⚠️ Reasons to Say No:
+> 
+> 1. **Vague deliverables**: You say 'improved user experience' but don't specify what that means. How do I know I'm getting value?
+> 
+> 2. **No timeline**: When will this be done? I need to plan my business around this.
+> 
+> 3. **Unclear ROI**: You say this will 'increase conversions' but don't say by how much or how you'll measure it. How do I know it's worth $50,000?"
+
+**See?** AI found real issues you can fix before sending to the client!
+
+![Red Team](https://via.placeholder.com/800x600/02022B/D56EED?text=Image)
+*'You: This proposal is perfect! AI Red Team: Let me destroy that for you. You: *reads feedback* Also you: Okay, maybe it's not perfect. Time to fix it!'*
+
+---
+
+## Technique 2: The "Brief Matcher" (Does It Match Requirements?)
+
+Make sure your deliverable actually matches what was asked for!
+
+### The Problem
+
+**Common scenario:**
+- Client asks for X, Y, and Z
+- You deliver X, Y, and... something else
+- Client notices what's missing
+- You have to redo work
+
+**The solution:** Check deliverables against briefs automatically!
+
+### How to Use It
+
+**Step 1:** Upload both documents:
+- The Original Brief
+- The Final Deliverable
+
+**Step 2:** Ask AI:
+> "Compare the final output against the requirements in the brief. Rate the compliance on a scale of 1-10. List any missing requirements. Be specific about what's missing or different."
+
+**Step 3:** Review the comparison
+
+**Step 4:** Fix any gaps
+
+### Example: Matching a Design Brief
+
+**Brief requirements:**
+- Mobile-responsive design
+- Blue and green colour scheme
+- Customer testimonials section
+- Contact form
+- Australian English spelling
+
+**AI comparison:**
+> "Compliance Rating: 7/10
+> 
+> ✅ **Met Requirements:**
+> - Mobile-responsive design: Yes
+> - Blue and green colours: Yes
+> - Contact form: Yes
+> 
+> ❌ **Missing Requirements:**
+> - Customer testimonials section: Not found
+> - Australian English: Found American spelling ('color' instead of 'colour', 'organize' instead of 'organise')
+> 
+> **Recommendations:**
+> - Add testimonials section
+> - Fix spelling to Australian English"
+
+**See?** AI caught issues you might have missed!
+
+![Brief Matcher](https://via.placeholder.com/800x600/02022B/D56EED?text=Image)
+*'Brief: *lists requirements* Deliverable: *exists* AI: Let me check if they match. Result: 2 things missing! You: Good catch, AI!'*
+
+---
+
+## Technique 3: The "Edge Case" Generator (What Could Go Wrong?)
+
+For software projects, we often forget the 'unhappy paths'—what happens when things go wrong.
+
+### The Problem
+
+**Common scenario:**
+- You build the happy path (everything works perfectly)
+- User does something unexpected
+- System breaks
+- You have to fix it
+
+**The solution:** Think about edge cases before building!
+
+### How to Use It
+
+**Step 1:** Describe what you're building
+
+**Step 2:** Ask AI:
+> "We are building a signup flow. List 10 edge cases we might have forgotten (e.g., user has no email, user is under 18, internet cuts out, user enters invalid data). For each, suggest how to handle it."
+
+**Step 3:** Review the edge cases
+
+**Step 4:** Add handling for the important ones
+
+### Example: Signup Flow Edge Cases
+
+**AI-generated edge cases:**
+> "Edge Cases for Signup Flow:
+> 
+> 1. **User has no email**: Require email or offer phone number signup
+> 2. **User is under 18**: Show age verification, block if underage
+> 3. **Internet cuts out**: Save progress, allow resume
+> 4. **Invalid email format**: Show clear error message
+> 5. **Email already exists**: Offer password reset or login
+> 6. **Password too weak**: Show strength indicator, require minimum
+> 7. **User closes browser mid-signup**: Save progress with cookies
+> 8. **Special characters in name**: Sanitise input, allow common characters
+> 9. **Very long inputs**: Set character limits, show remaining count
+> 10. **Multiple rapid submissions**: Add rate limiting, show 'processing' state"
+
+**See?** AI thought of cases you might have missed!
+
+![Edge Cases](https://via.placeholder.com/800x600/02022B/D56EED?text=Image)
+*'You: The signup flow works perfectly! AI: What if the user is under 18? What if they have no email? What if the internet cuts out? You: *sweats nervously* Also you: Good points, let me fix those!'*
+
+---
+
+## Your Practice Exercise: The QA Gauntlet
+
+Ready to QA your own work? Let's do it!
+
+### The Challenge
+
+Take a recent deliverable (an email, a report, a design mock-up description, a proposal—anything you've created).
+
+### Step 1: Red Team It (10 minutes)
+
+**What to do:**
+1. Paste your deliverable into AI
+2. Run the red team prompt:
+   > "You are a grumpy client who hates spending money. Read this [type of deliverable]. Find 3 reasons to say no. Be specific. Be harsh."
+3. Read the feedback (don't take it personally!)
+4. Note the issues
+
+### Step 2: Fix the Issues (10 minutes)
+
+**What to do:**
+1. Address each issue AI found
+2. Update your deliverable
+3. Re-run the red team prompt
+4. See if you fixed the issues
+
+### Step 3: Match Against Brief (If Applicable) (10 minutes)
+
+**What to do:**
+1. If you have the original brief, upload both
+2. Run the brief matcher prompt
+3. Check compliance rating
+4. Fix any missing requirements
+
+### Questions to Reflect On
+
+- Was the AI's feedback valid?
+- Did it catch things you were 'blind' to because you worked on it too long?
+- How can you build this into your daily workflow?
+- Would you feel more confident sending this to a client now?
+
+![QA Gauntlet](https://via.placeholder.com/800x600/02022B/D56EED?text=Image)
+*'Your Work: *exists* QA Gauntlet: *finds issues* You: *fixes issues* Your Work: *now much better* You: Ready to send! Client: This is perfect!'*
+
+---
+
+## Common Mistakes (And How to Avoid Them)
+
+### Mistake #1: Skipping QA Because "It Looks Good"
+
+**The problem:** Assuming everything is fine without checking
+
+**The solution:** Always run at least a red team check. It takes 5 minutes and saves hours of rework.
+
+### Mistake #2: Taking AI Feedback Personally
+
+**The problem:** Getting defensive about AI's harsh feedback
+
+**The solution:** Remember, AI is trying to help. Fix the issues, don't argue with AI.
+
+### Mistake #3: Not Checking Against Briefs
+
+**The problem:** Delivering something different from what was asked
+
+**The solution:** Always use the brief matcher. It's quick and catches missing requirements.
+
+### Mistake #4: Ignoring Edge Cases
+
+**The problem:** Only thinking about the happy path
+
+**The solution:** Always ask AI to generate edge cases. Plan for what could go wrong!
+
+![Common Mistakes](https://via.placeholder.com/800x600/02022B/D56EED?text=Image)
+*'Mistake: "It looks good, ship it!" Reality: Client finds 5 issues. Solution: Always QA first. AI: I can help with that!'*
+
+---
+
+## Next Steps
+
+Congratulations! You've completed the core Project Manager Track! 🎉
+
+You've learned:
+1. ✅ Strategy foundations
+2. ✅ AI research techniques
+3. ✅ Internal data analysis
+4. ✅ Turning strategy into workflows
+5. ✅ QA and validation
+
+**Your project management skills are now:** Faster, more thorough, and more strategic. You can research efficiently, analyse data, create workflows, and ensure quality.
+
+**What's next?** The remaining modules cover automation (Asana) and meeting governance. These will make your daily work even more efficient!
+
+---
+
+## Resources
+
+- [TBS QA Checklists](https://tbs.digital/qa) - Internal QA guidelines
+- [Farnam Street: Red Teaming](https://fs.blog/red-teaming/) - Learn more about red teaming
+
+---
+
+## Module Checklist
+
+Before completing the core PM track:
+
+- [ ] Read through all the content
 - [ ] Completed the QA Gauntlet exercise
 - [ ] Red-teamed a piece of your own work
+- [ ] Used the brief matcher (if applicable)
+- [ ] Generated edge cases for a project
 
-**Estimated Time**: 30 minutes
-**Difficulty**: Intermediate
-**Prerequisites**: Strategy Workflows
+**Estimated Time:** 30 minutes (longer if you're doing the exercises)
+
+**Difficulty:** Intermediate (but we've made it simple!)
+
+**You've Mastered Core Project Management with AI!** 🚀✨
+
+**Remember:** Quality assurance isn't about being perfect—it's about catching issues before clients do. AI makes this fast and thorough!

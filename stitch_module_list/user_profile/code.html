@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>User Profile - TBSLab LearningLab</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<style>
+    .glass-card {
+      background: rgba(42, 42, 60, 0.6);
+      -webkit-backdrop-filter: blur(10px);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .dark .glass-card {
+      background: rgba(42, 42, 60, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+  </style>
+<script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+<script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            primary: "#007AFF",
+            "background-light": "#F3F4F6", // Light Gray for light mode
+            "background-dark": "#111118", // Dark for dark mode
+            "accent-purple": "#A855F7",
+            "accent-cyan": "#22D3EE",
+          },
+          fontFamily: {
+            display: ["Inter", "sans-serif"],
+          },
+          borderRadius: {
+            DEFAULT: "1rem", // 16px
+          },
+        },
+      },
+    };
+  </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="font-display bg-background-light dark:bg-background-dark text-slate-800 dark:text-slate-200 antialiased">
+<div class="flex h-screen overflow-hidden">
+<aside class="w-64 flex-shrink-0 bg-white/5 dark:bg-black/20 border-r border-white/10 dark:border-white/10 p-6 flex-col hidden md:flex">
+<div class="flex items-center gap-3 mb-10">
+<img alt="TBS Lab logo with two beakers" class="h-10 w-auto" src="https://lh3.googleusercontent.com/aida-public/AB6AXuButl1o-2VVf5Xy-8Za8w9UaH7tFdbfkpc9kznXFYZLXPV7w29P4cNRakyfAz5NPVXFQhCuB_wq9PtWnkgZa5LQgVYwiG6k4Zd_G0YyLZ-lokogb5PSE3DA4ZLqHmKUQx21F4rhRhB8VbsBbti5Mg9wzRej2xMHqvcNnL06bZ6mc2p1VYkrOyboQprs7lXjdrhwbdwaE1dbcD07B7NP2bUmLfXpckBVrjx76i2N3mUgNYCEGlTKzL0FX9dq5IjXiRcfAUyDrKnU0dac"/>
+<div>
+<h1 class="text-xl font-bold text-white">TBSLab</h1>
+<p class="text-sm text-slate-400">LearningLab</p>
+</div>
+</div>
+<nav class="flex flex-col space-y-2">
+<a class="flex items-center gap-3 px-4 py-2 text-slate-400 hover:bg-white/10 rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined">home</span>
+<span>Home</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-slate-400 hover:bg-white/10 rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined">school</span>
+<span>Learning</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-slate-400 hover:bg-white/10 rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined">trending_up</span>
+<span>Progress</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 bg-gradient-to-r from-accent-cyan to-accent-purple text-white rounded-lg transition-colors shadow-lg shadow-accent-cyan/20" href="#">
+<span class="material-symbols-outlined">person</span>
+<span>Profile</span>
+</a>
+</nav>
+<div class="mt-auto">
+<a class="flex items-center gap-3 px-4 py-2 text-slate-400 hover:bg-white/10 rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span>Settings</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-slate-400 hover:bg-white/10 rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span>Logout</span>
+</a>
+</div>
+</aside>
+<main class="flex-1 overflow-y-auto">
+<div class="p-8 md:p-12">
+<header class="flex justify-between items-center mb-10">
+<div>
+<h1 class="text-4xl font-extrabold text-white">Your Profile</h1>
+<p class="text-slate-400 mt-1">Welcome back, Alex. Keep up the great work!</p>
+</div>
+<div class="flex items-center gap-6">
+<button class="relative text-slate-400 hover:text-white transition-colors">
+<span class="material-symbols-outlined text-3xl">notifications</span>
+<span class="absolute top-0 right-0 h-2.5 w-2.5 bg-accent-purple rounded-full border-2 border-background-dark"></span>
+</button>
+<img alt="User avatar" class="h-12 w-12 rounded-full border-2 border-accent-cyan" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAW5aovdtqDYw-Rx95noSNQqA3o-6TH7KuhWsgQlvsEif3ai-e4qtbH0T0i1TD7tBRcvFzn50kIR3rmwcq7AV8GRlSs2M3-3GYoJrR-wHrtGS_fHerzk3zFSLcgx9v6pqQejmShvgdeKevoXIEPl60z-pVjNFmpalbbFEg6c6mYbFFi0eIu_c4_TTxVc4z29GmjJDicNtLUzElSSrw70sCzrRwq7qC9OcedNHG3M8zy5IsnuhMpavg4fn1EPywnR2zivwTJoTkIU8mL"/>
+</div>
+</header>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+<div class="glass-card p-6 rounded-2xl flex flex-col items-center text-center">
+<img alt="User avatar" class="h-24 w-24 rounded-full border-4 border-accent-cyan mb-4 shadow-lg shadow-accent-cyan/20" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBfM8Pec135CSsfy2FG1uF6YKQiiiLyfP44pCOXRpqlWWVNc4niMFjw0IiBZGZmievoUa9hZNEGShj_TRb72zPZBuAU0sL1d77OHxl0ewUXoK0VX1fx03raRHw83AEw_At8hNhGZ_TX3BecAzu7qMu-2gdxF-sH_J_jt9TQKCW4GcsyhjScPKjeJ_rdcnB-zhxZ9qoXbExo7G3kdG-PzA8MNIvkoX48_Mwr7y_ijWtLMxTTXcbybg9HN2astIr2fMrszaRNCSQDO2L3"/>
+<h2 class="text-2xl font-bold text-white">Alex Morgan</h2>
+<p class="text-accent-cyan">AI Developer</p>
+<div class="bg-white/5 w-full h-px my-6"></div>
+<div class="text-left w-full space-y-4 text-slate-300">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-accent-purple text-2xl">badge</span>
+<div class="flex-1">
+<p class="font-medium text-white">Level 12</p>
+<p class="text-sm text-slate-400">AI Adept</p>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-accent-purple text-2xl">workspace_premium</span>
+<div class="flex-1">
+<p class="font-medium text-white">2,450 XP</p>
+<p class="text-sm text-slate-400">Experience Points</p>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-accent-purple text-2xl">groups</span>
+<div class="flex-1">
+<p class="font-medium text-white">Core ML</p>
+<p class="text-sm text-slate-400">Team</p>
+</div>
+</div>
+</div>
+</div>
+<div class="glass-card p-6 rounded-2xl flex flex-col">
+<h3 class="text-xl font-bold text-white mb-6">Overall Progress</h3>
+<div class="space-y-6">
+<div>
+<div class="flex justify-between mb-1.5 text-sm text-slate-300">
+<span>Modules Completed</span>
+<span class="font-semibold text-white">18 / 42</span>
+</div>
+<div class="w-full bg-slate-700 rounded-full h-2.5">
+<div class="bg-gradient-to-r from-accent-cyan to-accent-purple h-2.5 rounded-full" style="width: 42%"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between mb-1.5 text-sm text-slate-300">
+<span>Projects Submitted</span>
+<span class="font-semibold text-white">4 / 10</span>
+</div>
+<div class="w-full bg-slate-700 rounded-full h-2.5">
+<div class="bg-gradient-to-r from-accent-cyan to-accent-purple h-2.5 rounded-full" style="width: 40%"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between mb-1.5 text-sm text-slate-300">
+<span>Skill Quizzes Passed</span>
+<span class="font-semibold text-white">25 / 30</span>
+</div>
+<div class="w-full bg-slate-700 rounded-full h-2.5">
+<div class="bg-gradient-to-r from-accent-cyan to-accent-purple h-2.5 rounded-full" style="width: 83%"></div>
+</div>
+</div>
+</div>
+<div class="mt-auto pt-6">
+<h3 class="text-xl font-bold text-white mb-4">Your Learning Path</h3>
+<div class="glass-card bg-white/5 p-4 rounded-xl flex items-center gap-4 hover:border-accent-cyan transition-colors duration-300">
+<div class="bg-accent-purple/20 p-3 rounded-lg">
+<span class="material-symbols-outlined text-accent-purple">model_training</span>
+</div>
+<div>
+<p class="font-semibold text-white">Advanced Neural Networks</p>
+<p class="text-sm text-slate-400">Continue track - 75% complete</p>
+</div>
+<span class="material-symbols-outlined text-slate-400 ml-auto">arrow_forward_ios</span>
+</div>
+</div>
+</div>
+<div class="glass-card p-6 rounded-2xl">
+<h3 class="text-xl font-bold text-white mb-6">Achievements</h3>
+<div class="grid grid-cols-2 gap-4">
+<div class="flex flex-col items-center p-4 bg-white/5 rounded-lg text-center">
+<span class="material-symbols-outlined text-5xl text-accent-cyan mb-2">emoji_events</span>
+<p class="font-semibold text-white">First Steps</p>
+<p class="text-xs text-slate-400">Completed 1st module</p>
+</div>
+<div class="flex flex-col items-center p-4 bg-white/5 rounded-lg text-center">
+<span class="material-symbols-outlined text-5xl text-accent-cyan mb-2">local_fire_department</span>
+<p class="font-semibold text-white">Learning Streak</p>
+<p class="text-xs text-slate-400">7 consecutive days</p>
+</div>
+<div class="flex flex-col items-center p-4 bg-white/5 rounded-lg text-center">
+<span class="material-symbols-outlined text-5xl text-slate-500 mb-2">rocket_launch</span>
+<p class="font-semibold text-slate-400">Project Pro</p>
+<p class="text-xs text-slate-500">Submit a project</p>
+</div>
+<div class="flex flex-col items-center p-4 bg-white/5 rounded-lg text-center">
+<span class="material-symbols-outlined text-5xl text-slate-500 mb-2">psychology</span>
+<p class="font-semibold text-slate-400">NN Novice</p>
+<p class="text-xs text-slate-500">Finish NN Track</p>
+</div>
+<div class="flex flex-col items-center p-4 bg-white/5 rounded-lg text-center">
+<span class="material-symbols-outlined text-5xl text-slate-500 mb-2">group_work</span>
+<p class="font-semibold text-slate-400">Team Player</p>
+<p class="text-xs text-slate-500">Collaborate on a project</p>
+</div>
+<div class="flex flex-col items-center p-4 bg-white/5 rounded-lg text-center">
+<span class="material-symbols-outlined text-5xl text-slate-500 mb-2">school</span>
+<p class="font-semibold text-slate-400">Pathfinder</p>
+<p class="text-xs text-slate-500">Complete a full path</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+<nav class="md:hidden fixed bottom-0 left-0 right-0 bg-slate-900 border-t border-slate-700 p-2 flex justify-around text-slate-400">
+<a class="flex flex-col items-center text-center p-2 rounded-lg" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="text-xs">Home</span>
+</a>
+<a class="flex flex-col items-center text-center p-2 rounded-lg" href="#">
+<span class="material-symbols-outlined">school</span>
+<span class="text-xs">Learning</span>
+</a>
+<a class="flex flex-col items-center text-center p-2 rounded-lg" href="#">
+<span class="material-symbols-outlined">trending_up</span>
+<span class="text-xs">Progress</span>
+</a>
+<a class="flex flex-col items-center text-center p-2 rounded-lg text-accent-cyan" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="text-xs">Profile</span>
+</a>
+</nav>
+
+</body></html>

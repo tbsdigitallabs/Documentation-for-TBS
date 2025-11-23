@@ -1,0 +1,95 @@
+/* Tailwind v4 CSS-First Configuration */
+/* Clean rebuild - all design tokens in one place */
+
+/* Import removed - moved to globals.css */
+
+@theme {
+    /* === COLORS === */
+    --color-oxford-blue: #02022B;
+    --color-ultramarine: #121856;
+    --color-light-magenta: #D56EED;
+    --color-sage: #61BDBA;
+
+    /* Cyber-Premium */
+    --color-space-black: #0a0a0f;
+    --color-midnight: #121218;
+    --color-electric-magenta: #ff00ff;
+    --color-cyber-magenta: #d946ef;
+    --color-electric-cyan: #00d9ff;
+    --color-plasma-purple: #a855f7;
+
+    /* Stitch Design Tokens */
+    --color-primary: #0A84FF;
+    --color-background-light: #F0F2F5;
+    --color-background-dark: #02022B;
+    /* Oxford Blue - matches logo background */
+    --color-cyber-yellow: #FFB800;
+    --color-cyber-green: #00C48C;
+    /* Overriding cyber-magenta to match Stitch */
+    --color-cyber-magenta: #AF52DE;
+    --color-cyber-cyan: #00F5FF;
+    --color-card-light: rgba(255, 255, 255, 0.8);
+    --color-card-dark: rgba(38, 38, 38, 0.5);
+
+    /* Surface Colors - Light Mode Defaults */
+    --color-surface-primary: var(--color-background-light);
+    --color-surface-secondary: var(--color-background-light);
+    --color-surface-header: rgba(255, 255, 255, 0.8);
+    --color-content-primary: var(--color-text-primary-light);
+    --color-content-secondary: var(--color-text-secondary-light);
+    --color-border-primary: rgba(0, 0, 0, 0.1);
+    --color-surface-tertiary: rgba(0, 0, 0, 0.05);
+    --color-surface-card: var(--color-card-light);
+
+    /* Button Colors */
+    --color-button: var(--color-button-bg);
+    --color-button-text: var(--color-button-text);
+    --color-button-border: var(--color-button-border);
+    --color-button-hover: var(--color-button-hover-bg);
+    --color-disabled: var(--color-disabled-bg);
+    --color-disabled-text: var(--color-disabled-text);
+
+    /* Accent Colors */
+    --accent-magenta: var(--color-light-magenta);
+    --accent-magenta-500: var(--color-light-magenta);
+    --accent-sage-500: var(--color-sage);
+
+    /* Role-Specific Accent Colors - Direct hex values for Tailwind v4 */
+    /* These will work with opacity modifiers like /10, /20, /90 */
+    --color-accent-developers: #0A84FF;
+    --color-accent-designers: #FFB800;
+    --color-accent-project-managers: #00C48C;
+    --color-accent-content-creators: #850AFF;
+    --color-accent-sales-business: #EF4444;
+
+    /* Legacy support - keep for CSS variable references */
+    --accent-developers: var(--color-accent-developers);
+    --accent-designers: var(--color-accent-designers);
+    --accent-project-managers: var(--color-accent-project-managers);
+    --accent-content-creators: var(--color-accent-content-creators);
+    --accent-sales-business: var(--color-accent-sales-business);
+
+    /* === TYPOGRAPHY === */
+    --font-family-heading: 'Funnel Display', system-ui, sans-serif;
+    --font-family-body: 'Rethink Sans', system-ui, sans-serif;
+    --font-heading: var(--font-family-heading);
+    --font-body: var(--font-family-body);
+
+    /* Tailwind v4 font family utilities */
+    --font-heading: var(--font-family-heading);
+    --font-body: var(--font-family-body);
+}
+
+/* Dark Mode Overrides - Applied when .dark class is present */
+.dark {
+    --color-surface-primary: var(--color-oxford-blue);
+    /* Oxford Blue - matches logo background */
+    --color-surface-secondary: var(--color-oxford-blue);
+    --color-surface-header: rgba(2, 2, 43, 0.8);
+    /* Oxford Blue with opacity */
+    --color-content-primary: var(--color-text-primary-dark);
+    --color-content-secondary: var(--color-text-secondary-dark);
+    --color-border-primary: rgba(255, 255, 255, 0.1);
+    --color-surface-tertiary: rgba(255, 255, 255, 0.05);
+    --color-surface-card: var(--color-card-dark);
+}

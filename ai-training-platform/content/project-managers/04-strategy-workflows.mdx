@@ -1,73 +1,343 @@
+---
+title: "Turning Strategy into Executable Workflows"
+description: "Learn to translate high-level strategy into actionable tickets, briefs, and workflows using AI."
+estimatedTime: "45 minutes"
+difficulty: "Intermediate"
+questions:
+  - id: "q1"
+    question: "What is the main problem with high-level strategy statements?"
+    options:
+      - "They are too detailed"
+      - "They are goals, not tasks—they need to be broken down into specific actions"
+      - "They are always wrong"
+      - "They are too expensive"
+    correctAnswer: 1
+  - id: "q2"
+    question: "What should every task ticket include?"
+    options:
+      - "Just a title"
+      - "User story, acceptance criteria, and priority level"
+      - "Only the description"
+      - "Nothing"
+    correctAnswer: 1
+  - id: "q3"
+    question: "What is a 'critical path' in project management?"
+    options:
+      - "The longest path through a project"
+      - "The sequence of tasks that determines the shortest project duration"
+      - "The most important tasks"
+      - "The tasks that cost the most"
+    correctAnswer: 1
+---
+
 # Turning Strategy into Executable Workflows
+
+Welcome back! You've learned to create strategies and research with AI. Now comes the hard part: **actually executing that strategy**.
+
+**This module will teach you:** How to translate high-level strategy into actionable tickets, briefs, and workflows. Think of AI as your project manager assistant who breaks big goals into small, doable tasks.
+
+![Strategy to Execution](https://via.placeholder.com/800x600/02022B/D56EED?text=Image)
+*'Strategy: "Improve site speed." Execution: *crickets* AI: Let me break that down into actual tasks. You: Finally, something we can actually do!'*
 
 ## Learning Objectives
 
-By the end of this module, you will be able to:
+By the end of this module, you'll be able to:
 
-- Translate high-level strategy into Jira/Linear tickets
+- Translate high-level strategy into Jira/Linear/Asana tickets
 - Use AI to generate detailed acceptance criteria
-- Create "Definition of Done" checklists automatically
-- Map out dependencies and timelines using AI reasoning
-
-## The Execution Gap
-
-The biggest failure point in consulting is the handoff.
-**Strategy**: "We need to improve site speed to boost SEO."
-**Execution**: *Crickets*.
-
-Why? Because "improve site speed" isn't a task. It's a goal. A task is "Compress all images on the homepage to under 100kb."
-
-## AI as the Project Manager
-
-AI excels at breaking big rocks into pebbles.
-
-### 1. Ticket Generation
-Paste your strategy document into the AI.
-Prompt:
-> "Based on this strategy, generate a list of 10 technical tasks for the development team. Format them for Jira. Include a user story, acceptance criteria, and priority level for each."
-
-### 2. Brief Writing
-Don't write briefs from scratch.
-Prompt:
-> "Write a creative brief for a landing page based on this strategy kernel. The audience is [Audience]. The goal is [Goal]. Include sections for: Key Message, Visual Tone, and Mandatory Inclusions."
-
-### 3. Critical Path Analysis
-Paste your list of tasks.
-Prompt:
-> "Look at these tasks. Which ones are blocking others? Organise them into a logical sequence for a 4-week sprint. Identify the critical path."
-
-## Practical Exercise: The Ticket Factory
-
-### Task
-Take the "Strategy Kernel" you created in Module 1.
-Use AI to generate:
-1.  **3 Epic Tickets**: High-level bodies of work.
-2.  **5 Task Tickets**: Specific actions for developers or designers.
-3.  **1 QA Checklist**: How will we know it's working?
-
-### Questions to Consider
-- Are the tickets specific enough for a junior developer to understand?
-- Did the AI miss any obvious dependencies?
-- How much editing did you have to do?
-
-## Next Steps
-
-You have the plan. Now you need to validate it.
-Next up: **Quality Assurance and Strategic Validation**.
-
-## Resources
-
-- [Atlassian: User Stories](https://www.atlassian.com/agile/project-management/user-stories)
-- [Linear Guide to Issues](https://linear.app/docs/issues)
-- [TBS Ticket Templates](https://tbs.digital/templates/tickets) (Internal Link)
+- Create 'Definition of Done' checklists automatically
+- Map out dependencies and timelines using AI
+- Turn strategy into actionable workflows
 
 ---
 
-**Module Completion**: Mark this module as complete when you've:
-- [ ] Read through all content
+## The Execution Gap (Why Strategies Fail)
+
+Let's talk about the biggest failure point in consulting: **the handoff from strategy to execution**.
+
+### The Problem
+
+**Strategy says:**
+> "We need to improve site speed to boost SEO."
+
+**Execution says:**
+> *Crickets* 🦗
+
+**Why?** Because "improve site speed" isn't a task. It's a goal. A task is: "Compress all images on the homepage to under 100kb."
+
+### The Gap Explained
+
+**High-level strategy:**
+- Vague and abstract
+- Hard to know where to start
+- No clear steps
+- Easy to ignore
+
+**Actionable tasks:**
+- Specific and concrete
+- Clear starting point
+- Step-by-step instructions
+- Easy to assign and track
+
+**The solution:** AI can break big goals into small tasks automatically!
+
+![Execution Gap](https://via.placeholder.com/800x600/02022B/D56EED?text=Image)
+*'The Execution Gap: Where good strategies go to die. AI: I can help bridge that gap. You: Show me how!'*
+
+---
+
+## AI as Your Project Manager (Breaking Big Rocks into Pebbles)
+
+AI excels at breaking big problems into small, manageable pieces. Here's how to use it:
+
+### Technique 1: Ticket Generation (From Strategy to Tasks)
+
+**The workflow:**
+
+**Step 1:** Paste your strategy document into AI
+
+**Step 2:** Ask AI:
+> "Based on this strategy, generate a list of 10 technical tasks for the development team. Format them for Jira. Include a user story, acceptance criteria, and priority level for each."
+
+**What you get:**
+- Specific, actionable tasks
+- User stories (who, what, why)
+- Acceptance criteria (how to know it's done)
+- Priority levels (what to do first)
+
+**Example output:**
+```
+Task 1: Compress Homepage Images
+User Story: As a website visitor, I want pages to load quickly so I don't get frustrated and leave.
+Acceptance Criteria:
+- All images on homepage are under 100kb
+- Page load time is under 2 seconds
+- Images maintain visual quality
+Priority: High
+```
+
+**Time saved:** Hours of breaking down strategy manually!
+
+![Ticket Generation](https://via.placeholder.com/800x600/02022B/D56EED?text=Image)
+*'Strategy: *exists* AI: Let me break that into tasks. Tasks: *appear* You: Perfect! Now we can actually do this!'*
+
+### Technique 2: Brief Writing (From Strategy to Creative Briefs)
+
+Don't write briefs from scratch. Let AI do it!
+
+**The workflow:**
+
+**Step 1:** Have your strategy kernel ready
+
+**Step 2:** Ask AI:
+> "Write a creative brief for a landing page based on this strategy kernel. The audience is [describe your audience]. The goal is [your goal]. Include sections for: Key Message, Visual Tone, and Mandatory Inclusions."
+
+**What you get:**
+- Complete creative brief
+- Clear messaging
+- Visual direction
+- Requirements list
+
+**Example:**
+```
+Creative Brief: Landing Page Redesign
+
+Key Message: "Fast, reliable hosting that scales with your business"
+
+Visual Tone: Modern, professional, trustworthy. Use blue and green colours. Clean, minimal design.
+
+Mandatory Inclusions:
+- Customer testimonials
+- Pricing table
+- Free trial CTA
+- Security badges
+```
+
+**Time saved:** Writing briefs from scratch takes hours. AI does it in minutes!
+
+![Brief Writing](https://via.placeholder.com/800x600/02022B/D56EED?text=Image)
+*'Strategy: *exists* AI: Let me write a brief for that. Brief: *appears* Designers: Finally, clear direction!'*
+
+### Technique 3: Critical Path Analysis (Finding Dependencies)
+
+Understanding what depends on what is crucial for project planning.
+
+**The workflow:**
+
+**Step 1:** Paste your list of tasks
+
+**Step 2:** Ask AI:
+> "Look at these tasks. Which ones are blocking others? Organise them into a logical sequence for a 4-week sprint. Identify the critical path (the sequence that determines the shortest project duration)."
+
+**What you get:**
+- Tasks in logical order
+- Dependencies identified
+- Critical path highlighted
+- Timeline estimate
+
+**Example:**
+```
+Week 1:
+- Design homepage mockups (blocks development)
+- Set up development environment
+
+Week 2:
+- Develop homepage (depends on designs)
+- Write content (can happen in parallel)
+
+Week 3:
+- Integrate content into homepage
+- Test and fix bugs
+
+Week 4:
+- Final QA
+- Deploy
+
+Critical Path: Design → Development → Integration → QA → Deploy
+```
+
+**This shows:** What must happen in order, and what can happen in parallel!
+
+![Critical Path](https://via.placeholder.com/800x600/02022B/D56EED?text=Image)
+*'Tasks: *exist but are chaotic* AI: Let me organise these. Organised Tasks: *in logical order with dependencies* You: Now I understand the project flow!'*
+
+---
+
+## Your Practice Exercise: The Ticket Factory
+
+Ready to turn strategy into tasks? Let's do it!
+
+### The Challenge
+
+Take the "Strategy Kernel" you created in Module 1 (or create a simple one now). Use AI to generate actionable tickets.
+
+### Step 1: Generate Epic Tickets (10 minutes)
+
+**Epic tickets** = High-level bodies of work (big chunks of the project)
+
+**Ask AI:**
+> "Based on this strategy kernel, generate 3 Epic tickets. Each epic should represent a major phase or component of the project. Include: Epic name, description, and key outcomes."
+
+**Example:**
+```
+Epic 1: Homepage Redesign
+Description: Complete redesign of homepage to improve user experience and conversion
+Key Outcomes: Modern design, faster load times, increased conversions
+```
+
+### Step 2: Generate Task Tickets (15 minutes)
+
+**Task tickets** = Specific actions for developers or designers
+
+**Ask AI:**
+> "Break down Epic 1 (Homepage Redesign) into 5 specific task tickets. Format for Jira/Asana. Include: Title, User Story, Acceptance Criteria, and Estimated Hours."
+
+**Example:**
+```
+Task 1: Design Homepage Mockups
+User Story: As a designer, I need to create homepage mockups so developers know what to build.
+Acceptance Criteria:
+- 3 design variations created
+- Mobile and desktop versions
+- Approved by client
+Estimated Hours: 8
+```
+
+### Step 3: Generate QA Checklist (10 minutes)
+
+**QA checklist** = How will we know it's working?
+
+**Ask AI:**
+> "Create a QA checklist for the homepage redesign. Include: Functional testing, visual testing, performance testing, and accessibility testing."
+
+**Example:**
+```
+QA Checklist:
+- [ ] All links work correctly
+- [ ] Images load and display properly
+- [ ] Page loads in under 2 seconds
+- [ ] Mobile responsive design works
+- [ ] Accessibility standards met (WCAG AA)
+- [ ] Cross-browser testing complete
+```
+
+### Questions to Reflect On
+
+- Are the tickets specific enough for a junior developer to understand?
+- Did AI miss any obvious dependencies?
+- How much editing did you have to do?
+- Would you feel confident assigning these tickets to your team?
+
+![Ticket Factory](https://via.placeholder.com/800x600/02022B/D56EED?text=Image)
+*'Strategy: *exists* AI Ticket Factory: *generates tickets* You: Perfect! Now we have a clear plan. Team: Finally, we know what to do!'*
+
+---
+
+## Common Mistakes (And How to Avoid Them)
+
+### Mistake #1: Vague Task Descriptions
+
+**The problem:** "Improve the website" is not a task
+
+**The solution:** Always include specific actions. "Compress homepage images to under 100kb" is a task.
+
+### Mistake #2: Missing Dependencies
+
+**The problem:** Tasks assigned without checking what they depend on
+
+**The solution:** Use AI to identify dependencies. Always ask: "What needs to happen first?"
+
+### Mistake #3: No Acceptance Criteria
+
+**The problem:** "How do we know it's done?"
+
+**The solution:** Always include acceptance criteria. AI can generate these automatically!
+
+### Mistake #4: Ignoring the Critical Path
+
+**The problem:** Not understanding what tasks are blocking others
+
+**The solution:** Use AI to identify the critical path. Focus on those tasks first!
+
+![Common Mistakes](https://via.placeholder.com/800x600/02022B/D56EED?text=Image)
+*'Mistake: Vague tasks, no dependencies, no criteria. Result: Confusion and delays. Solution: Use AI to generate proper tickets with all the details!'*
+
+---
+
+## Next Steps
+
+You've learned to turn strategy into workflows! Here's what's next:
+
+1. **QA Validation**: Learn to validate that your deliverables actually solve the strategic problem
+2. **Asana Automation**: Automate your project management workflows
+
+**Remember:** Execution is where strategy becomes reality. Breaking big goals into small tasks is a skill that gets easier with practice!
+
+---
+
+## Resources
+
+- [Atlassian: User Stories](https://www.atlassian.com/agile/project-management/user-stories) - Learn to write good user stories
+- [Linear Guide to Issues](https://linear.app/docs/issues) - Understanding issue tracking
+- [TBS Ticket Templates](https://tbs.digital/templates/tickets) - Internal ticket templates
+
+---
+
+## Module Checklist
+
+Before moving on:
+
+- [ ] Read through all the content
 - [ ] Generated a set of tickets from a strategy
 - [ ] Created a critical path analysis
+- [ ] Understood the difference between epics and tasks
+- [ ] Know how to write acceptance criteria
 
-**Estimated Time**: 45 minutes
-**Difficulty**: Intermediate
-**Prerequisites**: Strategy Foundations
+**Estimated Time:** 45 minutes (longer if you're doing the exercises)
+
+**Difficulty:** Intermediate (but we've broken it down into simple steps!)
+
+**Feeling confident?** Move on to QA Validation!
+**Still practising?** That's great! Keep turning strategies into tickets. You'll get better with practice.
+
+**You're building valuable project management skills!** 📋✨

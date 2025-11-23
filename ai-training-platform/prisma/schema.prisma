@@ -55,6 +55,16 @@ model User {
   selectedClass String? // Developer, Designer, Project Manager, Content Creator, Sales & Business Dev
   achievements  Achievement[]
   progress      Progress[]
+
+  // Profile and onboarding
+  onboardingCompleted Boolean   @default(false)
+  profileImage        String?   // URL to uploaded profile image
+  bio                 String?   // User bio/description
+  role                String?   // Job role/title
+  skills              String?   // JSON array of skills
+  interests           String?   // JSON array of interests
+  learningGoals       String?   // What they want to learn
+  experienceLevel     String?   // Beginner, Intermediate, Advanced
 }
 
 model VerificationToken {

@@ -1,0 +1,63 @@
+/* Cyber-Premium Design Tokens - Tailwind v4 CSS-First */
+
+@theme {
+    /* Base Colors - Deep Space */
+    --color-space-black: #0a0a0f;
+    --color-midnight: #121218;
+    --color-deep-navy: #1a1a2e;
+    --color-steel-gray: #2a2a3e;
+
+    /* Electric Accents - Neon */
+    --color-electric-magenta: #ff00ff;
+    --color-cyber-magenta: #d946ef;
+    --color-neon-pink: #ec4899;
+    --color-electric-cyan: #00d9ff;
+    --color-neon-blue: #3b82f6;
+    --color-plasma-purple: #a855f7;
+
+    /* Sage */
+    --color-sage-bright: #7dd3d0;
+
+    /* Grid Template Columns - Fix v4 grid system */
+    --grid-template-columns-1: repeat(1, minmax(0, 1fr));
+    --grid-template-columns-2: repeat(2, minmax(0, 1fr));
+    --grid-template-columns-3: repeat(3, minmax(0, 1fr));
+    --grid-template-columns-4: repeat(4, minmax(0, 1fr));
+}
+
+/* Tailwind v4 Grid Classes - Explicit Definition */
+.grid {
+    display: grid;
+}
+
+.grid-cols-1 {
+    grid-template-columns: var(--grid-template-columns-1);
+}
+
+.grid-cols-2 {
+    grid-template-columns: var(--grid-template-columns-2);
+}
+
+.grid-cols-3 {
+    grid-template-columns: var(--grid-template-columns-3);
+}
+
+@media (min-width: 768px) {
+    .md\:grid-cols-2 {
+        grid-template-columns: var(--grid-template-columns-2);
+    }
+
+    .md\:grid-cols-3 {
+        grid-template-columns: var(--grid-template-columns-3);
+    }
+}
+
+@media (min-width: 1024px) {
+    .lg\:grid-cols-3 {
+        grid-template-columns: var(--grid-template-columns-3);
+    }
+
+    .lg\:grid-cols-4 {
+        grid-template-columns: var(--grid-template-columns-4);
+    }
+}

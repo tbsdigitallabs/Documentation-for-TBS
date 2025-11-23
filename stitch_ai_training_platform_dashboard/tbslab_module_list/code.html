@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>LearningLab Modules</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<style>
+    .glass-morphism {
+      background: rgba(255, 255, 255, 0.05);-webkit-backdrop-filter: blur(16px);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+  </style>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#00FFFF",
+            "secondary": "#FF00FF",
+            "background-light": "#f6f5f8",
+            "background-dark": "#1A1A1A",
+            "text-light": "#FFFFFF",
+            "text-secondary": "#B3B3B3",
+          },
+          fontFamily: {
+            "display": ["Inter", "sans-serif"]
+          },
+          borderRadius: {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "2xl": "1rem",
+            "full": "9999px"
+          },
+        },
+      },
+    }
+  </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-dark font-display text-text-light">
+<div class="relative flex h-auto min-h-screen w-full flex-col group/design-root overflow-x-hidden">
+<header class="sticky top-0 z-20 flex items-center bg-background-dark/80 backdrop-blur-sm p-4 justify-between border-b border-white/10">
+<button aria-label="Go back" class="text-text-light flex size-10 shrink-0 items-center justify-center rounded-full hover:bg-white/10 active:bg-white/20">
+<span class="material-symbols-outlined text-2xl">arrow_back</span>
+</button>
+<div class="flex flex-1 items-center justify-center gap-2.5">
+<svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M12 2L2 7V17L12 22L22 17V7L12 2Z" stroke="url(#logo-gradient-header)" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+<path d="M2 7L12 12M22 7L12 12M12 22V12M17 4.5L7 9.5" stroke="url(#logo-gradient-header)" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+<defs>
+<linearGradient gradientUnits="userSpaceOnUse" id="logo-gradient-header" x1="2" x2="22" y1="2" y2="22">
+<stop stop-color="#00FFFF"></stop>
+<stop offset="1" stop-color="#FF00FF"></stop>
+</linearGradient>
+</defs>
+</svg>
+<h1 class="text-text-light text-lg font-semibold leading-tight">LearningLab</h1>
+</div>
+<div class="flex size-10 shrink-0 items-center justify-center"></div>
+</header>
+<main class="flex-grow px-4 pt-6 pb-28">
+<div class="mb-6 px-2">
+<h2 class="text-xl font-bold leading-tight">AI Ethics &amp; Governance</h2>
+<p class="text-text-secondary mt-1 text-sm">Modules to master ethical AI principles.</p>
+</div>
+<div class="flex flex-col gap-4">
+<div class="glass-morphism rounded-2xl p-4 flex flex-col gap-3">
+<div class="flex justify-between items-start gap-4">
+<h3 class="text-text-light text-base font-semibold leading-normal">Introduction to Algorithmic Bias</h3>
+<span aria-label="Module completed" class="material-symbols-outlined text-primary text-2xl">check_circle</span>
+</div>
+<p class="text-text-secondary text-sm font-normal leading-relaxed">A brief overview of the module's learning objectives and key concepts.</p>
+<div class="flex items-center gap-6 text-sm text-text-secondary mt-2">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-base">schedule</span>
+<span>45 Mins</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-base">signal_cellular_alt</span>
+<span class="px-2 py-0.5 rounded-full text-xs font-medium bg-secondary/20 text-secondary">Intermediate</span>
+</div>
+</div>
+</div>
+<div class="glass-morphism rounded-2xl p-4 flex flex-col gap-3 border-2 border-primary shadow-lg shadow-primary/20">
+<div class="flex justify-between items-start gap-4">
+<h3 class="text-text-light text-base font-semibold leading-normal">Fairness in Machine Learning</h3>
+<div class="size-6 relative flex items-center justify-center shrink-0">
+<svg class="size-full -rotate-90" viewBox="0 0 36 36">
+<circle class="stroke-current text-white/20" cx="18" cy="18" fill="none" r="16" stroke-width="3"></circle>
+<circle class="stroke-current text-primary" cx="18" cy="18" fill="none" r="16" stroke-dasharray="100" stroke-dashoffset="35" stroke-linecap="round" stroke-width="3"></circle>
+</svg>
+</div>
+</div>
+<p class="text-text-secondary text-sm font-normal leading-relaxed">Exploring different definitions of fairness and their implications in model development.</p>
+<div class="flex items-center gap-6 text-sm text-text-secondary mt-2">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-base">schedule</span>
+<span>60 Mins</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-base">signal_cellular_alt</span>
+<span class="px-2 py-0.5 rounded-full text-xs font-medium bg-secondary/20 text-secondary">Intermediate</span>
+</div>
+</div>
+</div>
+<div class="glass-morphism rounded-2xl p-4 flex flex-col gap-3 opacity-70">
+<div class="flex justify-between items-start gap-4">
+<h3 class="text-text-light text-base font-semibold leading-normal">Model Interpretability Techniques</h3>
+<span class="material-symbols-outlined text-text-secondary text-2xl">radio_button_unchecked</span>
+</div>
+<p class="text-text-secondary text-sm font-normal leading-relaxed">Learn about SHAP, LIME, and other methods to understand model predictions.</p>
+<div class="flex items-center gap-6 text-sm text-text-secondary mt-2">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-base">schedule</span>
+<span>75 Mins</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-base">signal_cellular_alt</span>
+<span class="px-2 py-0.5 rounded-full text-xs font-medium bg-secondary/20 text-secondary">Intermediate</span>
+</div>
+</div>
+</div>
+<div class="glass-morphism rounded-2xl p-4 flex flex-col gap-3 opacity-50">
+<div class="flex justify-between items-start gap-4">
+<h3 class="text-text-secondary text-base font-semibold leading-normal">Privacy-Preserving AI</h3>
+<span class="material-symbols-outlined text-text-secondary text-2xl">lock</span>
+</div>
+<p class="text-text-secondary/70 text-sm font-normal leading-relaxed">An introduction to concepts like Differential Privacy and Federated Learning.</p>
+<div class="flex items-center gap-6 text-sm text-text-secondary/70 mt-2">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-base">schedule</span>
+<span>50 Mins</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-base">signal_cellular_alt</span>
+<span class="px-2 py-0.5 rounded-full text-xs font-medium bg-secondary/10 text-secondary/70">Intermediate</span>
+</div>
+</div>
+</div>
+</div>
+</main>
+<nav class="fixed bottom-0 left-0 right-0 z-10 border-t border-white/10 bg-background-dark/80 backdrop-blur-sm">
+<div class="mx-auto flex h-20 max-w-md items-center justify-around px-2">
+<a aria-label="Home" class="flex flex-col items-center gap-1 text-text-secondary hover:text-text-light w-16" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="text-xs">Home</span>
+</a>
+<a aria-label="Learning, current page" class="flex flex-col items-center gap-1 text-primary hover:text-primary w-16" href="#">
+<span class="material-symbols-outlined">school</span>
+<span class="text-xs font-bold">Learning</span>
+</a>
+<a aria-label="Progress" class="flex flex-col items-center gap-1 text-text-secondary hover:text-text-light w-16" href="#">
+<span class="material-symbols-outlined">data_usage</span>
+<span class="text-xs">Progress</span>
+</a>
+<a aria-label="Profile" class="flex flex-col items-center gap-1 text-text-secondary hover:text-text-light w-16" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="text-xs">Profile</span>
+</a>
+</div>
+</nav>
+</div>
+
+</body></html>

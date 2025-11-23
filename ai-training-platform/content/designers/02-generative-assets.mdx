@@ -1,72 +1,411 @@
+---
+title: "Generative Assets"
+description: "Learn to create custom icons, patterns, and upscale images using AI—no more searching stock photo sites!"
+estimatedTime: "40 minutes"
+difficulty: "Intermediate"
+questions:
+  - id: "q1"
+    question: "What is the main advantage of generating assets with AI instead of using stock photos?"
+    options:
+      - "AI is always free"
+      - "You can generate exactly what you need, customised to your brand"
+      - "AI assets are always better quality"
+      - "You don't need any design skills"
+    correctAnswer: 1
+  - id: "q2"
+    question: "What does the --tile parameter do in Midjourney?"
+    options:
+      - "Makes the image smaller"
+      - "Creates a seamless pattern that loops perfectly"
+      - "Adds tiles to the image"
+      - "Makes it 3D"
+    correctAnswer: 1
+  - id: "q3"
+    question: "What should you always check when upscaling images with AI?"
+    options:
+      - "The file size"
+      - "The text/spelling, as AI can misspell brand names"
+      - "The colours"
+      - "The dimensions"
+    correctAnswer: 1
+---
+
 # Generative Assets
+
+Welcome back! Now that you know how to speed up your workflow, let's talk about creating the actual visual assets you need. No more scrolling through Unsplash for hours looking for the 'perfect' image that doesn't quite fit.
+
+**This module will teach you:** How to generate custom icons, patterns, textures, and even upscale old client assets using AI. Think of it as having a graphic designer who works at the speed of thought.
+
+![Generative Assets](https://via.placeholder.com/800x600/02022B/D56EED?text=Image)
+*'Before: 2 hours searching stock photos. After: 5 minutes generating exactly what you need. You: This is the future!'*
 
 ## Learning Objectives
 
-By the end of this module, you will be able to:
+By the end of this module, you'll be able to:
 
-- Create custom icon sets using vector-based AI tools
+- Create custom icon sets using AI vector tools
 - Generate seamless textures and patterns for backgrounds
 - Upscale low-resolution client assets without losing quality
-- Maintain visual consistency across a library of generated assets
-
-## Beyond Stock Photos
-
-Stop searching Unsplash for "business handshake".
-Start generating exactly what you need.
-
-### 1. Icons and Vectors
-Tools like **Recraft.ai** and **Vectorizer.ai** are game changers.
-**Workflow**:
-1.  Sketch a rough shape on paper (or in Figma).
-2.  Upload to Recraft.
-3.  Prompt: "Minimalist line icon, rounded corners, blue gradient."
-4.  Export as SVG.
-
-### 2. Textures and Patterns
-Need a subtle background for a SaaS dashboard?
-**Midjourney Prompt**:
-> "Seamless pattern, isometric data flow, subtle grey on white, minimal, vector style --tile"
-
-The `--tile` parameter ensures it loops perfectly.
-
-### 3. Upscaling
-Client sends you a 20kb logo from 1998?
-Don't rebuild it.
-Use **Magnific AI** or **Topaz Gigapixel** to hallucinate the missing details.
-*Warning*: Always check the text. AI loves to misspell brand names during upscaling.
-
-## Practical Exercise: The Asset Library
-
-### Task
-Create a cohesive asset pack for a fictional "Organic Juice Brand".
-
-1.  **Logo**: Generate a vector logo (Fruit + Geometry).
-2.  **Pattern**: Generate a seamless fruit pattern for the packaging.
-3.  **Photography**: Generate 3 product shots of the bottle on a wooden table.
-
-### Questions to Consider
--   How hard was it to get the "fruit" looking the same in the logo and the pattern?
--   Did the upscaler ruin any fine details?
--   Could you sell this asset pack?
-
-## Next Steps
-
-You have the assets. Now let's organise them.
-Next up: **Design Systems & AI**.
-
-## Resources
-
--   [Recraft.ai](https://www.recraft.ai/)
--   [Magnific AI](https://magnific.ai/)
--   [Midjourney Tile Guide](https://docs.midjourney.com/docs/tile)
+- Maintain visual consistency across generated assets
+- Say goodbye to generic stock photos forever
 
 ---
 
-**Module Completion**: Mark this module as complete when you've:
-- [ ] Read through all content
-- [ ] Created a seamless pattern
-- [ ] Vectorised a raster image
+## Beyond Stock Photos (Why Generate Your Own?)
 
-**Estimated Time**: 40 minutes
-**Difficulty**: Intermediate
-**Prerequisites**: AI-Driven UI/UX Workflow
+Let's talk about the problem with stock photos.
+
+### The Stock Photo Problem
+
+**The reality:**
+- You spend hours searching for the right image
+- You find something 'close enough' but not perfect
+- It looks generic (because everyone else uses it too)
+- It doesn't quite match your brand colours
+- You have to pay for it anyway
+
+**The solution:**
+Generate exactly what you need, when you need it, customised to your brand.
+
+![Stock Photos](https://via.placeholder.com/800x600/02022B/D56EED?text=Image)
+*'Stock Photos: Close enough. AI-Generated: Exactly what you need. You: Why didn't I do this sooner?'*
+
+---
+
+## Technique 1: Icons and Vectors (Custom Icon Sets)
+
+Need icons that match your brand? AI can create them!
+
+### The Tools
+
+**Recraft.ai** and **Vectorizer.ai** are game-changers for icon creation.
+
+**What they do:**
+- Turn rough sketches into polished vector icons
+- Generate icons in consistent styles
+- Export as SVG (scalable, perfect for web)
+
+### The Workflow (Step by Step)
+
+**Step 1: Start with a Sketch**
+- Draw a rough shape on paper (or in Figma)
+- Don't worry about perfection—AI will clean it up
+- Or just describe what you want
+
+**Step 2: Upload to Recraft**
+- Upload your sketch (or start from scratch)
+- Choose 'Vector' or 'Icon' mode
+
+**Step 3: Write Your Prompt**
+> "Minimalist line icon, rounded corners, blue gradient, modern style"
+
+**Step 4: Refine**
+- Generate a few variations
+- Pick the one you like
+- Ask AI to adjust: "Make it more rounded" or "Change to purple"
+
+**Step 5: Export**
+- Export as SVG
+- Use in your designs!
+
+![Icon Generation](https://via.placeholder.com/800x600/02022B/D56EED?text=Image)
+*'You: I need an icon. AI: What style? You: Modern, minimal, blue. AI: *generates 4 options* You: Perfect!'*
+
+### Pro Tips for Consistent Icons
+
+**Problem:** Icons look different from each other
+
+**Solution:** Use style references
+- Generate your first icon
+- Save the style settings
+- Use those same settings for all other icons
+- They'll match!
+
+**Example prompt for consistency:**
+> "Icon of [thing], same style as previous icon, rounded corners, 2px stroke, blue gradient"
+
+---
+
+## Technique 2: Textures and Patterns (Seamless Backgrounds)
+
+Need a subtle background pattern? AI can create seamless, tileable patterns.
+
+### When to Use Patterns
+
+- Dashboard backgrounds
+- Website hero sections
+- Packaging designs
+- Brand materials
+
+### The Midjourney Workflow
+
+**The magic parameter:** `--tile`
+
+This makes the pattern seamless (it loops perfectly without visible edges).
+
+**Example prompt:**
+> "Seamless pattern, isometric data flow, subtle grey on white, minimal, vector style --tile"
+
+**What this creates:**
+- A pattern that tiles perfectly
+- No visible seams when repeated
+- Matches your aesthetic
+- Ready to use as a background
+
+### Other Pattern Ideas
+
+**For tech/SaaS:**
+> "Seamless pattern, circuit board lines, dark blue on navy, subtle, --tile"
+
+**For organic/natural:**
+> "Seamless pattern, leaves and branches, green tones, watercolour style, --tile"
+
+**For luxury:**
+> "Seamless pattern, geometric shapes, gold accents, elegant, --tile"
+
+![Patterns](https://via.placeholder.com/800x600/02022B/D56EED?text=Image)
+*'Patterns: Because solid colours are boring, but finding the right pattern takes forever. AI: I'll generate one that tiles perfectly!'*
+
+---
+
+## Technique 3: Upscaling (Rescuing Old Assets)
+
+Client sends you a tiny, pixelated logo from 1998? Don't rebuild it—upscale it!
+
+### The Problem with Old Assets
+
+**Common scenarios:**
+- Client has a 20kb logo from 1998
+- Only has a low-resolution screenshot
+- Needs to use an old image at a larger size
+- Asset is pixelated and blurry
+
+**Old solution:**
+- Rebuild from scratch (hours of work)
+- Use it as-is (looks terrible)
+- Ask client for better version (they don't have it)
+
+**New solution:**
+AI can upscale and enhance old images!
+
+### The Tools
+
+**Magnific AI** or **Topaz Gigapixel** can upscale images while adding detail.
+
+**How it works:**
+1. Upload your low-res image
+2. Choose upscale amount (2x, 4x, etc.)
+3. AI 'hallucinates' (intelligently guesses) the missing details
+4. Export high-resolution version
+
+### Important Warning! ⚠️
+
+**Always check text!** AI can misspell brand names or change words when upscaling.
+
+**What to do:**
+- Upscale the image
+- Check any text carefully
+- If text is wrong, fix it manually
+- Or upscale without text, then add text separately
+
+![Upscaling](https://via.placeholder.com/800x600/02022B/D56EED?text=Image)
+*'Old Logo: 20kb, pixelated, from 1998. AI Upscaler: *magic happens* New Logo: High-res, sharp, ready to use. You: How did you do that?!'*
+
+### When Upscaling Works Best
+
+**Good candidates:**
+- Logos and icons (simple shapes)
+- Illustrations (AI can enhance details)
+- Photos (AI can sharpen and enhance)
+
+**Not so good:**
+- Complex text (AI might change it)
+- Fine details that need to be exact
+- Images with important small text
+
+**Pro tip:** For logos with text, upscale the icon part separately from the text part, then combine them.
+
+---
+
+## Your Practice Exercise: The Asset Library Challenge
+
+Ready to create a complete asset pack? Let's build one for a fictional brand!
+
+### The Challenge
+
+Create a cohesive asset pack for a fictional **"Organic Juice Brand"** called "Fresh Squeeze."
+
+### Step 1: Generate a Logo (10 minutes)
+
+**Task:** Create a vector logo combining fruit and geometry.
+
+**Prompt ideas:**
+- "Logo, organic juice brand, fruit and geometric shapes, modern, minimalist, green and orange colours, vector style"
+- Generate a few variations
+- Pick your favourite
+- Refine: "Make the fruit more prominent" or "Softer colours"
+
+**Export as SVG** for use in designs.
+
+### Step 2: Create a Seamless Pattern (10 minutes)
+
+**Task:** Generate a seamless fruit pattern for packaging.
+
+**Prompt:**
+> "Seamless pattern, organic fruits (oranges, lemons), watercolour style, soft pastels, --tile"
+
+**Tips:**
+- Use the `--tile` parameter for seamless patterns
+- Generate a few variations
+- Pick one that matches your logo style
+
+### Step 3: Generate Product Photography (10 minutes)
+
+**Task:** Create 3 product shots of the juice bottle.
+
+**Prompt:**
+> "Product photography, organic juice bottle on wooden table, natural lighting, professional, clean background, lifestyle photography style"
+
+**Generate 3 variations:**
+- Different angles
+- Different backgrounds
+- Different lighting
+
+**Use these for:**
+- Website hero images
+- Social media posts
+- Marketing materials
+
+### Step 4: Create Icons (10 minutes)
+
+**Task:** Generate a set of 5 icons for the brand.
+
+**Icons needed:**
+- Shopping cart
+- Location pin
+- Phone
+- Email
+- Social media
+
+**Keep them consistent:**
+- Use the same style for all
+- Same stroke width
+- Same colour palette
+- Same level of detail
+
+### Questions to Reflect On
+
+After you're done:
+- How hard was it to get the 'fruit' looking the same in the logo and pattern?
+- Did you manage to create a cohesive visual style?
+- How long did this take vs. finding stock assets?
+- Could you actually use this asset pack for a real project?
+
+![Asset Library](https://via.placeholder.com/800x600/02022B/D56EED?text=Image)
+*'Complete Asset Pack: Logo, patterns, photos, icons. Time: 40 minutes. Stock Assets: Would take 4 hours and still not match. You: I'm never going back!'*
+
+---
+
+## Maintaining Visual Consistency (The Challenge)
+
+One of the hardest parts of AI-generated assets is keeping them consistent.
+
+### The Problem
+
+- Each generation is slightly different
+- Colours don't match perfectly
+- Styles vary between generations
+- Hard to create a cohesive brand
+
+### Solutions
+
+**1. Save Your Style Settings**
+- When you generate something you like, note the settings
+- Use those same settings for related assets
+- Create a 'style guide' for your AI prompts
+
+**2. Use Reference Images**
+- Generate your first asset
+- Use it as a reference for others
+- Many AI tools support 'style reference' features
+
+**3. Create a Colour Palette First**
+- Define your brand colours
+- Use those exact hex codes in prompts
+- Example: "Use #2E7D32 for green, #FF6F00 for orange"
+
+**4. Batch Generate, Then Curate**
+- Generate 10 variations
+- Pick the 3 best ones
+- Refine those 3 to match perfectly
+
+![Consistency](https://via.placeholder.com/800x600/02022B/D56EED?text=Image)
+*'Consistency: The hardest part of AI generation. Solution: Save your style settings and use them for everything!'*
+
+---
+
+## Common Mistakes (And How to Avoid Them)
+
+### Mistake #1: Not Checking Upscaled Text
+
+**The problem:** AI changes text when upscaling
+
+**The solution:** Always check text carefully. Fix it manually if needed.
+
+### Mistake #2: Inconsistent Styles
+
+**The problem:** Each asset looks different
+
+**The solution:** Save style settings and use them consistently.
+
+### Mistake #3: Over-Generating
+
+**The problem:** Generating 100 variations and getting overwhelmed
+
+**The solution:** Generate 5-10, pick the best, then refine.
+
+### Mistake #4: Not Exporting in the Right Format
+
+**The problem:** Exporting as JPG when you need SVG
+
+**The solution:** Know what format you need before generating.
+
+---
+
+## Next Steps
+
+You've learned to create custom assets! Here's what's next:
+
+1. **Design Systems & AI**: Learn to organise and document your assets
+2. **Advanced Workflows**: Combine multiple AI tools for complex projects
+
+**Remember:** Practice makes perfect. The more you generate, the better you'll get at writing prompts that give you exactly what you want!
+
+---
+
+## Resources
+
+- [Recraft.ai](https://www.recraft.ai/) - Vector and icon generation
+- [Magnific AI](https://magnific.ai/) - Image upscaling
+- [Midjourney Tile Guide](https://docs.midjourney.com/docs/tile) - Creating seamless patterns
+
+---
+
+## Module Checklist
+
+Before moving on:
+
+- [ ] Read through all the content
+- [ ] Created at least one seamless pattern
+- [ ] Vectorised or upscaled an image
+- [ ] Generated a set of consistent icons
+- [ ] Understood how to maintain visual consistency
+
+**Estimated Time:** 40 minutes (longer if you're doing the exercises)
+
+**Difficulty:** Intermediate (but we've made it step-by-step!)
+
+**Feeling ready?** Move on to Design Systems!
+**Still practising?** That's great! Keep generating assets and refining your prompts.
+
+**You're becoming an AI asset master!** 🎨✨

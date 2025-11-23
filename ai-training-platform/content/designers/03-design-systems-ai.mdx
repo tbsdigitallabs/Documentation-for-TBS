@@ -1,75 +1,440 @@
+---
+title: "Design Systems & AI"
+description: "Learn to automate design system documentation, generate design tokens, and check accessibility using AI."
+estimatedTime: "50 minutes"
+difficulty: "Advanced"
+questions:
+  - id: "q1"
+    question: "What is the main benefit of using AI for design system documentation?"
+    options:
+      - "AI writes perfect documentation automatically"
+      - "AI can generate documentation quickly, then you review and refine it"
+      - "You don't need to understand design systems"
+      - "Documentation is no longer needed"
+    correctAnswer: 1
+  - id: "q2"
+    question: "What should you always do after AI generates documentation?"
+    options:
+      - "Use it immediately without checking"
+      - "Review it for accuracy and refine it"
+      - "Delete it"
+      - "Ignore it"
+    correctAnswer: 1
+  - id: "q3"
+    question: "What does WCAG stand for?"
+    options:
+      - "Web Content Accessibility Guidelines"
+      - "Web Colour and Graphics"
+      - "Website Code and Graphics"
+      - "Web Content and Graphics"
+    correctAnswer: 0
+---
+
 # Design Systems & AI
+
+Welcome to the final designer module! This one is about something every designer needs but nobody likes doing: **design system documentation and maintenance**.
+
+**Here's the truth:** Design systems are powerful, but documenting them is tedious. AI can write most of the documentation for you, check accessibility, and even help name your design tokens.
+
+**This module will teach you:** How to use AI to maintain a robust, well-documented design system without spending days writing docs.
+
+![Design Systems](https://via.placeholder.com/800x600/02022B/D56EED?text=Image)
+*'Design System: Powerful, organised, consistent. Documentation: Tedious, time-consuming, always outdated. AI: I can help with that!'*
 
 ## Learning Objectives
 
-By the end of this module, you will be able to:
+By the end of this module, you'll be able to:
 
-- Automate the documentation of your design system
+- Automate the documentation of your design system components
 - Generate design tokens (JSON) from Figma styles
-- Use AI to check your designs for accessibility (WCAG) compliance
-- Create a "Chat with your Design System" bot for developers
-
-## The Documentation Nightmare
-
-Nobody likes writing documentation.
-AI loves it.
-
-### 1. Writing Component Docs
-Select a component in Figma (e.g., a Primary Button).
-Take a screenshot.
-Paste into ChatGPT.
-**Prompt**:
-> "Write documentation for this button component. Include:
-> - Usage guidelines (When to use vs Secondary)
-> - States (Hover, Active, Disabled)
-> - Accessibility requirements
-> - Format as Markdown."
-
-### 2. Accessibility Checks
-Don't wait for the audit.
-Use plugins like **Stark** (AI features) or simply export your screen and ask GPT-4 Vision:
-> "Analyse this UI for accessibility issues. Focus on colour contrast, font size, and touch target size. List the top 3 violations of WCAG 2.1 AA."
-
-### 3. Naming Things
-The hardest problem in computer science (and design).
-Let AI suggest semantic names for your tokens.
-> "I have a colour #0055FF. It is used for primary actions. Suggest a semantic name that follows the 'Category-Property-Value' structure."
-> *AI Suggestion*: `color-action-primary-default`
-
-## Practical Exercise: The System Audit
-
-### Task
-Take an old project file.
-1.  **Audit**: Run an AI accessibility check on the home screen.
-2.  **Doc**: Generate documentation for the "Card" component.
-3.  **Tokenise**: Ask AI to generate a JSON structure for your colour palette.
-
-### Questions to Consider
--   Did the AI catch contrast issues you missed?
--   Is the generated documentation actually useful for a developer?
--   How much time did this save compared to manual writing?
-
-## Next Steps
-
-You've completed the Designer Track!
-You now have the tools to:
-1.  Speed up your workflow.
-2.  Generate custom assets.
-3.  Maintain a robust system.
-
-## Resources
-
--   [Stark Accessibility Tools](https://www.getstark.co/)
--   [Design Systems Repo](https://designsystemsrepo.com/)
--   [WCAG 2.1 Guidelines](https://www.w3.org/TR/WCAG21/)
+- Use AI to check designs for accessibility compliance
+- Create a 'chat with your design system' experience for developers
+- Maintain your design system efficiently
 
 ---
 
-**Module Completion**: Mark this module as complete when you've:
-- [ ] Read through all content
-- [ ] Documented one component using AI
-- [ ] Performed an AI accessibility audit
+## The Documentation Nightmare (And How AI Solves It)
 
-**Estimated Time**: 50 minutes
-**Difficulty**: Advanced
-**Prerequisites**: Generative Assets
+Let's be honest about design system documentation.
+
+### The Problem
+
+**Traditional documentation:**
+- Takes hours to write
+- Gets outdated quickly
+- Nobody reads it anyway
+- Boring to create
+- Hard to keep updated
+
+**The reality:**
+- You need documentation
+- But you don't have time
+- So it doesn't get done
+- Then nobody knows how to use your components
+
+### The Solution
+
+AI can write most of the documentation for you. You review and refine it. Much faster!
+
+**Think of it like this:** You focus on designing great components. AI handles the tedious documentation writing.
+
+![Documentation Nightmare](https://via.placeholder.com/800x600/02022B/D56EED?text=Image)
+*'Documentation: The thing everyone needs but nobody wants to write. AI: I'll write it, you just review it. You: Deal!'*
+
+---
+
+## Technique 1: Writing Component Documentation (Automated)
+
+Don't write component docs manually. Let AI do it!
+
+### The Workflow
+
+**Step 1:** Select a component in Figma (e.g., a Primary Button)
+
+**Step 2:** Take a screenshot of the component in all its states
+- Default state
+- Hover state
+- Active/pressed state
+- Disabled state
+- Any error states
+
+**Step 3:** Paste into ChatGPT or your AI tool
+
+**Step 4:** Ask AI:
+> "Write documentation for this button component. Include:
+> - Usage guidelines (When to use vs Secondary button)
+> - All states (Hover, Active, Disabled, Error)
+> - Accessibility requirements (keyboard navigation, screen readers)
+> - Code examples for developers
+> - Format as Markdown."
+
+**Step 5:** Review and refine
+- Is it accurate?
+- Does it cover everything?
+- Add any missing information
+- Add real code examples from your actual implementation
+
+**What this saves:** Hours of writing, and the docs are based on actual components!
+
+![Component Docs](https://via.placeholder.com/800x600/02022B/D56EED?text=Image)
+*'Component: *exists* AI: I'll document that for you. Documentation: *appears* You: That was fast. Also you: And it's actually useful!'*
+
+### Example: Button Component Documentation
+
+**AI-generated documentation:**
+```markdown
+# Primary Button
+
+## Usage
+Use the Primary Button for the main action on a page or in a form. 
+Use Secondary Button for less important actions.
+
+## States
+
+### Default
+- Background: Blue (#0055FF)
+- Text: White
+- Border: None
+
+### Hover
+- Background: Darker blue (#0044CC)
+- Cursor: Pointer
+
+### Active/Pressed
+- Background: Even darker blue (#0033AA)
+- Slight shadow
+
+### Disabled
+- Background: Grey (#CCCCCC)
+- Text: Light grey
+- Cursor: Not allowed
+
+## Accessibility
+- Keyboard navigable (Tab key)
+- Screen reader: "Button, [button text]"
+- Minimum touch target: 44x44px
+- Focus state: Blue outline
+
+## Code Example
+```jsx
+<Button variant="primary" onClick={handleClick}>
+  Submit
+</Button>
+```
+```
+
+**See?** Complete documentation generated in seconds!
+
+---
+
+## Technique 2: Accessibility Checks (Before the Audit)
+
+Don't wait for an accessibility audit to find issues. Check them yourself with AI!
+
+### Why Accessibility Matters
+
+**The reality:**
+- Many users have disabilities
+- Accessibility is often an afterthought
+- Fixing issues late is expensive
+- It's the right thing to do
+
+**Common issues:**
+- Poor colour contrast (text hard to read)
+- Text too small
+- Touch targets too small
+- Missing keyboard navigation
+- No screen reader support
+
+### How to Check with AI
+
+**Method 1: Using AI Vision**
+
+**Step 1:** Export a screenshot of your design
+
+**Step 2:** Ask AI:
+> "Analyse this UI for accessibility issues. Focus on:
+> - Colour contrast (WCAG 2.1 AA standards)
+> - Font size (minimum 16px for body text)
+> - Touch target size (minimum 44x44px)
+> - Visual hierarchy
+> List the top 3 violations and suggest fixes."
+
+**Step 3:** Fix the issues AI found
+
+**Method 2: Using Plugins**
+
+**Stark** (Figma plugin) has AI features that can:
+- Check colour contrast automatically
+- Suggest accessible colour alternatives
+- Analyse your entire design system
+
+**How to use:**
+1. Install Stark in Figma
+2. Select elements you want to check
+3. Run accessibility analysis
+4. Review suggestions
+5. Fix issues
+
+![Accessibility](https://via.placeholder.com/800x600/02022B/D56EED?text=Image)
+*'Accessibility: Important but easy to forget. AI: I'll check that for you. You: *fixes issues before launch* Your users: Thank you!'*
+
+### Example: AI Accessibility Report
+
+**Your design:** A login form with light grey text on white background
+
+**AI analysis:**
+> "⚠️ Accessibility Issues Found:
+> 
+> 1. **Colour Contrast**: Text colour (#CCCCCC) on white background has contrast ratio of 1.2:1. WCAG AA requires 4.5:1 for normal text. 
+>    - Fix: Use darker grey (#666666) or black (#000000)
+> 
+> 2. **Touch Target Size**: Submit button is 32x32px. Minimum should be 44x44px for mobile.
+>    - Fix: Increase button size to at least 44x44px
+> 
+> 3. **Focus State**: No visible focus indicator for keyboard navigation.
+>    - Fix: Add a 2px blue outline on focus"
+
+**AI found real issues and suggested fixes!**
+
+---
+
+## Technique 3: Naming Design Tokens (The Hardest Problem)
+
+Naming things is famously the hardest problem in computer science. AI can help!
+
+### What Are Design Tokens?
+
+**Design tokens** = The values that define your design system (colours, spacing, typography, etc.)
+
+**Example:**
+- Primary colour: `#0055FF`
+- Large spacing: `32px`
+- Heading font: `Funnel Display, Bold`
+
+### The Naming Challenge
+
+**Bad names:**
+- `blue` (too vague)
+- `color1` (not descriptive)
+- `bigSpacing` (subjective)
+
+**Good names:**
+- `color-action-primary-default` (clear, semantic)
+- `spacing-large` (descriptive, consistent)
+- `typography-heading-large` (organised, understandable)
+
+### How AI Helps
+
+**Step 1:** Show AI your colour/value
+
+**Step 2:** Ask AI:
+> "I have a colour #0055FF. It is used for primary actions (buttons, links). Suggest a semantic name that follows the 'Category-Property-Value' structure."
+
+**AI suggestion:**
+> `color-action-primary-default`
+> 
+> Structure:
+> - `color` = category (it's a colour)
+> - `action` = property (used for actions)
+> - `primary` = value type (primary action)
+> - `default` = state (default state)
+
+**Step 3:** Use this naming pattern for all your tokens!
+
+### Creating a Token Structure
+
+**Ask AI:**
+> "Generate a JSON structure for design tokens. Include:
+> - Colours (primary, secondary, neutral, semantic)
+> - Spacing (small, medium, large, xl)
+> - Typography (headings, body, captions)
+> - Use the naming pattern: category-property-value"
+
+**What you get:** A complete, organised token structure ready to use!
+
+![Design Tokens](https://via.placeholder.com/800x600/02022B/D56EED?text=Image)
+*'Design Tokens: The foundation of your design system. Naming them: The hardest part. AI: I'll suggest semantic names that make sense!'*
+
+---
+
+## Your Practice Exercise: The System Audit
+
+Ready to audit and document a design system? Let's do it!
+
+### Step 1: Accessibility Audit (15 minutes)
+
+**Task:** Run an AI accessibility check on a design.
+
+**What to do:**
+1. Export a screenshot of a page/component
+2. Ask AI to analyse it for accessibility issues
+3. List the top 3 issues
+4. Fix them in your design
+5. Re-check to confirm fixes
+
+**Questions to consider:**
+- Did AI catch issues you missed?
+- Were the suggestions helpful?
+- How easy were they to fix?
+
+### Step 2: Component Documentation (15 minutes)
+
+**Task:** Generate documentation for a component.
+
+**What to do:**
+1. Choose a component (Button, Card, Input, etc.)
+2. Take screenshots of all states
+3. Ask AI to write documentation
+4. Review and refine it
+5. Add it to your design system
+
+**Questions to consider:**
+- Is the documentation actually useful for developers?
+- Does it cover all the important information?
+- Would a new team member understand how to use it?
+
+### Step 3: Tokenise Your System (15 minutes)
+
+**Task:** Generate a JSON structure for your design tokens.
+
+**What to do:**
+1. List your main colours, spacing, and typography
+2. Ask AI to generate a JSON structure
+3. Use the suggested naming pattern
+4. Review and adjust
+5. Export for developers
+
+**Questions to consider:**
+- Are the names clear and semantic?
+- Is the structure logical?
+- Would developers understand this?
+
+### Step 4: Create a "Chat with Design System" Bot (Optional, Advanced)
+
+**Task:** Set up a way for developers to ask questions about your design system.
+
+**How it works:**
+1. Feed your design system documentation into an AI
+2. Developers can ask: "What colour should I use for error states?"
+3. AI answers based on your actual design system
+4. Saves time answering the same questions!
+
+**This is advanced**, but it's a powerful way to make your design system more accessible to your team.
+
+![System Audit](https://via.placeholder.com/800x600/02022B/D56EED?text=Image)
+*'Design System: Complete, documented, accessible. Time: 50 minutes with AI. Without AI: Would take days. You: I'm never going back!'*
+
+---
+
+## Common Mistakes (And How to Avoid Them)
+
+### Mistake #1: Not Reviewing AI-Generated Docs
+
+**The problem:** Assuming AI documentation is perfect
+
+**The solution:** Always review and refine. AI is helpful, but you're responsible for accuracy.
+
+### Mistake #2: Inconsistent Token Naming
+
+**The problem:** Mixing naming patterns (some tokens use one pattern, others use different)
+
+**The solution:** Define your naming pattern once, then use it consistently. AI can help generate names that follow your pattern.
+
+### Mistake #3: Ignoring Accessibility
+
+**The problem:** Thinking accessibility is someone else's job
+
+**The solution:** Check accessibility as you design. AI makes it easy—no excuses!
+
+### Mistake #4: Documentation That's Too Technical
+
+**The problem:** Writing docs that only developers understand
+
+**The solution:** Ask AI to rewrite for your audience. "Rewrite this for project managers" or "Make this beginner-friendly."
+
+![Common Mistakes](https://via.placeholder.com/800x600/02022B/D56EED?text=Image)
+*'Mistake: Perfect documentation that nobody can understand. Solution: AI, make this beginner-friendly! AI: Done!'*
+
+---
+
+## Next Steps
+
+Congratulations! You've completed the entire Designer Track! 🎉
+
+You've learned:
+1. ✅ How to speed up your workflow with AI
+2. ✅ How to generate custom assets
+3. ✅ How to maintain a robust design system
+
+**Your design process is now:** Faster, more efficient, and more powerful. You can create custom assets in minutes, maintain documentation easily, and ensure accessibility from the start.
+
+**What's next?** Keep practising! The more you use these techniques, the more natural they'll become. You're now equipped to work efficiently with AI as your design assistant!
+
+---
+
+## Resources
+
+- [Stark Accessibility Tools](https://www.getstark.co/) - Figma plugin for accessibility
+- [Design Systems Repo](https://designsystemsrepo.com/) - Examples of great design systems
+- [WCAG 2.1 Guidelines](https://www.w3.org/TR/WCAG21/) - Official accessibility standards
+
+---
+
+## Module Checklist
+
+Before completing the Designer Track:
+
+- [ ] Read through all the content
+- [ ] Documented at least one component using AI
+- [ ] Performed an AI accessibility audit
+- [ ] Generated design tokens with semantic naming
+- [ ] Understood how to maintain documentation
+
+**Estimated Time:** 50 minutes (longer if you're doing the exercises)
+
+**Difficulty:** Advanced (but we've broken it down into manageable steps!)
+
+**You've Mastered the Designer Track!** 🎨🚀
+
+**Remember:** A well-documented, accessible design system is a gift to your team (and your future self). You'll thank yourself later!

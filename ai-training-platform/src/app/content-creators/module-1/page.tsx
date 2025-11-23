@@ -14,55 +14,55 @@ export default function ContentCreatorsModule1Page() {
             progress={0}
         >
             <div className="space-y-6">
-                <div className="bg-gray-50 dark:bg-gray-700 p-6 rounded-lg">
-                    <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">Lesson 1: ChatGPT for Content Creation</h2>
-                    <p className="text-gray-600 dark:text-gray-300 mb-4">
+                <div className="bg-surface-card p-6 rounded-lg border border-border-primary">
+                    <h2 className="text-xl font-semibold text-content-primary mb-4">Lesson 1: ChatGPT for Content Creation</h2>
+                    <p className="text-content-secondary mb-4">
                         Learn effective prompting techniques for creating engaging content with ChatGPT.
                     </p>
                     <div className="flex items-center justify-between">
-                        <span className="text-sm text-gray-500 dark:text-gray-400">⏱️ 10 minutes</span>
+                        <span className="text-sm text-content-tertiary">⏱️ 10 minutes</span>
                         <Link href="/content-creators/module-1/lesson-1">
-                            <button className="bg-accent-blue text-white px-4 py-2 rounded-md hover:bg-accent-blue/90">
+                            <button className="bg-accent-content-creators text-white px-4 py-2 rounded-md hover:bg-accent-content-creators-90">
                                 Start Lesson
                             </button>
                         </Link>
                     </div>
                 </div>
 
-                <div className="bg-gray-50 dark:bg-gray-700 p-6 rounded-lg opacity-75">
-                    <h2 className="text-xl font-semibold text-gray-500 dark:text-gray-400 mb-4">Lesson 2: Claude for Long-form Content</h2>
-                    <p className="text-gray-500 dark:text-gray-500 mb-4">
+                <div className="bg-surface-card p-6 rounded-lg border border-border-primary opacity-75">
+                    <h2 className="text-xl font-semibold text-content-tertiary mb-4">Lesson 2: Claude for Long-form Content</h2>
+                    <p className="text-content-tertiary mb-4">
                         Use Claude for creating comprehensive articles, reports, and detailed content.
                     </p>
                     <div className="flex items-center justify-between">
-                        <span className="text-sm text-gray-500 dark:text-gray-500">⏱️ 12 minutes</span>
-                        <button className="bg-gray-400 text-gray-600 px-4 py-2 rounded-md cursor-not-allowed" disabled>
+                        <span className="text-sm text-content-tertiary">⏱️ 12 minutes</span>
+                        <button className="bg-disabled text-disabled px-4 py-2 rounded-md cursor-not-allowed border border-disabled" disabled>
                             Locked
                         </button>
                     </div>
                 </div>
 
-                <div className="bg-gray-50 dark:bg-gray-700 p-6 rounded-lg opacity-75">
-                    <h2 className="text-xl font-semibold text-gray-500 dark:text-gray-400 mb-4">Lesson 3: Content Ideation & Brainstorming</h2>
-                    <p className="text-gray-500 dark:text-gray-500 mb-4">
+                <div className="bg-surface-card p-6 rounded-lg border border-border-primary opacity-75">
+                    <h2 className="text-xl font-semibold text-content-tertiary mb-4">Lesson 3: Content Ideation & Brainstorming</h2>
+                    <p className="text-content-tertiary mb-4">
                         Use AI to generate creative content ideas and overcome writer's block.
                     </p>
                     <div className="flex items-center justify-between">
-                        <span className="text-sm text-gray-500 dark:text-gray-500">⏱️ 8 minutes</span>
-                        <button className="bg-gray-400 text-gray-600 px-4 py-2 rounded-md cursor-not-allowed" disabled>
+                        <span className="text-sm text-content-tertiary">⏱️ 8 minutes</span>
+                        <button className="bg-disabled text-disabled px-4 py-2 rounded-md cursor-not-allowed border border-disabled" disabled>
                             Locked
                         </button>
                     </div>
                 </div>
 
-                <div className="bg-gray-50 dark:bg-gray-700 p-6 rounded-lg opacity-75">
-                    <h2 className="text-xl font-semibold text-gray-500 dark:text-gray-400 mb-4">Lesson 4: Content Editing & Refinement</h2>
-                    <p className="text-gray-500 dark:text-gray-500 mb-4">
+                <div className="bg-surface-card p-6 rounded-lg border border-border-primary opacity-75">
+                    <h2 className="text-xl font-semibold text-content-tertiary mb-4">Lesson 4: Content Editing & Refinement</h2>
+                    <p className="text-content-tertiary mb-4">
                         Use AI tools to edit, refine, and polish your content for maximum impact.
                     </p>
                     <div className="flex items-center justify-between">
-                        <span className="text-sm text-gray-500 dark:text-gray-500">⏱️ 5 minutes</span>
-                        <button className="bg-gray-400 text-gray-600 px-4 py-2 rounded-md cursor-not-allowed" disabled>
+                        <span className="text-sm text-content-tertiary">⏱️ 5 minutes</span>
+                        <button className="bg-disabled text-disabled px-4 py-2 rounded-md cursor-not-allowed border border-disabled" disabled>
                             Locked
                         </button>
                     </div>

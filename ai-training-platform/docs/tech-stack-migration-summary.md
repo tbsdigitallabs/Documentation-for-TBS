@@ -1,3 +1,10 @@
+---
+title: T EC H S TA CK M IG RA TI ON S UM MA RY
+description: Documentation for T EC H S TA CK M IG RA TI ON S UM MA RY
+last_updated: 2025-11-23
+author: TBS Digital Labs
+category: General
+---
 # Tech Stack Migration Summary
 
 ## Requested Stack
@@ -145,4 +152,5 @@ If you need a **full PHP framework** (Laravel/Symfony) instead:
 - Not recommended unless specifically required
 
 The hybrid approach maintains your existing Next.js investment while adding PHP capabilities.
+
 

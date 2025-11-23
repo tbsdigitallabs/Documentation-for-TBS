@@ -1,3 +1,10 @@
+---
+title: P LA N A ND P RO MP T
+description: Documentation for P LA N A ND P RO MP T
+last_updated: 2025-11-23
+author: TBS Digital Labs
+category: General
+---
 # TBS AI Training Platform — Implementation Plan and Handoff
 
 ## Objectives
@@ -95,3 +102,4 @@ Operational Guardrails
 - Always run commands from the project folder; single dev server policy with PID file
 - Use built-in browser for screenshots and verification
 - Ask one concise question only when essential; otherwise proceed with competent defaults
+

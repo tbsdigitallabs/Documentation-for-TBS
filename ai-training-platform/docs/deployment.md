@@ -1,3 +1,10 @@
+---
+title: D EP LO YM EN T
+description: Documentation for D EP LO YM EN T
+last_updated: 2025-11-23
+author: TBS Digital Labs
+category: General
+---
 # Deployment Guide
 
 ## Prerequisites
@@ -392,4 +399,5 @@ After DNS propagation:
 - Enable HTTPS in production (automatic with Vercel/Netlify)
 - Regularly update dependencies
 - Monitor authentication logs for suspicious activity
+
 

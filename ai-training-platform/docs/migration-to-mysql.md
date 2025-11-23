@@ -1,3 +1,10 @@
+---
+title: M IG RA TI ON T O M YS QL
+description: Documentation for M IG RA TI ON T O M YS QL
+last_updated: 2025-11-23
+author: TBS Digital Labs
+category: General
+---
 # Migration to MySQL + PHP Integration
 
 ## Overview
@@ -249,4 +256,5 @@ If you need a full PHP framework migration instead, we'd need to:
 4. This would be a complete rewrite (not recommended)
 
 The hybrid approach maintains your existing Next.js frontend while adding PHP backend capabilities.
+
 

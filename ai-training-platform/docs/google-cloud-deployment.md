@@ -1,3 +1,10 @@
+---
+title: G OO GL E C LO UD D EP LO YM EN T
+description: Documentation for G OO GL E C LO UD D EP LO YM EN T
+last_updated: 2025-11-23
+author: TBS Digital Labs
+category: General
+---
 # Google Cloud Run Deployment Guide
 
 ## Quick Start
@@ -204,4 +211,5 @@ gcloud run services logs tail learninglab --region australia-southeast1
 - Free tier: 2 million requests/month, 360,000 GB-seconds
 - Typical small app: ~$5-20/month
 - Monitor usage in [Cloud Console](https://console.cloud.google.com/run)
+
 

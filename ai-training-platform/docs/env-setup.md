@@ -1,3 +1,10 @@
+---
+title: E NV S ET UP
+description: Documentation for E NV S ET UP
+last_updated: 2025-11-23
+author: TBS Digital Labs
+category: General
+---
 # Environment Variables Setup
 
 ## Google OAuth Credentials
@@ -57,4 +64,5 @@ When deploying, ensure the redirect URI in Google Cloud Console matches:
 3. Set up your MySQL database and update `DATABASE_URL`
 4. Run `npx prisma generate` and `npx prisma db push` to set up the database
 5. Update the redirect URI in Google Cloud Console if deploying to a new domain
+
 

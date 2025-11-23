@@ -1,3 +1,10 @@
+---
+title: D NS C ON FI GU RA TI ON
+description: Documentation for D NS C ON FI GU RA TI ON
+last_updated: 2025-11-23
+author: TBS Digital Labs
+category: General
+---
 # DNS Configuration for learninglab.tbsdigitallabs.com
 
 ## For IT Team - DNS Records Required
@@ -128,4 +135,5 @@ Or check in Console: https://console.cloud.google.com/iam-admin/iam?project=lear
 If you need the exact IP addresses, they will be available in the Google Cloud Console after creating the domain mapping, or contact the project administrator.
 
 **For permission issues:** Contact the project owner or someone with Project Owner/Editor role to grant Cloud Run Admin or Developer permissions.
+
 

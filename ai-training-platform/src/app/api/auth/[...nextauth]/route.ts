@@ -48,6 +48,7 @@ const handler = NextAuth({
       })
     ] : []),
   ],
+  debug: true, // Enable debug mode
   callbacks: {
     async signIn({ user, account, profile }) {
       // Allow dev skip auth in development

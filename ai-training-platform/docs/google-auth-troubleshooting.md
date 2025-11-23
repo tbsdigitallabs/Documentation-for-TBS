@@ -1,3 +1,10 @@
+---
+title: G OO GL E A UT H T RO UB LE SH OO TI NG
+description: Documentation for G OO GL E A UT H T RO UB LE SH OO TI NG
+last_updated: 2025-11-23
+author: TBS Digital Labs
+category: General
+---
 # Google Auth Troubleshooting Guide
 
 ## Common Issues and Fixes
@@ -125,4 +132,5 @@ If you've checked everything above and it's still not working:
 3. **Check the server logs** for backend errors
 4. **Verify the redirect URI** in Google Cloud Console matches exactly (including http vs https)
 5. **Try incognito/private browsing** to rule out browser cache issues
+
 

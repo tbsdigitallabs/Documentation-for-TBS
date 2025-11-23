@@ -1,3 +1,10 @@
+---
+title: G LO BA L T ER MI NA L S ET UP
+description: Documentation for G LO BA L T ER MI NA L S ET UP
+last_updated: 2025-11-23
+author: TBS Digital Labs
+category: General
+---
 # Global Terminal Directory Setup
 
 ## Problem
@@ -127,4 +134,5 @@ Comment out the `Set-ProjectDirectory` call in your PowerShell profile:
 - Regular PowerShell windows are unaffected
 - Each project can still have its own `.vscode/settings.json` for specific behavior
 - The AI's `run_terminal_cmd` tool will still need explicit `cd` commands, but manual terminals will work correctly
+
 

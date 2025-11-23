@@ -1,3 +1,10 @@
+---
+title: A UT HE NT IC AT IO N S ET UP
+description: Documentation for A UT HE NT IC AT IO N S ET UP
+last_updated: 2025-11-23
+author: TBS Digital Labs
+category: General
+---
 # Google Authentication Setup Guide
 
 ## Required Environment Variables
@@ -74,3 +81,4 @@ php -S localhost:8000
 3. Click "Continue with Google"
 4. Sign in with an authorized email address
 5. You'll be redirected to `/class-selection` upon successful authentication
+

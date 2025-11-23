@@ -1,3 +1,10 @@
+---
+title: S OR A V PN S ET UP
+description: Documentation for S OR A V PN S ET UP
+last_updated: 2025-11-23
+author: TBS Digital Labs
+category: General
+---
 # Sora 2 Access Setup for Australian Users
 
 ## Overview
@@ -171,3 +178,4 @@ Sora 2 (OpenAI's video generation AI) is currently not available in Australia. T
 ---
 
 **Note**: This guide is for internal TBS Digital Labs use only. Always comply with OpenAI's terms of service and Australian laws regarding VPN usage.
+

@@ -1,3 +1,10 @@
+---
+title: A US TR AL IA N E NG LI SH G UI DE
+description: Documentation for A US TR AL IA N E NG LI SH G UI DE
+last_updated: 2025-11-23
+author: TBS Digital Labs
+category: General
+---
 # Australian English Style Guide
 
 ## Spelling Standards
@@ -219,3 +226,4 @@
 ---
 
 **Note**: This style guide should be used consistently across all TBS Digital Labs content, including training materials, documentation, and communications.
+

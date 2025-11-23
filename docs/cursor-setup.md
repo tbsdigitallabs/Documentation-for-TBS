@@ -1,3 +1,10 @@
+---
+title: C UR SO R S ET UP
+description: Documentation for C UR SO R S ET UP
+last_updated: 2025-11-23
+author: TBS Digital Labs
+category: General
+---
 # Cursor IDE Setup Guide
 
 ## Overview
@@ -116,4 +123,5 @@ If using Prettier, ensure it's configured to work with Cursor's suggestions
 ---
 
 **Note**: Cursor AI configuration is project-specific. Each repository can have its own `.cursorrules` file.
+
 

@@ -50,7 +50,7 @@ const handler = NextAuth({
 
       // Only allow @thebigsmoke and @tbsdigitallabs email domains
       if (user.email) {
-        const allowedDomains = ['@thebigsmoke.com.au', '@tbsdigitallabs.com.au']
+        const allowedDomains = ['@thebigsmoke.com', '@thebigsmoke.com.au', '@oh-hello.co', '@tbsdigitallabs.com', '@tbsdigitallabs.com.au']
         const userDomain = user.email.substring(user.email.lastIndexOf('@'))
 
         if (allowedDomains.includes(userDomain)) {

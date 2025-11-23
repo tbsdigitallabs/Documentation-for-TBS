@@ -29,7 +29,7 @@ class AuthController extends Controller
             
             // Check email domain
             $email = $googleUser->getEmail();
-            $allowedDomains = ['@thebigsmoke.com.au', '@tbsdigitallabs.com.au'];
+            $allowedDomains = ['@thebigsmoke.com', '@thebigsmoke.com.au', '@oh-hello.co', '@tbsdigitallabs.com', '@tbsdigitallabs.com.au'];
             $userDomain = '@' . explode('@', $email)[1] ?? '';
             
             if (!in_array($userDomain, $allowedDomains)) {

@@ -29,5 +29,5 @@ Route::get('/{role}/module-{module}', [ModuleController::class, 'show'])
 // Authentication
 Route::get('/auth/signin', [AuthController::class, 'showSignIn'])->name('auth.signin');
 Route::get('/auth/google', [AuthController::class, 'redirectToGoogle'])->name('auth.google');
-Route::get('/auth/google/callback', [AuthController::class, 'handleGoogleCallback'])->name('auth.google.callback');
+Route::get('/api/auth/callback/google', [AuthController::class, 'handleGoogleCallback'])->name('auth.google.callback');
 Route::post('/auth/signout', [AuthController::class, 'signOut'])->name('auth.signout');

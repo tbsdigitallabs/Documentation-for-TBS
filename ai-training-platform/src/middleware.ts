@@ -42,8 +42,12 @@ export default withAuth(
       }
     }
 
-    // Temporarily removed CSP to debug white screen issue
-    // Will re-add with proper configuration once issue is resolved
+    // Set CSP header - required for Next.js to work
+    // Using unsafe-inline and unsafe-eval is necessary for Next.js hydration
+    response.headers.set(
+      'Content-Security-Policy',
+      "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://apis.google.com chrome-extension: blob:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com chrome-extension:; img-src 'self' data: https: blob:; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' https://apis.google.com https://accounts.google.com blob:; frame-src 'self' https://accounts.google.com; worker-src 'self' blob:; object-src 'none'; base-uri 'self'; form-action 'self';"
+    );
 
     return response;
   },

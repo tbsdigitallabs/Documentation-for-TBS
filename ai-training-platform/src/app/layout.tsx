@@ -22,25 +22,7 @@ export default function RootLayout({
   return (
     <html lang="en-AU" suppressHydrationWarning>
       <head>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              (function() {
-                const theme = localStorage.getItem('theme') || 
-                  (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-                if (theme === 'dark') {
-                  document.documentElement.classList.add('dark');
-                }
-                // Prevent scroll restoration
-                if ('scrollRestoration' in history) {
-                  history.scrollRestoration = 'manual';
-                }
-                // Ensure page starts at top
-                window.scrollTo(0, 0);
-              })();
-            `,
-          }}
-        />
+        <script src="/theme-init.js" />
       </head>
       <body className="font-body antialiased">
         <SessionProvider>

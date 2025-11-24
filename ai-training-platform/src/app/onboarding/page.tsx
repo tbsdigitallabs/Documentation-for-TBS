@@ -17,7 +17,7 @@ interface ProfileData {
 }
 
 export default function OnboardingPage() {
-    const { data: session, status } = useSession();
+    const { data: session, status, update } = useSession();
     const router = useRouter();
     const [step, setStep] = useState<"questions" | "image">("questions");
     const [loading, setLoading] = useState(false);
@@ -154,6 +154,14 @@ export default function OnboardingPage() {
             });
 
             if (response.ok) {
+                // Update session with profile data and mark onboarding as complete
+                await update({
+                    onboardingCompleted: true,
+                    profile: {
+                        ...profileData,
+                        profileImage: imageUrl,
+                    }
+                });
                 router.push("/class-selection");
             }
         } catch (error) {

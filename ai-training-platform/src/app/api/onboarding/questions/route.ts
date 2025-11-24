@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
+import { authOptions } from "../auth/[...nextauth]/route";
 
 // Free LLM API - Using Hugging Face Inference API (free tier)
 // Alternative: OpenAI (has free tier), Anthropic, or Cohere
@@ -23,7 +24,7 @@ Return ONLY the question text, nothing else.`;
 
 export async function POST(req: NextRequest) {
   try {
-    const session = await getServerSession();
+    const session = await getServerSession(authOptions);
     if (!session?.user) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }

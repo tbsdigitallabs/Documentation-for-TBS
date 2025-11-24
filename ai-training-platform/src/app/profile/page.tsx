@@ -25,7 +25,7 @@ interface UserProfile {
 }
 
 export default function ProfilePage() {
-    const { data: session, status } = useSession();
+    const { data: session, status, update } = useSession();
     const router = useRouter();
     const [profile, setProfile] = useState<UserProfile | null>(null);
     const [loading, setLoading] = useState(true);
@@ -103,6 +103,21 @@ export default function ProfilePage() {
             if (response.ok) {
                 const updated = await response.json();
                 setProfile(updated);
+                // Update session with new profile data
+                await update({
+                    profile: {
+                        bio: updated.bio,
+                        role: updated.role,
+                        skills: updated.skills,
+                        interests: updated.interests,
+                        learningGoals: updated.learningGoals,
+                        experienceLevel: updated.experienceLevel,
+                        profileImage: updated.profileImage,
+                        selectedClass: updated.selectedClass,
+                        level: updated.level,
+                        xp: updated.xp,
+                    }
+                });
                 setEditing(false);
                 setImageFile(null);
             }

@@ -1,8 +1,8 @@
-import NextAuth from "next-auth"
+import NextAuth, { type NextAuthOptions } from "next-auth"
 import GoogleProvider from "next-auth/providers/google"
 import CredentialsProvider from "next-auth/providers/credentials"
 
-const handler = NextAuth({
+export const authOptions: NextAuthOptions = {
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,
@@ -56,16 +56,46 @@ const handler = NextAuth({
       // Add user info from token to session
       if (session.user && token.sub) {
         (session.user as any).id = token.sub
+        // Add profile data from token to session
+        if (token.profile) {
+          (session.user as any).profile = token.profile
+        }
+        if (token.onboardingCompleted !== undefined) {
+          (session.user as any).onboardingCompleted = token.onboardingCompleted
+        }
       }
       return session
     },
-    async jwt({ token, user, account }) {
+    async jwt({ token, user, account, trigger, session: sessionData }) {
       // On first sign in, store user info in token
       if (account && user) {
         token.sub = user.id
         token.email = user.email
         token.name = user.name
         token.picture = user.image
+        // Initialize profile data
+        token.onboardingCompleted = false
+        token.profile = {
+          bio: null,
+          role: null,
+          skills: [],
+          interests: [],
+          learningGoals: null,
+          experienceLevel: null,
+          profileImage: null,
+          selectedClass: null,
+          level: 1,
+          xp: 0,
+        }
+      }
+      // Update token when session is updated (from API routes)
+      if (trigger === 'update' && sessionData) {
+        if (sessionData.profile && typeof sessionData.profile === 'object') {
+          token.profile = { ...(token.profile as object || {}), ...sessionData.profile }
+        }
+        if (sessionData.onboardingCompleted !== undefined) {
+          token.onboardingCompleted = sessionData.onboardingCompleted
+        }
       }
       return token
     },
@@ -84,6 +114,8 @@ const handler = NextAuth({
   session: {
     strategy: 'jwt',
   },
-})
+}
+
+const handler = NextAuth(authOptions)
 
 export { handler as GET, handler as POST }

@@ -19,6 +19,7 @@
 - **Branch:** `^master$`
 - **Configuration:** `Cloud Build configuration file (yaml or json)`
 - **Location:** `ai-training-platform/cloudbuild.yaml`
+- **Full Path (from repo root):** `Documentation-for-TBS/ai-training-platform/cloudbuild.yaml`
 - Click **"Create"**
 
 ## ✅ Done!

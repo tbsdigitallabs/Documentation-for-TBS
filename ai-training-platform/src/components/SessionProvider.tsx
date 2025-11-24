@@ -7,6 +7,13 @@ export default function SessionProvider({
 }: {
   children: React.ReactNode;
 }) {
-  return <NextAuthSessionProvider>{children}</NextAuthSessionProvider>;
+  return (
+    <NextAuthSessionProvider
+      refetchInterval={5 * 60} // Refetch session every 5 minutes instead of default 0 (which polls constantly)
+      refetchOnWindowFocus={false} // Don't refetch on window focus to reduce connection attempts
+    >
+      {children}
+    </NextAuthSessionProvider>
+  );
 }
 

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
-import { authOptions } from "../auth/[...nextauth]/route";
+import { authOptions } from "../../auth/[...nextauth]/route";
 
 // Free LLM API - Using Hugging Face Inference API (free tier)
 // Alternative: OpenAI (has free tier), Anthropic, or Cohere

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
-import { authOptions } from "../auth/[...nextauth]/route";
+import { authOptions } from "../../auth/[...nextauth]/route";
 
 // Free LLM API for processing answers
 const LLM_API_URL = process.env.LLM_API_URL || "https://api-inference.huggingface.co/models/mistralai/Mistral-7B-Instruct-v0.2";

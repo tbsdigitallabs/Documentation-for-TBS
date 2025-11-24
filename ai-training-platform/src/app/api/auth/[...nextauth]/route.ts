@@ -33,7 +33,7 @@ export const authOptions: NextAuthOptions = {
       })
     ] : []),
   ],
-  debug: true, // Enable debug mode
+  debug: false, // Disable debug mode to reduce connection issues
   callbacks: {
     async signIn({ user, account, profile }) {
       // Allow dev skip auth in development

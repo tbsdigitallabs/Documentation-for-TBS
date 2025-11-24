@@ -29,7 +29,6 @@ export default function SessionProvider({
       refetchInterval={0} // Disable automatic polling
       refetchOnWindowFocus={false} // Don't refetch on window focus
       refetchWhenOffline={false} // Don't refetch when offline
-      basePath="/api/auth" // Explicitly set base path
     >
       {children}
     </NextAuthSessionProvider>

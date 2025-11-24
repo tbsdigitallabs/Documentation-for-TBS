@@ -3,7 +3,8 @@
 param(
     [string]$ProjectId = "learninglab-478822",
     [string]$ServiceName = "learninglab",
-    [string]$Region = "australia-southeast1"
+    [string]$Region = "australia-southeast1",
+    [string]$ServiceAccount = "learninglab-run@learninglab-478822.iam.gserviceaccount.com"
 )
 
 Write-Host "Updating Cloud Run service to use secrets..." -ForegroundColor Green
@@ -23,6 +24,7 @@ gcloud run services update $ServiceName `
     --region=$Region `
     --project=$ProjectId `
     --update-secrets=$secretsString `
+    --service-account=$ServiceAccount `
     --update-env-vars "NEXTAUTH_URL=https://learninglab.tbsdigitallabs.com,NODE_ENV=production"
 
 if ($LASTEXITCODE -eq 0) {

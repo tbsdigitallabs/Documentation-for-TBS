@@ -79,13 +79,19 @@ foreach ($property in $secrets.PSObject.Properties) {
     $exists = gcloud secrets describe $secretName --project=$ProjectId 2>&1
     if ($LASTEXITCODE -eq 0) {
         Write-Host "  Secret exists, updating..." -ForegroundColor Yellow
-        # Update existing secret
-        echo -n $secretValue | gcloud secrets versions add $secretName --data-file=- --project=$ProjectId
+        # Update existing secret using temp file to avoid encoding issues
+        $tempFile = [System.IO.Path]::GetTempFileName()
+        [System.IO.File]::WriteAllText($tempFile, $secretValue)
+        gcloud secrets versions add $secretName --data-file=$tempFile --project=$ProjectId
+        Remove-Item $tempFile
     }
     else {
         Write-Host "  Creating new secret..." -ForegroundColor Green
-        # Create new secret
-        echo -n $secretValue | gcloud secrets create $secretName --data-file=- --project=$ProjectId
+        # Create new secret using temp file
+        $tempFile = [System.IO.Path]::GetTempFileName()
+        [System.IO.File]::WriteAllText($tempFile, $secretValue)
+        gcloud secrets create $secretName --data-file=$tempFile --project=$ProjectId
+        Remove-Item $tempFile
     }
     
     if ($LASTEXITCODE -eq 0) {

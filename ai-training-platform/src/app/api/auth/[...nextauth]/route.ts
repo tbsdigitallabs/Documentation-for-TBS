@@ -1,23 +1,8 @@
 import NextAuth from "next-auth"
 import GoogleProvider from "next-auth/providers/google"
 import CredentialsProvider from "next-auth/providers/credentials"
-import { PrismaAdapter } from "@auth/prisma-adapter"
-import { PrismaClient } from "@prisma/client"
-
-// Lazy initialization to avoid database connection during build
-let prisma: PrismaClient | undefined;
-
-function getPrisma() {
-  if (!prisma) {
-    prisma = new PrismaClient({
-      log: process.env.NODE_ENV === 'development' ? ['error', 'warn'] : ['error'],
-    });
-  }
-  return prisma;
-}
 
 const handler = NextAuth({
-  adapter: PrismaAdapter(getPrisma()),
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,
@@ -67,29 +52,20 @@ const handler = NextAuth({
       }
       return false
     },
-    async session({ session, user, token }) {
-      // Handle dev skip auth session (JWT strategy)
-      if (token?.sub && token.sub === 'dev-user-123') {
-        session.user = {
-          id: 'dev-user-123',
-          name: 'Dev User',
-          email: 'dev@tbsdigitallabs.com.au',
-          image: null,
-        } as any
-        return session
+    async session({ session, token }) {
+      // Add user info from token to session
+      if (session.user && token.sub) {
+        (session.user as any).id = token.sub
       }
-
-      // Handle database strategy (production)
-      if (user) {
-        session.user.id = (user as any).id
-      }
-
       return session
     },
     async jwt({ token, user, account }) {
-      // Store dev user info in token
-      if (account?.provider === 'dev-skip' && user) {
+      // On first sign in, store user info in token
+      if (account && user) {
         token.sub = user.id
+        token.email = user.email
+        token.name = user.name
+        token.picture = user.image
       }
       return token
     },
@@ -106,7 +82,7 @@ const handler = NextAuth({
     error: '/auth/error',
   },
   session: {
-    strategy: process.env.NODE_ENV === 'development' ? 'jwt' : 'database',
+    strategy: 'jwt',
   },
 })
 

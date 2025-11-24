@@ -1,21 +1,9 @@
-import { withAuth } from "next-auth/middleware";
-import { NextResponse } from "next/server";
-
-// Singleton PrismaClient for middleware (reused across requests)
-let prisma: any = null;
-
-async function getPrisma() {
-  if (!prisma) {
-    const { PrismaClient } = await import("@prisma/client");
-    prisma = new PrismaClient({
-      log: process.env.NODE_ENV === 'development' ? ['error', 'warn'] : ['error'],
-    });
-  }
-  return prisma;
-}
+import { withAuth, NextRequestWithAuth } from "next-auth/middleware";
+import { NextResponse, NextRequest } from "next/server";
 
 export default withAuth(
-  async function middleware(req) {
+  async function middleware(req: NextRequestWithAuth) {
+    const request = req as unknown as NextRequest;
     // Allow access to public routes
     const publicRoutes = [
       "/",
@@ -26,7 +14,7 @@ export default withAuth(
     ];
 
     const isPublicRoute = publicRoutes.some((route) =>
-      req.nextUrl.pathname.startsWith(route)
+      request.nextUrl.pathname.startsWith(route)
     );
 
     if (isPublicRoute) {
@@ -34,25 +22,17 @@ export default withAuth(
     }
 
     // Check if user has completed onboarding
-    if (req.nextauth.token?.email) {
-      try {
-        const prismaClient = await getPrisma();
-        const user = await prismaClient.user.findUnique({
-          where: { email: req.nextauth.token.email as string },
-          select: { onboardingCompleted: true },
-        });
+    if (req.nextauth.token) {
+      const onboardingCompleted = req.nextauth.token.onboardingCompleted as boolean;
 
-        // Redirect to onboarding if not completed (except if already on onboarding page)
-        if (!user?.onboardingCompleted && !req.nextUrl.pathname.startsWith("/onboarding")) {
-          return NextResponse.redirect(new URL("/onboarding", req.url));
-        }
+      // Redirect to onboarding if not completed (except if already on onboarding page)
+      if (!onboardingCompleted && !request.nextUrl.pathname.startsWith("/onboarding")) {
+        return NextResponse.redirect(new URL("/onboarding", request.url));
+      }
 
-        // Redirect away from onboarding if already completed
-        if (user?.onboardingCompleted && req.nextUrl.pathname.startsWith("/onboarding")) {
-          return NextResponse.redirect(new URL("/class-selection", req.url));
-        }
-      } catch (error) {
-        console.error("Error checking onboarding status:", error);
+      // Redirect away from onboarding if already completed
+      if (onboardingCompleted && request.nextUrl.pathname.startsWith("/onboarding")) {
+        return NextResponse.redirect(new URL("/class-selection", request.url));
       }
     }
 

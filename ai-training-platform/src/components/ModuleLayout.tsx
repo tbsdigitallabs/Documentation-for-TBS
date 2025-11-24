@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import ThemeToggle from '@/components/ThemeToggle';
+import { Button } from '@/components/ui/button';
 import { useTheme } from '@/components/ThemeProvider';
 import { Container } from '@/components/Container';
 import { Section } from '@/components/Section';
@@ -29,20 +30,18 @@ export default function ModuleLayout({
     moduleNumber,
     totalLessons,
     estimatedTime,
-    progress = 0
+    progress = 0,
 }: ModuleLayoutProps) {
     const { theme } = useTheme();
 
-    // Map role to accent color class
     const roleAccentMap: Record<string, string> = {
-        'Developer': 'bg-accent-developers',
-        'Designer': 'bg-accent-designers',
+        Developer: 'bg-accent-developers',
+        Designer: 'bg-accent-designers',
         'Project Manager': 'bg-accent-project-managers',
         'Content Creator': 'bg-accent-content-creators',
         'Sales & Business Development': 'bg-accent-sales-business',
     };
 
-    // Normalize role name for lookup
     const normalizedRole = role.trim();
     const avatarBgClass = roleAccentMap[normalizedRole] || 'bg-accent-developers';
 
@@ -58,17 +57,13 @@ export default function ModuleLayout({
                                 <Heading level={2} className="text-content-primary">
                                     {title}
                                 </Heading>
-                                <p className="text-small text-content-secondary">
-                                    {description}
-                                </p>
+                                <p className="text-small text-content-secondary">{description}</p>
                             </div>
                         </div>
                         <div className="flex items-center space-x-4">
                             <ThemeToggle />
                             <div className={`w-10 h-10 ${avatarBgClass} rounded-full flex items-center justify-center`}>
-                                <span className="text-white font-semibold text-sm">
-                                    {role.charAt(0).toUpperCase()}
-                                </span>
+                                <span className="text-white font-semibold text-sm">{role.charAt(0).toUpperCase()}</span>
                             </div>
                         </div>
                     </div>
@@ -81,9 +76,17 @@ export default function ModuleLayout({
                     {/* Breadcrumb */}
                     <nav className="mb-6">
                         <ol className="flex items-center space-x-2 text-sm text-content-secondary">
-                            <li><Link href="/" className="hover:text-content-primary">LearningLab</Link></li>
+                            <li>
+                                <Link href="/" className="hover:text-content-primary">
+                                    LearningLab
+                                </Link>
+                            </li>
                             <li className="text-content-tertiary">/</li>
-                            <li><Link href={rolePath} className="hover:text-content-primary">{role} Class</Link></li>
+                            <li>
+                                <Link href={rolePath} className="hover:text-content-primary">
+                                    {role} Class
+                                </Link>
+                            </li>
                             <li className="text-content-tertiary">/</li>
                             <li className="text-content-primary">{title}</li>
                         </ol>
@@ -91,7 +94,9 @@ export default function ModuleLayout({
 
                     {/* Adventure Header */}
                     <div className="mb-8">
-                        <Heading level={1} className="text-content-primary mb-4">{title}</Heading>
+                        <Heading level={1} className="text-content-primary mb-4">
+                            {title}
+                        </Heading>
                         <p className="text-content-secondary mb-6">{description}</p>
 
                         {/* Adventure Metadata */}
@@ -126,8 +131,10 @@ export default function ModuleLayout({
 
                     {/* Back Button */}
                     <div className="mt-8">
-                        <Link href={rolePath} className="inline-flex items-center text-content-secondary hover:text-content-primary">
-                            ← Back to {role} Class
+                        <Link href={rolePath}>
+                            <Button variant="secondary" size="default" className="inline-flex items-center">
+                                ← Back to {role} Class
+                            </Button>
                         </Link>
                     </div>
                 </Container>

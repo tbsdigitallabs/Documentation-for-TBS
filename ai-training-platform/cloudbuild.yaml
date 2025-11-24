@@ -1,6 +1,7 @@
 steps:
-  # Build the container image
+  # Build the container image from ai-training-platform directory
   - name: 'gcr.io/cloud-builders/docker'
+    dir: 'ai-training-platform'
     args: ['build', '-t', 'gcr.io/$PROJECT_ID/learninglab:$COMMIT_SHA', '.']
   
   # Push the container image to Container Registry

@@ -35,22 +35,23 @@ Write-Host "2. Click 'Connect Repository'" -ForegroundColor Cyan
 Write-Host "3. Select GitHub and authorize" -ForegroundColor Cyan
 Write-Host "4. Select repository: tbsdigitallabs/Documentation-for-TBS" -ForegroundColor Cyan
 Write-Host "`nAfter connecting, run this command to create the trigger:" -ForegroundColor Yellow
+$TRIGGER_NAME = "$SERVICE_NAME-auto-deploy"
 Write-Host "`ngcloud builds triggers create github \`" -ForegroundColor Green
-Write-Host "  --name=learninglab-auto-deploy \`" -ForegroundColor Green
+Write-Host "  --name=$TRIGGER_NAME \`" -ForegroundColor Green
 Write-Host "  --repo-name=Documentation-for-TBS \`" -ForegroundColor Green
 Write-Host "  --repo-owner=tbsdigitallabs \`" -ForegroundColor Green
-Write-Host "  --branch-pattern='^master$' \`" -ForegroundColor Green
+Write-Host "  --branch-pattern='^$BRANCH$' \`" -ForegroundColor Green
 Write-Host "  --build-config=$CONFIG_PATH \`" -ForegroundColor Green
 Write-Host "  --region=$REGION" -ForegroundColor Green
 
 Write-Host "`nAlternatively, create the trigger via web console:" -ForegroundColor Yellow
 Write-Host "https://console.cloud.google.com/cloud-build/triggers/add?project=$PROJECT_ID" -ForegroundColor Cyan
 Write-Host "`nConfiguration:" -ForegroundColor Yellow
-Write-Host "  - Name: learninglab-auto-deploy" -ForegroundColor White
+Write-Host "  - Name: $TRIGGER_NAME" -ForegroundColor White
 Write-Host "  - Event: Push to a branch" -ForegroundColor White
-Write-Host "  - Branch: ^master$" -ForegroundColor White
+Write-Host "  - Branch: ^$BRANCH$" -ForegroundColor White
 Write-Host "  - Configuration: Cloud Build configuration file" -ForegroundColor White
 Write-Host "  - Location: $CONFIG_PATH" -ForegroundColor White
 
-Write-Host "`nDone! After setting up the trigger, every push to master will automatically deploy." -ForegroundColor Green
+Write-Host "`nDone! After setting up the trigger, every push to $BRANCH will automatically deploy." -ForegroundColor Green
 

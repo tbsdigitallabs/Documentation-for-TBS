@@ -1,0 +1,8 @@
+github:
+  name: Documentation-for-TBS
+  owner: tbsdigitallabs
+  push:
+    branch: ^master$
+name: autorun
+filename: ai-training-platform/cloudbuild.yaml
+

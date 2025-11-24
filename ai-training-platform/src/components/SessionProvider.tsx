@@ -18,7 +18,7 @@ export default function SessionProvider({
       }
       originalError.apply(console, args);
     };
-    
+
     return () => {
       console.error = originalError;
     };

@@ -4,10 +4,10 @@ import { NextResponse, NextRequest } from "next/server";
 export default withAuth(
   async function middleware(req: NextRequestWithAuth) {
     const request = req as unknown as NextRequest;
-    
+
     // Create response
     let response: NextResponse;
-    
+
     // Allow access to public routes
     const publicRoutes = [
       "/",
@@ -58,7 +58,7 @@ export default withAuth(
       "base-uri 'self'",
       "form-action 'self'",
     ].join('; ');
-    
+
     response.headers.set('Content-Security-Policy', cspHeader);
 
     return response;

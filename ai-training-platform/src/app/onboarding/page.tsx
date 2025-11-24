@@ -19,7 +19,8 @@ interface ProfileData {
 }
 
 export default function OnboardingPage() {
-    const { data: session, status, update } = useSession();
+    const sessionResult = typeof window !== 'undefined' ? useSession() : { data: null, status: 'loading' as const, update: async () => {} };
+    const { data: session, status, update } = sessionResult;
     const router = useRouter();
     const [step, setStep] = useState<"questions" | "image">("questions");
     const [loading, setLoading] = useState(false);

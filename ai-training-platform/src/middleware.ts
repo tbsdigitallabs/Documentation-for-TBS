@@ -42,11 +42,8 @@ export default withAuth(
       }
     }
 
-    // Set CSP header with unsafe-inline and unsafe-eval for Next.js
-    response.headers.set(
-      'Content-Security-Policy',
-      "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://apis.google.com chrome-extension:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com chrome-extension:; img-src 'self' data: https:; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' https://apis.google.com https://accounts.google.com;"
-    );
+    // Temporarily removed CSP to test if it's causing the white screen
+    // Will add back with proper configuration
 
     return response;
   },

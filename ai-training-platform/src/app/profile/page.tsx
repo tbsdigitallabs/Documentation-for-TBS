@@ -27,8 +27,7 @@ interface UserProfile {
 }
 
 export default function ProfilePage() {
-    const sessionResult = typeof window !== 'undefined' ? useSession() : { data: null, status: 'loading' as const, update: async () => { } };
-    const { data: session, status, update } = sessionResult;
+    const { data: session, status, update } = useSession();
     const router = useRouter();
     const [profile, setProfile] = useState<UserProfile | null>(null);
     const [loading, setLoading] = useState(true);

@@ -4,6 +4,10 @@ import { NextResponse, NextRequest } from "next/server";
 export default withAuth(
   async function middleware(req: NextRequestWithAuth) {
     const request = req as unknown as NextRequest;
+    
+    // Create response
+    let response: NextResponse;
+    
     // Allow access to public routes
     const publicRoutes = [
       "/",
@@ -18,25 +22,33 @@ export default withAuth(
     );
 
     if (isPublicRoute) {
-      return NextResponse.next();
+      response = NextResponse.next();
+    } else {
+      // Check if user has completed onboarding
+      if (req.nextauth.token) {
+        const onboardingCompleted = req.nextauth.token.onboardingCompleted as boolean;
+
+        // Redirect to onboarding if not completed (except if already on onboarding page)
+        if (!onboardingCompleted && !request.nextUrl.pathname.startsWith("/onboarding")) {
+          response = NextResponse.redirect(new URL("/onboarding", request.url));
+        } else if (onboardingCompleted && request.nextUrl.pathname.startsWith("/onboarding")) {
+          // Redirect away from onboarding if already completed
+          response = NextResponse.redirect(new URL("/class-selection", request.url));
+        } else {
+          response = NextResponse.next();
+        }
+      } else {
+        response = NextResponse.next();
+      }
     }
 
-    // Check if user has completed onboarding
-    if (req.nextauth.token) {
-      const onboardingCompleted = req.nextauth.token.onboardingCompleted as boolean;
+    // Set CSP header with unsafe-inline and unsafe-eval for Next.js
+    response.headers.set(
+      'Content-Security-Policy',
+      "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://apis.google.com chrome-extension:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com chrome-extension:; img-src 'self' data: https:; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' https://apis.google.com https://accounts.google.com;"
+    );
 
-      // Redirect to onboarding if not completed (except if already on onboarding page)
-      if (!onboardingCompleted && !request.nextUrl.pathname.startsWith("/onboarding")) {
-        return NextResponse.redirect(new URL("/onboarding", request.url));
-      }
-
-      // Redirect away from onboarding if already completed
-      if (onboardingCompleted && request.nextUrl.pathname.startsWith("/onboarding")) {
-        return NextResponse.redirect(new URL("/class-selection", request.url));
-      }
-    }
-
-    return NextResponse.next();
+    return response;
   },
   {
     callbacks: {

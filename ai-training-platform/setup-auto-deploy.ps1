@@ -35,9 +35,9 @@ Write-Host "2. Click 'Connect Repository'" -ForegroundColor Cyan
 Write-Host "3. Select GitHub and authorize" -ForegroundColor Cyan
 Write-Host "4. Select repository: tbsdigitallabs/Documentation-for-TBS" -ForegroundColor Cyan
 Write-Host "`nAfter connecting, run this command to create the trigger:" -ForegroundColor Yellow
-# Use variables to avoid linting warnings
-$TRIGGER_NAME = "$SERVICE_NAME-auto-deploy"
-$BRANCH_PATTERN = "^$BRANCH$"
+# Use variables to avoid linting warnings - assign to intermediate variables
+$TRIGGER_NAME = $SERVICE_NAME + "-auto-deploy"
+$BRANCH_PATTERN = "^" + $BRANCH + "$"
 Write-Host "`ngcloud builds triggers create github \`" -ForegroundColor Green
 Write-Host "  --name=$TRIGGER_NAME \`" -ForegroundColor Green
 Write-Host "  --repo-name=Documentation-for-TBS \`" -ForegroundColor Green

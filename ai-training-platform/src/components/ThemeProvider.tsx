@@ -46,6 +46,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
         setTheme(prev => prev === 'dark' ? 'light' : 'dark');
     };
 
+    // Always render children, even before mounted to prevent white screen
     return (
         <ThemeContext.Provider value={{ theme, toggleTheme }}>
             {children}

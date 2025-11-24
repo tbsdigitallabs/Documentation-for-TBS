@@ -44,11 +44,9 @@ export default function RootLayout({
       </head>
       <body className="font-body antialiased">
         <SessionProvider>
-        <ThemeProvider>
-          <PageTransition>
+          <ThemeProvider>
             {children}
-          </PageTransition>
-        </ThemeProvider>
+          </ThemeProvider>
         </SessionProvider>
       </body>
     </html>

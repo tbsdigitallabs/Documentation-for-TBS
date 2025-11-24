@@ -27,22 +27,31 @@ interface UserProfile {
 }
 
 export default function ProfilePage() {
-    const { data: session, status, update } = useSession();
+    const [mounted, setMounted] = useState(false);
     const router = useRouter();
     const [profile, setProfile] = useState<UserProfile | null>(null);
     const [loading, setLoading] = useState(true);
     const [editing, setEditing] = useState(false);
     const [editedProfile, setEditedProfile] = useState<UserProfile>({});
+    
+    // Only call useSession after component mounts to avoid build-time errors
+    const sessionResult = mounted ? useSession() : { data: null, status: 'loading' as const, update: async () => {} };
+    const { data: session, status, update } = sessionResult;
     const [imageFile, setImageFile] = useState<File | null>(null);
     const [imagePreview, setImagePreview] = useState<string | null>(null);
 
     useEffect(() => {
+        setMounted(true);
+    }, []);
+
+    useEffect(() => {
+        if (!mounted) return;
         if (status === "unauthenticated") {
             router.push("/auth/signin");
-        } else if (status === "authenticated") {
+        } else if (status === "authenticated" && session) {
             fetchProfile();
         }
-    }, [status, router]);
+    }, [mounted, status, session, router]);
 
     const fetchProfile = async () => {
         try {

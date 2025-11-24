@@ -19,7 +19,7 @@ interface ProfileData {
 }
 
 export default function OnboardingPage() {
-    const { data: session, status, update } = useSession();
+    const [mounted, setMounted] = useState(false);
     const router = useRouter();
     const [step, setStep] = useState<"questions" | "image">("questions");
     const [loading, setLoading] = useState(false);
@@ -30,14 +30,23 @@ export default function OnboardingPage() {
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     const [imageFile, setImageFile] = useState<File | null>(null);
     const [imagePreview, setImagePreview] = useState<string | null>(null);
+    
+    // Only call useSession after component mounts to avoid build-time errors
+    const sessionResult = mounted ? useSession() : { data: null, status: 'loading' as const, update: async () => {} };
+    const { data: session, status, update } = sessionResult;
 
     useEffect(() => {
+        setMounted(true);
+    }, []);
+
+    useEffect(() => {
+        if (!mounted) return;
         if (status === "unauthenticated") {
             router.push("/auth/signin");
         } else if (status === "authenticated" && session) {
             startOnboarding();
         }
-    }, [status, session, router]);
+    }, [mounted, status, session, router]);
 
     const startOnboarding = async () => {
         setLoading(true);

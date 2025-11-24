@@ -8,6 +8,8 @@ import ThemeToggle from "@/components/ThemeToggle";
 import { User, Edit2, Save, X, Upload, ExternalLink } from "lucide-react";
 import Link from "next/link";
 
+export const dynamic = 'force-dynamic';
+
 interface UserProfile {
     name?: string;
     email?: string;

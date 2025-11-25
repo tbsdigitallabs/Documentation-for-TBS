@@ -138,6 +138,11 @@ export const authOptions: NextAuthOptions = {
   useSecureCookies: process.env.NEXTAUTH_URL?.startsWith('https://'),
 }
 
+// Set NEXTAUTH_URL fallback for development
+if (!process.env.NEXTAUTH_URL && process.env.NODE_ENV === 'development') {
+  process.env.NEXTAUTH_URL = 'http://localhost:3000';
+}
+
 // Only initialize NextAuth if we have a secret or are in development with fallback
 const canInitializeAuth = process.env.NEXTAUTH_SECRET || process.env.NODE_ENV === 'development';
 
@@ -148,6 +153,7 @@ if (canInitializeAuth) {
     handler = NextAuth(authOptions);
   } catch (error) {
     console.error('Failed to initialize NextAuth:', error);
+    console.error('Error details:', error instanceof Error ? error.message : String(error));
     handler = null;
   }
 }

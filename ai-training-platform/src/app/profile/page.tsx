@@ -22,8 +22,8 @@ interface UserProfile {
         learningGoals?: string;
         experienceLevel?: string;
         selectedClass?: string;
-        hobbies?: string;
-        systems?: string;
+        hobbies?: string | null;
+        systems?: string | null;
         level?: number;
         xp?: number;
     }

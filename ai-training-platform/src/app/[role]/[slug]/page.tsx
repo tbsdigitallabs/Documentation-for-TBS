@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
-import PageHeader from '@/components/PageHeader';
+import ThemeToggle from '@/components/ThemeToggle';
 import { GlassCard } from '@/components/ui/GlassCard';
 import { ArrowLeft, Clock, Target, BookOpen } from 'lucide-react';
 import { ModuleWrapper } from '@/components/modules/ModuleWrapper';

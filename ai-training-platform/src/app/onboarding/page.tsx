@@ -72,26 +72,26 @@ export default function OnboardingPage() {
                 setQuestions([
                     {
                         id: "class",
-                        question: "What class do you identify with in your quest?",
+                        question: "What's your role at TBS Digital Labs?",
                         type: "multiple-choice" as const,
                         required: true,
                         options: [
-                            { value: "Artificer", label: "Artificer", description: "Master the tools of code and creation" },
-                            { value: "Bard", label: "Bard", description: "Weave visual magic and creative wonders" },
-                            { value: "Paladin", label: "Paladin", description: "Lead quests and manage the realm" },
-                            { value: "Storyteller", label: "Storyteller", description: "Craft tales and shape narratives" },
-                            { value: "Rogue", label: "Rogue", description: "Navigate deals and expand territories" },
+                            { value: "Artificer", label: "Artificer (Developer)", description: "I write code, build applications, and work with technical systems" },
+                            { value: "Bard", label: "Bard (Designer)", description: "I create visual designs, user interfaces, and brand assets" },
+                            { value: "Paladin", label: "Paladin (Project Manager)", description: "I manage projects, coordinate teams, and ensure deliverables are met" },
+                            { value: "Storyteller", label: "Storyteller (Content Creator & PR)", description: "I write content, manage communications, and handle public relations" },
+                            { value: "Rogue", label: "Rogue (Sales & Business Development)", description: "I work with clients, manage sales, and develop business opportunities" },
                         ],
                     },
                     {
                         id: "experience",
-                        question: "How would you describe your experience level with AI magic?",
+                        question: "What's your experience level with AI tools?",
                         type: "multiple-choice" as const,
                         required: true,
                         options: [
-                            { value: "Novice", label: "Novice", description: "Just starting my journey" },
-                            { value: "Apprentice", label: "Apprentice", description: "I've dabbled with AI tools" },
-                            { value: "Master", label: "Master", description: "I'm experienced with AI workflows" },
+                            { value: "Novice", label: "Novice", description: "I'm new to AI tools and want to learn the basics" },
+                            { value: "Apprentice", label: "Apprentice", description: "I've used some AI tools but want to improve my skills" },
+                            { value: "Master", label: "Master", description: "I'm experienced with AI and want to learn advanced techniques" },
                         ],
                     },
                 ]);

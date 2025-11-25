@@ -19,79 +19,79 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    // Adventure-themed onboarding questions with multiple choice
+    // Onboarding questions with clear, plain language descriptions
     const questions: OnboardingQuestion[] = [
       {
         id: "class",
-        question: "What class do you identify with in your quest?",
+        question: "What's your role at TBS Digital Labs?",
         type: "multiple-choice",
         required: true,
         options: [
           {
             value: "Artificer",
-            label: "Artificer",
-            description: "Master the tools of code and creation",
+            label: "Artificer (Developer)",
+            description: "I write code, build applications, and work with technical systems",
           },
           {
             value: "Bard",
-            label: "Bard",
-            description: "Weave visual magic and creative wonders",
+            label: "Bard (Designer)",
+            description: "I create visual designs, user interfaces, and brand assets",
           },
           {
             value: "Paladin",
-            label: "Paladin",
-            description: "Lead quests and manage the realm",
+            label: "Paladin (Project Manager)",
+            description: "I manage projects, coordinate teams, and ensure deliverables are met",
           },
           {
             value: "Storyteller",
-            label: "Storyteller",
-            description: "Craft tales and shape narratives",
+            label: "Storyteller (Content Creator & PR)",
+            description: "I write content, manage communications, and handle public relations",
           },
           {
             value: "Rogue",
-            label: "Rogue",
-            description: "Navigate deals and expand territories",
+            label: "Rogue (Sales & Business Development)",
+            description: "I work with clients, manage sales, and develop business opportunities",
           },
         ],
       },
       {
         id: "experience",
-        question: "How would you describe your experience level with AI magic?",
+        question: "What's your experience level with AI tools?",
         type: "multiple-choice",
         required: true,
         options: [
           {
             value: "Novice",
             label: "Novice",
-            description: "Just starting my journey",
+            description: "I'm new to AI tools and want to learn the basics",
           },
           {
             value: "Apprentice",
             label: "Apprentice",
-            description: "I've dabbled with AI tools",
+            description: "I've used some AI tools but want to improve my skills",
           },
           {
             value: "Master",
             label: "Master",
-            description: "I'm experienced with AI workflows",
+            description: "I'm experienced with AI and want to learn advanced techniques",
           },
         ],
       },
       {
         id: "hobbies",
-        question: "What hobbies or interests do you have?",
+        question: "What are your hobbies or interests outside of work?",
         type: "text",
         required: false,
-        placeholder: "Share your interests (this helps us create future modules tailored to you)",
-        helpText: "Optional: This helps us create future modules tailored to you",
+        placeholder: "e.g., photography, gaming, cooking, sports...",
+        helpText: "Optional: This helps us create future training modules that might interest you",
       },
       {
         id: "systems",
-        question: "What systems or tools do you use outside of Asana, Google Workspace, and Close CRM?",
+        question: "What other tools or systems do you regularly use at work?",
         type: "text",
         required: false,
-        placeholder: "List any other tools or systems you use",
-        helpText: "Optional: Help us identify tools we might not know about",
+        placeholder: "e.g., Slack, Notion, Figma, GitHub, HubSpot...",
+        helpText: "Optional: List any tools beyond Asana, Google Workspace, and Close CRM that you use regularly",
       },
     ];
 
@@ -103,15 +103,15 @@ export async function POST(req: NextRequest) {
       questions: [
         {
           id: "class",
-          question: "What class do you identify with?",
+          question: "What's your role at TBS Digital Labs?",
           type: "multiple-choice",
           required: true,
           options: [
-            { value: "Artificer", label: "Artificer" },
-            { value: "Bard", label: "Bard" },
-            { value: "Paladin", label: "Paladin" },
-            { value: "Storyteller", label: "Storyteller" },
-            { value: "Rogue", label: "Rogue" },
+            { value: "Artificer", label: "Artificer (Developer)", description: "I write code, build applications, and work with technical systems" },
+            { value: "Bard", label: "Bard (Designer)", description: "I create visual designs, user interfaces, and brand assets" },
+            { value: "Paladin", label: "Paladin (Project Manager)", description: "I manage projects, coordinate teams, and ensure deliverables are met" },
+            { value: "Storyteller", label: "Storyteller (Content Creator & PR)", description: "I write content, manage communications, and handle public relations" },
+            { value: "Rogue", label: "Rogue (Sales & Business Development)", description: "I work with clients, manage sales, and develop business opportunities" },
           ],
         },
       ],

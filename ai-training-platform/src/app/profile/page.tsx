@@ -33,7 +33,7 @@ export default function ProfilePage() {
     const [loading, setLoading] = useState(true);
     const [editing, setEditing] = useState(false);
     const [editedProfile, setEditedProfile] = useState<UserProfile>({});
-    
+
     // Always call useSession - Rules of Hooks require consistent hook order
     const { data: session, status, update } = useSession();
     const [imageFile, setImageFile] = useState<File | null>(null);
@@ -235,15 +235,41 @@ export default function ProfilePage() {
                                     </p>
                                 )}
                                 {profile?.level && (
-                                    <div className="flex items-center justify-center gap-4 mt-4">
-                                        <div className="text-center">
-                                            <div className="text-2xl font-bold text-cyber-cyan">{profile.level}</div>
-                                            <div className="text-xs text-content-tertiary">Level</div>
+                                    <div className="space-y-4 mt-4">
+                                        <div className="flex items-center justify-center gap-4">
+                                            <div className="text-center">
+                                                <div className="text-2xl font-bold text-cyber-cyan">{profile.level}</div>
+                                                <div className="text-xs text-content-tertiary">Level</div>
+                                            </div>
+                                            <div className="text-center">
+                                                <div className="text-2xl font-bold text-cyber-magenta">{profile.xp || 0}</div>
+                                                <div className="text-xs text-content-tertiary">XP</div>
+                                            </div>
                                         </div>
-                                        <div className="text-center">
-                                            <div className="text-2xl font-bold text-cyber-magenta">{profile.xp || 0}</div>
-                                            <div className="text-xs text-content-tertiary">XP</div>
+                                        
+                                        {/* Experience Level (read-only, based on level) */}
+                                        <div className="text-center pt-2 border-t border-border-primary">
+                                            <div className="text-xs text-content-tertiary mb-1">Experience Level</div>
+                                            <div className="text-sm font-semibold text-content-primary">
+                                                {getExperienceLevelName(profile.level || 1)}
+                                            </div>
                                         </div>
+                                        
+                                        {/* Level Progress Bar */}
+                                        {profile.level < MAX_LEVEL && (
+                                            <div className="pt-2">
+                                                <div className="flex items-center justify-between text-xs text-content-tertiary mb-1">
+                                                    <span>Progress to Level {profile.level + 1}</span>
+                                                    <span>{getXPForNextLevel(profile.xp || 0, profile.level || 1)} XP needed</span>
+                                                </div>
+                                                <div className="w-full bg-surface-tertiary rounded-full h-2 overflow-hidden">
+                                                    <div 
+                                                        className="bg-gradient-to-r from-cyber-cyan to-cyber-magenta h-2 rounded-full transition-all duration-500"
+                                                        style={{ width: `${getLevelProgress(profile.xp || 0, profile.level || 1) * 100}%` }}
+                                                    />
+                                                </div>
+                                            </div>
+                                        )}
                                     </div>
                                 )}
                             </div>
@@ -294,21 +320,6 @@ export default function ProfilePage() {
                                         />
                                     </div>
 
-                                    <div>
-                                        <label className="block text-sm font-semibold text-content-primary mb-2">
-                                            Experience Level
-                                        </label>
-                                        <select
-                                            value={editedProfile.experienceLevel || ""}
-                                            onChange={(e) => setEditedProfile({ ...editedProfile, experienceLevel: e.target.value })}
-                                            className="w-full px-4 py-3 bg-surface-secondary border border-border-secondary rounded-lg text-content-primary focus:outline-none focus:ring-2 focus:ring-cyber-cyan"
-                                        >
-                                            <option value="">Select level</option>
-                                            <option value="Beginner">Novice</option>
-                                            <option value="Intermediate">Apprentice</option>
-                                            <option value="Advanced">Master</option>
-                                        </select>
-                                    </div>
 
                                     <div>
                                         <label className="block text-sm font-semibold text-content-primary mb-2">
@@ -338,14 +349,11 @@ export default function ProfilePage() {
                                         </div>
                                     )}
 
-                                    {profile?.experienceLevel && (
+                                    {profile?.level && (
                                         <div>
-                                            <h3 className="text-sm font-semibold text-content-tertiary mb-2 uppercase">Experience</h3>
+                                            <h3 className="text-sm font-semibold text-content-tertiary mb-2 uppercase">Experience Level</h3>
                                             <p className="text-content-primary">
-                                                {profile.experienceLevel === "Beginner" ? "Novice" :
-                                                    profile.experienceLevel === "Intermediate" ? "Apprentice" :
-                                                        profile.experienceLevel === "Advanced" ? "Master" :
-                                                            profile.experienceLevel}
+                                                {getExperienceLevelName(profile.level)}
                                             </p>
                                         </div>
                                     )}

@@ -24,8 +24,11 @@ export default withAuth(
     if (isPublicRoute) {
       response = NextResponse.next();
     } else {
-      // Check if user has completed onboarding
-      if (req.nextauth.token) {
+      // In development without auth, allow access to all routes
+      if (process.env.NODE_ENV === 'development' && !process.env.NEXTAUTH_SECRET) {
+        response = NextResponse.next();
+      } else if (req.nextauth.token) {
+        // Check if user has completed onboarding
         const onboardingCompleted = req.nextauth.token.onboardingCompleted as boolean;
 
         // Redirect to onboarding if not completed (except if already on onboarding page)
@@ -38,7 +41,8 @@ export default withAuth(
           response = NextResponse.next();
         }
       } else {
-        response = NextResponse.next();
+        // No token - redirect to sign in
+        response = NextResponse.redirect(new URL("/auth/signin", request.url));
       }
     }
 
@@ -68,6 +72,11 @@ export default withAuth(
         );
 
         if (isPublicRoute) {
+          return true;
+        }
+
+        // In development without NEXTAUTH_SECRET, allow all routes
+        if (process.env.NODE_ENV === 'development' && !process.env.NEXTAUTH_SECRET) {
           return true;
         }
 

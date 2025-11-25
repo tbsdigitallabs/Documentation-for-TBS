@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]/route";
 import { validateProfileData } from "@/lib/validation";
+import { calculateLevel } from "@/lib/levelling";
 
 interface CompletedModule {
     moduleId: string;
@@ -55,11 +56,11 @@ export async function GET() {
 
         // Calculate XP from completed modules to ensure consistency
         const completedModules = profile.completedModules || [];
-        const calculatedXP = completedModules.reduce((sum: number, module: { xpEarned: number }) => sum + module.xpEarned, 0);
+        const calculatedXP = completedModules.reduce((sum: number, module: CompletedModule) => sum + module.xpEarned, 0);
         
-        // Use calculated XP if it differs from stored XP (ensures data integrity)
-        const finalXP = calculatedXP > 0 ? calculatedXP : (profile.xp || 0);
-        const finalLevel = profile.level || 1;
+        // Always use calculated XP from completed modules (ensures data integrity)
+        const finalXP = calculatedXP;
+        const finalLevel = calculateLevel(finalXP);
 
         return NextResponse.json({
             id: user.id,

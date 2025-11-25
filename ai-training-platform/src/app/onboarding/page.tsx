@@ -183,36 +183,40 @@ export default function OnboardingPage() {
             // Generate a unique seed based on user email or random
             const seed = session?.user?.email || Math.random().toString(36).substring(2, 15);
             
-            // Use DiceBear API to generate avatar (avataaars style for better profile pictures)
-            const avatarUrl = `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(seed)}&backgroundColor=b6e3f4,c0aede,d1d4f9,ffd5dc,ffdfbf`;
+            // Use DiceBear API to generate avatar (avataaars style) as PNG for better quality
+            // Size 256x256 for high resolution
+            const avatarUrl = `https://api.dicebear.com/7.x/avataaars/png?seed=${encodeURIComponent(seed)}&backgroundColor=b6e3f4,c0aede,d1d4f9,ffd5dc,ffdfbf&size=256`;
             
-            // Fetch the SVG
+            // Fetch the PNG
             const response = await fetch(avatarUrl);
             if (!response.ok) {
                 throw new Error("Failed to generate avatar");
             }
             
-            const svgBlob = await response.blob();
+            const pngBlob = await response.blob();
             
-            // Convert SVG blob to File object
-            const file = new File([svgBlob], `avatar-${seed}.svg`, { type: "image/svg+xml" });
+            // Convert PNG blob to File object
+            const file = new File([pngBlob], `avatar-${seed}.png`, { type: "image/png" });
+            
+            // Create preview URL from blob
+            const previewUrl = URL.createObjectURL(pngBlob);
             
             // Set as image file and preview
             setImageFile(file);
-            setImagePreview(avatarUrl);
+            setImagePreview(previewUrl);
         } catch (error) {
             console.error("Failed to generate avatar:", error);
-            // Fallback to a simple identicon if avataaars fails
+            // Fallback to identicon PNG if avataaars fails
             const seed = session?.user?.email || Math.random().toString(36).substring(2, 15);
-            const fallbackUrl = `https://api.dicebear.com/7.x/identicon/svg?seed=${encodeURIComponent(seed)}`;
-            setImagePreview(fallbackUrl);
+            const fallbackUrl = `https://api.dicebear.com/7.x/identicon/png?seed=${encodeURIComponent(seed)}&size=256`;
             
-            // Fetch and convert to file
             try {
                 const response = await fetch(fallbackUrl);
-                const svgBlob = await response.blob();
-                const file = new File([svgBlob], `avatar-${seed}.svg`, { type: "image/svg+xml" });
+                const pngBlob = await response.blob();
+                const file = new File([pngBlob], `avatar-${seed}.png`, { type: "image/png" });
+                const previewUrl = URL.createObjectURL(pngBlob);
                 setImageFile(file);
+                setImagePreview(previewUrl);
             } catch (fallbackError) {
                 console.error("Failed to generate fallback avatar:", fallbackError);
             }

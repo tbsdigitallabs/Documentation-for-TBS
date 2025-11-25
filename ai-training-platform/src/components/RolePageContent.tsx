@@ -1,170 +1,169 @@
 "use client";
 
 import { useState, useEffect } from 'react';
-import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import { HoloCard } from '@/components/HoloCard';
 import { Button } from '@/components/ui/button';
 import { Section } from '@/components/Section';
 import { Container } from '@/components/Container';
-import { getClassDisplayName, getAllClasses, type ClassInfo } from '@/lib/role-mapping';
+import type { ClassInfo } from '@/lib/role-mapping';
 import type { ModuleMetadata } from '@/lib/mdx';
 
 interface RolePageContentProps {
-  roleName: string;
-  roleSlug: string;
-  userClass: string | null | undefined;
-  modules: ModuleMetadata[];
-  otherModules: Array<{ class: ClassInfo; modules: ModuleMetadata[] }>;
-  accentColor: string;
-  Icon: React.ComponentType<{ className?: string }>;
-  description: string;
+    roleName: string;
+    roleSlug: string;
+    userClass: string | null | undefined;
+    modules: ModuleMetadata[];
+    otherModules: Array<{ class: ClassInfo; modules: ModuleMetadata[] }>;
+    accentColor: string;
+    Icon: React.ComponentType<{ className?: string }>;
+    description: string;
 }
 
 const roleMap: Record<string, string> = {
-  "Artificer": "developers",
-  "Bard": "designers",
-  "Paladin": "project-managers",
-  "Storyteller": "content-creators",
-  "Rogue": "sales-business-dev",
+    "Artificer": "developers",
+    "Bard": "designers",
+    "Paladin": "project-managers",
+    "Storyteller": "content-creators",
+    "Rogue": "sales-business-dev",
 };
 
 export default function RolePageContent({
-  roleName,
-  roleSlug,
-  userClass,
-  modules,
-  otherModules,
-  accentColor,
-  Icon,
-  description,
+    roleName,
+    roleSlug,
+    userClass,
+    modules,
+    otherModules,
+    accentColor,
+    Icon,
+    description,
 }: RolePageContentProps) {
-  const [mounted, setMounted] = useState(false);
-  const [showMore, setShowMore] = useState(false);
-  const isUserClass = userClass === roleName;
+    const [mounted, setMounted] = useState(false);
+    const [showMore, setShowMore] = useState(false);
+    const isUserClass = userClass === roleName;
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+    useEffect(() => {
+        setMounted(true);
+    }, []);
 
-  if (!mounted) {
-    return (
-      <div className="min-h-screen bg-gradient-surface flex items-center justify-center">
-        <div className="text-center">
-          <p className="text-content-secondary">Loading...</p>
-        </div>
-      </div>
-    );
-  }
-
-  return (
-    <>
-      <Section className="bg-gradient-surface py-16" size="lg">
-        <Container size="xl">
-          <h2 className="text-2xl font-heading font-bold text-content-primary mb-6">
-            {isUserClass ? "Your Adventures" : `${roleName} Adventures`}
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch mb-12">
-            {modules.map((module) => (
-              <HoloCard key={module.slug} role={roleSlug as any} className="flex flex-col h-full">
-                <div className="mb-6">
-                  <span 
-                    className="text-xs font-mono uppercase tracking-wider px-2 py-1 rounded-md border inline-block"
-                    style={{ 
-                      color: accentColor,
-                      backgroundColor: `${accentColor}15`,
-                      borderColor: `${accentColor}30`
-                    }}
-                  >
-                    ADVENTURE {module.slug.split('-')[0].padStart(2, '0')}
-                  </span>
+    if (!mounted) {
+        return (
+            <div className="min-h-screen bg-gradient-surface flex items-center justify-center">
+                <div className="text-center">
+                    <p className="text-content-secondary">Loading...</p>
                 </div>
-                <h2 className="heading-3 text-content-primary mb-4 flex-grow">{module.title}</h2>
-                <p className="body-regular text-content-secondary mb-8">
-                  {module.description || "Learn new skills in this module."}
-                </p>
-                <div className="flex items-center justify-between text-sm text-content-tertiary mb-8 pt-4 border-t border-border-primary">
-                  <span className="flex items-center gap-2">⏱️ {module.estimatedTime || "30 mins"}</span>
-                  <span className="flex items-center gap-2">🎯 {module.difficulty || "Intermediate"}</span>
-                </div>
-                <Link href={`/${roleSlug}/${module.slug}`} className="mt-auto">
-                  <Button 
-                    className="w-full text-white py-3 text-base"
-                    style={{ backgroundColor: accentColor }}
-                  >
-                    Begin Adventure
-                  </Button>
-                </Link>
-              </HoloCard>
-            ))}
-          </div>
-
-          {otherModules.length > 0 && (
-            <div className="mt-12">
-              <button
-                onClick={() => setShowMore(!showMore)}
-                className="w-full flex items-center justify-between px-6 py-4 bg-surface-card rounded-lg border border-border-primary hover:bg-surface-hover transition-colors mb-6"
-              >
-                <span className="text-lg font-semibold text-content-primary">
-                  Explore Other Classes
-                </span>
-                {showMore ? (
-                  <ChevronUp className="w-5 h-5 text-content-secondary" />
-                ) : (
-                  <ChevronDown className="w-5 h-5 text-content-secondary" />
-                )}
-              </button>
-
-              {showMore && (
-                <div className="space-y-8">
-                  {otherModules.map(({ class: classInfo, modules: mods }) => (
-                    <div key={classInfo.name}>
-                      <h3 className="text-xl font-heading font-bold text-content-primary mb-4">
-                        {classInfo.name} - {classInfo.jobTitle}
-                      </h3>
-                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
-                        {mods.slice(0, 3).map((module) => (
-                          <HoloCard key={module.slug} role={roleMap[classInfo.name] as any} className="flex flex-col h-full">
-                            <div className="mb-6">
-                              <span className="text-xs font-mono uppercase tracking-wider px-2 py-1 rounded-md inline-block">
-                                ADVENTURE {module.slug.split('-')[0].padStart(2, '0')}
-                              </span>
-                            </div>
-                            <h2 className="heading-3 text-content-primary mb-4 flex-grow">{module.title}</h2>
-                            <p className="body-regular text-content-secondary mb-8">
-                              {module.description || "Learn new skills in this module."}
-                            </p>
-                            <Link href={`${classInfo.route}/${module.slug}`} className="mt-auto">
-                              <Button className="w-full py-3 text-base">
-                                View Adventure
-                              </Button>
-                            </Link>
-                          </HoloCard>
-                        ))}
-                      </div>
-                      {mods.length > 3 && (
-                        <div className="mt-4 text-center">
-                          <Link href={classInfo.route} className="text-content-secondary hover:text-content-primary transition-colors">
-                            View all {classInfo.name} adventures →
-                          </Link>
-                        </div>
-                      )}
-                    </div>
-                  ))}
-                </div>
-              )}
             </div>
-          )}
+        );
+    }
 
-          <div className="text-center mt-16">
-            <Link href="/class-selection" className="inline-flex items-center text-content-secondary hover:text-content-primary transition-colors text-lg font-medium">
-              ← Back to Class Selection
-            </Link>
-          </div>
-        </Container>
-      </Section>
-    </>
-  );
+    return (
+        <>
+            <Section className="bg-gradient-surface py-16" size="lg">
+                <Container size="xl">
+                    <h2 className="text-2xl font-heading font-bold text-content-primary mb-6">
+                        {isUserClass ? "Your Adventures" : `${roleName} Adventures`}
+                    </h2>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch mb-12">
+                        {modules.map((module) => (
+                            <HoloCard key={module.slug} role={roleSlug as any} className="flex flex-col h-full">
+                                <div className="mb-6">
+                                    <span
+                                        className="text-xs font-mono uppercase tracking-wider px-2 py-1 rounded-md border inline-block"
+                                        style={{
+                                            color: accentColor,
+                                            backgroundColor: `${accentColor}15`,
+                                            borderColor: `${accentColor}30`
+                                        }}
+                                    >
+                                        ADVENTURE {module.slug.split('-')[0].padStart(2, '0')}
+                                    </span>
+                                </div>
+                                <h2 className="heading-3 text-content-primary mb-4 flex-grow">{module.title}</h2>
+                                <p className="body-regular text-content-secondary mb-8">
+                                    {module.description || "Learn new skills in this module."}
+                                </p>
+                                <div className="flex items-center justify-between text-sm text-content-tertiary mb-8 pt-4 border-t border-border-primary">
+                                    <span className="flex items-center gap-2">⏱️ {module.estimatedTime || "30 mins"}</span>
+                                    <span className="flex items-center gap-2">🎯 {module.difficulty || "Intermediate"}</span>
+                                </div>
+                                <Link href={`/${roleSlug}/${module.slug}`} className="mt-auto">
+                                    <Button
+                                        className="w-full text-white py-3 text-base"
+                                        style={{ backgroundColor: accentColor }}
+                                    >
+                                        Begin Adventure
+                                    </Button>
+                                </Link>
+                            </HoloCard>
+                        ))}
+                    </div>
+
+                    {otherModules.length > 0 && (
+                        <div className="mt-12">
+                            <button
+                                onClick={() => setShowMore(!showMore)}
+                                className="w-full flex items-center justify-between px-6 py-4 bg-surface-card rounded-lg border border-border-primary hover:bg-surface-hover transition-colors mb-6"
+                            >
+                                <span className="text-lg font-semibold text-content-primary">
+                                    Explore Other Classes
+                                </span>
+                                {showMore ? (
+                                    <ChevronUp className="w-5 h-5 text-content-secondary" />
+                                ) : (
+                                    <ChevronDown className="w-5 h-5 text-content-secondary" />
+                                )}
+                            </button>
+
+                            {showMore && (
+                                <div className="space-y-8">
+                                    {otherModules.map(({ class: classInfo, modules: mods }) => (
+                                        <div key={classInfo.name}>
+                                            <h3 className="text-xl font-heading font-bold text-content-primary mb-4">
+                                                {classInfo.name} - {classInfo.jobTitle}
+                                            </h3>
+                                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
+                                                {mods.slice(0, 3).map((module) => (
+                                                    <HoloCard key={module.slug} role={roleMap[classInfo.name] as any} className="flex flex-col h-full">
+                                                        <div className="mb-6">
+                                                            <span className="text-xs font-mono uppercase tracking-wider px-2 py-1 rounded-md inline-block">
+                                                                ADVENTURE {module.slug.split('-')[0].padStart(2, '0')}
+                                                            </span>
+                                                        </div>
+                                                        <h2 className="heading-3 text-content-primary mb-4 flex-grow">{module.title}</h2>
+                                                        <p className="body-regular text-content-secondary mb-8">
+                                                            {module.description || "Learn new skills in this module."}
+                                                        </p>
+                                                        <Link href={`${classInfo.route}/${module.slug}`} className="mt-auto">
+                                                            <Button className="w-full py-3 text-base">
+                                                                View Adventure
+                                                            </Button>
+                                                        </Link>
+                                                    </HoloCard>
+                                                ))}
+                                            </div>
+                                            {mods.length > 3 && (
+                                                <div className="mt-4 text-center">
+                                                    <Link href={classInfo.route} className="text-content-secondary hover:text-content-primary transition-colors">
+                                                        View all {classInfo.name} adventures →
+                                                    </Link>
+                                                </div>
+                                            )}
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
+                    )}
+
+                    <div className="text-center mt-16">
+                        <Link href="/class-selection" className="inline-flex items-center text-content-secondary hover:text-content-primary transition-colors text-lg font-medium">
+                            ← Back to Class Selection
+                        </Link>
+                    </div>
+                </Container>
+            </Section>
+        </>
+    );
 }
 

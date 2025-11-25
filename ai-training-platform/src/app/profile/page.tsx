@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
-import { User, Edit2, Save, X, Upload, ExternalLink, Sparkles, Award, Star } from "lucide-react";
+import { User, Edit2, Save, X, Upload, ExternalLink, Sparkles, Award, Star, CheckCircle } from "lucide-react";
 import ClientPageHeader from "@/components/ClientPageHeader";
 import Link from "next/link";
 import { calculateLevel, getXPForNextLevel, getLevelProgress, getExperienceLevelName, getUnlockedRewards, getNextReward, MAX_LEVEL, XP_THRESHOLDS, COSMETIC_REWARDS } from "@/lib/levelling";
@@ -526,6 +526,62 @@ export default function ProfilePage() {
                                         </div>
                                     );
                                 })}
+                            </div>
+                        </div>
+                    </div>
+                )}
+
+                {/* Completed Modules Section */}
+                {profile?.completedModules && profile.completedModules.length > 0 && (
+                    <div className="mt-8 bg-surface-card rounded-xl p-6 border border-border-primary">
+                        <div className="flex items-center gap-2 mb-6">
+                            <Award className="w-5 h-5 text-cyber-cyan" />
+                            <h2 className="text-xl font-heading font-bold text-content-primary">Completed Modules</h2>
+                            <span className="ml-auto text-sm text-content-secondary">
+                                {profile.completedModules.length} {profile.completedModules.length === 1 ? 'module' : 'modules'}
+                            </span>
+                        </div>
+
+                        <div className="space-y-3">
+                            {profile.completedModules.map((module, index) => (
+                                <div
+                                    key={module.moduleId}
+                                    className="p-4 bg-surface-secondary rounded-lg border border-cyber-cyan/20 hover:border-cyber-cyan/40 transition-colors"
+                                >
+                                    <div className="flex items-start justify-between">
+                                        <div className="flex-1">
+                                            <div className="flex items-center gap-2 mb-1">
+                                                <CheckCircle className="w-4 h-4 text-cyber-cyan" />
+                                                <h3 className="text-sm font-semibold text-content-primary">
+                                                    {module.moduleName}
+                                                </h3>
+                                            </div>
+                                            <div className="flex items-center gap-4 text-xs text-content-tertiary ml-6">
+                                                <span>+{module.xpEarned} XP</span>
+                                                {module.quizScore !== undefined && (
+                                                    <span>Quiz: {module.quizScore}%</span>
+                                                )}
+                                                <span>
+                                                    {new Date(module.completedAt).toLocaleDateString('en-AU', {
+                                                        day: 'numeric',
+                                                        month: 'short',
+                                                        year: 'numeric',
+                                                    })}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+
+                        {/* Total XP from modules */}
+                        <div className="mt-6 pt-6 border-t border-border-primary">
+                            <div className="flex items-center justify-between">
+                                <span className="text-sm font-semibold text-content-primary">Total XP from Modules</span>
+                                <span className="text-lg font-bold text-cyber-magenta">
+                                    {profile.completedModules.reduce((sum, m) => sum + m.xpEarned, 0)} XP
+                                </span>
                             </div>
                         </div>
                     </div>

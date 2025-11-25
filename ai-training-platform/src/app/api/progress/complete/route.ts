@@ -8,6 +8,8 @@ import { calculateLevel } from "@/lib/levelling";
  * XP is awarded based on:
  * - Base XP: 50 XP for completing a module
  * - Bonus XP: Up to 25 XP based on quiz score (if quiz exists)
+ * 
+ * IMPORTANT: Only awards XP once per module to prevent farming
  */
 export async function POST(req: NextRequest) {
   try {
@@ -24,6 +26,23 @@ export async function POST(req: NextRequest) {
         { error: "moduleId and moduleName are required" },
         { status: 400 }
       );
+    }
+
+    // Check if module is already completed
+    const completedModules = session.user.profile?.completedModules || [];
+    const alreadyCompleted = completedModules.find(
+      (m) => m.moduleId === moduleId
+    );
+
+    if (alreadyCompleted) {
+      return NextResponse.json({
+        success: false,
+        alreadyCompleted: true,
+        message: "This module has already been completed",
+        xpAwarded: 0,
+        currentXP: session.user.profile?.xp || 0,
+        currentLevel: session.user.profile?.level || 1,
+      });
     }
 
     // Base XP for completing a module
@@ -50,16 +69,24 @@ export async function POST(req: NextRequest) {
     const newXP = currentXP + totalXP;
     const newLevel = calculateLevel(newXP);
 
-    // Update session with new XP and level
+    // Add module to completed modules
+    const newCompletedModule = {
+      moduleId,
+      moduleName,
+      completedAt: new Date().toISOString(),
+      xpEarned: totalXP,
+      quizScore: quizScore !== undefined ? quizScore : undefined,
+    };
+
+    const updatedCompletedModules = [...completedModules, newCompletedModule];
+
+    // Update session with new XP, level, and completed modules
     const updatedProfile = {
       ...session.user.profile,
       xp: newXP,
       level: newLevel,
+      completedModules: updatedCompletedModules,
     };
-
-    // Update the session (this will persist to JWT)
-    // Note: We need to use session.update() on the client side
-    // For now, we'll return the updated values and let the client update
 
     return NextResponse.json({
       success: true,
@@ -70,6 +97,7 @@ export async function POST(req: NextRequest) {
       newLevel,
       levelUp: newLevel > currentLevel,
       profile: updatedProfile,
+      completedModule: newCompletedModule,
     });
   } catch (error) {
     console.error("Error awarding XP:", error);

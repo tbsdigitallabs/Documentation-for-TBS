@@ -2,8 +2,8 @@ import "next-auth";
 import "next-auth/jwt";
 
 declare module "next-auth" {
-  interface Session {
-    user: {
+      interface Session {
+      user: {
       id: string;
       name?: string | null;
       email?: string | null;
@@ -21,6 +21,13 @@ declare module "next-auth" {
         systems?: string | null;
         level?: number;
         xp?: number;
+        completedModules?: Array<{
+          moduleId: string;
+          moduleName: string;
+          completedAt: string;
+          xpEarned: number;
+          quizScore?: number;
+        }>;
       };
       onboardingCompleted?: boolean;
     };
@@ -54,6 +61,13 @@ declare module "next-auth/jwt" {
       systems?: string | null;
       level?: number;
       xp?: number;
+      completedModules?: Array<{
+        moduleId: string;
+        moduleName: string;
+        completedAt: string;
+        xpEarned: number;
+        quizScore?: number;
+      }>;
     };
   }
 }

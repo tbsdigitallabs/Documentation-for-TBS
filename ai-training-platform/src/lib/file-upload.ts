@@ -39,7 +39,7 @@ export async function uploadImage(
 
         // Validate file type by MIME type
         if (!ALLOWED_MIME_TYPES.includes(file.type)) {
-            return { success: false, error: "File must be a valid image (JPEG, PNG, GIF, or WebP)" };
+            return { success: false, error: "File must be a valid image (JPEG, PNG, GIF, WebP, or SVG)" };
         }
 
         // Validate file size
@@ -50,7 +50,7 @@ export async function uploadImage(
         // Validate file extension
         const fileExtension = file.name.split(".").pop()?.toLowerCase() || "";
         if (!ALLOWED_EXTENSIONS.includes(fileExtension)) {
-            return { success: false, error: "Invalid file extension. Only JPEG, PNG, GIF, and WebP are allowed" };
+            return { success: false, error: "Invalid file extension. Only JPEG, PNG, GIF, WebP, and SVG are allowed" };
         }
 
         // Sanitize email for filename (prevent path traversal)

@@ -93,7 +93,7 @@ export default function OnboardingImageUpload({
           <div className="flex flex-col gap-3">
             <div className="flex gap-3">
               <button
-                onClick={onGenerateAvatar}
+                onClick={handleGenerateAvatar}
                 disabled={loading || generating}
                 className="flex-1 px-4 py-2 bg-surface-secondary text-content-primary rounded-lg hover:bg-surface-hover transition-colors text-center font-semibold disabled:bg-disabled disabled:cursor-not-allowed inline-flex items-center justify-center"
               >

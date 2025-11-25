@@ -3,9 +3,10 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
-import { User, Edit2, Save, X, Upload, ExternalLink } from "lucide-react";
+import { User, Edit2, Save, X, Upload, ExternalLink, Sparkles, Award, Star } from "lucide-react";
 import ClientPageHeader from "@/components/ClientPageHeader";
 import Link from "next/link";
+import { calculateLevel, getXPForNextLevel, getLevelProgress, getExperienceLevelName, getUnlockedRewards, getNextReward, MAX_LEVEL, XP_THRESHOLDS, COSMETIC_REWARDS } from "@/lib/levelling";
 
 export const dynamic = 'force-dynamic';
 

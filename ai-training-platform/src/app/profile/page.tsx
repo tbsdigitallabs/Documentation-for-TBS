@@ -11,20 +11,22 @@ import Link from "next/link";
 export const dynamic = 'force-dynamic';
 
 interface UserProfile {
-    name?: string;
-    email?: string;
-    image?: string;
-    profileImage?: string;
-    bio?: string;
-    role?: string;
-    skills?: string[];
-    interests?: string[];
-    learningGoals?: string;
-    experienceLevel?: string;
-    selectedClass?: string;
-    level?: number;
-    xp?: number;
-}
+        name?: string;
+        email?: string;
+        image?: string;
+        profileImage?: string;
+        bio?: string;
+        role?: string;
+        skills?: string[];
+        interests?: string[];
+        learningGoals?: string;
+        experienceLevel?: string;
+        selectedClass?: string;
+        hobbies?: string;
+        systems?: string;
+        level?: number;
+        xp?: number;
+    }
 
 export default function ProfilePage() {
     const [mounted, setMounted] = useState(false);
@@ -366,6 +368,20 @@ export default function ProfilePage() {
                                         <div>
                                             <h3 className="text-sm font-semibold text-content-tertiary mb-2 uppercase">Learning Goals</h3>
                                             <p className="text-content-primary">{profile.learningGoals}</p>
+                                        </div>
+                                    )}
+
+                                    {profile?.hobbies && (
+                                        <div>
+                                            <h3 className="text-sm font-semibold text-content-tertiary mb-2 uppercase">Hobbies & Interests</h3>
+                                            <p className="text-content-primary whitespace-pre-wrap">{profile.hobbies}</p>
+                                        </div>
+                                    )}
+
+                                    {profile?.systems && (
+                                        <div>
+                                            <h3 className="text-sm font-semibold text-content-tertiary mb-2 uppercase">Systems & Tools</h3>
+                                            <p className="text-content-primary whitespace-pre-wrap">{profile.systems}</p>
                                         </div>
                                     )}
 

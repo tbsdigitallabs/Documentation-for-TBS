@@ -7,15 +7,16 @@ import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import Logo from "@/components/Logo";
 import ThemeToggle from "@/components/ThemeToggle";
-import { Sparkles, Upload, ExternalLink, Loader2 } from "lucide-react";
+import { Sparkles, Upload, ExternalLink, Loader2, ChevronRight } from "lucide-react";
+import { getClassRoute } from "@/lib/role-mapping";
+import type { OnboardingQuestion } from "@/app/api/onboarding/questions/route";
 
 interface ProfileData {
-    bio?: string;
-    role?: string;
-    skills?: string[];
-    interests?: string[];
-    learningGoals?: string;
+    selectedClass?: string;
     experienceLevel?: string;
+    hobbies?: string | null;
+    systems?: string | null;
+    profileImage?: string;
 }
 
 export default function OnboardingPage() {
@@ -23,17 +24,15 @@ export default function OnboardingPage() {
     const router = useRouter();
     const [step, setStep] = useState<"questions" | "image">("questions");
     const [loading, setLoading] = useState(false);
-    const [currentQuestion, setCurrentQuestion] = useState<string>("");
-    const [userAnswer, setUserAnswer] = useState<string>("");
-    const [profileData, setProfileData] = useState<ProfileData>({});
-    const [questions, setQuestions] = useState<string[]>([]);
+    const [questions, setQuestions] = useState<OnboardingQuestion[]>([]);
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+    const [profileData, setProfileData] = useState<ProfileData>({});
+    const [selectedAnswer, setSelectedAnswer] = useState<string>("");
+    const [textAnswer, setTextAnswer] = useState<string>("");
     const [imageFile, setImageFile] = useState<File | null>(null);
     const [imagePreview, setImagePreview] = useState<string | null>(null);
 
-    // Only call useSession after component mounts to avoid build-time errors
-    const sessionResult = mounted ? useSession() : { data: null, status: 'loading' as const, update: async () => { } };
-    const { data: session, status, update } = sessionResult;
+    const { data: session, status, update } = useSession();
 
     useEffect(() => {
         setMounted(true);
@@ -62,8 +61,7 @@ export default function OnboardingPage() {
 
             if (response.ok) {
                 const data = await response.json();
-                setQuestions(data.questions);
-                setCurrentQuestion(data.questions[0] || "");
+                setQuestions(data.questions || []);
             }
         } catch (error) {
             console.error("Failed to start onboarding:", error);
@@ -73,34 +71,43 @@ export default function OnboardingPage() {
     };
 
     const handleAnswerSubmit = async () => {
-        if (!userAnswer.trim()) return;
+        const currentQuestion = questions[currentQuestionIndex];
+        if (!currentQuestion) return;
+
+        // Validate required questions
+        if (currentQuestion.required) {
+            if (currentQuestion.type === "multiple-choice" && !selectedAnswer) {
+                return;
+            }
+            if (currentQuestion.type === "text" && !textAnswer.trim()) {
+                return;
+            }
+        }
 
         setLoading(true);
         try {
-            const response = await fetch("/api/onboarding/answer", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    question: currentQuestion,
-                    answer: userAnswer,
-                    currentData: profileData,
-                    questionIndex: currentQuestionIndex,
-                }),
-            });
+            // Update profile data based on question type
+            const answer = currentQuestion.type === "multiple-choice" ? selectedAnswer : textAnswer;
+            
+            // Update local state immediately
+            if (currentQuestion.id === "class") {
+                setProfileData(prev => ({ ...prev, selectedClass: answer }));
+            } else if (currentQuestion.id === "experience") {
+                setProfileData(prev => ({ ...prev, experienceLevel: answer }));
+            } else if (currentQuestion.id === "hobbies") {
+                setProfileData(prev => ({ ...prev, hobbies: answer || null }));
+            } else if (currentQuestion.id === "systems") {
+                setProfileData(prev => ({ ...prev, systems: answer || null }));
+            }
 
-            if (response.ok) {
-                const data = await response.json();
-                setProfileData(data.updatedProfile);
-
-                // Move to next question or image step
-                if (currentQuestionIndex < questions.length - 1) {
-                    setCurrentQuestionIndex(currentQuestionIndex + 1);
-                    setCurrentQuestion(questions[currentQuestionIndex + 1]);
-                    setUserAnswer("");
-                } else {
-                    // All questions answered, move to image step
-                    setStep("image");
-                }
+            // Move to next question or image step
+            if (currentQuestionIndex < questions.length - 1) {
+                setCurrentQuestionIndex(currentQuestionIndex + 1);
+                setSelectedAnswer("");
+                setTextAnswer("");
+            } else {
+                // All questions answered, move to image step
+                setStep("image");
             }
         } catch (error) {
             console.error("Failed to submit answer:", error);
@@ -123,7 +130,6 @@ export default function OnboardingPage() {
 
     const handleImageUpload = async () => {
         if (!imageFile) {
-            // Skip image upload, complete onboarding
             await completeOnboarding();
             return;
         }
@@ -146,7 +152,6 @@ export default function OnboardingPage() {
             }
         } catch (error) {
             console.error("Failed to upload image:", error);
-            // Continue anyway
             await completeOnboarding();
         } finally {
             setLoading(false);
@@ -155,24 +160,22 @@ export default function OnboardingPage() {
 
     const completeOnboarding = async (imageUrl?: string) => {
         try {
-            const response = await fetch("/api/onboarding/complete", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    ...profileData,
-                    profileImage: imageUrl,
-                }),
+            const finalProfileData = {
+                ...profileData,
+                profileImage: imageUrl,
+            };
+
+            // Update session with profile data and mark onboarding as complete
+            await update({
+                onboardingCompleted: true,
+                profile: finalProfileData,
             });
 
-            if (response.ok) {
-                // Update session with profile data and mark onboarding as complete
-                await update({
-                    onboardingCompleted: true,
-                    profile: {
-                        ...profileData,
-                        profileImage: imageUrl,
-                    }
-                });
+            // Redirect to user's role page if class is selected, otherwise to class selection
+            if (profileData.selectedClass) {
+                const route = getClassRoute(profileData.selectedClass);
+                router.push(route);
+            } else {
                 router.push("/class-selection");
             }
         } catch (error) {
@@ -180,16 +183,18 @@ export default function OnboardingPage() {
         }
     };
 
-    if (status === "loading" || loading) {
+    if (!mounted || status === "loading" || loading) {
         return (
             <div className="min-h-screen bg-gradient-surface flex items-center justify-center">
                 <div className="text-center">
                     <Loader2 className="w-8 h-8 animate-spin mx-auto mb-4 text-cyber-cyan" />
-                    <p className="text-content-secondary">Loading...</p>
+                    <p className="text-content-secondary">Gearing up for your adventure...</p>
                 </div>
             </div>
         );
     }
+
+    const currentQuestion = questions[currentQuestionIndex];
 
     return (
         <div className="min-h-screen bg-gradient-surface">
@@ -201,17 +206,17 @@ export default function OnboardingPage() {
 
             {/* Main Content */}
             <main className="px-5 pt-24 pb-10 max-w-2xl mx-auto">
-                {step === "questions" ? (
+                {step === "questions" && currentQuestion ? (
                     <div className="space-y-6">
                         <div className="text-center mb-8">
                             <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-cyber-magenta/20 mb-4">
                                 <Sparkles className="w-8 h-8 text-cyber-magenta" />
                             </div>
                             <h1 className="text-3xl font-heading font-bold text-content-primary mb-2">
-                                Character Creation
+                                Gearing Up for Your Adventure
                             </h1>
                             <p className="text-content-secondary">
-                                Your AI companion will ask a few questions to craft your adventurer's profile
+                                Answer a few questions to craft your adventurer's profile
                             </p>
                         </div>
 
@@ -233,21 +238,64 @@ export default function OnboardingPage() {
                             </div>
 
                             <div className="mb-6">
-                                <h2 className="text-xl font-semibold text-content-primary mb-4">
-                                    {currentQuestion}
+                                <h2 className="text-xl font-semibold text-content-primary mb-2">
+                                    {currentQuestion.question}
                                 </h2>
-                                <textarea
-                                    value={userAnswer}
-                                    onChange={(e) => setUserAnswer(e.target.value)}
-                                    placeholder="Type your answer here..."
-                                    className="w-full min-h-32 px-4 py-3 bg-surface-secondary border border-border-secondary rounded-lg text-content-primary placeholder-content-tertiary focus:outline-none focus:ring-2 focus:ring-cyber-cyan focus:border-transparent resize-none"
-                                    disabled={loading}
-                                />
+                                {currentQuestion.helpText && (
+                                    <p className="text-sm text-content-tertiary mb-4">
+                                        {currentQuestion.helpText}
+                                    </p>
+                                )}
+
+                                {currentQuestion.type === "multiple-choice" && currentQuestion.options ? (
+                                    <div className="space-y-3">
+                                        {currentQuestion.options.map((option) => (
+                                            <button
+                                                key={option.value}
+                                                onClick={() => setSelectedAnswer(option.value)}
+                                                className={`w-full text-left px-4 py-3 rounded-lg border-2 transition-all ${
+                                                    selectedAnswer === option.value
+                                                        ? "border-cyber-cyan bg-cyber-cyan/10"
+                                                        : "border-border-secondary hover:border-cyber-cyan/50 bg-surface-secondary"
+                                                }`}
+                                            >
+                                                <div className="flex items-center justify-between">
+                                                    <div>
+                                                        <div className="font-semibold text-content-primary">
+                                                            {option.label}
+                                                        </div>
+                                                        {option.description && (
+                                                            <div className="text-sm text-content-secondary mt-1">
+                                                                {option.description}
+                                                            </div>
+                                                        )}
+                                                    </div>
+                                                    {selectedAnswer === option.value && (
+                                                        <ChevronRight className="w-5 h-5 text-cyber-cyan" />
+                                                    )}
+                                                </div>
+                                            </button>
+                                        ))}
+                                    </div>
+                                ) : (
+                                    <textarea
+                                        value={textAnswer}
+                                        onChange={(e) => setTextAnswer(e.target.value)}
+                                        placeholder={currentQuestion.placeholder || "Type your answer here..."}
+                                        className="w-full min-h-32 px-4 py-3 bg-surface-secondary border border-border-secondary rounded-lg text-content-primary placeholder-content-tertiary focus:outline-none focus:ring-2 focus:ring-cyber-cyan focus:border-transparent resize-none"
+                                        disabled={loading}
+                                    />
+                                )}
                             </div>
 
                             <button
                                 onClick={handleAnswerSubmit}
-                                disabled={!userAnswer.trim() || loading}
+                                disabled={
+                                    (currentQuestion.required &&
+                                        ((currentQuestion.type === "multiple-choice" && !selectedAnswer) ||
+                                            (currentQuestion.type === "text" && !textAnswer.trim()))) ||
+                                    loading
+                                }
                                 className="w-full px-6 py-3 bg-button text-button hover:bg-button-hover rounded-lg font-semibold transition-colors disabled:bg-disabled disabled:text-disabled disabled:cursor-not-allowed flex items-center justify-center"
                             >
                                 {loading ? (
@@ -258,12 +306,12 @@ export default function OnboardingPage() {
                                 ) : currentQuestionIndex < questions.length - 1 ? (
                                     "Next Question"
                                 ) : (
-                                    "Continue to Profile Image"
+                                    "Continue to Avatar"
                                 )}
                             </button>
                         </div>
                     </div>
-                ) : (
+                ) : step === "image" ? (
                     <div className="space-y-6">
                         <div className="text-center mb-8">
                             <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-cyber-cyan/20 mb-4">
@@ -342,7 +390,7 @@ export default function OnboardingPage() {
                                                     Uploading...
                                                 </>
                                             ) : (
-                                                "Continue"
+                                                "Complete Adventure Setup"
                                             )}
                                         </button>
                                     </div>
@@ -358,9 +406,8 @@ export default function OnboardingPage() {
                             </button>
                         </div>
                     </div>
-                )}
+                ) : null}
             </main>
         </div>
     );
 }
-

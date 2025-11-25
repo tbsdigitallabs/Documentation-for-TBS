@@ -85,6 +85,8 @@ export const authOptions: NextAuthOptions = {
           experienceLevel: null,
           profileImage: null,
           selectedClass: null,
+          hobbies: null,
+          systems: null,
           level: 1,
           xp: 0,
         }

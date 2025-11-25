@@ -17,6 +17,8 @@ declare module "next-auth" {
         experienceLevel?: string | null;
         profileImage?: string | null;
         selectedClass?: string | null;
+        hobbies?: string | null;
+        systems?: string | null;
         level?: number;
         xp?: number;
       };
@@ -48,6 +50,8 @@ declare module "next-auth/jwt" {
       experienceLevel?: string | null;
       profileImage?: string | null;
       selectedClass?: string | null;
+      hobbies?: string | null;
+      systems?: string | null;
       level?: number;
       xp?: number;
     };

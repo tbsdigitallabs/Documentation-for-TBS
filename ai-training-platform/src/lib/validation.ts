@@ -54,14 +54,16 @@ export function sanitizeStringArray(
  * Validates profile data
  */
 export interface ProfileData {
-    bio?: string | null;
-    role?: string | null;
-    skills?: string[];
-    interests?: string[];
-    learningGoals?: string | null;
-    experienceLevel?: string | null;
-    profileImage?: string | null;
-    selectedClass?: string | null;
+  bio?: string | null;
+  role?: string | null;
+  skills?: string[];
+  interests?: string[];
+  learningGoals?: string | null;
+  experienceLevel?: string | null;
+  profileImage?: string | null;
+  selectedClass?: string | null;
+  hobbies?: string | null;
+  systems?: string | null;
 }
 
 export function validateProfileData(data: unknown): ProfileData {
@@ -85,10 +87,16 @@ export function validateProfileData(data: unknown): ProfileData {
         profileImage: obj.profileImage
             ? sanitizeString(String(obj.profileImage), 500)
             : null,
-        selectedClass: obj.selectedClass
-            ? sanitizeString(String(obj.selectedClass), 100)
-            : null,
-    };
+    selectedClass: obj.selectedClass
+      ? sanitizeString(String(obj.selectedClass), 100)
+      : null,
+    hobbies: obj.hobbies
+      ? sanitizeString(String(obj.hobbies), MAX_LENGTHS.bio)
+      : null,
+    systems: obj.systems
+      ? sanitizeString(String(obj.systems), MAX_LENGTHS.bio)
+      : null,
+  };
 }
 
 /**

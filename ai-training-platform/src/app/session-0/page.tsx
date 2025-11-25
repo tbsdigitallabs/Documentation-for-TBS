@@ -6,22 +6,20 @@ import { Button } from '@/components/ui/button';
 import { Heading } from '@/components/Heading';
 import { Section } from '@/components/Section';
 import { Container } from '@/components/Container';
-import ThemeToggle from '@/components/ThemeToggle';
-import Logo from '@/components/Logo';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import PageHeader from '@/components/PageHeader';
 
 export const dynamic = 'force-static';
 
-export default function Session0Page() {
+export default async function Session0Page() {
   // Session 0 uses 'shared' role for foundational content
   const modules = getAllModules('shared');
+  const session = await getServerSession(authOptions);
 
   return (
     <div className="min-h-screen bg-gradient-surface">
-      {/* Header with Theme Toggle */}
-      <div className="fixed top-0 left-0 right-0 z-10 flex items-center justify-between bg-surface-header-80 px-5 py-3 backdrop-blur-sm border-b border-border-primary h-16 max-h-16">
-        <Logo />
-        <ThemeToggle />
-      </div>
+      <PageHeader session={session} />
       {/* Hero Section */}
       <Section className="bg-surface-hero py-16 pt-28" size="md">
         <Container size="lg">

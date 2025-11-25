@@ -23,10 +23,10 @@ export default async function ProjectManagersPage() {
   const session = await getServerSession(authOptions);
   const userClass = session?.user?.profile?.selectedClass;
   const modules = getAllModules('project-managers');
-  
+
   const otherClasses = getAllClasses().filter(c => c.name !== "Paladin" && c.name !== "Session 0");
   const otherModules: Array<{ class: ClassInfo; modules: ReturnType<typeof getAllModules> }> = [];
-  
+
   otherClasses.forEach(classInfo => {
     const role = roleMap[classInfo.name];
     if (role) {

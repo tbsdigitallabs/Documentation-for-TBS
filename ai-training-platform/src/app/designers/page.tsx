@@ -23,10 +23,10 @@ export default async function DesignersPage() {
   const session = await getServerSession(authOptions);
   const userClass = session?.user?.profile?.selectedClass;
   const modules = getAllModules('designers');
-  
+
   const otherClasses = getAllClasses().filter(c => c.name !== "Bard" && c.name !== "Session 0");
   const otherModules: Array<{ class: ClassInfo; modules: ReturnType<typeof getAllModules> }> = [];
-  
+
   otherClasses.forEach(classInfo => {
     const role = roleMap[classInfo.name];
     if (role) {

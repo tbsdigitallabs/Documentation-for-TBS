@@ -23,11 +23,11 @@ export default async function DevelopersPage() {
   const session = await getServerSession(authOptions);
   const userClass = session?.user?.profile?.selectedClass;
   const modules = getAllModules('developers');
-  
+
   // Get modules from other roles for "See More"
   const otherClasses = getAllClasses().filter(c => c.name !== "Artificer" && c.name !== "Session 0");
   const otherModules: Array<{ class: ClassInfo; modules: ReturnType<typeof getAllModules> }> = [];
-  
+
   otherClasses.forEach(classInfo => {
     const role = roleMap[classInfo.name];
     if (role) {

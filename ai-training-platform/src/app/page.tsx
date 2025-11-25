@@ -4,9 +4,8 @@ import React, { useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import ThemeToggle from '@/components/ThemeToggle';
-import Logo from '@/components/Logo';
 import { getClassRoute } from '@/lib/role-mapping';
+import ClientPageHeader from '@/components/ClientPageHeader';
 
 export default function Home() {
   const router = useRouter();
@@ -46,11 +45,7 @@ export default function Home() {
   if (status === "unauthenticated") {
     return (
       <div className="min-h-screen bg-surface-primary text-content-primary">
-        {/* Header */}
-        <div className="fixed top-0 left-0 right-0 z-10 flex items-center justify-between bg-surface-header-80 px-5 py-3 backdrop-blur-sm border-b border-border-primary h-16 max-h-16">
-          <Logo />
-          <ThemeToggle />
-        </div>
+        <ClientPageHeader />
 
         <main className="px-5 pt-28 pb-10">
           <div className="max-w-2xl mx-auto space-y-8 text-center">

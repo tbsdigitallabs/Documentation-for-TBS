@@ -23,10 +23,10 @@ export default async function ContentCreatorsPage() {
   const session = await getServerSession(authOptions);
   const userClass = session?.user?.profile?.selectedClass;
   const modules = getAllModules('content-creators');
-  
+
   const otherClasses = getAllClasses().filter(c => c.name !== "Storyteller" && c.name !== "Session 0");
   const otherModules: Array<{ class: ClassInfo; modules: ReturnType<typeof getAllModules> }> = [];
-  
+
   otherClasses.forEach(classInfo => {
     const role = roleMap[classInfo.name];
     if (role) {

@@ -2,8 +2,10 @@ import { getModuleBySlug, getModuleSlugs } from '@/lib/mdx';
 import { MDXRemote } from 'next-mdx-remote/rsc';
 import Link from 'next/link';
 import Image from 'next/image';
-import ThemeToggle from '@/components/ThemeToggle';
 import { notFound } from 'next/navigation';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import PageHeader from '@/components/PageHeader';
 import { GlassCard } from '@/components/ui/GlassCard';
 import { ArrowLeft, Clock, Target, BookOpen } from 'lucide-react';
 import { ModuleWrapper } from '@/components/modules/ModuleWrapper';
@@ -55,6 +57,7 @@ export async function generateStaticParams() {
 
 export default async function ModulePage({ params }: { params: Promise<{ role: string; slug: string }> }) {
     const { role, slug } = await params;
+    const session = await getServerSession(authOptions);
 
     // Map session-0 to shared content directory
     const contentRole = role === 'session-0' ? 'shared' : role;
@@ -91,6 +94,25 @@ export default async function ModulePage({ params }: { params: Promise<{ role: s
                                 </Link>
                             </div>
                             <div className="flex items-center space-x-4">
+                                {session?.user && (
+                                    <Link
+                                        href="/profile"
+                                        className="flex items-center justify-center w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 transition-colors"
+                                        title="View Profile"
+                                    >
+                                        {session.user.profile?.profileImage || session.user.image ? (
+                                            <img
+                                                src={session.user.profile?.profileImage || session.user.image || ''}
+                                                alt={session.user.name || 'Profile'}
+                                                className="w-10 h-10 rounded-full object-cover"
+                                            />
+                                        ) : (
+                                            <span className="text-white text-sm font-semibold">
+                                                {session.user.name?.[0]?.toUpperCase() || 'U'}
+                                            </span>
+                                        )}
+                                    </Link>
+                                )}
                                 <ThemeToggle />
                             </div>
                         </div>

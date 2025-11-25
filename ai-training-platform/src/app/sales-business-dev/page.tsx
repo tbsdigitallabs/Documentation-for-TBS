@@ -23,10 +23,10 @@ export default async function SalesBusinessDevPage() {
   const session = await getServerSession(authOptions);
   const userClass = session?.user?.profile?.selectedClass;
   const modules = getAllModules('sales');
-  
+
   const otherClasses = getAllClasses().filter(c => c.name !== "Rogue" && c.name !== "Session 0");
   const otherModules: Array<{ class: ClassInfo; modules: ReturnType<typeof getAllModules> }> = [];
-  
+
   otherClasses.forEach(classInfo => {
     const role = roleMap[classInfo.name];
     if (role) {

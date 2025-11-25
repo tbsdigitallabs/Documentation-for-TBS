@@ -5,9 +5,8 @@ export const dynamic = 'force-dynamic';
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
-import Logo from "@/components/Logo";
-import ThemeToggle from "@/components/ThemeToggle";
 import { Loader2 } from "lucide-react";
+import ClientPageHeader from "@/components/ClientPageHeader";
 import { getClassRoute } from "@/lib/role-mapping";
 import type { OnboardingQuestion } from "@/app/api/onboarding/questions/route";
 import OnboardingQuestionCard from "@/components/onboarding/OnboardingQuestionCard";
@@ -300,11 +299,7 @@ export default function OnboardingPage() {
 
     return (
         <div className="min-h-screen bg-gradient-surface">
-            {/* Header */}
-            <div className="fixed top-0 left-0 right-0 z-10 flex items-center justify-between bg-surface-header-80 px-5 py-3 backdrop-blur-sm border-b border-border-primary h-16 max-h-16">
-                <Logo />
-                <ThemeToggle />
-            </div>
+            <ClientPageHeader />
 
             {/* Main Content */}
             <main className="px-5 pt-24 pb-10 max-w-2xl mx-auto">

@@ -3,9 +3,8 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
-import Logo from "@/components/Logo";
-import ThemeToggle from "@/components/ThemeToggle";
 import { User, Edit2, Save, X, Upload, ExternalLink } from "lucide-react";
+import ClientPageHeader from "@/components/ClientPageHeader";
 import Link from "next/link";
 
 export const dynamic = 'force-dynamic';
@@ -163,13 +162,7 @@ export default function ProfilePage() {
 
     return (
         <div className="min-h-screen bg-gradient-surface">
-            {/* Header */}
-            <div className="fixed top-0 left-0 right-0 z-10 flex items-center justify-between bg-surface-header-80 px-5 py-3 backdrop-blur-sm border-b border-border-primary h-16 max-h-16">
-                <Link href="/class-selection">
-                    <Logo />
-                </Link>
-                <ThemeToggle />
-            </div>
+            <ClientPageHeader />
 
             {/* Main Content */}
             <main className="px-5 pt-24 pb-10 max-w-4xl mx-auto">

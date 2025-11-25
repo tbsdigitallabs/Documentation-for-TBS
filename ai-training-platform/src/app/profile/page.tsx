@@ -247,7 +247,7 @@ export default function ProfilePage() {
                                                 <div className="text-xs text-content-tertiary">XP</div>
                                             </div>
                                         </div>
-                                        
+
                                         {/* Experience Level (read-only, based on level) */}
                                         <div className="text-center pt-2 border-t border-border-primary">
                                             <div className="text-xs text-content-tertiary mb-1">Experience Level</div>
@@ -255,7 +255,7 @@ export default function ProfilePage() {
                                                 {getExperienceLevelName(profile.level || 1)}
                                             </div>
                                         </div>
-                                        
+
                                         {/* Level Progress Bar */}
                                         {profile.level < MAX_LEVEL && (
                                             <div className="pt-2">
@@ -264,7 +264,7 @@ export default function ProfilePage() {
                                                     <span>{getXPForNextLevel(profile.xp || 0, profile.level || 1)} XP needed</span>
                                                 </div>
                                                 <div className="w-full bg-surface-tertiary rounded-full h-2 overflow-hidden">
-                                                    <div 
+                                                    <div
                                                         className="bg-gradient-to-r from-cyber-cyan to-cyber-magenta h-2 rounded-full transition-all duration-500"
                                                         style={{ width: `${getLevelProgress(profile.xp || 0, profile.level || 1) * 100}%` }}
                                                     />
@@ -434,7 +434,7 @@ export default function ProfilePage() {
                             {profile.level < MAX_LEVEL ? (
                                 <>
                                     <div className="w-full bg-surface-tertiary rounded-full h-3 mb-2 overflow-hidden">
-                                        <div 
+                                        <div
                                             className="bg-gradient-to-r from-cyber-cyan to-cyber-magenta h-3 rounded-full transition-all duration-500"
                                             style={{ width: `${getLevelProgress(profile.xp || 0, profile.level) * 100}%` }}
                                         />
@@ -456,7 +456,7 @@ export default function ProfilePage() {
                             </h3>
                             <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
                                 {getUnlockedRewards(profile.level).map((reward) => (
-                                    <div 
+                                    <div
                                         key={reward.level}
                                         className="p-3 bg-surface-secondary rounded-lg border border-cyber-cyan/30"
                                     >
@@ -505,7 +505,7 @@ export default function ProfilePage() {
                                     const isUnlocked = level <= (profile.level || 1);
                                     const reward = COSMETIC_REWARDS.find(r => r.level === level);
                                     return (
-                                        <div 
+                                        <div
                                             key={level}
                                             className={`flex items-center gap-3 p-2 rounded-lg ${isUnlocked ? 'bg-cyber-cyan/10 border border-cyber-cyan/30' : 'bg-surface-tertiary/50 opacity-60'}`}
                                         >

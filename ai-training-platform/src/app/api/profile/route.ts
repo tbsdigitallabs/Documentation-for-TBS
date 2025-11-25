@@ -41,7 +41,16 @@ export async function GET() {
             selectedClass: null,
             level: 1,
             xp: 0,
+            completedModules: [],
         };
+
+        // Calculate XP from completed modules to ensure consistency
+        const completedModules = profile.completedModules || [];
+        const calculatedXP = completedModules.reduce((sum: number, module: { xpEarned: number }) => sum + module.xpEarned, 0);
+        
+        // Use calculated XP if it differs from stored XP (ensures data integrity)
+        const finalXP = calculatedXP > 0 ? calculatedXP : (profile.xp || 0);
+        const finalLevel = profile.level || 1;
 
         return NextResponse.json({
             id: user.id,
@@ -49,6 +58,9 @@ export async function GET() {
             email: user.email,
             image: user.image,
             ...profile,
+            xp: finalXP,
+            level: finalLevel,
+            completedModules: completedModules,
         });
     } catch (error) {
         console.error("Error fetching profile:", error);

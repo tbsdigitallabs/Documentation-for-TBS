@@ -11,22 +11,22 @@ import Link from "next/link";
 export const dynamic = 'force-dynamic';
 
 interface UserProfile {
-        name?: string;
-        email?: string;
-        image?: string;
-        profileImage?: string;
-        bio?: string;
-        role?: string;
-        skills?: string[];
-        interests?: string[];
-        learningGoals?: string;
-        experienceLevel?: string;
-        selectedClass?: string;
-        hobbies?: string | null;
-        systems?: string | null;
-        level?: number;
-        xp?: number;
-    }
+    name?: string;
+    email?: string;
+    image?: string;
+    profileImage?: string;
+    bio?: string;
+    role?: string;
+    skills?: string[];
+    interests?: string[];
+    learningGoals?: string;
+    experienceLevel?: string;
+    selectedClass?: string;
+    hobbies?: string | null;
+    systems?: string | null;
+    level?: number;
+    xp?: number;
+}
 
 export default function ProfilePage() {
     const [mounted, setMounted] = useState(false);

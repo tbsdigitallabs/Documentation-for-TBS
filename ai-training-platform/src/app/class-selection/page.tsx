@@ -27,7 +27,7 @@ export default function ClassSelectionPage() {
 
     const handleClassSelect = async (classInfo: ClassInfo) => {
         setSelectedClass(classInfo.name);
-        
+
         // Update session with selected class
         await update({
             profile: {
@@ -102,12 +102,11 @@ export default function ClassSelectionPage() {
                                 <button
                                     key={classItem.name}
                                     onClick={() => handleClassSelect(classItem)}
-                                    className={`flex flex-col shrink-0 w-40 rounded-2xl p-4 glass-card hover:scale-105 transition-transform ${
-                                        isSelected ? "ring-2 ring-cyber-cyan" : ""
-                                    }`}
+                                    className={`flex flex-col shrink-0 w-40 rounded-2xl p-4 glass-card hover:scale-105 transition-transform ${isSelected ? "ring-2 ring-cyber-cyan" : ""
+                                        }`}
                                 >
-                                    <div 
-                                        className="flex items-center justify-center size-12 rounded-xl mb-4" 
+                                    <div
+                                        className="flex items-center justify-center size-12 rounded-xl mb-4"
                                         style={{ backgroundColor: `${accentColor}33` }}
                                     >
                                         <Icon className="text-3xl" style={{ color: accentColor }} />

@@ -17,7 +17,7 @@ export default function Home() {
 
     if (status === "authenticated" && session?.user) {
       const selectedClass = session.user.profile?.selectedClass;
-      
+
       if (selectedClass) {
         // Redirect to user's role page
         const route = getClassRoute(selectedClass);

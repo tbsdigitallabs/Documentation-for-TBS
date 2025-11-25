@@ -88,7 +88,7 @@ export default function OnboardingPage() {
         try {
             // Update profile data based on question type
             const answer = currentQuestion.type === "multiple-choice" ? selectedAnswer : textAnswer;
-            
+
             // Update local state immediately
             if (currentQuestion.id === "class") {
                 setProfileData(prev => ({ ...prev, selectedClass: answer }));
@@ -253,11 +253,10 @@ export default function OnboardingPage() {
                                             <button
                                                 key={option.value}
                                                 onClick={() => setSelectedAnswer(option.value)}
-                                                className={`w-full text-left px-4 py-3 rounded-lg border-2 transition-all ${
-                                                    selectedAnswer === option.value
+                                                className={`w-full text-left px-4 py-3 rounded-lg border-2 transition-all ${selectedAnswer === option.value
                                                         ? "border-cyber-cyan bg-cyber-cyan/10"
                                                         : "border-border-secondary hover:border-cyber-cyan/50 bg-surface-secondary"
-                                                }`}
+                                                    }`}
                                             >
                                                 <div className="flex items-center justify-between">
                                                     <div>

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../../auth/[...nextauth]/route";
+import { validateAnswer, sanitizeString } from "@/lib/validation";
 
 // Free LLM API for processing answers
 const LLM_API_URL = process.env.LLM_API_URL || "https://api-inference.huggingface.co/models/mistralai/Mistral-7B-Instruct-v0.2";
@@ -30,9 +31,18 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const { question, answer, currentData, questionIndex } = await req.json();
+    const body = await req.json();
+    const { question, answer: rawAnswer, currentData, questionIndex } = body;
+    
+    // Validate and sanitize inputs
+    const answer = validateAnswer(rawAnswer);
+    const sanitizedQuestion = sanitizeString(String(question || ""), 500);
 
-    let updatedProfile = { ...currentData };
+    if (!answer || answer.trim().length === 0) {
+      return NextResponse.json({ error: "Answer is required" }, { status: 400 });
+    }
+
+    let updatedProfile = { ...(currentData || {}) };
 
     // Simple extraction without LLM (fallback)
     const lowerAnswer = answer.toLowerCase();
@@ -78,9 +88,9 @@ export async function POST(req: NextRequest) {
     if (LLM_API_KEY && LLM_API_URL.includes("huggingface")) {
       try {
         const prompt = EXTRACTION_PROMPT
-          .replace("{question}", question)
+          .replace("{question}", sanitizedQuestion)
           .replace("{answer}", answer)
-          .replace("{currentData}", JSON.stringify(currentData));
+          .replace("{currentData}", JSON.stringify(currentData || {}));
 
         const response = await fetch(LLM_API_URL, {
           method: "POST",

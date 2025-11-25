@@ -13,15 +13,15 @@ export default function SessionProvider({
 
   useEffect(() => {
     setMounted(true);
-    
+
     // Set up error handlers only once
     if (!errorHandlerSet.current) {
       errorHandlerSet.current = true;
-      
+
       // Suppress connection errors in console
       const originalError = console.error;
       const originalWarn = console.warn;
-      
+
       console.error = (...args: any[]) => {
         const errorStr = args[0]?.toString() || "";
         if (errorStr.includes("Connection closed") || errorStr.includes("next-auth")) {
@@ -46,9 +46,9 @@ export default function SessionProvider({
           event.stopPropagation();
         }
       };
-      
+
       window.addEventListener("unhandledrejection", handleRejection);
-      
+
       // Also catch errors globally
       const handleError = (event: ErrorEvent) => {
         const errorMsg = event.message || event.error?.message || "";
@@ -57,7 +57,7 @@ export default function SessionProvider({
           event.stopPropagation();
         }
       };
-      
+
       window.addEventListener("error", handleError);
     }
   }, []);

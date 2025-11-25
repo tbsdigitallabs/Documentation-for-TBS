@@ -1,6 +1,26 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]/route";
+import { validateProfileData } from "@/lib/validation";
+
+interface SessionUser {
+  id?: string;
+  name?: string | null;
+  email?: string | null;
+  image?: string | null;
+  profile?: {
+    bio?: string | null;
+    role?: string | null;
+    skills?: string[];
+    interests?: string[];
+    learningGoals?: string | null;
+    experienceLevel?: string | null;
+    profileImage?: string | null;
+    selectedClass?: string | null;
+    level?: number;
+    xp?: number;
+  };
+}
 
 export async function GET() {
     try {
@@ -9,7 +29,8 @@ export async function GET() {
             return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
         }
 
-        const profile = (session.user as any).profile || {
+        const user = session.user as SessionUser;
+        const profile = user.profile || {
             bio: null,
             role: null,
             skills: [],
@@ -23,10 +44,10 @@ export async function GET() {
         };
 
         return NextResponse.json({
-            id: (session.user as any).id,
-            name: session.user.name,
-            email: session.user.email,
-            image: session.user.image,
+            id: user.id,
+            name: user.name,
+            email: user.email,
+            image: user.image,
             ...profile,
         });
     } catch (error) {
@@ -43,27 +64,19 @@ export async function PUT(req: NextRequest) {
         }
 
         const data = await req.json();
+        
+        // Validate and sanitize profile data
+        const validatedProfile = validateProfileData(data);
 
-        // Update session via NextAuth's update method
-        // This will trigger the JWT callback with trigger: 'update'
-        const updatedProfile = {
-            bio: data.bio || null,
-            role: data.role || null,
-            skills: data.skills || [],
-            interests: data.interests || [],
-            learningGoals: data.learningGoals || null,
-            experienceLevel: data.experienceLevel || null,
-            profileImage: data.profileImage || null,
-        };
-
-        // Note: In a real implementation, you'd call session.update() from the client
-        // For server-side, we return the updated profile and the client should update the session
+        const user = session.user as SessionUser;
+        
+        // Return validated profile data
         return NextResponse.json({
-            id: (session.user as any).id,
-            name: session.user.name,
-            email: session.user.email,
-            image: session.user.image,
-            ...updatedProfile,
+            id: user.id,
+            name: user.name,
+            email: user.email,
+            image: user.image,
+            ...validatedProfile,
         });
     } catch (error) {
         console.error("Error updating profile:", error);

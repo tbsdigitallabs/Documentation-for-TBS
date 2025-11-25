@@ -1,6 +1,7 @@
 import NextAuth, { type NextAuthOptions } from "next-auth"
 import GoogleProvider from "next-auth/providers/google"
 import CredentialsProvider from "next-auth/providers/credentials"
+import "@/lib/env-validation"
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -55,13 +56,13 @@ export const authOptions: NextAuthOptions = {
     async session({ session, token }) {
       // Add user info from token to session
       if (session.user && token.sub) {
-        (session.user as any).id = token.sub
+        session.user.id = token.sub
         // Add profile data from token to session
         if (token.profile) {
-          (session.user as any).profile = token.profile
+          session.user.profile = token.profile
         }
         if (token.onboardingCompleted !== undefined) {
-          (session.user as any).onboardingCompleted = token.onboardingCompleted
+          session.user.onboardingCompleted = token.onboardingCompleted
         }
       }
       return session

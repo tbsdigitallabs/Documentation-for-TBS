@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
@@ -9,11 +9,19 @@ import Logo from '@/components/Logo';
 import { getClassRoute } from '@/lib/role-mapping';
 
 export default function Home() {
-  const { data: session, status } = useSession();
+  const [mounted, setMounted] = useState(false);
   const router = useRouter();
+  
+  // Only call useSession after component mounts to avoid SSR issues
+  const sessionResult = mounted ? useSession() : { data: null, status: 'loading' as const };
+  const { data: session, status } = sessionResult;
 
   useEffect(() => {
-    if (status === "loading") return;
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!mounted || status === "loading") return;
 
     if (status === "authenticated" && session?.user) {
       const selectedClass = session.user.profile?.selectedClass;
@@ -27,7 +35,7 @@ export default function Home() {
         router.push("/class-selection");
       }
     }
-  }, [status, session, router]);
+  }, [mounted, status, session, router]);
 
   // Show loading state while checking session
   if (status === "loading") {

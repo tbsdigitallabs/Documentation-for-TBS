@@ -78,7 +78,7 @@ export default function OnboardingPage() {
                         options: [
                             { value: "Artificer", label: "Artificer (Developer)", description: "I write code, build applications, and work with technical systems" },
                             { value: "Bard", label: "Bard (Designer)", description: "I create visual designs, user interfaces, and brand assets" },
-                            { value: "Paladin", label: "Paladin (Project Manager)", description: "I manage projects, coordinate teams, and ensure deliverables are met" },
+                            { value: "Paladin", label: "Paladin (Account/Project Manager)", description: "I manage projects, coordinate teams, and ensure deliverables are met" },
                             { value: "Storyteller", label: "Storyteller (Content Creator & PR)", description: "I write content, manage communications, and handle public relations" },
                             { value: "Rogue", label: "Rogue (Sales & Business Development)", description: "I work with clients, manage sales, and develop business opportunities" },
                         ],

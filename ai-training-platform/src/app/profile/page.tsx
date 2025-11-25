@@ -10,6 +10,14 @@ import { calculateLevel, getXPForNextLevel, getLevelProgress, getExperienceLevel
 
 export const dynamic = 'force-dynamic';
 
+interface CompletedModule {
+    moduleId: string;
+    moduleName: string;
+    completedAt: string;
+    xpEarned: number;
+    quizScore?: number;
+}
+
 interface UserProfile {
     name?: string;
     email?: string;
@@ -26,6 +34,7 @@ interface UserProfile {
     systems?: string | null;
     level?: number;
     xp?: number;
+    completedModules?: CompletedModule[];
 }
 
 export default function ProfilePage() {

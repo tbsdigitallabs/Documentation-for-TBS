@@ -3,6 +3,14 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]/route";
 import { validateProfileData } from "@/lib/validation";
 
+interface CompletedModule {
+    moduleId: string;
+    moduleName: string;
+    completedAt: string;
+    xpEarned: number;
+    quizScore?: number;
+}
+
 interface SessionUser {
     id?: string;
     name?: string | null;
@@ -19,6 +27,7 @@ interface SessionUser {
         selectedClass?: string | null;
         level?: number;
         xp?: number;
+        completedModules?: CompletedModule[];
     };
 }
 

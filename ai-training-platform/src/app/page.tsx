@@ -19,7 +19,7 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    if (!mounted || status === "loading") return;
+    if (status === "loading") return;
 
     if (status === "authenticated" && session?.user) {
       const selectedClass = session.user.profile?.selectedClass;
@@ -33,7 +33,7 @@ export default function Home() {
         router.push("/class-selection");
       }
     }
-  }, [mounted, status, session, router]);
+  }, [status, session, router]);
 
   // Show loading state while checking session
   if (status === "loading") {

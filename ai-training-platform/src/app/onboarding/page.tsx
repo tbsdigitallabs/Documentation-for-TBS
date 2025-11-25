@@ -62,9 +62,54 @@ export default function OnboardingPage() {
             if (response.ok) {
                 const data = await response.json();
                 setQuestions(data.questions || []);
+            } else {
+                console.error("Failed to fetch questions:", response.status, response.statusText);
+                // Set default questions if API fails
+                setQuestions([
+                    {
+                        id: "class",
+                        question: "What class do you identify with in your quest?",
+                        type: "multiple-choice" as const,
+                        required: true,
+                        options: [
+                            { value: "Artificer", label: "Artificer", description: "Master the tools of code and creation" },
+                            { value: "Bard", label: "Bard", description: "Weave visual magic and creative wonders" },
+                            { value: "Paladin", label: "Paladin", description: "Lead quests and manage the realm" },
+                            { value: "Storyteller", label: "Storyteller", description: "Craft tales and shape narratives" },
+                            { value: "Rogue", label: "Rogue", description: "Navigate deals and expand territories" },
+                        ],
+                    },
+                    {
+                        id: "experience",
+                        question: "How would you describe your experience level with AI magic?",
+                        type: "multiple-choice" as const,
+                        required: true,
+                        options: [
+                            { value: "Novice", label: "Novice", description: "Just starting my journey" },
+                            { value: "Apprentice", label: "Apprentice", description: "I've dabbled with AI tools" },
+                            { value: "Master", label: "Master", description: "I'm experienced with AI workflows" },
+                        ],
+                    },
+                ]);
             }
         } catch (error) {
             console.error("Failed to start onboarding:", error);
+            // Set default questions on error
+            setQuestions([
+                {
+                    id: "class",
+                    question: "What class do you identify with in your quest?",
+                    type: "multiple-choice" as const,
+                    required: true,
+                    options: [
+                        { value: "Artificer", label: "Artificer", description: "Master the tools of code and creation" },
+                        { value: "Bard", label: "Bard", description: "Weave visual magic and creative wonders" },
+                        { value: "Paladin", label: "Paladin", description: "Lead quests and manage the realm" },
+                        { value: "Storyteller", label: "Storyteller", description: "Craft tales and shape narratives" },
+                        { value: "Rogue", label: "Rogue", description: "Navigate deals and expand territories" },
+                    ],
+                },
+            ]);
         } finally {
             setLoading(false);
         }
@@ -183,12 +228,28 @@ export default function OnboardingPage() {
         }
     };
 
-    if (!mounted || status === "loading" || loading) {
+    if (!mounted || status === "loading") {
         return (
             <div className="min-h-screen bg-gradient-surface flex items-center justify-center">
                 <div className="text-center">
                     <Loader2 className="w-8 h-8 animate-spin mx-auto mb-4 text-cyber-cyan" />
                     <p className="text-content-secondary">Gearing up for your adventure...</p>
+                </div>
+            </div>
+        );
+    }
+
+    if (status === "unauthenticated") {
+        return null; // Will redirect via useEffect
+    }
+
+    // Show loading while fetching questions
+    if (loading && questions.length === 0) {
+        return (
+            <div className="min-h-screen bg-gradient-surface flex items-center justify-center">
+                <div className="text-center">
+                    <Loader2 className="w-8 h-8 animate-spin mx-auto mb-4 text-cyber-cyan" />
+                    <p className="text-content-secondary">Loading your adventure questions...</p>
                 </div>
             </div>
         );
@@ -206,7 +267,7 @@ export default function OnboardingPage() {
 
             {/* Main Content */}
             <main className="px-5 pt-24 pb-10 max-w-2xl mx-auto">
-                {step === "questions" && currentQuestion ? (
+                {step === "questions" && questions.length > 0 && currentQuestion ? (
                     <div className="space-y-6">
                         <div className="text-center mb-8">
                             <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-cyber-magenta/20 mb-4">
@@ -404,6 +465,11 @@ export default function OnboardingPage() {
                                 Skip for now
                             </button>
                         </div>
+                    </div>
+                ) : questions.length === 0 ? (
+                    <div className="text-center py-12">
+                        <Loader2 className="w-8 h-8 animate-spin mx-auto mb-4 text-cyber-cyan" />
+                        <p className="text-content-secondary">Loading your adventure questions...</p>
                     </div>
                 ) : null}
             </main>

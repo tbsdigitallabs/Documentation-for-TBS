@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { useSession } from "@/lib/safe-session";
+import { useSession } from "next-auth/react";
 import Logo from "@/components/Logo";
 import ThemeToggle from "@/components/ThemeToggle";
 import { User, Edit2, Save, X, Upload, ExternalLink } from "lucide-react";

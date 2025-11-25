@@ -20,9 +20,10 @@ export default function HeaderNav() {
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
-    // Use theme-specific logo, fallback to dark logo if not mounted yet
+    // Use theme-specific logo (inverted: light logo for dark mode, dark logo for light mode)
+    // Fallback to dark logo if not mounted yet
     const logoSrc = mounted 
-        ? (theme === 'dark' ? '/images/logo-dark.png' : '/images/logo-light.png')
+        ? (theme === 'dark' ? '/images/logo-light.png' : '/images/logo-dark.png')
         : '/images/logo-dark.png';
 
     return (

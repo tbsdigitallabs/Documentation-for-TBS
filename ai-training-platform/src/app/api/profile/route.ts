@@ -4,22 +4,22 @@ import { authOptions } from "../auth/[...nextauth]/route";
 import { validateProfileData } from "@/lib/validation";
 
 interface SessionUser {
-  id?: string;
-  name?: string | null;
-  email?: string | null;
-  image?: string | null;
-  profile?: {
-    bio?: string | null;
-    role?: string | null;
-    skills?: string[];
-    interests?: string[];
-    learningGoals?: string | null;
-    experienceLevel?: string | null;
-    profileImage?: string | null;
-    selectedClass?: string | null;
-    level?: number;
-    xp?: number;
-  };
+    id?: string;
+    name?: string | null;
+    email?: string | null;
+    image?: string | null;
+    profile?: {
+        bio?: string | null;
+        role?: string | null;
+        skills?: string[];
+        interests?: string[];
+        learningGoals?: string | null;
+        experienceLevel?: string | null;
+        profileImage?: string | null;
+        selectedClass?: string | null;
+        level?: number;
+        xp?: number;
+    };
 }
 
 export async function GET() {
@@ -64,12 +64,12 @@ export async function PUT(req: NextRequest) {
         }
 
         const data = await req.json();
-        
+
         // Validate and sanitize profile data
         const validatedProfile = validateProfileData(data);
 
         const user = session.user as SessionUser;
-        
+
         // Return validated profile data
         return NextResponse.json({
             id: user.id,

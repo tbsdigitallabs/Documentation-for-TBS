@@ -1,5 +1,7 @@
 # TBS Digital Labs Brand Guidelines
 
+> **Note**: This directory contains forwarders to the actual brand guidelines in `ai-training-platform/brand-guidelines/`. The source of truth is in the platform-specific directory.
+
 ## Brand Overview
 
 TBS Digital Labs is an Australian digital agency specialising in innovative technology solutions and AI integration. We help businesses transform their operations through cutting-edge digital strategies and AI-powered workflows.

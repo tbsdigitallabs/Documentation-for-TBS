@@ -33,7 +33,7 @@ export async function POST(req: NextRequest) {
 
     const body = await req.json();
     const { question, answer: rawAnswer, currentData, questionIndex } = body;
-    
+
     // Validate and sanitize inputs
     const answer = validateAnswer(rawAnswer);
     const sanitizedQuestion = sanitizeString(String(question || ""), 500);
@@ -110,7 +110,7 @@ export async function POST(req: NextRequest) {
         if (response.ok) {
           const data = await response.json();
           const generatedText = Array.isArray(data) ? data[0]?.generated_text || "" : data.generated_text || "";
-          
+
           // Try to parse JSON from response
           const jsonMatch = generatedText.match(/\{[\s\S]*\}/);
           if (jsonMatch) {

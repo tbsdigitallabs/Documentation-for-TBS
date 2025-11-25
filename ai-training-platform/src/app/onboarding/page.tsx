@@ -322,6 +322,7 @@ export default function OnboardingPage() {
                         <OnboardingImageUpload
                             imagePreview={imagePreview}
                             onImageSelect={handleImageSelect}
+                            onGenerateAvatar={handleGenerateAvatar}
                             onUpload={handleImageUpload}
                             onSkip={() => completeOnboarding()}
                             loading={loading}

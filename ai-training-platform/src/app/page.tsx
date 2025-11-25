@@ -15,10 +15,6 @@ export default function Home() {
   const { data: session, status } = useSession();
 
   useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  useEffect(() => {
     if (status === "loading") return;
 
     if (status === "authenticated" && session?.user) {

@@ -125,6 +125,35 @@ export const authOptions: NextAuthOptions = {
   useSecureCookies: process.env.NEXTAUTH_URL?.startsWith('https://'),
 }
 
-const handler = NextAuth(authOptions)
+// Only initialize NextAuth if we have a secret or are in development with fallback
+const canInitializeAuth = process.env.NEXTAUTH_SECRET || process.env.NODE_ENV === 'development';
 
-export { handler as GET, handler as POST }
+let handler: ReturnType<typeof NextAuth> | null = null;
+
+if (canInitializeAuth) {
+  try {
+    handler = NextAuth(authOptions);
+  } catch (error) {
+    console.error('Failed to initialize NextAuth:', error);
+    handler = null;
+  }
+}
+
+// Export handlers - return 500 if NextAuth not initialized
+export const GET = handler 
+  ? handler 
+  : async () => {
+      return new Response(
+        JSON.stringify({ error: 'NextAuth not configured. Please set NEXTAUTH_SECRET in .env.local' }),
+        { status: 500, headers: { 'Content-Type': 'application/json' } }
+      );
+    };
+
+export const POST = handler 
+  ? handler 
+  : async () => {
+      return new Response(
+        JSON.stringify({ error: 'NextAuth not configured. Please set NEXTAUTH_SECRET in .env.local' }),
+        { status: 500, headers: { 'Content-Type': 'application/json' } }
+      );
+    };

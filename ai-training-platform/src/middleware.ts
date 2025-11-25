@@ -39,7 +39,8 @@ export default isDevWithoutAuth
       } else {
         if (req.nextauth.token) {
           // Check if user has completed onboarding
-          const onboardingCompleted = req.nextauth.token.onboardingCompleted as boolean;
+          // Treat undefined as not completed (new users)
+          const onboardingCompleted = req.nextauth.token.onboardingCompleted === true;
 
           // Redirect to onboarding if not completed (except if already on onboarding page)
           if (!onboardingCompleted && !request.nextUrl.pathname.startsWith("/onboarding")) {
@@ -68,25 +69,26 @@ export default isDevWithoutAuth
     {
       callbacks: {
         authorized: ({ token, req }) => {
-          // Public routes that don't require authentication
-          const publicRoutes = [
-            "/",
-            "/auth/signin",
-            "/auth/error",
-            "/api/auth",
-            "/api/onboarding",
-          ];
+      // Public routes that don't require authentication
+      const publicRoutes = [
+        "/",
+        "/auth/signin",
+        "/auth/error",
+        "/api/auth",
+        "/api/onboarding",
+        "/onboarding", // Allow onboarding page access
+      ];
 
-          const isPublicRoute = publicRoutes.some((route) =>
-            req.nextUrl.pathname.startsWith(route)
-          );
+      const isPublicRoute = publicRoutes.some((route) =>
+        req.nextUrl.pathname.startsWith(route)
+      );
 
-          if (isPublicRoute) {
-            return true;
-          }
+      if (isPublicRoute) {
+        return true;
+      }
 
-          // All other routes require authentication
-          return !!token;
+      // All other routes require authentication
+      return !!token;
         },
       },
     }

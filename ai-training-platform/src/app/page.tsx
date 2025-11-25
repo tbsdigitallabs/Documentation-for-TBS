@@ -10,7 +10,7 @@ import { getClassRoute } from '@/lib/role-mapping';
 
 export default function Home() {
   const router = useRouter();
-  
+
   // Always call useSession - Rules of Hooks require consistent hook order
   const { data: session, status } = useSession();
 

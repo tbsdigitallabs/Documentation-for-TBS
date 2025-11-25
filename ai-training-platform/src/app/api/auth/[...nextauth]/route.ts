@@ -91,7 +91,7 @@ export const authOptions: NextAuthOptions = {
         token.email = user.email
         token.name = user.name
         token.picture = user.image
-        // Initialize profile data
+        // Initialize profile data - always set onboardingCompleted to false for new users
         token.onboardingCompleted = false
         token.profile = {
           bio: null,
@@ -107,6 +107,10 @@ export const authOptions: NextAuthOptions = {
           level: 1,
           xp: 0,
         }
+      }
+      // Ensure onboardingCompleted is always defined (default to false if undefined)
+      if (token.onboardingCompleted === undefined) {
+        token.onboardingCompleted = false
       }
       // Update token when session is updated (from API routes)
       if (trigger === 'update' && sessionData) {

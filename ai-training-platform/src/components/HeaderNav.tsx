@@ -5,11 +5,14 @@ import Image from 'next/image';
 import { useTheme } from '@/components/ThemeProvider';
 import ThemeToggle from '@/components/ThemeToggle';
 import { useState, useEffect } from 'react';
+import { useSession } from 'next-auth/react';
+import { User } from 'lucide-react';
 
 export default function HeaderNav() {
     const { theme } = useTheme();
     const [scrolled, setScrolled] = useState(false);
     const [mounted, setMounted] = useState(false);
+    const { data: session } = useSession();
 
     useEffect(() => {
         setMounted(true);
@@ -70,6 +73,23 @@ export default function HeaderNav() {
 
                 {/* Actions */}
                 <div className="flex items-center space-x-4">
+                    {session?.user && (
+                        <Link
+                            href="/profile"
+                            className="flex items-center justify-center w-10 h-10 rounded-full bg-surface-secondary hover:bg-surface-hover transition-colors text-content-secondary hover:text-content-primary"
+                            title="View Profile"
+                        >
+                            {session.user.image || session.user.profile?.profileImage ? (
+                                <img
+                                    src={session.user.profile?.profileImage || session.user.image || ''}
+                                    alt={session.user.name || 'Profile'}
+                                    className="w-10 h-10 rounded-full object-cover"
+                                />
+                            ) : (
+                                <User className="w-5 h-5" />
+                            )}
+                        </Link>
+                    )}
                     <ThemeToggle />
                 </div>
             </nav>

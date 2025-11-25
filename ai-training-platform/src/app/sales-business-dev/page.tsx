@@ -3,12 +3,11 @@ import { Coins } from 'lucide-react';
 import { Heading } from '@/components/Heading';
 import { Section } from '@/components/Section';
 import { Container } from '@/components/Container';
-import ThemeToggle from '@/components/ThemeToggle';
-import Logo from '@/components/Logo';
 import { getAllClasses, type ClassInfo } from '@/lib/role-mapping';
 import RolePageContent from '@/components/RolePageContent';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import PageHeader from '@/components/PageHeader';
 
 export const dynamic = 'force-dynamic';
 
@@ -44,10 +43,7 @@ export default async function SalesBusinessDevPage() {
 
   return (
     <div className="min-h-screen bg-gradient-surface">
-      <div className="fixed top-0 left-0 right-0 z-10 flex items-center justify-between bg-surface-header-80 px-5 py-3 backdrop-blur-sm border-b border-border-primary h-16 max-h-16">
-        <Logo />
-        <ThemeToggle />
-      </div>
+      <PageHeader session={session} />
       <Section className="bg-surface-hero py-16 pt-28" size="md">
         <Container size="lg">
           <div className="text-center mb-16">

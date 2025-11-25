@@ -177,6 +177,50 @@ export default function OnboardingPage() {
         }
     };
 
+    const handleGenerateAvatar = async () => {
+        setLoading(true);
+        try {
+            // Generate a unique seed based on user email or random
+            const seed = session?.user?.email || Math.random().toString(36).substring(2, 15);
+            
+            // Use DiceBear API to generate avatar (avataaars style for better profile pictures)
+            const avatarUrl = `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(seed)}&backgroundColor=b6e3f4,c0aede,d1d4f9,ffd5dc,ffdfbf`;
+            
+            // Fetch the SVG
+            const response = await fetch(avatarUrl);
+            if (!response.ok) {
+                throw new Error("Failed to generate avatar");
+            }
+            
+            const svgBlob = await response.blob();
+            
+            // Convert SVG blob to File object
+            const file = new File([svgBlob], `avatar-${seed}.svg`, { type: "image/svg+xml" });
+            
+            // Set as image file and preview
+            setImageFile(file);
+            setImagePreview(avatarUrl);
+        } catch (error) {
+            console.error("Failed to generate avatar:", error);
+            // Fallback to a simple identicon if avataaars fails
+            const seed = session?.user?.email || Math.random().toString(36).substring(2, 15);
+            const fallbackUrl = `https://api.dicebear.com/7.x/identicon/svg?seed=${encodeURIComponent(seed)}`;
+            setImagePreview(fallbackUrl);
+            
+            // Fetch and convert to file
+            try {
+                const response = await fetch(fallbackUrl);
+                const svgBlob = await response.blob();
+                const file = new File([svgBlob], `avatar-${seed}.svg`, { type: "image/svg+xml" });
+                setImageFile(file);
+            } catch (fallbackError) {
+                console.error("Failed to generate fallback avatar:", fallbackError);
+            }
+        } finally {
+            setLoading(false);
+        }
+    };
+
     const handleImageUpload = async () => {
         if (!imageFile) {
             await completeOnboarding();

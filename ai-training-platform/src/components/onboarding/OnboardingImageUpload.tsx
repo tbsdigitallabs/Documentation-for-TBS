@@ -1,10 +1,12 @@
 "use client";
 
-import { Upload, ExternalLink, Loader2 } from "lucide-react";
+import { Upload, Loader2, Sparkles } from "lucide-react";
+import { useState } from "react";
 
 interface OnboardingImageUploadProps {
   imagePreview: string | null;
   onImageSelect: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onGenerateAvatar: () => Promise<void>;
   onUpload: () => void;
   onSkip: () => void;
   loading: boolean;
@@ -13,10 +15,24 @@ interface OnboardingImageUploadProps {
 export default function OnboardingImageUpload({
   imagePreview,
   onImageSelect,
+  onGenerateAvatar,
   onUpload,
   onSkip,
   loading,
 }: OnboardingImageUploadProps) {
+  const [generating, setGenerating] = useState(false);
+
+  const handleGenerateAvatar = async () => {
+    setGenerating(true);
+    try {
+      await onGenerateAvatar();
+    } catch (error) {
+      console.error("Failed to generate avatar:", error);
+    } finally {
+      setGenerating(false);
+    }
+  };
+
   return (
     <div className="bg-surface-card rounded-xl p-6 border border-border-primary">
       {!imagePreview ? (
@@ -25,31 +41,45 @@ export default function OnboardingImageUpload({
             <div className="w-32 h-32 mx-auto rounded-full bg-surface-tertiary border-2 border-dashed border-border-secondary flex items-center justify-center mb-4">
               <Upload className="w-12 h-12 text-content-tertiary" />
             </div>
-            <p className="text-content-secondary mb-4">
-              Need to forge your avatar?
+            <p className="text-content-secondary mb-6">
+              Choose your avatar
             </p>
-            <a
-              href="https://nanobanana.ai"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center px-4 py-2 bg-cyber-magenta text-white rounded-lg hover:bg-cyber-magenta/80 transition-colors mb-6 font-semibold"
-            >
-              Visit Nano Banana to Create Your Avatar
-              <ExternalLink className="w-4 h-4 ml-2" />
-            </a>
           </div>
 
-          <label className="cursor-pointer">
-            <input
-              type="file"
-              accept="image/*"
-              onChange={onImageSelect}
-              className="hidden"
-            />
-            <div className="px-6 py-3 bg-button text-button hover:bg-button-hover rounded-lg font-semibold transition-colors inline-block">
-              Upload Image
-            </div>
-          </label>
+          <div className="flex flex-col gap-3 items-center">
+            <button
+              onClick={handleGenerateAvatar}
+              disabled={loading || generating}
+              className="inline-flex items-center px-6 py-3 bg-cyber-magenta text-white rounded-lg hover:bg-cyber-magenta/80 transition-colors font-semibold disabled:bg-disabled disabled:cursor-not-allowed"
+            >
+              {generating ? (
+                <>
+                  <Loader2 className="w-5 h-5 animate-spin mr-2" />
+                  Generating...
+                </>
+              ) : (
+                <>
+                  <Sparkles className="w-5 h-5 mr-2" />
+                  Generate Avatar
+                </>
+              )}
+            </button>
+
+            <span className="text-content-tertiary text-sm">or</span>
+
+            <label className="cursor-pointer">
+              <input
+                type="file"
+                accept="image/*"
+                onChange={onImageSelect}
+                className="hidden"
+                disabled={loading || generating}
+              />
+              <div className="px-6 py-3 bg-button text-button hover:bg-button-hover rounded-lg font-semibold transition-colors inline-block disabled:bg-disabled disabled:cursor-not-allowed">
+                Upload Your Own Image
+              </div>
+            </label>
+          </div>
         </div>
       ) : (
         <div className="space-y-4">

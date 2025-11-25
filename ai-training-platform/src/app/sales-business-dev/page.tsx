@@ -79,7 +79,6 @@ export default async function SalesBusinessDevPage() {
         modules={modules}
         otherModules={otherModules}
         accentColor="#EF4444"
-        Icon={Coins}
         description="Level up your sales skills with AI-powered adventures."
       />
     </div>

@@ -79,7 +79,6 @@ export default async function ContentCreatorsPage() {
         modules={modules}
         otherModules={otherModules}
         accentColor="#850AFF"
-        Icon={Scroll}
         description="Embark on content creation adventures with AI writing assistants."
       />
     </div>

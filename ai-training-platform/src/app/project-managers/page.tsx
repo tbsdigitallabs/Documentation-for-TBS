@@ -79,7 +79,6 @@ export default async function ProjectManagersPage() {
         modules={modules}
         otherModules={otherModules}
         accentColor="#00C48C"
-        Icon={Shield}
         description="Level up your project management skills with AI-powered adventures."
       />
     </div>

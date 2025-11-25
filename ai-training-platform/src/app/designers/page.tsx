@@ -79,7 +79,6 @@ export default async function DesignersPage() {
         modules={modules}
         otherModules={otherModules}
         accentColor="#FFB800"
-        Icon={Sparkles}
         description="Embark on creative adventures with AI design tools."
       />
     </div>

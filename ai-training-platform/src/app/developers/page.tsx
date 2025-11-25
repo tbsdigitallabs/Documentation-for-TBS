@@ -80,7 +80,6 @@ export default async function DevelopersPage() {
         modules={modules}
         otherModules={otherModules}
         accentColor="#0A84FF"
-        Icon={Hammer}
         description="Level up your coding skills with AI assistants."
       />
     </div>

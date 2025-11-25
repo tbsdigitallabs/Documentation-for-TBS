@@ -17,7 +17,6 @@ interface RolePageContentProps {
     modules: ModuleMetadata[];
     otherModules: Array<{ class: ClassInfo; modules: ModuleMetadata[] }>;
     accentColor: string;
-    Icon: React.ComponentType<{ className?: string }>;
     description: string;
 }
 
@@ -36,7 +35,6 @@ export default function RolePageContent({
     modules,
     otherModules,
     accentColor,
-    Icon,
     description,
 }: RolePageContentProps) {
     const [mounted, setMounted] = useState(false);

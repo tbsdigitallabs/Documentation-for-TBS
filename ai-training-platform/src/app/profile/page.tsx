@@ -543,7 +543,7 @@ export default function ProfilePage() {
                         </div>
 
                         <div className="space-y-3">
-                            {profile.completedModules.map((module, index) => (
+                            {profile.completedModules.map((module: CompletedModule) => (
                                 <div
                                     key={module.moduleId}
                                     className="p-4 bg-surface-secondary rounded-lg border border-cyber-cyan/20 hover:border-cyber-cyan/40 transition-colors"
@@ -580,7 +580,7 @@ export default function ProfilePage() {
                             <div className="flex items-center justify-between">
                                 <span className="text-sm font-semibold text-content-primary">Total XP from Modules</span>
                                 <span className="text-lg font-bold text-cyber-magenta">
-                                    {profile.completedModules.reduce((sum, m) => sum + m.xpEarned, 0)} XP
+                                    {profile.completedModules.reduce((sum: number, m: CompletedModule) => sum + m.xpEarned, 0)} XP
                                 </span>
                             </div>
                         </div>

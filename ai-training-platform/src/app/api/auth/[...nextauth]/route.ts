@@ -106,6 +106,7 @@ export const authOptions: NextAuthOptions = {
           systems: null,
           level: 1,
           xp: 0,
+          completedModules: [],
         }
       }
       // Ensure onboardingCompleted is always defined (default to false if undefined)

@@ -416,6 +416,120 @@ export default function ProfilePage() {
                         </div>
                     </div>
                 </div>
+
+                {/* Levelling System & Rewards Section */}
+                {profile?.level && (
+                    <div className="mt-8 bg-surface-card rounded-xl p-6 border border-border-primary">
+                        <div className="flex items-center gap-2 mb-6">
+                            <Sparkles className="w-5 h-5 text-cyber-magenta" />
+                            <h2 className="text-xl font-heading font-bold text-content-primary">Levelling System</h2>
+                        </div>
+
+                        {/* Current Progress */}
+                        <div className="mb-6 p-4 bg-surface-secondary rounded-lg">
+                            <div className="flex items-center justify-between mb-2">
+                                <span className="text-sm font-semibold text-content-primary">Level {profile.level} / {MAX_LEVEL}</span>
+                                <span className="text-sm text-content-secondary">{profile.xp || 0} XP</span>
+                            </div>
+                            {profile.level < MAX_LEVEL ? (
+                                <>
+                                    <div className="w-full bg-surface-tertiary rounded-full h-3 mb-2 overflow-hidden">
+                                        <div 
+                                            className="bg-gradient-to-r from-cyber-cyan to-cyber-magenta h-3 rounded-full transition-all duration-500"
+                                            style={{ width: `${getLevelProgress(profile.xp || 0, profile.level) * 100}%` }}
+                                        />
+                                    </div>
+                                    <p className="text-xs text-content-tertiary">
+                                        {getXPForNextLevel(profile.xp || 0, profile.level)} XP until Level {profile.level + 1}
+                                    </p>
+                                </>
+                            ) : (
+                                <div className="w-full bg-gradient-to-r from-cyber-cyan to-cyber-magenta rounded-full h-3" />
+                            )}
+                        </div>
+
+                        {/* Unlocked Rewards */}
+                        <div className="mb-6">
+                            <h3 className="text-sm font-semibold text-content-primary mb-3 flex items-center gap-2">
+                                <Award className="w-4 h-4 text-cyber-cyan" />
+                                Unlocked Rewards
+                            </h3>
+                            <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                                {getUnlockedRewards(profile.level).map((reward) => (
+                                    <div 
+                                        key={reward.level}
+                                        className="p-3 bg-surface-secondary rounded-lg border border-cyber-cyan/30"
+                                    >
+                                        <div className="flex items-center gap-2 mb-1">
+                                            <Star className="w-3 h-3 text-cyber-cyan fill-cyber-cyan" />
+                                            <span className="text-xs font-semibold text-content-primary">Lv {reward.level}</span>
+                                        </div>
+                                        <div className="text-xs font-semibold text-cyber-cyan mb-1">{reward.name}</div>
+                                        <div className="text-xs text-content-tertiary">{reward.description}</div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* Next Reward Preview */}
+                        {getNextReward(profile.level) && (
+                            <div className="p-4 bg-gradient-to-r from-cyber-magenta/10 to-cyber-cyan/10 rounded-lg border border-cyber-magenta/30">
+                                <h3 className="text-sm font-semibold text-content-primary mb-2 flex items-center gap-2">
+                                    <Sparkles className="w-4 h-4 text-cyber-magenta" />
+                                    Next Reward
+                                </h3>
+                                <div className="flex items-center justify-between">
+                                    <div>
+                                        <div className="text-sm font-semibold text-cyber-magenta mb-1">
+                                            Level {getNextReward(profile.level)!.level}: {getNextReward(profile.level)!.name}
+                                        </div>
+                                        <div className="text-xs text-content-secondary">
+                                            {getNextReward(profile.level)!.description}
+                                        </div>
+                                    </div>
+                                    <div className="text-right">
+                                        <div className="text-xs text-content-tertiary mb-1">Unlock at</div>
+                                        <div className="text-sm font-bold text-cyber-magenta">
+                                            {XP_THRESHOLDS[getNextReward(profile.level)!.level]} XP
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+
+                        {/* Level Path Overview */}
+                        <div className="mt-6 pt-6 border-t border-border-primary">
+                            <h3 className="text-sm font-semibold text-content-primary mb-4">Level Path</h3>
+                            <div className="space-y-2">
+                                {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((level) => {
+                                    const isUnlocked = level <= (profile.level || 1);
+                                    const reward = COSMETIC_REWARDS.find(r => r.level === level);
+                                    return (
+                                        <div 
+                                            key={level}
+                                            className={`flex items-center gap-3 p-2 rounded-lg ${isUnlocked ? 'bg-cyber-cyan/10 border border-cyber-cyan/30' : 'bg-surface-tertiary/50 opacity-60'}`}
+                                        >
+                                            <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm ${isUnlocked ? 'bg-cyber-cyan text-white' : 'bg-surface-secondary text-content-tertiary'}`}>
+                                                {level}
+                                            </div>
+                                            <div className="flex-1">
+                                                <div className="text-xs font-semibold text-content-primary">
+                                                    {reward?.name || `Level ${level}`}
+                                                </div>
+                                                <div className="text-xs text-content-tertiary">
+                                                    {XP_THRESHOLDS[level]} XP
+                                                </div>
+                                            </div>
+                                            {isUnlocked && (
+                                                <Award className="w-4 h-4 text-cyber-cyan" />
+                                            )}
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                        </div>
+                    </div>
+                )}
             </main>
         </div>
     );

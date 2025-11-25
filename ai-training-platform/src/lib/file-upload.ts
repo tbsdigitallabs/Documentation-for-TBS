@@ -8,10 +8,11 @@ const ALLOWED_MIME_TYPES = [
     "image/png",
     "image/gif",
     "image/webp",
+    "image/svg+xml", // Allow SVG for generated avatars
 ];
 
 // Allowed file extensions
-const ALLOWED_EXTENSIONS = ["jpg", "jpeg", "png", "gif", "webp"];
+const ALLOWED_EXTENSIONS = ["jpg", "jpeg", "png", "gif", "webp", "svg"];
 
 // Maximum file size (5MB)
 const MAX_FILE_SIZE = 5 * 1024 * 1024;

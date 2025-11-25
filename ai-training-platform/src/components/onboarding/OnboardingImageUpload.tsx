@@ -90,22 +90,42 @@ export default function OnboardingImageUpload({
               className="w-full h-full object-cover"
             />
           </div>
-          <div className="flex gap-4">
-            <label className="flex-1 cursor-pointer">
-              <input
-                type="file"
-                accept="image/*"
-                onChange={onImageSelect}
-                className="hidden"
-              />
-              <div className="px-4 py-2 bg-surface-secondary text-content-primary rounded-lg hover:bg-surface-hover transition-colors text-center font-semibold">
-                Change Image
-              </div>
-            </label>
+          <div className="flex flex-col gap-3">
+            <div className="flex gap-3">
+              <button
+                onClick={onGenerateAvatar}
+                disabled={loading || generating}
+                className="flex-1 px-4 py-2 bg-surface-secondary text-content-primary rounded-lg hover:bg-surface-hover transition-colors text-center font-semibold disabled:bg-disabled disabled:cursor-not-allowed inline-flex items-center justify-center"
+              >
+                {generating ? (
+                  <>
+                    <Loader2 className="w-4 h-4 animate-spin mr-2" />
+                    Regenerating...
+                  </>
+                ) : (
+                  <>
+                    <Sparkles className="w-4 h-4 mr-2" />
+                    Regenerate Avatar
+                  </>
+                )}
+              </button>
+              <label className="flex-1 cursor-pointer">
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={onImageSelect}
+                  className="hidden"
+                  disabled={loading || generating}
+                />
+                <div className="px-4 py-2 bg-surface-secondary text-content-primary rounded-lg hover:bg-surface-hover transition-colors text-center font-semibold disabled:bg-disabled disabled:cursor-not-allowed">
+                  Upload Different Image
+                </div>
+              </label>
+            </div>
             <button
               onClick={onUpload}
-              disabled={loading}
-              className="flex-1 px-4 py-2 bg-button text-button hover:bg-button-hover rounded-lg font-semibold transition-colors disabled:bg-disabled disabled:cursor-not-allowed"
+              disabled={loading || generating}
+              className="w-full px-4 py-2 bg-button text-button hover:bg-button-hover rounded-lg font-semibold transition-colors disabled:bg-disabled disabled:cursor-not-allowed"
             >
               {loading ? (
                 <>

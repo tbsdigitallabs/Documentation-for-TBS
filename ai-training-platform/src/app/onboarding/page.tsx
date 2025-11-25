@@ -182,20 +182,20 @@ export default function OnboardingPage() {
         try {
             // Generate a unique seed based on user email or random
             const seed = session?.user?.email || Math.random().toString(36).substring(2, 15);
-            
+
             // Use our API route to generate avatar (avoids CORS issues)
             const response = await fetch("/api/onboarding/generate-avatar", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ seed }),
             });
-            
+
             if (!response.ok) {
                 throw new Error("Failed to generate avatar");
             }
-            
+
             const data = await response.json();
-            
+
             // Convert base64 to blob
             const base64Data = data.imageData;
             const byteCharacters = atob(base64Data);
@@ -205,13 +205,13 @@ export default function OnboardingPage() {
             }
             const byteArray = new Uint8Array(byteNumbers);
             const pngBlob = new Blob([byteArray], { type: data.mimeType || "image/png" });
-            
+
             // Convert blob to File object
             const file = new File([pngBlob], `avatar-${seed}.png`, { type: "image/png" });
-            
+
             // Create preview URL from blob
             const previewUrl = URL.createObjectURL(pngBlob);
-            
+
             // Set as image file and preview
             setImageFile(file);
             setImagePreview(previewUrl);

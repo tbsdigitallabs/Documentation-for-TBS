@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
@@ -9,12 +9,10 @@ import Logo from '@/components/Logo';
 import { getClassRoute } from '@/lib/role-mapping';
 
 export default function Home() {
-  const [mounted, setMounted] = useState(false);
   const router = useRouter();
   
-  // Only call useSession after component mounts to avoid SSR issues
-  const sessionResult = mounted ? useSession() : { data: null, status: 'loading' as const };
-  const { data: session, status } = sessionResult;
+  // Always call useSession - Rules of Hooks require consistent hook order
+  const { data: session, status } = useSession();
 
   useEffect(() => {
     setMounted(true);

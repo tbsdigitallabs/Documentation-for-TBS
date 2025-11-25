@@ -62,11 +62,8 @@ export default function SessionProvider({
     }
   }, []);
 
-  // Don't render SessionProvider until mounted to avoid hydration issues
-  if (!mounted) {
-    return <>{children}</>;
-  }
-
+  // Always render NextAuthSessionProvider to maintain consistent hook order
+  // It will handle the case where NextAuth isn't initialized
   return (
     <NextAuthSessionProvider
       refetchInterval={0}

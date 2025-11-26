@@ -1201,9 +1201,9 @@ object {
   border-right: 2px solid var(--color-light-magenta);
 }
 
-/* ===== AVATAR FRAME STYLES ===== */
+/* ===== AVATAR FRAME STYLES (TEKKEN INSPIRED) ===== */
 
-/* Starter Frame - Basic border */
+/* Starter Frame - Basic but Clean */
 .frame-starter .char-avatar-inner {
   border-color: var(--color-gray-400);
 }
@@ -1211,65 +1211,84 @@ object {
   border-color: var(--color-gray-600);
 }
 
-/* Bronze Frame */
+/* Bronze Frame - Rugged Metallic */
 .frame-bronze .char-avatar-inner {
   border-color: #cd7f32;
-  border-width: 3px;
+  border-width: 4px;
+  box-shadow: inset 0 0 10px rgba(139, 69, 19, 0.5);
 }
-.frame-bronze .corner-accent-tl,
-.frame-bronze .corner-accent-tr {
+.frame-bronze .corner-accent {
   border-color: #cd7f32;
+  box-shadow: 0 0 5px rgba(205, 127, 50, 0.4);
 }
-.frame-bronze .corner-accent-bl,
-.frame-bronze .corner-accent-br {
-  border-color: #8b4513;
+.frame-bronze::before {
+  background: radial-gradient(circle at center, rgba(205, 127, 50, 0.2), transparent 70%);
 }
 
-/* Silver Frame */
+/* Silver Frame - Sleek Chrome */
 .frame-silver .char-avatar-inner {
-  border-color: #c0c0c0;
-  border-width: 3px;
+  border: 4px solid #e0e0e0;
+  box-shadow: 
+    0 0 0 1px #a0a0a0,
+    inset 0 0 15px rgba(255, 255, 255, 0.5);
 }
 .frame-silver .corner-accent {
-  border-color: #c0c0c0;
+  border-color: #e0e0e0;
+  filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.8));
 }
 .frame-silver::before {
-  background: linear-gradient(180deg, rgba(192, 192, 192, 0.3), rgba(128, 128, 128, 0.3));
+  background: linear-gradient(45deg, rgba(224, 224, 224, 0.3), rgba(160, 160, 160, 0.1));
 }
 
-/* Gold Frame */
+/* Gold Frame - High Gloss Polish */
 .frame-gold .char-avatar-inner {
-  border-color: #ffd700;
-  border-width: 3px;
-  box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+  border: 4px solid #ffd700;
+  box-shadow: 
+    0 0 15px rgba(255, 215, 0, 0.4),
+    inset 0 0 10px rgba(255, 223, 0, 0.3);
 }
 .frame-gold .corner-accent {
   border-color: #ffd700;
-}
-.frame-gold::before {
-  background: linear-gradient(180deg, rgba(255, 215, 0, 0.3), rgba(218, 165, 32, 0.3));
-}
-
-/* Platinum Frame */
-.frame-platinum .char-avatar-inner {
-  border-color: #e5e4e2;
-  border-width: 4px;
-  box-shadow: 0 0 15px rgba(229, 228, 226, 0.4);
-}
-.frame-platinum .corner-accent {
-  border-color: #e5e4e2;
   width: 20px;
   height: 20px;
 }
-.frame-platinum::before {
-  background: linear-gradient(180deg, rgba(229, 228, 226, 0.4), rgba(169, 169, 169, 0.4));
+.frame-gold::before {
+  background: radial-gradient(circle, rgba(255, 215, 0, 0.2) 0%, transparent 60%);
+  animation: pulse-gold 3s infinite;
+}
+@keyframes pulse-gold {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 0.8; }
 }
 
-/* Animated Frame */
+/* Platinum Frame - Prismatic/Iridescent */
+.frame-platinum .char-avatar-inner {
+  border: 4px solid #e5e4e2;
+  box-shadow: 
+    0 0 20px rgba(229, 228, 226, 0.5),
+    inset 0 0 20px rgba(255, 255, 255, 0.6);
+}
+.frame-platinum .corner-accent {
+  border-color: #e5e4e2;
+  width: 24px;
+  height: 24px;
+  filter: drop-shadow(0 0 4px white);
+}
+.frame-platinum::before {
+  background: conic-gradient(from 0deg, 
+    rgba(229, 228, 226, 0.2), 
+    rgba(160, 160, 160, 0.2), 
+    rgba(229, 228, 226, 0.2));
+  animation: rotate-shine 10s linear infinite;
+}
+
+/* Animated Frame - Cyber Energy */
 .frame-animated .char-avatar-inner {
-  border-width: 3px;
-  border-image: linear-gradient(var(--rotation, 0deg), var(--color-sage), var(--color-light-magenta), var(--color-sage)) 1;
-  animation: frame-rotate 3s linear infinite;
+  border-width: 4px;
+  border-color: transparent;
+  background: linear-gradient(var(--color-background-dark), var(--color-background-dark)) padding-box,
+              linear-gradient(var(--rotation, 0deg), var(--color-sage), var(--color-light-magenta), var(--color-sage)) border-box;
+  animation: frame-rotate 4s linear infinite;
 }
 @keyframes frame-rotate {
   from { --rotation: 0deg; }
@@ -1281,42 +1300,35 @@ object {
   inherits: false;
 }
 .frame-animated .corner-accent {
+  border-image: linear-gradient(45deg, var(--color-sage), var(--color-light-magenta)) 1;
   animation: corner-pulse 2s ease-in-out infinite;
 }
-@keyframes corner-pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.5; }
-}
 
-/* Legendary Frame */
+/* Legendary Frame - "Tekken God" Style */
 .frame-legendary .char-avatar-inner {
-  border-width: 4px;
+  border-width: 5px;
   border-color: transparent;
-  background: linear-gradient(var(--color-ultramarine), var(--color-ultramarine)) padding-box,
-              linear-gradient(135deg, var(--color-sage), var(--color-light-magenta), var(--color-sage)) border-box;
+  background: 
+    linear-gradient(black, black) padding-box,
+    linear-gradient(135deg, #FFD700 0%, #FF8C00 25%, #FF0080 50%, #9932CC 75%, #00FFFF 100%) border-box;
   box-shadow: 
-    0 0 20px rgba(97, 189, 186, 0.5),
-    0 0 40px rgba(213, 110, 237, 0.3),
-    inset 0 0 20px rgba(97, 189, 186, 0.2);
-  animation: legendary-glow 2s ease-in-out infinite alternate;
-}
-@keyframes legendary-glow {
-  from {
-    box-shadow: 
-      0 0 20px rgba(97, 189, 186, 0.5),
-      0 0 40px rgba(213, 110, 237, 0.3);
-  }
-  to {
-    box-shadow: 
-      0 0 30px rgba(97, 189, 186, 0.7),
-      0 0 60px rgba(213, 110, 237, 0.5);
-  }
+    0 0 20px rgba(255, 215, 0, 0.3),
+    0 0 40px rgba(213, 110, 237, 0.2),
+    inset 0 0 20px rgba(0, 0, 0, 0.5);
 }
 .frame-legendary .corner-accent {
-  width: 24px;
-  height: 24px;
-  animation: corner-pulse 1.5s ease-in-out infinite;
+  width: 32px;
+  height: 32px;
+  border-width: 3px;
+  border-color: #FFD700;
+  box-shadow: 0 0 10px #FFD700;
+  animation: legendary-corner-pulse 1.5s ease-in-out infinite alternate;
 }
+@keyframes legendary-corner-pulse {
+  from { opacity: 0.6; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1.1); }
+}
+
 
 /* ===== AVATAR EFFECT STYLES ===== */
 
@@ -1620,95 +1632,133 @@ object {
   color: var(--color-sage);
 }
 
-/* ===== NAMEPLATE STYLES ===== */
+/* ===== NAMEPLATE STYLES (TEKKEN INSPIRED) ===== */
 
 .nameplate {
-  display: inline-block;
-  padding: 0.25rem 0.75rem;
-  border-radius: var(--radius-md);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 1.5rem;
+  border-radius: var(--radius-sm); /* Sharper corners */
   font-family: var(--font-heading);
-  font-weight: var(--font-weight-bold);
+  font-weight: 800; /* Extra bold */
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  position: relative;
+  overflow: hidden;
+  min-width: 200px; /* Ensure width for plate look */
+  text-align: center;
+  clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px); /* Tech shape */
 }
 
+/* Default */
 .nameplate-default {
-  background: transparent;
+  background: linear-gradient(to right, rgba(0,0,0,0.05), rgba(0,0,0,0.1), rgba(0,0,0,0.05));
   color: var(--color-text-primary);
+  border: 1px solid var(--color-border-primary);
+}
+.dark .nameplate-default {
+  background: linear-gradient(to right, rgba(255,255,255,0.05), rgba(255,255,255,0.1), rgba(255,255,255,0.05));
+  border: 1px solid var(--color-border-primary);
 }
 
+/* Bronze */
 .nameplate-bronze {
-  background: linear-gradient(135deg, rgba(205, 127, 50, 0.2), rgba(139, 69, 19, 0.2));
-  border: 1px solid #cd7f32;
-  color: var(--color-text-primary);
+  background: linear-gradient(135deg, #8B4513 0%, #CD7F32 50%, #8B4513 100%);
+  border: 2px solid #5A2D0C;
+  color: #fff;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+  box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
 }
 
+/* Silver */
 .nameplate-silver {
-  background: linear-gradient(135deg, rgba(192, 192, 192, 0.2), rgba(128, 128, 128, 0.2));
-  border: 1px solid #c0c0c0;
-  color: var(--color-text-primary);
+  background: linear-gradient(135deg, #707070 0%, #C0C0C0 50%, #E0E0E0 100%);
+  border: 2px solid #505050;
+  color: #000;
+  text-shadow: 0 1px 0 rgba(255,255,255,0.5);
 }
 
+/* Gold */
 .nameplate-gold {
-  background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(218, 165, 32, 0.2));
-  border: 1px solid #ffd700;
-  color: var(--color-text-primary);
-  text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+  background: linear-gradient(135deg, #B8860B 0%, #FFD700 40%, #FFFACD 50%, #FFD700 60%, #B8860B 100%);
+  border: 2px solid #8B6508;
+  color: #3E2723;
+  text-shadow: 0 1px 0 rgba(255,255,255,0.4);
+  box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
 }
 
+/* Platinum */
 .nameplate-platinum {
-  background: linear-gradient(135deg, rgba(229, 228, 226, 0.3), rgba(169, 169, 169, 0.2));
-  border: 1px solid #e5e4e2;
-  color: var(--color-text-primary);
-  box-shadow: 0 0 10px rgba(229, 228, 226, 0.3);
+  background: linear-gradient(135deg, #78909C 0%, #CFD8DC 45%, #FFFFFF 50%, #CFD8DC 55%, #78909C 100%);
+  border: 2px solid #455A64;
+  color: #263238;
+  text-shadow: 0 0 5px white;
 }
 
+/* Legendary */
 .nameplate-legendary {
-  background: linear-gradient(135deg, 
-    rgba(97, 189, 186, 0.3), 
-    rgba(213, 110, 237, 0.3));
-  border: 2px solid transparent;
-  border-image: linear-gradient(135deg, var(--color-sage), var(--color-light-magenta)) 1;
-  color: var(--color-text-primary);
-  animation: nameplate-shimmer 2s ease-in-out infinite;
+  background: linear-gradient(90deg, #2b003e 0%, #4a0072 50%, #2b003e 100%);
+  border: 2px solid #d56eed;
+  color: #fff;
+  text-shadow: 0 0 10px #d56eed;
+  box-shadow: 0 0 20px rgba(213, 110, 237, 0.4);
+  animation: shimmer-plate 3s infinite linear;
+  background-size: 200% 100%;
+}
+@keyframes shimmer-plate {
+  0% { background-position: 100% 0; }
+  100% { background-position: -100% 0; }
 }
 
-@keyframes nameplate-shimmer {
-  0%, 100% { box-shadow: 0 0 10px rgba(97, 189, 186, 0.4); }
-  50% { box-shadow: 0 0 20px rgba(213, 110, 237, 0.6); }
-}
-
+/* Cyber / Neon */
 .nameplate-cyber {
-  background: linear-gradient(90deg, rgba(97, 189, 186, 0.2), transparent, rgba(97, 189, 186, 0.2));
-  border: 1px solid var(--color-sage);
+  background: #02022B;
+  border: 2px solid var(--color-sage);
   color: var(--color-sage);
-  font-family: monospace;
+  box-shadow: 
+    0 0 10px rgba(97, 189, 186, 0.3),
+    inset 0 0 20px rgba(97, 189, 186, 0.2);
+  text-shadow: 0 0 5px var(--color-sage);
+}
+.nameplate-cyber::before {
+  content: "///";
+  position: absolute;
+  right: 5px;
+  bottom: 2px;
+  font-size: 10px;
+  opacity: 0.7;
 }
 
 .nameplate-neon {
-  background: rgba(213, 110, 237, 0.1);
-  border: 1px solid var(--color-light-magenta);
-  color: var(--color-light-magenta);
-  box-shadow: 0 0 10px rgba(213, 110, 237, 0.4);
-  animation: neon-flicker 3s ease-in-out infinite;
+  background: #1a0b2e;
+  border: 2px solid #d56eed;
+  color: #fff;
+  text-shadow: 
+    0 0 5px #d56eed,
+    0 0 10px #d56eed;
+  box-shadow: 
+    0 0 10px #d56eed,
+    inset 0 0 10px #d56eed;
 }
 
-@keyframes neon-flicker {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.9; }
-  52% { opacity: 1; }
-  54% { opacity: 0.85; }
-  56% { opacity: 1; }
-}
-
-/* ===== TITLEBAR STYLES ===== */
+/* ===== TITLEBAR STYLES (TEKKEN INSPIRED) ===== */
+/* These appear ABOVE the nameplate usually */
 
 .titlebar {
-  display: block;
-  padding: 0.125rem 0.5rem;
-  border-radius: var(--radius-sm);
-  font-size: var(--text-xs);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 4px 12px;
+  margin-bottom: -2px; /* Connect to nameplate */
+  z-index: 10;
+  position: relative;
+  font-size: 0.7rem;
+  font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
-  margin-top: 0.25rem;
+  letter-spacing: 0.1em;
+  clip-path: polygon(15px 0, 100% 0, 100% 100%, 0 100%, 0 15px);
 }
 
 .titlebar-none {
@@ -1716,73 +1766,61 @@ object {
 }
 
 .titlebar-simple {
-  background: var(--color-gray-200);
-  color: var(--color-text-secondary);
-}
-.dark .titlebar-simple {
   background: var(--color-gray-800);
+  color: var(--color-gray-300);
+  border-bottom: 1px solid var(--color-gray-600);
 }
 
 .titlebar-gradient {
-  background: linear-gradient(90deg, 
-    var(--color-sage), 
-    var(--color-light-magenta));
-  color: white;
+  background: linear-gradient(90deg, var(--color-sage), var(--color-light-magenta));
+  color: #02022B;
 }
 
 .titlebar-tech {
-  background: linear-gradient(90deg, 
-    rgba(97, 189, 186, 0.3), 
-    rgba(2, 2, 43, 0.8),
-    rgba(97, 189, 186, 0.3));
+  background: #0f172a;
   color: var(--color-sage);
   border: 1px solid var(--color-sage);
-  font-family: monospace;
+  border-bottom: none;
+}
+.titlebar-tech::before {
+  content: "SYS.ACTIVE";
+  position: absolute;
+  left: 5px;
+  font-size: 0.5rem;
+  opacity: 0.5;
 }
 
 .titlebar-holographic {
-  background: linear-gradient(90deg, 
-    rgba(97, 189, 186, 0.5),
-    rgba(213, 110, 237, 0.5),
-    rgba(97, 189, 186, 0.5));
-  background-size: 200% 100%;
-  animation: holographic-slide 3s linear infinite;
-  color: white;
-  text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
-}
-
-@keyframes holographic-slide {
-  from { background-position: 0% 0; }
-  to { background-position: 200% 0; }
+  background: rgba(97, 189, 186, 0.2);
+  backdrop-filter: blur(4px);
+  color: #fff;
+  border-top: 2px solid var(--color-sage);
 }
 
 .titlebar-apex {
-  background: linear-gradient(90deg,
-    #ffd700,
-    rgba(97, 189, 186, 1),
-    rgba(213, 110, 237, 1),
-    #ffd700);
-  background-size: 300% 100%;
-  animation: apex-flow 4s linear infinite;
-  color: var(--color-oxford-blue);
-  font-weight: var(--font-weight-bold);
-  box-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
+  background: linear-gradient(90deg, #FFD700, #FFA500);
+  color: #000;
+  text-shadow: none;
+  font-weight: 900;
+  letter-spacing: 0.2em;
 }
 
-@keyframes apex-flow {
-  from { background-position: 0% 0; }
-  to { background-position: 300% 0; }
-}
-
-/* ===== TITLE RARITY STYLES ===== */
+/* ===== TITLE RARITY STYLES (Updated) ===== */
 
 .title-common { color: var(--color-text-secondary); }
-.title-uncommon { color: var(--color-sage); }
-.title-rare { color: #3b82f6; }
-.title-epic { color: #8b5cf6; }
+.title-uncommon { color: var(--color-sage); font-weight: 600; }
+.title-rare { color: #3b82f6; font-weight: 700; text-shadow: 0 0 10px rgba(59, 130, 246, 0.3); }
+.title-epic { color: #d56eed; font-weight: 800; text-shadow: 0 0 10px rgba(213, 110, 237, 0.4); }
 .title-legendary { 
   color: #ffd700; 
-  text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+  font-weight: 900;
+  text-transform: uppercase;
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.5), 0 0 20px rgba(255, 69, 0, 0.5);
+  animation: pulse-title 2s infinite;
+}
+@keyframes pulse-title {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.9; transform: scale(1.02); }
 }
 
 /* ===== COSMETIC SELECTOR COMPONENT ===== */

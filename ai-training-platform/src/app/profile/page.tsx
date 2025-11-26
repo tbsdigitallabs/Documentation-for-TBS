@@ -314,7 +314,7 @@ export default function ProfilePage() {
                 <div className="text-center mb-6 mt-8">
                   {/* Titlebar */}
                   {cosmeticLoadout.equippedTitlebar && cosmeticLoadout.equippedTitlebar !== 'none' && (
-                    <div className={`titlebar ${cosmeticLoadout.equippedTitlebar !== 'none' ? `titlebar-${cosmeticLoadout.equippedTitlebar}` : ''} mb-2 mx-auto max-w-[200px]`}>
+                    <div className={`titlebar ${cosmeticLoadout.equippedTitlebar !== 'none' ? `titlebar-${cosmeticLoadout.equippedTitlebar}` : ''} mx-auto max-w-[240px]`}>
                       {cosmeticLoadout.equippedTitle ? 
                         COSMETIC_REWARDS.find(r => r.id === cosmeticLoadout.equippedTitle)?.name.replace(' Title', '') 
                         : 'OPERATIVE'}
@@ -323,22 +323,22 @@ export default function ProfilePage() {
 
                   <div className="inline-block relative">
                     <h1 className={cn(
-                      "text-2xl font-heading font-bold text-content-primary mb-1 px-4 py-1",
+                      "text-2xl font-heading font-bold text-content-primary mb-1",
                       cosmeticLoadout.equippedNameplate && `nameplate nameplate-${cosmeticLoadout.equippedNameplate}`
                     )}>
                       {profile?.name || "Unknown Operative"}
                     </h1>
-                    
-                    {/* Title if no titlebar */}
-                    {cosmeticLoadout.equippedTitle && (!cosmeticLoadout.equippedTitlebar || cosmeticLoadout.equippedTitlebar === 'none') && (
-                      <div className={cn(
-                        "text-xs font-bold uppercase tracking-wider mb-2",
-                        `title-${COSMETIC_REWARDS.find(r => r.id === cosmeticLoadout.equippedTitle)?.rarity || 'common'}`
-                      )}>
-                        {COSMETIC_REWARDS.find(r => r.id === cosmeticLoadout.equippedTitle)?.name}
-                      </div>
-                    )}
                   </div>
+                  
+                  {/* Title if no titlebar */}
+                  {cosmeticLoadout.equippedTitle && (!cosmeticLoadout.equippedTitlebar || cosmeticLoadout.equippedTitlebar === 'none') && (
+                    <div className={cn(
+                      "text-xs font-bold uppercase tracking-wider mt-1 mb-2",
+                      `title-${COSMETIC_REWARDS.find(r => r.id === cosmeticLoadout.equippedTitle)?.rarity || 'common'}`
+                    )}>
+                      {COSMETIC_REWARDS.find(r => r.id === cosmeticLoadout.equippedTitle)?.name}
+                    </div>
+                  )}
 
                   {profile?.selectedClass && (
                     <div className="flex items-center justify-center gap-2 text-sm mt-2">

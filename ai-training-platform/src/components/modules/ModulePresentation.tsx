@@ -157,21 +157,21 @@ export function ModulePresentation({ content, onComplete }: ModulePresentationPr
                         transition={{ duration: 0.25 }}
                         className="h-full"
                     >
-                        <div className="bg-surface-card rounded-xl p-5 md:p-8 border border-white/10 shadow-lg min-h-full">
+                        <div className="bg-surface-card rounded-xl p-4 md:p-6 lg:p-8 border border-white/10 shadow-lg min-h-full">
                             {currentSlideData.image ? (
-                                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
-                                    {/* Text Column */}
-                                    <div className="prose prose-lg prose-invert max-w-none">
-                                        <MDXRemote {...currentSlideData.serialized} components={components} />
-                                    </div>
-
-                                    {/* Image Column */}
-                                    <div className="rounded-xl overflow-hidden border border-white/10 shadow-lg bg-black/20 flex items-center justify-center">
+                                <div className="space-y-4">
+                                    {/* Image - Full width at top */}
+                                    <div className="rounded-xl overflow-hidden border border-white/10 shadow-lg bg-black/10 flex items-center justify-center max-w-2xl mx-auto lg:float-right lg:ml-6 lg:mb-4 lg:w-[40%] lg:max-w-md">
                                         <img
                                             src={currentSlideData.image.src}
                                             alt={currentSlideData.image.alt}
-                                            className="w-full h-auto max-h-[350px] object-contain"
+                                            className="w-full h-auto max-h-[280px] object-contain"
                                         />
+                                    </div>
+                                    
+                                    {/* Text Content - Flows around image on large screens */}
+                                    <div className="prose prose-lg prose-invert max-w-none">
+                                        <MDXRemote {...currentSlideData.serialized} components={components} />
                                     </div>
                                 </div>
                             ) : (

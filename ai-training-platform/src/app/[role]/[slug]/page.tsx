@@ -105,8 +105,8 @@ export default async function ModulePage({ params }: { params: Promise<{ role: s
                 </header>
 
                 {/* Main Content - Full viewport height minus header */}
-                <div className="flex-grow flex flex-col min-h-0 px-4 md:px-6 lg:px-8 py-3">
-                    <div className="flex-grow flex flex-col min-h-0 w-full max-w-7xl mx-auto">
+                <div className="flex-grow flex flex-col min-h-0 px-4 md:px-8 lg:px-12 xl:px-16 py-3">
+                    <div className="flex-grow flex flex-col min-h-0 w-full">
                         {/* Content - Fills all available space */}
                         <div className="flex-grow min-h-0 flex flex-col">
                             <ModuleWrapper content={content} questions={metadata.questions || []} />

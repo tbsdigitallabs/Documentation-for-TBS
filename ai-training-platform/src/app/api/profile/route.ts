@@ -56,7 +56,16 @@ export async function GET() {
 
         // Calculate XP from completed modules to ensure consistency
         const completedModules = profile.completedModules || [];
-        const calculatedXP = completedModules.reduce((sum: number, module: CompletedModule) => sum + module.xpEarned, 0);
+        let calculatedXP = completedModules.reduce((sum: number, module: CompletedModule) => sum + module.xpEarned, 0);
+        
+        // Override for dev user if needed (if we manually set XP in JWT but have no modules)
+        // This allows the dev user hack in authOptions to persist
+        const isDevUser = user.email === 'dev@tbsdigitallabs.com.au' || user.email === 'david@thebigsmoke.com.au';
+        if (isDevUser && process.env.NODE_ENV === 'development') {
+            // If the JWT says we have 10000 XP, respect it even if modules don't sum up
+            // Or better yet, just force it here too for consistency
+            calculatedXP = 10000;
+        }
         
         // Always use calculated XP from completed modules (ensures data integrity)
         const finalXP = calculatedXP;

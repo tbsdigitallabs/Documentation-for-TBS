@@ -23,7 +23,7 @@ import {
   NextReward,
   CosmeticSelector,
 } from "@/components/profile";
-import { getXPForNextLevel, getLevelProgress, getExperienceLevelName, getUnlockedRewards, getNextReward, MAX_LEVEL, XP_THRESHOLDS, COSMETIC_REWARDS, DEFAULT_LOADOUT, type CosmeticLoadout } from "@/lib/levelling";
+import { getXPForNextLevel, getLevelProgress, getExperienceLevelName, getUnlockedRewards, getNextReward, MAX_LEVEL, XP_THRESHOLDS, COSMETIC_REWARDS, TITLES, DEFAULT_LOADOUT, type CosmeticLoadout } from "@/lib/levelling";
 
 export const dynamic = 'force-dynamic';
 
@@ -316,7 +316,7 @@ export default function ProfilePage() {
                   {cosmeticLoadout.equippedTitlebar && cosmeticLoadout.equippedTitlebar !== 'none' && (
                     <div className={`titlebar ${cosmeticLoadout.equippedTitlebar !== 'none' ? `titlebar-${cosmeticLoadout.equippedTitlebar}` : ''} mx-auto max-w-[240px]`}>
                       {cosmeticLoadout.equippedTitle ? 
-                        COSMETIC_REWARDS.find(r => r.id === cosmeticLoadout.equippedTitle)?.name.replace(' Title', '') 
+                        TITLES.find(t => t.id === cosmeticLoadout.equippedTitle)?.name 
                         : 'OPERATIVE'}
                     </div>
                   )}
@@ -334,9 +334,9 @@ export default function ProfilePage() {
                   {cosmeticLoadout.equippedTitle && (!cosmeticLoadout.equippedTitlebar || cosmeticLoadout.equippedTitlebar === 'none') && (
                     <div className={cn(
                       "text-xs font-bold uppercase tracking-wider mt-1 mb-2",
-                      `title-${COSMETIC_REWARDS.find(r => r.id === cosmeticLoadout.equippedTitle)?.rarity || 'common'}`
+                      `title-${TITLES.find(t => t.id === cosmeticLoadout.equippedTitle)?.rarity || 'common'}`
                     )}>
-                      {COSMETIC_REWARDS.find(r => r.id === cosmeticLoadout.equippedTitle)?.name}
+                      {TITLES.find(t => t.id === cosmeticLoadout.equippedTitle)?.name}
                     </div>
                   )}
 

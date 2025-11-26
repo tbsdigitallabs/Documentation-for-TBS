@@ -292,7 +292,7 @@ export default function OnboardingPage() {
 
     // Show loading while fetching questions
     if (loading && questions.length === 0) {
-        return <OnboardingLoadingState message="Loading your adventure questions..." />;
+        return <OnboardingLoadingState message="Loading configuration options..." />;
     }
 
     const currentQuestion = questions[currentQuestionIndex];
@@ -331,7 +331,7 @@ export default function OnboardingPage() {
                         />
                     </div>
                 ) : questions.length === 0 ? (
-                    <OnboardingLoadingState message="Loading your adventure questions..." />
+                    <OnboardingLoadingState message="Loading configuration options..." />
                 ) : null}
             </main>
         </div>

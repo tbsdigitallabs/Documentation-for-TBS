@@ -133,7 +133,7 @@ export default function OnboardingImageUpload({
                   Uploading...
                 </>
               ) : (
-                "Complete Adventure Setup"
+                "Complete Setup"
               )}
             </button>
           </div>

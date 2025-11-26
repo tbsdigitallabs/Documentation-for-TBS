@@ -65,7 +65,7 @@ export default async function ProjectManagersPage() {
             </p>
           )}
           <p className="text-content-secondary max-w-3xl text-base leading-relaxed">
-            Level up your project management skills with AI-powered adventures. Unlock new abilities to streamline workflows and achieve better outcomes.
+            Enhance your strategic capabilities with AI-powered tools. Complete missions to unlock advanced planning and coordination techniques.
           </p>
         </Container>
       </Section>
@@ -77,7 +77,7 @@ export default async function ProjectManagersPage() {
         modules={modules}
         otherModules={otherModules}
         accentColor="#00C48C"
-        description="Level up your project management skills with AI-powered adventures."
+        description="Enhance your strategic capabilities with AI-powered tools."
       />
     </div>
   );

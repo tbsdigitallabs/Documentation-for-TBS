@@ -66,7 +66,7 @@ export default async function DevelopersPage() {
             </p>
           )}
           <p className="text-content-secondary max-w-3xl text-base leading-relaxed">
-            Level up your coding skills with AI assistants. Complete adventures to unlock new abilities and master powerful tools.
+            Enhance your development capabilities with AI-powered tools. Complete missions to unlock advanced techniques and workflows.
           </p>
         </Container>
       </Section>

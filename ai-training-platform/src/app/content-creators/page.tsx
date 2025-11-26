@@ -65,7 +65,7 @@ export default async function ContentCreatorsPage() {
             </p>
           )}
           <p className="text-content-secondary max-w-3xl text-base leading-relaxed">
-            Embark on content creation adventures with AI writing assistants. Level up your skills and unlock powerful creative tools.
+            Enhance your storytelling capabilities with AI writing tools. Complete missions to unlock advanced content creation techniques.
           </p>
         </Container>
       </Section>
@@ -77,7 +77,7 @@ export default async function ContentCreatorsPage() {
         modules={modules}
         otherModules={otherModules}
         accentColor="#850AFF"
-        description="Embark on content creation adventures with AI writing assistants."
+        description="Enhance your storytelling capabilities with AI writing tools."
       />
     </div>
   );

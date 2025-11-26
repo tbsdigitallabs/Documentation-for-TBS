@@ -65,7 +65,7 @@ export default async function SalesBusinessDevPage() {
             </p>
           )}
           <p className="text-content-secondary max-w-3xl text-base leading-relaxed">
-            Level up your sales skills with AI-powered adventures. Unlock powerful tools to accelerate business development and close more deals.
+            Enhance your business capabilities with AI-powered tools. Complete missions to unlock advanced sales techniques and workflows.
           </p>
         </Container>
       </Section>
@@ -77,7 +77,7 @@ export default async function SalesBusinessDevPage() {
         modules={modules}
         otherModules={otherModules}
         accentColor="#EF4444"
-        description="Level up your sales skills with AI-powered adventures."
+        description="Enhance your business capabilities with AI-powered tools."
       />
     </div>
   );

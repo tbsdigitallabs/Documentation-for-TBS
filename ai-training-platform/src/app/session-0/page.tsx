@@ -21,20 +21,21 @@ export default async function Session0Page() {
     <div className="min-h-screen bg-gradient-surface">
       <PageHeader session={session} />
       {/* Hero Section */}
-      <Section className="bg-surface-hero py-16 pt-28" size="md">
+      <Section className="bg-surface-hero py-8 pt-24" size="md">
         <Container size="lg">
-          <div className="text-center mb-16">
-            <div className="inline-flex items-center justify-center p-4 mb-8 rounded-full bg-accent-magenta-5 border border-accent-magenta-20 shadow-lg">
-              <BookOpen className="w-12 h-12 text-accent-magenta-500" />
+          <div className="text-center mb-8">
+            <p className="mono-label text-accent-readable-magenta mb-2">TRAINING PROTOCOL // FOUNDATION</p>
+            <div className="inline-flex items-center justify-center p-3 mb-4 rounded-full bg-accent-magenta-5 border border-accent-magenta-20 shadow-lg">
+              <BookOpen className="w-8 h-8 text-accent-magenta-500" />
             </div>
             <Heading level={1} className="text-content-primary mb-2 tracking-tight">
               Session 0
             </Heading>
-            <p className="text-content-secondary mb-6 text-lg">
-              Foundational Knowledge
+            <p className="text-content-secondary mb-4 text-base">
+              Core Systems Training
             </p>
-            <p className="text-content-secondary max-w-2xl mx-auto text-xl leading-relaxed">
-              Master the fundamentals of AI tools and concepts that apply to all roles. Build your foundation before diving into role-specific adventures.
+            <p className="text-content-secondary max-w-2xl mx-auto text-lg leading-relaxed">
+              Master the fundamentals of AI tools and concepts that apply to all operatives. Complete these modules before accessing role-specific missions.
             </p>
           </div>
         </Container>
@@ -48,13 +49,13 @@ export default async function Session0Page() {
               {modules.map((module) => (
                 <HoloCard key={module.slug} className="flex flex-col h-full">
                   <div className="mb-6">
-                    <span className="text-xs font-mono text-accent-magenta-500 uppercase tracking-wider px-2 py-1 rounded-md bg-accent-magenta-5 border border-accent-magenta-20 inline-block">
-                      ADVENTURE {module.slug.split('-')[0].padStart(2, '0')}
+                    <span className="mono-label text-accent-magenta-500 px-2 py-1 rounded-md bg-accent-magenta-5 border border-accent-magenta-20 inline-block">
+                      MISSION {module.slug.split('-')[0].padStart(2, '0')}
                     </span>
                   </div>
                   <h2 className="heading-3 text-content-primary mb-4 flex-grow">{module.title}</h2>
                   <p className="body-regular text-content-secondary mb-8">
-                    {module.description || "Complete this adventure to unlock new skills."}
+                    {module.description || "Complete this module to unlock new capabilities."}
                   </p>
 
                   <div className="flex items-center justify-between text-sm text-content-tertiary mb-8 pt-4 border-t border-border-primary">
@@ -64,7 +65,7 @@ export default async function Session0Page() {
 
                   <Link href={`/session-0/${module.slug}`} className="mt-auto">
                     <Button variant="default" size="lg" className="w-full">
-                      Begin Adventure
+                      Deploy
                     </Button>
                   </Link>
                 </HoloCard>
@@ -72,15 +73,15 @@ export default async function Session0Page() {
             </div>
           ) : (
             <div className="text-center py-12">
-              <p className="text-content-secondary text-lg mb-4">Foundational adventures coming soon!</p>
-              <p className="text-content-tertiary">Check back soon for Session 0 content.</p>
+              <p className="text-content-secondary text-lg mb-4 mono-text">AWAITING MODULE DATA...</p>
+              <p className="text-content-tertiary">Foundation modules coming soon.</p>
             </div>
           )}
 
           {/* Back Button */}
-          <div className="text-center mt-16">
-            <Link href="/class-selection" className="inline-flex items-center text-content-secondary hover:text-content-primary transition-colors text-lg font-medium">
-              ← Back to Class Selection
+          <div className="text-center mt-12">
+            <Link href="/class-selection" className="inline-flex items-center text-content-secondary hover:text-content-primary transition-colors text-base font-medium">
+              ← Return to Operative Selection
             </Link>
           </div>
         </Container>

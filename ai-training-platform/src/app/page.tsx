@@ -51,7 +51,7 @@ export default function Home() {
           <div className="max-w-2xl mx-auto space-y-8 text-center">
             <h1 className="text-[32px] font-heading font-bold text-content-primary mb-3 leading-tight tracking-tight">Empower Your Work with AI</h1>
             <p className="body-regular text-content-secondary mb-8">
-              Choose your class and embark on an exciting adventure to master AI tools. Level up your skills with role-specific challenges designed for TBS Digital Labs team members.
+              Select your operative class and begin your AI mastery journey. Each track contains specialised missions designed for TBS Digital Labs team members.
             </p>
             <Link href="/auth/signin" className="btn-primary inline-block">
               Log in

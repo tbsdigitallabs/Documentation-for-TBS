@@ -65,7 +65,7 @@ export default async function DesignersPage() {
             </p>
           )}
           <p className="text-content-secondary max-w-3xl text-base leading-relaxed">
-            Embark on creative adventures with AI design tools. Level up your visual skills and unlock powerful workflows.
+            Enhance your creative capabilities with AI design tools. Complete missions to unlock advanced visual techniques and workflows.
           </p>
         </Container>
       </Section>
@@ -77,7 +77,7 @@ export default async function DesignersPage() {
         modules={modules}
         otherModules={otherModules}
         accentColor="#FFB800"
-        description="Embark on creative adventures with AI design tools."
+        description="Enhance your creative capabilities with AI design tools."
       />
     </div>
   );

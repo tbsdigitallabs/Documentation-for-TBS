@@ -10,14 +10,15 @@ export default function OnboardingHeader({ step }: OnboardingHeaderProps) {
   if (step === "questions") {
     return (
       <div className="text-center mb-8">
-        <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-cyber-magenta/20 mb-4">
-          <Sparkles className="w-8 h-8 text-cyber-magenta" />
+        <p className="mono-label text-accent-readable-cyan mb-3">INITIALISING PROFILE</p>
+        <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-cyber-magenta/20 mb-4">
+          <Sparkles className="w-7 h-7 text-cyber-magenta" />
         </div>
-        <h1 className="text-3xl font-heading font-bold text-content-primary mb-2">
-          Gearing Up for Your Adventure
+        <h1 className="text-2xl font-heading font-bold text-content-primary mb-2">
+          Personnel Configuration
         </h1>
-        <p className="text-content-secondary">
-          Answer a few questions to craft your adventurer's profile
+        <p className="text-content-secondary text-sm">
+          Complete the following to configure your operative profile
         </p>
       </div>
     );
@@ -25,16 +26,16 @@ export default function OnboardingHeader({ step }: OnboardingHeaderProps) {
 
   return (
     <div className="text-center mb-8">
-      <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-cyber-cyan/20 mb-4">
-        <Upload className="w-8 h-8 text-cyber-cyan" />
+      <p className="mono-label text-accent-readable-cyan mb-3">PROFILE CUSTOMISATION</p>
+      <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-cyber-cyan/20 mb-4">
+        <Upload className="w-7 h-7 text-cyber-cyan" />
       </div>
-      <h1 className="text-3xl font-heading font-bold text-content-primary mb-2">
-        Choose Your Avatar
+      <h1 className="text-2xl font-heading font-bold text-content-primary mb-2">
+        Upload Avatar
       </h1>
-      <p className="text-content-secondary">
-        Upload an AI-generated portrait to represent your adventurer in the realm
+      <p className="text-content-secondary text-sm">
+        Add a profile image to personalise your personnel file
       </p>
     </div>
   );
 }
-

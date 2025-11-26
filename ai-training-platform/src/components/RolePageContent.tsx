@@ -144,7 +144,7 @@ export default function RolePageContent({
                                             {mods.length > 3 && (
                                                 <div className="mt-4 text-center">
                                                     <Link href={classInfo.route} className="text-content-secondary hover:text-content-primary transition-colors">
-                                                        View all {classInfo.name} adventures →
+                                                        View all {classInfo.name} missions →
                                                     </Link>
                                                 </div>
                                             )}
@@ -155,9 +155,9 @@ export default function RolePageContent({
                         </div>
                     )}
 
-                    <div className="text-center mt-16">
-                        <Link href="/class-selection" className="inline-flex items-center text-content-secondary hover:text-content-primary transition-colors text-lg font-medium">
-                            ← Back to Class Selection
+                    <div className="text-center mt-12">
+                        <Link href="/class-selection" className="inline-flex items-center text-content-secondary hover:text-content-primary transition-colors text-base font-medium">
+                            ← Return to Operative Selection
                         </Link>
                     </div>
                 </Container>

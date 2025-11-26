@@ -7,7 +7,7 @@ interface OnboardingLoadingStateProps {
 }
 
 export default function OnboardingLoadingState({
-  message = "Gearing up for your adventure...",
+  message = "Initialising systems...",
 }: OnboardingLoadingStateProps) {
   return (
     <div className="min-h-screen bg-gradient-surface flex items-center justify-center">

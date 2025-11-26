@@ -288,7 +288,13 @@ export default function ProfilePage() {
               <div className="col-span-12 lg:col-span-3 border-b lg:border-b-0 lg:border-r border-cyber-cyan/20 p-6">
                 {/* Avatar */}
                 <div className="relative mb-6">
-                  <AvatarFrame src={displayImage} alt={profile?.name || 'Profile'} size="md" />
+                  <AvatarFrame 
+                    src={displayImage} 
+                    alt={profile?.name || 'Profile'} 
+                    size="md"
+                    frameStyle={cosmeticLoadout.equippedFrame?.replace('frame-', '') as any || 'starter'}
+                    effectStyle={cosmeticLoadout.equippedEffect?.replace('effect-', '')}
+                  />
                   {editing && (
                     <label className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 bg-cyber-cyan text-oxford-blue rounded px-3 py-1.5 cursor-pointer hover:bg-cyber-cyan/80 transition-colors flex items-center gap-2 mono-label z-10">
                       <Upload className="w-3 h-3" />

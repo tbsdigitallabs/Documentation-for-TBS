@@ -88,53 +88,50 @@ export function CosmeticSelector({ level, currentLoadout, onLoadoutChange, class
   const equippedId = getCurrentEquipped(activeTab);
 
   return (
-    <div className={cn('', className)}>
+    <div className={cn('cosmetic-selector', className)}>
       {/* Header Toggle */}
       <button
         onClick={() => setIsExpanded(!isExpanded)}
-        className="w-full flex items-center justify-between p-3 bg-surface-tertiary border border-border-primary rounded-lg hover:bg-surface-hover transition-all cursor-pointer"
+        className="cosmetic-selector-header"
       >
         <div className="flex items-center gap-2">
-          <Sparkles className="w-4 h-4 text-accent-readable-magenta" />
-          <span className="mono-label text-content-primary">
+          <Sparkles className="w-4 h-4 text-[var(--color-light-magenta)]" />
+          <span className="mono-label text-[var(--color-text-primary)]">
             Customise Appearance
           </span>
         </div>
         <ChevronDown className={cn(
-          'w-4 h-4 text-accent-readable-cyan transition-transform duration-200',
+          'w-4 h-4 text-[var(--color-sage)] transition-transform duration-200',
           isExpanded && 'rotate-180'
         )} />
       </button>
 
       {/* Expanded Content */}
       {isExpanded && (
-        <div className="mt-3 p-4 bg-surface-card border border-border-primary rounded-lg">
+        <div className="cosmetic-selector-content">
           {/* Tabs */}
-          <div className="flex flex-wrap gap-1.5 mb-4 pb-3 border-b border-border-primary">
+          <div className="cosmetic-selector-tabs">
             {TABS.map(tab => {
-              const count = getUnlockedItems(tab.id).length;
               const isActive = activeTab === tab.id;
               return (
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
                   className={cn(
-                    'px-2.5 py-1.5 text-xs font-semibold rounded transition-all cursor-pointer whitespace-nowrap',
-                    isActive
-                      ? 'bg-accent-sage-600 text-white'
-                      : 'bg-surface-tertiary text-content-primary border border-border-primary hover:bg-surface-hover'
+                    'cosmetic-tab',
+                    isActive && 'cosmetic-tab-active'
                   )}
                 >
-                  {tab.label} ({count})
+                  {tab.label}
                 </button>
               );
             })}
           </div>
 
           {/* Items Grid */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 max-h-64 overflow-y-auto">
+          <div className="cosmetic-items-grid">
             {items.length === 0 ? (
-              <div className="col-span-full text-center py-6 text-content-tertiary text-sm">
+              <div className="cosmetic-empty-state">
                 No {activeTab}s unlocked yet
               </div>
             ) : (
@@ -149,21 +146,19 @@ export function CosmeticSelector({ level, currentLoadout, onLoadoutChange, class
                     key={itemId}
                     onClick={() => handleSelect(activeTab, itemId)}
                     className={cn(
-                      'relative p-3 rounded-lg border text-left transition-all hover:scale-[1.02] cursor-pointer',
-                      isEquipped
-                        ? 'bg-accent-sage-100 dark:bg-accent-sage-900/40 border-accent-sage-500'
-                        : 'bg-surface-tertiary border-border-primary hover:border-accent-sage-400 hover:bg-surface-hover'
+                      'cosmetic-item',
+                      isEquipped && 'cosmetic-item-selected'
                     )}
                   >
                     {isEquipped && (
-                      <div className="absolute top-2 right-2">
-                        <Check className="w-4 h-4 text-accent-sage-600 dark:text-accent-sage-400" />
+                      <div className="cosmetic-item-check">
+                        <Check className="w-3 h-3" />
                       </div>
                     )}
-                    <div className="text-sm font-semibold text-content-primary truncate pr-5">
+                    <div className="cosmetic-item-name">
                       {itemName}
                     </div>
-                    <div className="text-xs text-content-secondary truncate mt-1">
+                    <div className="cosmetic-item-desc">
                       {itemDesc}
                     </div>
                   </button>
@@ -173,7 +168,7 @@ export function CosmeticSelector({ level, currentLoadout, onLoadoutChange, class
           </div>
 
           {/* Footer Note */}
-          <p className="mt-4 text-xs text-content-tertiary text-center">
+          <p className="cosmetic-footer">
             Changes are applied immediately
           </p>
         </div>

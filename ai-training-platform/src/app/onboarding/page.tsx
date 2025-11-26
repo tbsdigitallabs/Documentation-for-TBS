@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { Loader2 } from "lucide-react";
 import ClientPageHeader from "@/components/ClientPageHeader";
-import { getClassRoute } from "@/lib/role-mapping";
+import { getClassRoute, CLASS_NAMES, CLASS_JOB_TITLES } from "@/lib/role-mapping";
 import type { OnboardingQuestion } from "@/app/api/onboarding/questions/route";
 import OnboardingQuestionCard from "@/components/onboarding/OnboardingQuestionCard";
 import OnboardingImageUpload from "@/components/onboarding/OnboardingImageUpload";
@@ -75,11 +75,11 @@ export default function OnboardingPage() {
                         type: "multiple-choice" as const,
                         required: true,
                         options: [
-                            { value: "Artificer", label: "Artificer (Developer)", description: "I write code, build applications, and work with technical systems" },
-                            { value: "Bard", label: "Bard (Designer)", description: "I create visual designs, user interfaces, and brand assets" },
-                            { value: "Paladin", label: "Paladin (Account/Project Manager)", description: "I manage projects, coordinate teams, and ensure deliverables are met" },
-                            { value: "Storyteller", label: "Storyteller (Content Creator & PR)", description: "I write content, manage communications, and handle public relations" },
-                            { value: "Rogue", label: "Rogue (Sales & Business Development)", description: "I work with clients, manage sales, and develop business opportunities" },
+                            { value: CLASS_NAMES.DEVELOPERS, label: `${CLASS_NAMES.DEVELOPERS} (Developer)`, description: "I write code, build applications, and work with technical systems" },
+                            { value: CLASS_NAMES.DESIGNERS, label: `${CLASS_NAMES.DESIGNERS} (Designer)`, description: "I create visual designs, user interfaces, and brand assets" },
+                            { value: CLASS_NAMES.PROJECT_MANAGERS, label: `${CLASS_NAMES.PROJECT_MANAGERS} (Account/Project Manager)`, description: "I manage projects, coordinate teams, and ensure deliverables are met" },
+                            { value: CLASS_NAMES.CONTENT_CREATORS, label: `${CLASS_NAMES.CONTENT_CREATORS} (Content Creator & PR)`, description: "I write content, manage communications, and handle public relations" },
+                            { value: CLASS_NAMES.SALES, label: `${CLASS_NAMES.SALES} (Sales & Business Development)`, description: "I work with clients, manage sales, and develop business opportunities" },
                         ],
                     },
                     {
@@ -105,11 +105,11 @@ export default function OnboardingPage() {
                     type: "multiple-choice" as const,
                     required: true,
                     options: [
-                        { value: "Artificer", label: "Artificer", description: "Master the tools of code and creation" },
-                        { value: "Bard", label: "Bard", description: "Weave visual magic and creative wonders" },
-                        { value: "Paladin", label: "Paladin", description: "Lead quests and manage the realm" },
-                        { value: "Storyteller", label: "Storyteller", description: "Craft tales and shape narratives" },
-                        { value: "Rogue", label: "Rogue", description: "Navigate deals and expand territories" },
+                        { value: CLASS_NAMES.DEVELOPERS, label: CLASS_NAMES.DEVELOPERS, description: "Jack into systems and run code" },
+                        { value: CLASS_NAMES.DESIGNERS, label: CLASS_NAMES.DESIGNERS, description: "Craft interfaces and visual experiences" },
+                        { value: CLASS_NAMES.PROJECT_MANAGERS, label: CLASS_NAMES.PROJECT_MANAGERS, description: "Coordinate ops and make things happen" },
+                        { value: CLASS_NAMES.CONTENT_CREATORS, label: CLASS_NAMES.CONTENT_CREATORS, description: "Control the narrative and shape stories" },
+                        { value: CLASS_NAMES.SALES, label: CLASS_NAMES.SALES, description: "Work the angles and close deals" },
                     ],
                 },
             ]);

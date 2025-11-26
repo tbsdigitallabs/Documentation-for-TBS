@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { Edit2, Save, X, Upload, ExternalLink, Zap, Shield, Target, Brain, Cpu, Terminal } from "lucide-react";
 import ClientPageHeader from "@/components/ClientPageHeader";
+import { CLASS_NAMES, CLASS_JOB_TITLES } from "@/lib/role-mapping";
 import Link from "next/link";
 import { Container } from "@/components/Container";
 import {
@@ -52,20 +53,15 @@ interface UserProfile {
 }
 
 const classIcons: Record<string, { icon: typeof Zap; color: string }> = {
-  "Artificer": { icon: Cpu, color: "text-blue-400" },
-  "Bard": { icon: Brain, color: "text-purple-400" },
-  "Paladin": { icon: Shield, color: "text-emerald-400" },
-  "Storyteller": { icon: Terminal, color: "text-amber-400" },
-  "Rogue": { icon: Target, color: "text-red-400" },
+  [CLASS_NAMES.DEVELOPERS]: { icon: Cpu, color: "text-blue-400" },
+  [CLASS_NAMES.DESIGNERS]: { icon: Brain, color: "text-purple-400" },
+  [CLASS_NAMES.PROJECT_MANAGERS]: { icon: Shield, color: "text-emerald-400" },
+  [CLASS_NAMES.CONTENT_CREATORS]: { icon: Terminal, color: "text-amber-400" },
+  [CLASS_NAMES.SALES]: { icon: Target, color: "text-red-400" },
 };
 
-const classNames: Record<string, string> = {
-  "Artificer": "Developers",
-  "Bard": "Designers",
-  "Paladin": "Project Managers",
-  "Storyteller": "Content Creators & PR",
-  "Rogue": "Sales & Business",
-};
+// Use CLASS_JOB_TITLES from role-mapping for consistency
+const classNames = CLASS_JOB_TITLES;
 
 export default function ProfilePage() {
   const router = useRouter();

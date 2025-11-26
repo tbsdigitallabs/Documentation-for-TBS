@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../../auth/[...nextauth]/route";
+import { CLASS_NAMES, CLASS_JOB_TITLES } from "@/lib/role-mapping";
 
 export interface OnboardingQuestion {
   id: string;
@@ -28,28 +29,28 @@ export async function POST(req: NextRequest) {
         required: true,
         options: [
           {
-            value: "Artificer",
-            label: "Artificer (Developer)",
+            value: CLASS_NAMES.DEVELOPERS,
+            label: `${CLASS_NAMES.DEVELOPERS} (Developer)`,
             description: "I write code, build applications, and work with technical systems",
           },
           {
-            value: "Bard",
-            label: "Bard (Designer)",
+            value: CLASS_NAMES.DESIGNERS,
+            label: `${CLASS_NAMES.DESIGNERS} (Designer)`,
             description: "I create visual designs, user interfaces, and brand assets",
           },
           {
-            value: "Paladin",
-            label: "Paladin (Account/Project Manager)",
+            value: CLASS_NAMES.PROJECT_MANAGERS,
+            label: `${CLASS_NAMES.PROJECT_MANAGERS} (Account/Project Manager)`,
             description: "I manage projects, coordinate teams, and ensure deliverables are met",
           },
           {
-            value: "Storyteller",
-            label: "Storyteller (Content Creator & PR)",
+            value: CLASS_NAMES.CONTENT_CREATORS,
+            label: `${CLASS_NAMES.CONTENT_CREATORS} (Content Creator & PR)`,
             description: "I write content, manage communications, and handle public relations",
           },
           {
-            value: "Rogue",
-            label: "Rogue (Sales & Business Development)",
+            value: CLASS_NAMES.SALES,
+            label: `${CLASS_NAMES.SALES} (Sales & Business Development)`,
             description: "I work with clients, manage sales, and develop business opportunities",
           },
         ],
@@ -107,11 +108,11 @@ export async function POST(req: NextRequest) {
           type: "multiple-choice",
           required: true,
           options: [
-            { value: "Artificer", label: "Artificer (Developer)", description: "I write code, build applications, and work with technical systems" },
-            { value: "Bard", label: "Bard (Designer)", description: "I create visual designs, user interfaces, and brand assets" },
-            { value: "Paladin", label: "Paladin (Account/Project Manager)", description: "I manage projects, coordinate teams, and ensure deliverables are met" },
-            { value: "Storyteller", label: "Storyteller (Content Creator & PR)", description: "I write content, manage communications, and handle public relations" },
-            { value: "Rogue", label: "Rogue (Sales & Business Development)", description: "I work with clients, manage sales, and develop business opportunities" },
+            { value: CLASS_NAMES.DEVELOPERS, label: `${CLASS_NAMES.DEVELOPERS} (Developer)`, description: "I write code, build applications, and work with technical systems" },
+            { value: CLASS_NAMES.DESIGNERS, label: `${CLASS_NAMES.DESIGNERS} (Designer)`, description: "I create visual designs, user interfaces, and brand assets" },
+            { value: CLASS_NAMES.PROJECT_MANAGERS, label: `${CLASS_NAMES.PROJECT_MANAGERS} (Account/Project Manager)`, description: "I manage projects, coordinate teams, and ensure deliverables are met" },
+            { value: CLASS_NAMES.CONTENT_CREATORS, label: `${CLASS_NAMES.CONTENT_CREATORS} (Content Creator & PR)`, description: "I write content, manage communications, and handle public relations" },
+            { value: CLASS_NAMES.SALES, label: `${CLASS_NAMES.SALES} (Sales & Business Development)`, description: "I work with clients, manage sales, and develop business opportunities" },
           ],
         },
       ],

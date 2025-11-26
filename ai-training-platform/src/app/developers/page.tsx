@@ -3,7 +3,7 @@ import { Hammer } from 'lucide-react';
 import { Heading } from '@/components/Heading';
 import { Section } from '@/components/Section';
 import { Container } from '@/components/Container';
-import { getAllClasses, type ClassInfo } from '@/lib/role-mapping';
+import { getAllClasses, CLASS_NAMES, CLASS_ROUTES, type ClassInfo } from '@/lib/role-mapping';
 import RolePageContent from '@/components/RolePageContent';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
@@ -11,12 +11,13 @@ import PageHeader from '@/components/PageHeader';
 
 export const dynamic = 'force-dynamic';
 
-const roleMap: Record<string, string> = {
-  "Artificer": "developers",
-  "Bard": "designers",
-  "Paladin": "project-managers",
-  "Storyteller": "content-creators",
-  "Rogue": "sales-business-dev",
+// Map class names to route slugs for module lookup
+const classToRouteSlug: Record<string, string> = {
+  [CLASS_NAMES.DEVELOPERS]: "developers",
+  [CLASS_NAMES.DESIGNERS]: "designers",
+  [CLASS_NAMES.PROJECT_MANAGERS]: "project-managers",
+  [CLASS_NAMES.CONTENT_CREATORS]: "content-creators",
+  [CLASS_NAMES.SALES]: "sales-business-dev",
 };
 
 export default async function DevelopersPage() {
@@ -25,14 +26,14 @@ export default async function DevelopersPage() {
   const modules = getAllModules('developers');
 
   // Get modules from other roles for "See More"
-  const otherClasses = getAllClasses().filter(c => c.name !== "Artificer" && c.name !== "Session 0");
+  const otherClasses = getAllClasses().filter(c => c.name !== CLASS_NAMES.DEVELOPERS && c.name !== CLASS_NAMES.FOUNDATION);
   const otherModules: Array<{ class: ClassInfo; modules: ReturnType<typeof getAllModules> }> = [];
 
   otherClasses.forEach(classInfo => {
-    const role = roleMap[classInfo.name];
-    if (role) {
+    const routeSlug = classToRouteSlug[classInfo.name];
+    if (routeSlug) {
       try {
-        const mods = getAllModules(role);
+        const mods = getAllModules(routeSlug);
         if (mods.length > 0) {
           otherModules.push({ class: classInfo, modules: mods });
         }
@@ -53,16 +54,16 @@ export default async function DevelopersPage() {
             </div>
             <div>
               <Heading level={1} className="text-content-primary mb-0 tracking-tight text-2xl md:text-3xl">
-                Artificer
+                {CLASS_NAMES.DEVELOPERS}
               </Heading>
               <p className="text-content-secondary text-sm">
                 Developers
               </p>
             </div>
           </div>
-          {userClass !== "Artificer" && userClass && (
+          {userClass !== CLASS_NAMES.DEVELOPERS && userClass && (
             <p className="text-content-tertiary text-xs mb-2">
-              Exploring Artificer class. Your primary class is {userClass}.
+              Exploring {CLASS_NAMES.DEVELOPERS} track. Your primary class is {userClass}.
             </p>
           )}
           <p className="text-content-secondary max-w-3xl text-base leading-relaxed">
@@ -72,13 +73,13 @@ export default async function DevelopersPage() {
       </Section>
 
       <RolePageContent
-        roleName="Artificer"
+        roleName={CLASS_NAMES.DEVELOPERS}
         roleSlug="developers"
         userClass={userClass}
         modules={modules}
         otherModules={otherModules}
         accentColor="#0A84FF"
-        description="Level up your coding skills with AI assistants."
+        description="Enhance your development capabilities with AI-powered tools."
       />
     </div>
   );

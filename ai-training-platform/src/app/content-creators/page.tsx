@@ -3,7 +3,7 @@ import { Scroll } from 'lucide-react';
 import { Heading } from '@/components/Heading';
 import { Section } from '@/components/Section';
 import { Container } from '@/components/Container';
-import { getAllClasses, type ClassInfo } from '@/lib/role-mapping';
+import { getAllClasses, CLASS_NAMES, type ClassInfo } from '@/lib/role-mapping';
 import RolePageContent from '@/components/RolePageContent';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
@@ -11,12 +11,12 @@ import PageHeader from '@/components/PageHeader';
 
 export const dynamic = 'force-dynamic';
 
-const roleMap: Record<string, string> = {
-  "Artificer": "developers",
-  "Bard": "designers",
-  "Paladin": "project-managers",
-  "Storyteller": "content-creators",
-  "Rogue": "sales-business-dev",
+const classToRouteSlug: Record<string, string> = {
+  [CLASS_NAMES.DEVELOPERS]: "developers",
+  [CLASS_NAMES.DESIGNERS]: "designers",
+  [CLASS_NAMES.PROJECT_MANAGERS]: "project-managers",
+  [CLASS_NAMES.CONTENT_CREATORS]: "content-creators",
+  [CLASS_NAMES.SALES]: "sales-business-dev",
 };
 
 export default async function ContentCreatorsPage() {
@@ -24,14 +24,14 @@ export default async function ContentCreatorsPage() {
   const userClass = session?.user?.profile?.selectedClass;
   const modules = getAllModules('content-creators');
 
-  const otherClasses = getAllClasses().filter(c => c.name !== "Storyteller" && c.name !== "Session 0");
+  const otherClasses = getAllClasses().filter(c => c.name !== CLASS_NAMES.CONTENT_CREATORS && c.name !== CLASS_NAMES.FOUNDATION);
   const otherModules: Array<{ class: ClassInfo; modules: ReturnType<typeof getAllModules> }> = [];
 
   otherClasses.forEach(classInfo => {
-    const role = roleMap[classInfo.name];
-    if (role) {
+    const routeSlug = classToRouteSlug[classInfo.name];
+    if (routeSlug) {
       try {
-        const mods = getAllModules(role);
+        const mods = getAllModules(routeSlug);
         if (mods.length > 0) {
           otherModules.push({ class: classInfo, modules: mods });
         }
@@ -52,16 +52,16 @@ export default async function ContentCreatorsPage() {
             </div>
             <div>
               <Heading level={1} className="text-content-primary mb-0 tracking-tight text-2xl md:text-3xl">
-                Storyteller
+                {CLASS_NAMES.CONTENT_CREATORS}
               </Heading>
               <p className="text-content-secondary text-sm">
                 Content Creators & PR
               </p>
             </div>
           </div>
-          {userClass !== "Storyteller" && userClass && (
+          {userClass !== CLASS_NAMES.CONTENT_CREATORS && userClass && (
             <p className="text-content-tertiary text-xs mb-2">
-              Exploring Storyteller class. Your primary class is {userClass}.
+              Exploring {CLASS_NAMES.CONTENT_CREATORS} track. Your primary class is {userClass}.
             </p>
           )}
           <p className="text-content-secondary max-w-3xl text-base leading-relaxed">
@@ -71,7 +71,7 @@ export default async function ContentCreatorsPage() {
       </Section>
 
       <RolePageContent
-        roleName="Storyteller"
+        roleName={CLASS_NAMES.CONTENT_CREATORS}
         roleSlug="content-creators"
         userClass={userClass}
         modules={modules}

@@ -1,9 +1,11 @@
 /**
  * Role and Class Mapping Utilities
- * Maps class names (Artificer, Bard, etc.) to route paths and handles role-to-class conversion
+ * Maps class names to route paths and handles role-to-class conversion
  */
 
-export type ClassName = "Artificer" | "Bard" | "Paladin" | "Storyteller" | "Rogue" | "Session 0";
+import { CLASS_NAMES, CLASS_ROUTES, CLASS_JOB_TITLES, type ClassName } from './constants';
+
+export type { ClassName };
 
 export interface ClassInfo {
   name: ClassName;
@@ -13,41 +15,41 @@ export interface ClassInfo {
 }
 
 const CLASS_MAP: Record<ClassName, ClassInfo> = {
-  "Artificer": {
-    name: "Artificer",
-    route: "/developers",
-    displayName: "Artificer",
-    jobTitle: "Developers",
+  [CLASS_NAMES.DEVELOPERS]: {
+    name: CLASS_NAMES.DEVELOPERS,
+    route: CLASS_ROUTES[CLASS_NAMES.DEVELOPERS],
+    displayName: CLASS_NAMES.DEVELOPERS,
+    jobTitle: CLASS_JOB_TITLES[CLASS_NAMES.DEVELOPERS],
   },
-  "Bard": {
-    name: "Bard",
-    route: "/designers",
-    displayName: "Bard",
-    jobTitle: "Designers",
+  [CLASS_NAMES.DESIGNERS]: {
+    name: CLASS_NAMES.DESIGNERS,
+    route: CLASS_ROUTES[CLASS_NAMES.DESIGNERS],
+    displayName: CLASS_NAMES.DESIGNERS,
+    jobTitle: CLASS_JOB_TITLES[CLASS_NAMES.DESIGNERS],
   },
-  "Paladin": {
-    name: "Paladin",
-    route: "/project-managers",
-    displayName: "Paladin",
-    jobTitle: "Project Managers",
+  [CLASS_NAMES.PROJECT_MANAGERS]: {
+    name: CLASS_NAMES.PROJECT_MANAGERS,
+    route: CLASS_ROUTES[CLASS_NAMES.PROJECT_MANAGERS],
+    displayName: CLASS_NAMES.PROJECT_MANAGERS,
+    jobTitle: CLASS_JOB_TITLES[CLASS_NAMES.PROJECT_MANAGERS],
   },
-  "Storyteller": {
-    name: "Storyteller",
-    route: "/content-creators",
-    displayName: "Storyteller",
-    jobTitle: "Content Creators & PR",
+  [CLASS_NAMES.CONTENT_CREATORS]: {
+    name: CLASS_NAMES.CONTENT_CREATORS,
+    route: CLASS_ROUTES[CLASS_NAMES.CONTENT_CREATORS],
+    displayName: CLASS_NAMES.CONTENT_CREATORS,
+    jobTitle: CLASS_JOB_TITLES[CLASS_NAMES.CONTENT_CREATORS],
   },
-  "Rogue": {
-    name: "Rogue",
-    route: "/sales-business-dev",
-    displayName: "Rogue",
-    jobTitle: "Sales & Business",
+  [CLASS_NAMES.SALES]: {
+    name: CLASS_NAMES.SALES,
+    route: CLASS_ROUTES[CLASS_NAMES.SALES],
+    displayName: CLASS_NAMES.SALES,
+    jobTitle: CLASS_JOB_TITLES[CLASS_NAMES.SALES],
   },
-  "Session 0": {
-    name: "Session 0",
-    route: "/session-0",
-    displayName: "Session 0",
-    jobTitle: "Foundational Knowledge",
+  [CLASS_NAMES.FOUNDATION]: {
+    name: CLASS_NAMES.FOUNDATION,
+    route: CLASS_ROUTES[CLASS_NAMES.FOUNDATION],
+    displayName: CLASS_NAMES.FOUNDATION,
+    jobTitle: CLASS_JOB_TITLES[CLASS_NAMES.FOUNDATION],
   },
 };
 
@@ -63,27 +65,27 @@ export function getClassRoute(selectedClass: string): string {
  * Map a role string to a class name based on keywords
  * Used as fallback if class wasn't explicitly selected
  */
-export function mapRoleToClass(role: string): string | null {
+export function mapRoleToClass(role: string): ClassName | null {
   if (!role) return null;
 
   const lowerRole = role.toLowerCase();
 
-  // Artificer (Developers)
+  // Developers
   if (
     lowerRole.includes("developer") ||
     lowerRole.includes("engineer") ||
     lowerRole.includes("coder") ||
     lowerRole.includes("programmer")
   ) {
-    return "Artificer";
+    return CLASS_NAMES.DEVELOPERS;
   }
 
-  // Bard (Designers)
+  // Designers
   if (lowerRole.includes("designer") || lowerRole.includes("design")) {
-    return "Bard";
+    return CLASS_NAMES.DESIGNERS;
   }
 
-  // Paladin (Project Managers / Account Managers)
+  // Project Managers / Account Managers
   if (
     lowerRole.includes("project manager") ||
     lowerRole.includes("pm") ||
@@ -92,22 +94,22 @@ export function mapRoleToClass(role: string): string | null {
     lowerRole === "pm" ||
     lowerRole === "am"
   ) {
-    return "Paladin";
+    return CLASS_NAMES.PROJECT_MANAGERS;
   }
 
-  // Storyteller (Content Creators)
+  // Content Creators
   if (
     lowerRole.includes("content") ||
     lowerRole.includes("writer") ||
     lowerRole.includes("pr") ||
     lowerRole.includes("public relations")
   ) {
-    return "Storyteller";
+    return CLASS_NAMES.CONTENT_CREATORS;
   }
 
-  // Rogue (Sales & Business)
+  // Sales & Business
   if (lowerRole.includes("sales") || lowerRole.includes("business")) {
-    return "Rogue";
+    return CLASS_NAMES.SALES;
   }
 
   return null;
@@ -143,3 +145,5 @@ export function isValidClass(className: string): boolean {
   return className in CLASS_MAP;
 }
 
+// Re-export constants for convenience
+export { CLASS_NAMES, CLASS_ROUTES, CLASS_JOB_TITLES };

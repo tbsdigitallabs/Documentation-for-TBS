@@ -7,7 +7,7 @@ import { HoloCard } from '@/components/HoloCard';
 import { Button } from '@/components/ui/button';
 import { Section } from '@/components/Section';
 import { Container } from '@/components/Container';
-import type { ClassInfo } from '@/lib/role-mapping';
+import { CLASS_NAMES, type ClassInfo } from '@/lib/role-mapping';
 import type { ModuleMetadata } from '@/lib/mdx';
 
 interface RolePageContentProps {
@@ -20,12 +20,13 @@ interface RolePageContentProps {
     description: string;
 }
 
-const roleMap: Record<string, string> = {
-    "Artificer": "developers",
-    "Bard": "designers",
-    "Paladin": "project-managers",
-    "Storyteller": "content-creators",
-    "Rogue": "sales-business-dev",
+// Map class names to route slugs
+const classToRouteSlug: Record<string, string> = {
+    [CLASS_NAMES.DEVELOPERS]: "developers",
+    [CLASS_NAMES.DESIGNERS]: "designers",
+    [CLASS_NAMES.PROJECT_MANAGERS]: "project-managers",
+    [CLASS_NAMES.CONTENT_CREATORS]: "content-creators",
+    [CLASS_NAMES.SALES]: "sales-business-dev",
 };
 
 export default function RolePageContent({
@@ -123,7 +124,7 @@ export default function RolePageContent({
                                             </h3>
                                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
                                                 {mods.slice(0, 3).map((module) => (
-                                                    <HoloCard key={module.slug} role={roleMap[classInfo.name] as any} className="flex flex-col h-full">
+                                                    <HoloCard key={module.slug} role={classToRouteSlug[classInfo.name] as any} className="flex flex-col h-full">
                                                         <div className="mb-6">
                                                             <span className="mono-label px-2 py-1 rounded-md inline-block text-content-secondary">
                                                                 MISSION {module.slug.split('-')[0].padStart(2, '0')}

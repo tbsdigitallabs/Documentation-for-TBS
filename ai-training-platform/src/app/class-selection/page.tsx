@@ -5,7 +5,7 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { BookOpen, Hammer, Sparkles, Shield, Scroll, Coins } from "lucide-react";
-import { getClassRoute, getAllClasses, type ClassInfo } from "@/lib/role-mapping";
+import { getClassRoute, getAllClasses, CLASS_NAMES, type ClassInfo } from "@/lib/role-mapping";
 import ClientPageHeader from "@/components/ClientPageHeader";
 
 export default function ClassSelectionPage() {
@@ -39,24 +39,24 @@ export default function ClassSelectionPage() {
         router.push(classInfo.route);
     };
 
-    const classes = getAllClasses().filter(c => c.name !== "Session 0"); // Exclude Session 0 from main selection
+    const classes = getAllClasses().filter(c => c.name !== CLASS_NAMES.FOUNDATION); // Exclude Foundation from main selection
 
     const classIcons: Record<string, typeof Hammer> = {
-        "Artificer": Hammer,
-        "Bard": Sparkles,
-        "Paladin": Shield,
-        "Storyteller": Scroll,
-        "Rogue": Coins,
-        "Session 0": BookOpen,
+        [CLASS_NAMES.DEVELOPERS]: Hammer,
+        [CLASS_NAMES.DESIGNERS]: Sparkles,
+        [CLASS_NAMES.PROJECT_MANAGERS]: Shield,
+        [CLASS_NAMES.CONTENT_CREATORS]: Scroll,
+        [CLASS_NAMES.SALES]: Coins,
+        [CLASS_NAMES.FOUNDATION]: BookOpen,
     };
 
     const classColors: Record<string, string> = {
-        "Artificer": "#0A84FF",
-        "Bard": "#FFB800",
-        "Paladin": "#00C48C",
-        "Storyteller": "#850AFF",
-        "Rogue": "#EF4444",
-        "Session 0": "#D56EED",
+        [CLASS_NAMES.DEVELOPERS]: "#0A84FF",
+        [CLASS_NAMES.DESIGNERS]: "#FFB800",
+        [CLASS_NAMES.PROJECT_MANAGERS]: "#00C48C",
+        [CLASS_NAMES.CONTENT_CREATORS]: "#850AFF",
+        [CLASS_NAMES.SALES]: "#EF4444",
+        [CLASS_NAMES.FOUNDATION]: "#D56EED",
     };
 
     if (!mounted || status === "loading") {

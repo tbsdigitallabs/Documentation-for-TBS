@@ -3,9 +3,12 @@
 import { cn } from '@/lib/utils';
 
 interface Reward {
+  id?: string;
   level: number;
   name: string;
   description?: string;
+  type?: string;
+  rarity?: string;
 }
 
 interface RewardGridProps {
@@ -21,8 +24,12 @@ export function RewardGrid({ rewards, title = 'Unlocked Rewards', className }: R
         {title} ({rewards.length})
       </div>
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-        {rewards.map((reward) => (
-          <div key={reward.level} className="reward-chip group" title={reward.description}>
+        {rewards.map((reward, index) => (
+          <div 
+            key={reward.id || `${reward.level}-${reward.name}-${index}`} 
+            className="reward-chip group" 
+            title={reward.description}
+          >
             <div className="mono-text text-xs text-accent-readable-cyan font-semibold mb-1">Lv.{reward.level}</div>
             <div className="text-xs text-content-primary truncate">{reward.name}</div>
           </div>
@@ -31,4 +38,3 @@ export function RewardGrid({ rewards, title = 'Unlocked Rewards', className }: R
     </div>
   );
 }
-

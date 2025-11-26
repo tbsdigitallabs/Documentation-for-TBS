@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { Edit2, Save, X, Upload, Sparkles, Zap, Shield, Target, Brain, Cpu, Terminal, Loader2 } from "lucide-react";
+import { cn } from "@/lib/utils";
 import ClientPageHeader from "@/components/ClientPageHeader";
 import { CLASS_NAMES, CLASS_JOB_TITLES } from "@/lib/role-mapping";
 import Link from "next/link";
@@ -311,11 +312,36 @@ export default function ProfilePage() {
 
                 {/* Identity */}
                 <div className="text-center mb-6 mt-8">
-                  <h1 className="text-2xl font-heading font-bold text-content-primary mb-1">
-                    {profile?.name || "Unknown Operative"}
-                  </h1>
+                  {/* Titlebar */}
+                  {cosmeticLoadout.equippedTitlebar && cosmeticLoadout.equippedTitlebar !== 'none' && (
+                    <div className={`titlebar ${cosmeticLoadout.equippedTitlebar !== 'none' ? `titlebar-${cosmeticLoadout.equippedTitlebar}` : ''} mb-2 mx-auto max-w-[200px]`}>
+                      {cosmeticLoadout.equippedTitle ? 
+                        COSMETIC_REWARDS.find(r => r.id === cosmeticLoadout.equippedTitle)?.name.replace(' Title', '') 
+                        : 'OPERATIVE'}
+                    </div>
+                  )}
+
+                  <div className="inline-block relative">
+                    <h1 className={cn(
+                      "text-2xl font-heading font-bold text-content-primary mb-1 px-4 py-1",
+                      cosmeticLoadout.equippedNameplate && `nameplate nameplate-${cosmeticLoadout.equippedNameplate}`
+                    )}>
+                      {profile?.name || "Unknown Operative"}
+                    </h1>
+                    
+                    {/* Title if no titlebar */}
+                    {cosmeticLoadout.equippedTitle && (!cosmeticLoadout.equippedTitlebar || cosmeticLoadout.equippedTitlebar === 'none') && (
+                      <div className={cn(
+                        "text-xs font-bold uppercase tracking-wider mb-2",
+                        `title-${COSMETIC_REWARDS.find(r => r.id === cosmeticLoadout.equippedTitle)?.rarity || 'common'}`
+                      )}>
+                        {COSMETIC_REWARDS.find(r => r.id === cosmeticLoadout.equippedTitle)?.name}
+                      </div>
+                    )}
+                  </div>
+
                   {profile?.selectedClass && (
-                    <div className="flex items-center justify-center gap-2 text-sm">
+                    <div className="flex items-center justify-center gap-2 text-sm mt-2">
                       <ClassIcon className={`w-4 h-4 ${classColor}`} />
                       <span className={classColor}>{profile.selectedClass}</span>
                       <span className="text-content-tertiary">•</span>

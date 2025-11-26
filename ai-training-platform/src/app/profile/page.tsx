@@ -20,8 +20,9 @@ import {
   MissionLog,
   RewardGrid,
   NextReward,
+  CosmeticSelector,
 } from "@/components/profile";
-import { getXPForNextLevel, getLevelProgress, getExperienceLevelName, getUnlockedRewards, getNextReward, MAX_LEVEL, XP_THRESHOLDS, COSMETIC_REWARDS } from "@/lib/levelling";
+import { getXPForNextLevel, getLevelProgress, getExperienceLevelName, getUnlockedRewards, getNextReward, MAX_LEVEL, XP_THRESHOLDS, COSMETIC_REWARDS, DEFAULT_LOADOUT, type CosmeticLoadout } from "@/lib/levelling";
 
 export const dynamic = 'force-dynamic';
 
@@ -74,6 +75,7 @@ export default function ProfilePage() {
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [generatingAvatar, setGeneratingAvatar] = useState(false);
+  const [cosmeticLoadout, setCosmeticLoadout] = useState<CosmeticLoadout>(DEFAULT_LOADOUT);
 
   useEffect(() => {
     if (status === "unauthenticated") {
@@ -380,7 +382,14 @@ export default function ProfilePage() {
                 )}
 
                 {/* Unlocked Rewards */}
-                <RewardGrid rewards={unlockedRewards} />
+                <RewardGrid rewards={unlockedRewards} className="mb-6" />
+
+                {/* Cosmetic Selector */}
+                <CosmeticSelector
+                  level={currentLevel}
+                  currentLoadout={cosmeticLoadout}
+                  onLoadoutChange={setCosmeticLoadout}
+                />
               </div>
 
               {/* Right Column - Profile Data & Mission Log */}

@@ -3,14 +3,35 @@
 import { cn } from '@/lib/utils';
 import { User } from 'lucide-react';
 
+type FrameStyle = 'starter' | 'bronze' | 'silver' | 'gold' | 'platinum' | 'animated' | 'legendary';
+
 interface AvatarFrameProps {
   src?: string | null;
   alt?: string;
   size?: 'sm' | 'md' | 'lg';
+  frameStyle?: FrameStyle;
+  effectStyle?: string;
   className?: string;
 }
 
-export function AvatarFrame({ src, alt = 'Avatar', size = 'md', className }: AvatarFrameProps) {
+const frameClasses: Record<FrameStyle, string> = {
+  starter: 'frame-starter',
+  bronze: 'frame-bronze',
+  silver: 'frame-silver',
+  gold: 'frame-gold',
+  platinum: 'frame-platinum',
+  animated: 'frame-animated',
+  legendary: 'frame-legendary',
+};
+
+export function AvatarFrame({ 
+  src, 
+  alt = 'Avatar', 
+  size = 'md', 
+  frameStyle = 'starter',
+  effectStyle,
+  className 
+}: AvatarFrameProps) {
   const sizeClasses = {
     sm: 'max-w-[120px]',
     md: 'max-w-[180px]',
@@ -18,7 +39,13 @@ export function AvatarFrame({ src, alt = 'Avatar', size = 'md', className }: Ava
   };
   
   return (
-    <div className={cn('char-avatar-frame mx-auto', sizeClasses[size], className)}>
+    <div className={cn(
+      'char-avatar-frame mx-auto', 
+      sizeClasses[size], 
+      frameClasses[frameStyle],
+      effectStyle && `effect-${effectStyle}`,
+      className
+    )}>
       <div className="char-avatar-inner">
         {src ? (
           <img src={src} alt={alt} className="w-full h-full object-cover" />

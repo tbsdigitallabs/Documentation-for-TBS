@@ -7,4 +7,5 @@ export { AvatarFrame } from './AvatarFrame';
 export { MissionLog } from './MissionLog';
 export { RewardGrid } from './RewardGrid';
 export { NextReward } from './NextReward';
+export { CosmeticSelector } from './CosmeticSelector';
 

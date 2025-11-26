@@ -45,9 +45,9 @@ const components = {
         <strong className="text-content-primary font-bold" {...props} />
     ),
     img: (props: any) => (
-        <div className="relative w-full h-40 sm:h-56 md:h-64 lg:h-80 my-3 md:my-4 rounded-lg md:rounded-xl overflow-hidden border border-white/10 shadow-lg">
+        <div className="my-3 md:my-4 rounded-lg md:rounded-xl overflow-hidden border border-white/10 shadow-lg bg-black/20">
             <img
-                className="object-cover w-full h-full"
+                className="w-full h-auto max-h-[300px] md:max-h-[400px] object-contain mx-auto"
                 {...props}
             />
         </div>
@@ -166,11 +166,11 @@ export function ModulePresentation({ content, onComplete }: ModulePresentationPr
                                     </div>
 
                                     {/* Image Column */}
-                                    <div className="relative w-full h-64 lg:h-80 rounded-xl overflow-hidden border border-white/10 shadow-lg">
+                                    <div className="rounded-xl overflow-hidden border border-white/10 shadow-lg bg-black/20 flex items-center justify-center">
                                         <img
                                             src={currentSlideData.image.src}
                                             alt={currentSlideData.image.alt}
-                                            className="object-cover w-full h-full"
+                                            className="w-full h-auto max-h-[350px] object-contain"
                                         />
                                     </div>
                                 </div>

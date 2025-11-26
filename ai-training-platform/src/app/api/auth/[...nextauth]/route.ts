@@ -125,6 +125,18 @@ export const authOptions: NextAuthOptions = {
       if (token.onboardingCompleted === undefined) {
         token.onboardingCompleted = false
       }
+
+      // FORCE UPDATE for dev user during development to ensure max stats
+      if (process.env.NODE_ENV === 'development' && token.email === 'dev@tbsdigitallabs.com.au') {
+        token.profile = {
+          ...(token.profile as any || {}),
+          level: 10,
+          xp: 10000,
+          // Ensure cosmetic unlocks work by setting a valid class if missing
+          selectedClass: (token.profile as any)?.selectedClass || 'developers', 
+        };
+      }
+
       // Update token when session is updated (from API routes)
       if (trigger === 'update' && sessionData) {
         if (sessionData.profile && typeof sessionData.profile === 'object') {

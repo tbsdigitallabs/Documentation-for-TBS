@@ -116,8 +116,8 @@ export const authOptions: NextAuthOptions = {
           selectedClass: null,
           hobbies: null,
           systems: null,
-          level: 1,
-          xp: 0,
+          level: user.email === 'dev@tbsdigitallabs.com.au' ? 10 : 1,
+          xp: user.email === 'dev@tbsdigitallabs.com.au' ? 10000 : 0,
           completedModules: [],
         }
       }

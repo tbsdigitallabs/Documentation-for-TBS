@@ -1923,7 +1923,8 @@ object {
 
 .cosmetic-item:hover {
   border-color: var(--color-sage);
-  transform: scale(1.02);
+  /* transform: scale(1.02); - Removed to prevent scrollbar flickering */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .dark .cosmetic-item:hover {

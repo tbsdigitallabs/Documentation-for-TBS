@@ -7,6 +7,7 @@ import Link from "next/link";
 import { BookOpen, Hammer, Sparkles, Shield, Scroll, Coins } from "lucide-react";
 import { getClassRoute, getAllClasses, CLASS_NAMES, type ClassInfo } from "@/lib/role-mapping";
 import ClientPageHeader from "@/components/ClientPageHeader";
+import { Leaderboard } from "@/components/Leaderboard";
 
 export default function ClassSelectionPage() {
     const { data: session, status, update } = useSession();
@@ -84,37 +85,47 @@ export default function ClassSelectionPage() {
                 </div>
             </main>
 
-            {/* Class Selection - Responsive Grid */}
+            {/* Class Selection with Leaderboard */}
             <div className="px-5 pb-8">
-                <div className="max-w-5xl mx-auto">
-                    <h2 className="text-xl font-heading font-bold text-content-primary mb-6 leading-tight tracking-tight text-center">Select Operative Class</h2>
-                    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
-                        {classes.map((classItem) => {
-                            const Icon = classIcons[classItem.name] || BookOpen;
-                            const accentColor = classColors[classItem.name] || "#D56EED";
-                            const isSelected = selectedClass === classItem.name;
+                <div className="max-w-6xl mx-auto">
+                    <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+                        {/* Main Content */}
+                        <div className="lg:col-span-3">
+                            <h2 className="text-xl font-heading font-bold text-content-primary mb-6 leading-tight tracking-tight text-center lg:text-left">Select Operative Class</h2>
+                            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
+                                {classes.map((classItem) => {
+                                    const Icon = classIcons[classItem.name] || BookOpen;
+                                    const accentColor = classColors[classItem.name] || "#D56EED";
+                                    const isSelected = selectedClass === classItem.name;
 
-                            return (
-                                <button
-                                    key={classItem.name}
-                                    onClick={() => handleClassSelect(classItem)}
-                                    className={`flex flex-col items-center rounded-xl p-4 glass-card hover:scale-105 active:scale-[0.98] transition-all cursor-pointer ${isSelected ? "ring-2 ring-accent-sage-500 dark:ring-accent-sage-400" : ""
-                                        }`}
-                                >
-                                    <div
-                                        className="flex items-center justify-center size-12 rounded-xl mb-3"
-                                        style={{ backgroundColor: `${accentColor}33` }}
-                                    >
-                                        <Icon className="w-6 h-6" style={{ color: accentColor }} />
-                                    </div>
-                                    <h3 className="text-sm font-body font-semibold text-content-primary mb-0.5 leading-tight text-center">{classItem.name}</h3>
-                                    <p className="text-xs font-body font-normal text-content-secondary text-center" style={{ opacity: 0.7 }}>{classItem.jobTitle}</p>
-                                    {isSelected && (
-                                        <p className="text-xs font-body font-semibold text-accent-readable-cyan mt-2">Selected</p>
-                                    )}
-                                </button>
-                            );
-                        })}
+                                    return (
+                                        <button
+                                            key={classItem.name}
+                                            onClick={() => handleClassSelect(classItem)}
+                                            className={`flex flex-col items-center rounded-xl p-4 glass-card hover:scale-105 active:scale-[0.98] transition-all cursor-pointer ${isSelected ? "ring-2 ring-accent-sage-500 dark:ring-accent-sage-400" : ""
+                                                }`}
+                                        >
+                                            <div
+                                                className="flex items-center justify-center size-12 rounded-xl mb-3"
+                                                style={{ backgroundColor: `${accentColor}33` }}
+                                            >
+                                                <Icon className="w-6 h-6" style={{ color: accentColor }} />
+                                            </div>
+                                            <h3 className="text-sm font-body font-semibold text-content-primary mb-0.5 leading-tight text-center">{classItem.name}</h3>
+                                            <p className="text-xs font-body font-normal text-content-secondary text-center" style={{ opacity: 0.7 }}>{classItem.jobTitle}</p>
+                                            {isSelected && (
+                                                <p className="text-xs font-body font-semibold text-accent-readable-cyan mt-2">Selected</p>
+                                            )}
+                                        </button>
+                                    );
+                                })}
+                            </div>
+                        </div>
+
+                        {/* Leaderboard Sidebar */}
+                        <div className="lg:col-span-1">
+                            <Leaderboard />
+                        </div>
                     </div>
                 </div>
             </div>

@@ -3,6 +3,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import PageTransition from "@/components/PageTransition";
 import SessionProvider from "@/components/SessionProvider";
+import { ToastProvider } from "@/contexts/ToastContext";
 
 export const metadata: Metadata = {
   title: "TBS Digital Labs - LearningLab",
@@ -27,7 +28,9 @@ export default function RootLayout({
       <body className="font-body antialiased">
         <SessionProvider>
           <ThemeProvider>
-            {children}
+            <ToastProvider>
+              {children}
+            </ToastProvider>
           </ThemeProvider>
         </SessionProvider>
       </body>

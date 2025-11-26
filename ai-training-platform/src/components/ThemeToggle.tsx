@@ -84,7 +84,7 @@ export default function ThemeToggle() {
             <div className="absolute -top-2 right-4 w-0 h-0 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-b-[8px] border-b-white dark:border-b-[#1a1a2e]" />
             <div className="absolute -top-[10px] right-4 w-0 h-0 border-l-[7px] border-l-transparent border-r-[7px] border-r-transparent border-b-[9px] border-b-border-primary" style={{ marginRight: '-1px' }} />
             <p className="text-xs text-content-secondary italic">
-              "{easterEggMessage}"
+              &ldquo;{easterEggMessage}&rdquo;
             </p>
             <p className="text-[10px] text-content-tertiary mt-1 text-right">
               — David

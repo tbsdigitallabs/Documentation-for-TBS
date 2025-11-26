@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../../auth/[...nextauth]/route";
 import { calculateLevel } from "@/lib/levelling";
+import { upsertUser } from "@/lib/user-store";
 
 /**
  * Award XP when a module is completed
@@ -87,6 +88,22 @@ export async function POST(req: NextRequest) {
       level: newLevel,
       completedModules: updatedCompletedModules,
     };
+
+    // Update user in leaderboard store
+    if (session.user.email) {
+      try {
+        upsertUser({
+          email: session.user.email,
+          name: session.user.name || 'Anonymous',
+          selectedClass: session.user.profile?.selectedClass,
+          level: newLevel,
+          xp: newXP,
+          image: session.user.profile?.profileImage || session.user.image || undefined,
+        });
+      } catch (error) {
+        console.error('Failed to update user store:', error);
+      }
+    }
 
     return NextResponse.json({
       success: true,

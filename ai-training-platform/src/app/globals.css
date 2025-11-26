@@ -1214,3 +1214,252 @@ object {
 .dark .text-accent-readable-magenta {
   color: var(--color-light-magenta);
 }
+
+/* ===== COSMETIC REWARDS SYSTEM ===== */
+
+/* Level 1: Starter Frame */
+.cosmetic-frame-starter {
+  border: 2px solid var(--color-gray-300);
+  border-radius: var(--radius-lg);
+}
+
+.dark .cosmetic-frame-starter {
+  border-color: var(--color-gray-600);
+}
+
+/* Level 2: Bronze Badge */
+.cosmetic-badge-bronze::after {
+  content: '';
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  width: 16px;
+  height: 16px;
+  background: linear-gradient(135deg, #cd7f32, #8b4513);
+  border-radius: 50%;
+  border: 2px solid white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Level 3: Glow Effect */
+.cosmetic-effect-glow {
+  box-shadow: 0 0 20px rgba(97, 189, 186, 0.3);
+}
+
+.dark .cosmetic-effect-glow {
+  box-shadow: 0 0 20px rgba(97, 189, 186, 0.4);
+}
+
+/* Level 4: Silver Badge */
+.cosmetic-badge-silver::after {
+  content: '';
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  width: 18px;
+  height: 18px;
+  background: linear-gradient(135deg, #c0c0c0, #808080);
+  border-radius: 50%;
+  border: 2px solid white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Level 5: Gradient Background */
+.cosmetic-bg-gradient {
+  background: linear-gradient(135deg,
+      rgba(97, 189, 186, 0.1) 0%,
+      rgba(213, 110, 237, 0.1) 100%);
+}
+
+.dark .cosmetic-bg-gradient {
+  background: linear-gradient(135deg,
+      rgba(97, 189, 186, 0.15) 0%,
+      rgba(213, 110, 237, 0.15) 100%);
+}
+
+/* Level 6: Gold Badge */
+.cosmetic-badge-gold::after {
+  content: '';
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  width: 20px;
+  height: 20px;
+  background: linear-gradient(135deg, #ffd700, #b8860b);
+  border-radius: 50%;
+  border: 2px solid white;
+  box-shadow: 0 2px 6px rgba(255, 215, 0, 0.4);
+}
+
+/* Level 7: Animated Frame */
+.cosmetic-frame-animated {
+  position: relative;
+  border: 2px solid transparent;
+  background: linear-gradient(var(--color-surface-primary), var(--color-surface-primary)) padding-box,
+    linear-gradient(90deg, var(--color-sage), var(--color-light-magenta), var(--color-sage)) border-box;
+  background-size: 100% 100%, 200% 100%;
+  animation: cosmetic-border-flow 3s linear infinite;
+  border-radius: var(--radius-lg);
+}
+
+@keyframes cosmetic-border-flow {
+  0% {
+    background-position: 0 0, 0% 0;
+  }
+
+  100% {
+    background-position: 0 0, 200% 0;
+  }
+}
+
+/* Level 8: Platinum Badge */
+.cosmetic-badge-platinum::after {
+  content: '';
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  width: 24px;
+  height: 24px;
+  background: linear-gradient(135deg, #e5e4e2, #a9a9a9, #e5e4e2);
+  border-radius: 50%;
+  border: 2px solid white;
+  box-shadow: 0 2px 8px rgba(229, 228, 226, 0.6);
+}
+
+/* Level 9: Particle Effect */
+.cosmetic-effect-particles {
+  position: relative;
+}
+
+.cosmetic-effect-particles::before,
+.cosmetic-effect-particles::after {
+  content: '✦';
+  position: absolute;
+  font-size: 10px;
+  color: var(--color-sage);
+  animation: cosmetic-float 2s ease-in-out infinite;
+}
+
+.cosmetic-effect-particles::before {
+  top: -8px;
+  left: 20%;
+  animation-delay: 0s;
+}
+
+.cosmetic-effect-particles::after {
+  top: -8px;
+  right: 20%;
+  animation-delay: 1s;
+  color: var(--color-light-magenta);
+}
+
+@keyframes cosmetic-float {
+
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.6;
+  }
+
+  50% {
+    transform: translateY(-6px);
+    opacity: 1;
+  }
+}
+
+/* Level 10: Legendary Crown */
+.cosmetic-badge-crown::before {
+  content: '👑';
+  position: absolute;
+  top: -16px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 20px;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+  animation: cosmetic-crown-bob 2s ease-in-out infinite;
+}
+
+@keyframes cosmetic-crown-bob {
+
+  0%,
+  100% {
+    transform: translateX(-50%) translateY(0);
+  }
+
+  50% {
+    transform: translateX(-50%) translateY(-3px);
+  }
+}
+
+/* Leaderboard Styles */
+.leaderboard-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-secondary);
+  border: 1px solid var(--color-border-primary);
+  transition: var(--transition-fast);
+}
+
+.leaderboard-item:hover {
+  background: var(--color-surface-hover);
+  transform: translateX(4px);
+}
+
+.leaderboard-rank {
+  font-weight: var(--font-weight-bold);
+  font-size: var(--text-lg);
+  min-width: 28px;
+  text-align: center;
+}
+
+.leaderboard-rank-1 {
+  color: #ffd700;
+}
+
+.leaderboard-rank-2 {
+  color: #c0c0c0;
+}
+
+.leaderboard-rank-3 {
+  color: #cd7f32;
+}
+
+.leaderboard-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--color-border-primary);
+}
+
+.leaderboard-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.leaderboard-name {
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  font-size: var(--text-sm);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.leaderboard-class {
+  font-size: var(--text-xs);
+  color: var(--color-text-tertiary);
+}
+
+.leaderboard-xp {
+  font-weight: var(--font-weight-bold);
+  font-size: var(--text-sm);
+  color: var(--accent-sage-600);
+}
+
+.dark .leaderboard-xp {
+  color: var(--color-sage);
+}

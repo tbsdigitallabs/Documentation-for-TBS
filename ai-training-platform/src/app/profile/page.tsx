@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
-import { Edit2, Save, X, Upload, ExternalLink, Zap, Shield, Target, Brain, Cpu, Terminal } from "lucide-react";
+import { Edit2, Save, X, Upload, Sparkles, Zap, Shield, Target, Brain, Cpu, Terminal, Loader2 } from "lucide-react";
 import ClientPageHeader from "@/components/ClientPageHeader";
 import { CLASS_NAMES, CLASS_JOB_TITLES } from "@/lib/role-mapping";
 import Link from "next/link";
@@ -73,6 +73,7 @@ export default function ProfilePage() {
   const { data: session, status, update } = useSession();
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [generatingAvatar, setGeneratingAvatar] = useState(false);
 
   useEffect(() => {
     if (status === "unauthenticated") {
@@ -109,6 +110,39 @@ export default function ProfilePage() {
         setImagePreview(reader.result as string);
       };
       reader.readAsDataURL(file);
+    }
+  };
+
+  const handleGenerateAvatar = async () => {
+    setGeneratingAvatar(true);
+    try {
+      // Use random seed each time to generate a new avatar
+      const randomSeed = `${Date.now()}-${Math.random().toString(36).substring(2, 15)}`;
+      const response = await fetch('/api/onboarding/generate-avatar', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ seed: randomSeed }),
+      });
+      
+      if (response.ok) {
+        const data = await response.json();
+        const imageDataUrl = `data:${data.mimeType};base64,${data.imageData}`;
+        setImagePreview(imageDataUrl);
+        // Convert base64 to blob for upload
+        const byteCharacters = atob(data.imageData);
+        const byteNumbers = new Array(byteCharacters.length);
+        for (let i = 0; i < byteCharacters.length; i++) {
+          byteNumbers[i] = byteCharacters.charCodeAt(i);
+        }
+        const byteArray = new Uint8Array(byteNumbers);
+        const blob = new Blob([byteArray], { type: data.mimeType });
+        const file = new File([blob], 'avatar.png', { type: data.mimeType });
+        setImageFile(file);
+      }
+    } catch (error) {
+      console.error('Failed to generate avatar:', error);
+    } finally {
+      setGeneratingAvatar(false);
     }
   };
 
@@ -293,16 +327,24 @@ export default function ProfilePage() {
                   <span className="text-lg font-semibold">{getExperienceLevelName(currentLevel)}</span>
                 </DataPanel>
 
-                {editing && !displayImage && (
-                  <a
-                    href="https://nanobanana.ai"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="mt-4 flex items-center justify-center gap-2 px-4 py-2 bg-accent-magenta-100 dark:bg-cyber-magenta/20 border border-accent-magenta-300 dark:border-cyber-magenta/50 text-accent-readable-magenta rounded mono-label hover:bg-accent-magenta-200 dark:hover:bg-cyber-magenta/30 transition-all"
+                {editing && (
+                  <button
+                    onClick={handleGenerateAvatar}
+                    disabled={generatingAvatar}
+                    className="mt-4 flex items-center justify-center gap-2 px-4 py-2 bg-accent-magenta-100 dark:bg-cyber-magenta/20 border border-accent-magenta-300 dark:border-cyber-magenta/50 text-accent-readable-magenta rounded mono-label hover:bg-accent-magenta-200 dark:hover:bg-cyber-magenta/30 transition-all disabled:opacity-50 cursor-pointer"
                   >
-                    Create Avatar
-                    <ExternalLink className="w-3 h-3" />
-                  </a>
+                    {generatingAvatar ? (
+                      <>
+                        <Loader2 className="w-3 h-3 animate-spin" />
+                        Generating...
+                      </>
+                    ) : (
+                      <>
+                        <Sparkles className="w-3 h-3" />
+                        Generate Avatar
+                      </>
+                    )}
+                  </button>
                 )}
               </div>
 

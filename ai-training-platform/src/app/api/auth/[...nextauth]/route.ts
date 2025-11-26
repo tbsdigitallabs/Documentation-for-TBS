@@ -2,6 +2,7 @@ import NextAuth, { type NextAuthOptions } from "next-auth"
 import GoogleProvider from "next-auth/providers/google"
 import CredentialsProvider from "next-auth/providers/credentials"
 import "@/lib/env-validation"
+import { upsertUser } from "@/lib/user-store"
 
 // Build providers array - ensure at least one provider exists
 const providers = [];
@@ -65,6 +66,17 @@ export const authOptions: NextAuthOptions = {
         const userDomain = user.email.substring(user.email.lastIndexOf('@'))
 
         if (allowedDomains.includes(userDomain)) {
+          // Store user in leaderboard database on sign in
+          try {
+            upsertUser({
+              id: user.id || user.email,
+              email: user.email,
+              name: user.name || 'Anonymous',
+              image: user.image || undefined,
+            });
+          } catch (error) {
+            console.error('Failed to store user:', error);
+          }
           return true
         }
       }

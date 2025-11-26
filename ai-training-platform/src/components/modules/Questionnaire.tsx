@@ -1,7 +1,8 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { CheckCircle, XCircle, RefreshCw, ArrowRight } from 'lucide-react';
 import { GlassCard } from '@/components/ui/GlassCard';
@@ -10,7 +11,14 @@ export interface Question {
     id: string;
     question: string;
     options: string[];
-    correctAnswer: number; // Index of the correct option
+    correctAnswer: number; // Index of the correct option in original array
+}
+
+interface ShuffledQuestion {
+    id: string;
+    question: string;
+    options: string[];
+    correctAnswerIndex: number; // New index after shuffling
 }
 
 interface QuestionnaireProps {
@@ -18,12 +26,59 @@ interface QuestionnaireProps {
     onComplete?: (score: number) => void;
 }
 
+/**
+ * Fisher-Yates shuffle algorithm
+ * Returns shuffled array and index mapping to track original positions
+ */
+function shuffleArray<T>(array: T[]): { shuffled: T[]; indexMap: number[] } {
+    const shuffled = [...array];
+    const indexMap = array.map((_, i) => i);
+
+    for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+        [indexMap[i], indexMap[j]] = [indexMap[j], indexMap[i]];
+    }
+
+    return { shuffled, indexMap };
+}
+
+/**
+ * Shuffle question options and update correct answer index
+ */
+function shuffleQuestionOptions(question: Question): ShuffledQuestion {
+    const { shuffled, indexMap } = shuffleArray(question.options);
+    // Find new index of correct answer after shuffle
+    const newCorrectIndex = indexMap.indexOf(question.correctAnswer);
+
+    return {
+        id: question.id,
+        question: question.question,
+        options: shuffled,
+        correctAnswerIndex: newCorrectIndex,
+    };
+}
+
 export function Questionnaire({ questions, onComplete }: QuestionnaireProps) {
+    const pathname = usePathname();
+    const [shuffleKey, setShuffleKey] = useState(0);
     const [currentQuestion, setCurrentQuestion] = useState(0);
     const [selectedOption, setSelectedOption] = useState<number | null>(null);
     const [isAnswered, setIsAnswered] = useState(false);
     const [score, setScore] = useState(0);
     const [showResults, setShowResults] = useState(false);
+
+    // Shuffle all questions once on mount and when shuffleKey changes (on retry)
+    const shuffledQuestions = useMemo(() => {
+        return questions.map(shuffleQuestionOptions);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [questions, shuffleKey]);
+
+    // Get role from pathname for dashboard link (e.g., /developers/01-foundation -> /developers)
+    const rolePath = useMemo(() => {
+        const parts = pathname.split('/');
+        return parts.length >= 2 ? `/${parts[1]}` : '/';
+    }, [pathname]);
 
     const handleOptionSelect = (index: number) => {
         if (isAnswered) return;
@@ -33,7 +88,7 @@ export function Questionnaire({ questions, onComplete }: QuestionnaireProps) {
     const handleSubmitAnswer = () => {
         if (selectedOption === null) return;
 
-        const isCorrect = selectedOption === questions[currentQuestion].correctAnswer;
+        const isCorrect = selectedOption === shuffledQuestions[currentQuestion].correctAnswerIndex;
         if (isCorrect) {
             setScore(prev => prev + 1);
         }
@@ -49,7 +104,8 @@ export function Questionnaire({ questions, onComplete }: QuestionnaireProps) {
         } else {
             setShowResults(true);
             if (onComplete) {
-                onComplete(score + (selectedOption === questions[currentQuestion].correctAnswer ? 1 : 0));
+                const finalCorrect = selectedOption === shuffledQuestions[currentQuestion].correctAnswerIndex;
+                onComplete(score + (finalCorrect ? 1 : 0));
             }
         }
     };
@@ -60,13 +116,14 @@ export function Questionnaire({ questions, onComplete }: QuestionnaireProps) {
         setIsAnswered(false);
         setScore(0);
         setShowResults(false);
+        setShuffleKey(prev => prev + 1); // Trigger re-shuffle on retry
     };
 
     if (showResults) {
         const percentage = Math.round((score / questions.length) * 100);
 
         return (
-            <GlassCard className="max-w-2xl mx-auto p-12 text-center bg-surface-card border-gray-200 dark:border-white/10 backdrop-blur-xl">
+            <GlassCard className="max-w-4xl mx-auto p-8 md:p-12 text-center bg-surface-card border-gray-200 dark:border-white/10 backdrop-blur-xl">
                 <motion.div
                     initial={{ scale: 0.9, opacity: 0 }}
                     animate={{ scale: 1, opacity: 1 }}
@@ -99,7 +156,7 @@ export function Questionnaire({ questions, onComplete }: QuestionnaireProps) {
                             Retry Quiz
                         </button>
                         <Link
-                            href="/"
+                            href={rolePath}
                             className="flex items-center gap-2 px-6 py-3 rounded-lg font-medium bg-button text-button border border-button-border hover:bg-button-hover transition-all"
                         >
                             Back to Dashboard
@@ -110,10 +167,10 @@ export function Questionnaire({ questions, onComplete }: QuestionnaireProps) {
         );
     }
 
-    const question = questions[currentQuestion];
+    const question = shuffledQuestions[currentQuestion];
 
     return (
-        <div className="max-w-3xl mx-auto">
+        <div className="max-w-4xl mx-auto">
             <div className="mb-8 flex justify-between items-end">
                 <div>
                     <span className="text-cyber-cyan text-sm font-bold tracking-wider uppercase mb-2 block">Question {currentQuestion + 1} of {questions.length}</span>
@@ -132,7 +189,7 @@ export function Questionnaire({ questions, onComplete }: QuestionnaireProps) {
                         disabled={isAnswered}
                         className={`w-full p-6 rounded-xl text-left transition-all border-2 relative overflow-hidden group
                             ${isAnswered
-                                ? index === question.correctAnswer
+                                ? index === question.correctAnswerIndex
                                     ? 'bg-green-500/10 border-green-500/50 text-content-primary'
                                     : index === selectedOption
                                         ? 'bg-red-500/10 border-red-500/50 text-content-primary'
@@ -145,10 +202,10 @@ export function Questionnaire({ questions, onComplete }: QuestionnaireProps) {
                     >
                         <div className="flex items-center justify-between relative z-10">
                             <span className="font-medium text-lg">{option}</span>
-                            {isAnswered && index === question.correctAnswer && (
+                            {isAnswered && index === question.correctAnswerIndex && (
                                 <CheckCircle className="w-6 h-6 text-green-500" />
                             )}
-                            {isAnswered && index === selectedOption && index !== question.correctAnswer && (
+                            {isAnswered && index === selectedOption && index !== question.correctAnswerIndex && (
                                 <XCircle className="w-6 h-6 text-red-500" />
                             )}
                         </div>

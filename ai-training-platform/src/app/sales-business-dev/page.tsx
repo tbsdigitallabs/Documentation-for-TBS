@@ -44,27 +44,29 @@ export default async function SalesBusinessDevPage() {
   return (
     <div className="min-h-screen bg-gradient-surface">
       <PageHeader session={session} />
-      <Section className="bg-surface-hero py-16 pt-28" size="md">
+      <Section className="bg-surface-hero py-6 pt-20" size="sm">
         <Container size="lg">
-          <div className="text-center mb-16">
-            <div className="inline-flex items-center justify-center p-3 mb-6 rounded-full bg-accent-sales-business-10 border border-accent-sales-business-20">
-              <Coins className="w-12 h-12 text-accent-sales-business" />
+          <div className="flex items-center gap-6 mb-4">
+            <div className="inline-flex items-center justify-center p-3 rounded-full bg-accent-sales-business-10 border border-accent-sales-business-20 shadow-md">
+              <Coins className="w-8 h-8 text-accent-sales-business" />
             </div>
-            <Heading level={1} className="text-content-primary mb-2">
-              Rogue
-            </Heading>
-            <p className="text-content-secondary mb-6 text-lg">
-              Sales & Business Development
-            </p>
-            {userClass !== "Rogue" && userClass && (
-              <p className="text-content-tertiary text-sm mb-4">
-                You're exploring the Rogue class. Your primary class is {userClass}.
+            <div>
+              <Heading level={1} className="text-content-primary mb-0 tracking-tight text-2xl md:text-3xl">
+                Rogue
+              </Heading>
+              <p className="text-content-secondary text-sm">
+                Sales & Business Development
               </p>
-            )}
-            <p className="text-content-secondary max-w-2xl mx-auto text-xl leading-relaxed">
-              Level up your sales skills with AI-powered adventures. Unlock powerful tools to accelerate business development and close more deals.
-            </p>
+            </div>
           </div>
+          {userClass !== "Rogue" && userClass && (
+            <p className="text-content-tertiary text-xs mb-2">
+              Exploring Rogue class. Your primary class is {userClass}.
+            </p>
+          )}
+          <p className="text-content-secondary max-w-3xl text-base leading-relaxed">
+            Level up your sales skills with AI-powered adventures. Unlock powerful tools to accelerate business development and close more deals.
+          </p>
         </Container>
       </Section>
 

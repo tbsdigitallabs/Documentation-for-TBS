@@ -11,41 +11,41 @@ interface ModulePresentationProps {
     onComplete: () => void;
 }
 
-// Custom MDX Components to match Stitch Design
+// Custom MDX Components - Responsive text sizing
 const components = {
     h1: (props: any) => (
-        <h1 className="text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-cyber-cyan to-cyber-magenta mb-6 leading-tight" {...props} />
+        <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-cyber-cyan to-cyber-magenta mb-4 md:mb-6 leading-tight" {...props} />
     ),
     h2: (props: any) => (
-        <h2 className="text-4xl font-bold text-content-primary mb-6 mt-2" {...props} />
+        <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-content-primary mb-4 md:mb-6 mt-2" {...props} />
     ),
     h3: (props: any) => (
-        <h3 className="text-2xl font-bold text-cyber-cyan dark:text-cyber-cyan text-oxford-blue mb-4 mt-6" {...props} />
+        <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-[#02022B] dark:text-cyber-cyan mb-3 md:mb-4 mt-4 md:mt-6" {...props} />
     ),
     p: (props: any) => (
-        <div className="text-lg text-content-secondary leading-relaxed mb-6" {...props} />
+        <div className="text-sm sm:text-base md:text-lg text-content-secondary leading-relaxed mb-4 md:mb-6" {...props} />
     ),
     ul: (props: any) => (
-        <div className="grid grid-cols-1 gap-4 my-8">
-            <ul className="space-y-4" {...props} />
+        <div className="grid grid-cols-1 gap-2 md:gap-4 my-4 md:my-8">
+            <ul className="space-y-2 md:space-y-4" {...props} />
         </div>
     ),
     li: (props: any) => (
-        <li className="flex items-start gap-4 p-4 rounded-xl bg-surface-tertiary/50 border border-gray-200 dark:border-white/10 hover:bg-surface-tertiary transition-colors">
-            <div className="w-6 h-6 rounded-full bg-cyber-cyan/20 flex items-center justify-center flex-shrink-0 mt-1">
-                <div className="w-2 h-2 rounded-full bg-cyber-cyan" />
+        <li className="flex items-start gap-2 md:gap-4 p-2 md:p-4 rounded-lg md:rounded-xl bg-surface-tertiary/50 border border-gray-200 dark:border-white/10">
+            <div className="w-4 h-4 md:w-6 md:h-6 rounded-full bg-accent-sage-100 dark:bg-cyber-cyan/20 flex items-center justify-center flex-shrink-0 mt-0.5 md:mt-1">
+                <div className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-accent-sage-600 dark:bg-cyber-cyan" />
             </div>
-            <span className="text-content-secondary" {...props} />
+            <span className="text-sm md:text-base text-content-secondary" {...props} />
         </li>
     ),
     blockquote: (props: any) => (
-        <blockquote className="border-l-4 border-cyber-magenta pl-6 py-2 my-6 bg-cyber-magenta/5 rounded-r-lg italic text-content-secondary" {...props} />
+        <blockquote className="border-l-2 md:border-l-4 border-cyber-magenta pl-3 md:pl-6 py-2 my-4 md:my-6 bg-cyber-magenta/5 rounded-r-lg italic text-sm md:text-base text-content-secondary" {...props} />
     ),
     strong: (props: any) => (
         <strong className="text-content-primary font-bold" {...props} />
     ),
     img: (props: any) => (
-        <div className="relative w-full h-64 md:h-80 my-4 rounded-xl overflow-hidden border border-white/10 shadow-lg">
+        <div className="relative w-full h-40 sm:h-56 md:h-64 lg:h-80 my-3 md:my-4 rounded-lg md:rounded-xl overflow-hidden border border-white/10 shadow-lg">
             <img
                 className="object-cover w-full h-full"
                 {...props}
@@ -131,90 +131,86 @@ export function ModulePresentation({ content, onComplete }: ModulePresentationPr
 
     return (
         <div className="flex flex-col h-full w-full">
-            {/* Main Content Area */}
-            <div className="flex-grow flex flex-col relative min-h-0">
-
-                {/* Progress Indicator - Fixed at top of content */}
-                <div className="flex-shrink-0 mb-6 flex items-center gap-4 px-1">
-                    <div className="flex-grow h-1 bg-gray-200 dark:bg-gray-800 rounded-full overflow-hidden">
-                        <motion.div
-                            className="h-full bg-gradient-to-r from-cyber-cyan to-cyber-magenta"
-                            initial={{ width: 0 }}
-                            animate={{ width: `${progress}%` }}
-                            transition={{ duration: 0.5 }}
-                        />
-                    </div>
-                    <span className="text-sm font-mono text-content-tertiary">
-                        {currentSlide + 1} / {slides.length}
-                    </span>
+            {/* Progress Bar - Compact, at top */}
+            <div className="flex-shrink-0 mb-4 flex items-center gap-3">
+                <div className="flex-grow h-1.5 bg-gray-200 dark:bg-gray-800 rounded-full overflow-hidden">
+                    <motion.div
+                        className="h-full bg-gradient-to-r from-cyber-cyan to-cyber-magenta"
+                        initial={{ width: 0 }}
+                        animate={{ width: `${progress}%` }}
+                        transition={{ duration: 0.5 }}
+                    />
                 </div>
-
-                {/* Slide Content - Scrollable */}
-                <div className="flex-grow overflow-y-auto pr-2 custom-scrollbar">
-                    <AnimatePresence mode="wait">
-                        <motion.div
-                            key={currentSlide}
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, y: -20 }}
-                            transition={{ duration: 0.3 }}
-                            className="h-full"
-                        >
-                            <div className="bg-surface-card rounded-2xl p-6 md:p-10 border border-white/10 shadow-xl backdrop-blur-md min-h-full">
-                                {currentSlideData.image ? (
-                                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start h-full">
-                                        {/* Text Column */}
-                                        <div className="prose prose-lg prose-invert max-w-none">
-                                            <MDXRemote {...currentSlideData.serialized} components={components} />
-                                        </div>
-
-                                        {/* Image Column */}
-                                        <div className="relative w-full h-64 lg:h-auto lg:aspect-square rounded-xl overflow-hidden border border-white/10 shadow-lg lg:sticky lg:top-0">
-                                            <img
-                                                src={currentSlideData.image.src}
-                                                alt={currentSlideData.image.alt}
-                                                className="object-cover w-full h-full"
-                                            />
-                                        </div>
-                                    </div>
-                                ) : (
-                                    <div className="prose prose-lg prose-invert max-w-none mx-auto">
-                                        <MDXRemote {...currentSlideData.serialized} components={components} />
-                                    </div>
-                                )}
-                            </div>
-                        </motion.div>
-                    </AnimatePresence>
-                </div>
+                <span className="text-xs font-mono text-content-tertiary whitespace-nowrap">
+                    {currentSlide + 1} / {slides.length}
+                </span>
             </div>
 
-            {/* Footer Navigation - Fixed at bottom */}
-            <div className="flex-shrink-0 flex items-center justify-between mt-6 pt-6 border-t border-gray-200 dark:border-white/10">
+            {/* Main Content Area - Full width, scrollable */}
+            <div className="flex-grow overflow-y-auto min-h-0">
+                <AnimatePresence mode="wait">
+                    <motion.div
+                        key={currentSlide}
+                        initial={{ opacity: 0, x: 20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: -20 }}
+                        transition={{ duration: 0.25 }}
+                        className="h-full"
+                    >
+                        <div className="bg-surface-card rounded-xl p-5 md:p-8 border border-white/10 shadow-lg min-h-full">
+                            {currentSlideData.image ? (
+                                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
+                                    {/* Text Column */}
+                                    <div className="prose prose-lg prose-invert max-w-none">
+                                        <MDXRemote {...currentSlideData.serialized} components={components} />
+                                    </div>
+
+                                    {/* Image Column */}
+                                    <div className="relative w-full h-64 lg:h-80 rounded-xl overflow-hidden border border-white/10 shadow-lg">
+                                        <img
+                                            src={currentSlideData.image.src}
+                                            alt={currentSlideData.image.alt}
+                                            className="object-cover w-full h-full"
+                                        />
+                                    </div>
+                                </div>
+                            ) : (
+                                <div className="prose prose-lg prose-invert max-w-none">
+                                    <MDXRemote {...currentSlideData.serialized} components={components} />
+                                </div>
+                            )}
+                        </div>
+                    </motion.div>
+                </AnimatePresence>
+            </div>
+
+            {/* Footer Navigation - Responsive */}
+            <div className="flex-shrink-0 flex items-center justify-between mt-3 md:mt-4 pt-2 md:pt-3 border-t border-gray-200 dark:border-white/10">
                 <button
                     onClick={handlePrev}
                     disabled={currentSlide === 0}
-                    className={`flex items-center gap-2 px-6 py-3 rounded-lg font-medium transition-all
-                        ${currentSlide === 0
-                            ? 'text-content-tertiary cursor-not-allowed'
-                            : 'bg-surface-tertiary text-content-primary hover:bg-surface-tertiary/80'}`}
+                    className={`btn-nav flex items-center gap-1.5 md:gap-2 px-3 md:px-4 py-1.5 md:py-2 rounded-lg text-xs md:text-sm transition-all
+                        ${currentSlide === 0 ? 'opacity-50' : 'hover:scale-[1.02] active:scale-[0.98]'}`}
                 >
-                    <ChevronLeft className="w-5 h-5" />
-                    Previous
+                    <ChevronLeft className="w-3 h-3 md:w-4 md:h-4" />
+                    <span className="hidden sm:inline">Previous</span>
+                    <span className="sm:hidden">Back</span>
                 </button>
 
                 <button
                     onClick={handleNext}
-                    className="flex items-center gap-2 px-8 py-3 rounded-lg font-bold bg-button text-button border border-button-border hover:bg-button-hover transition-all"
+                    className="btn-primary flex items-center gap-1.5 md:gap-2 px-4 md:px-6 py-1.5 md:py-2 rounded-lg text-xs md:text-sm hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-all"
                 >
                     {currentSlide === slides.length - 1 ? (
                         <>
-                            Complete Module
-                            <CheckCircle className="w-5 h-5" />
+                            <span className="hidden sm:inline">Complete Mission</span>
+                            <span className="sm:hidden">Complete</span>
+                            <CheckCircle className="w-3 h-3 md:w-4 md:h-4" />
                         </>
                     ) : (
                         <>
-                            Continue
-                            <ArrowRight className="w-5 h-5" />
+                            <span>Continue</span>
+                            <ArrowRight className="w-3 h-3 md:w-4 md:h-4" />
                         </>
                     )}
                 </button>

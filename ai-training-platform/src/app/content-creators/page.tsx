@@ -44,27 +44,29 @@ export default async function ContentCreatorsPage() {
   return (
     <div className="min-h-screen bg-gradient-surface">
       <PageHeader session={session} />
-      <Section className="bg-surface-hero py-16 pt-28" size="md">
+      <Section className="bg-surface-hero py-6 pt-20" size="sm">
         <Container size="lg">
-          <div className="text-center mb-16">
-            <div className="inline-flex items-center justify-center p-3 mb-6 rounded-full bg-accent-content-creators-10 border border-accent-content-creators-20">
-              <Scroll className="w-12 h-12 text-accent-content-creators" />
+          <div className="flex items-center gap-6 mb-4">
+            <div className="inline-flex items-center justify-center p-3 rounded-full bg-accent-content-creators-10 border border-accent-content-creators-20 shadow-md">
+              <Scroll className="w-8 h-8 text-accent-content-creators" />
             </div>
-            <Heading level={1} className="text-content-primary mb-2">
-              Storyteller
-            </Heading>
-            <p className="text-content-secondary mb-6 text-lg">
-              Content Creators & PR
-            </p>
-            {userClass !== "Storyteller" && userClass && (
-              <p className="text-content-tertiary text-sm mb-4">
-                You're exploring the Storyteller class. Your primary class is {userClass}.
+            <div>
+              <Heading level={1} className="text-content-primary mb-0 tracking-tight text-2xl md:text-3xl">
+                Storyteller
+              </Heading>
+              <p className="text-content-secondary text-sm">
+                Content Creators & PR
               </p>
-            )}
-            <p className="text-content-secondary max-w-2xl mx-auto text-xl leading-relaxed">
-              Embark on content creation adventures with AI writing assistants. Level up your skills and unlock powerful creative tools.
-            </p>
+            </div>
           </div>
+          {userClass !== "Storyteller" && userClass && (
+            <p className="text-content-tertiary text-xs mb-2">
+              Exploring Storyteller class. Your primary class is {userClass}.
+            </p>
+          )}
+          <p className="text-content-secondary max-w-3xl text-base leading-relaxed">
+            Embark on content creation adventures with AI writing assistants. Level up your skills and unlock powerful creative tools.
+          </p>
         </Container>
       </Section>
 

@@ -63,7 +63,7 @@ export default function ClassSelectionPage() {
         return (
             <div className="min-h-screen bg-surface-primary text-content-primary flex items-center justify-center">
                 <div className="text-center">
-                    <p className="text-content-secondary">Loading...</p>
+                    <p className="text-content-secondary mono-text text-sm">INITIALISING SYSTEM...</p>
                 </div>
             </div>
         );
@@ -76,18 +76,19 @@ export default function ClassSelectionPage() {
             {/* Main Content */}
             <main className="px-5 pt-24 pb-10">
                 <div className="max-w-2xl mx-auto text-center">
-                    <h1 className="text-[32px] font-heading font-bold text-content-primary mb-3 leading-tight tracking-tight">Start Your AI Adventure</h1>
+                    <p className="mono-label text-accent-readable-cyan mb-2">TBS DIGITAL LABS // TRAINING DIVISION</p>
+                    <h1 className="text-[32px] font-heading font-bold text-content-primary mb-3 leading-tight tracking-tight">Initialise Training Protocol</h1>
                     <p className="body-regular text-content-secondary mb-8">
-                        Choose your class and embark on an exciting journey to master AI tools. Level up your skills with hands-on adventures designed for your role.
+                        Select your operative class and begin your AI mastery journey. Each track contains specialised missions designed for your role.
                     </p>
                 </div>
             </main>
 
-            {/* Class Selection - Horizontal Scroll */}
-            <div className="px-5 pb-4">
-                <div className="max-w-7xl mx-auto">
-                    <h2 className="text-[22px] font-heading font-bold text-content-primary mb-4 leading-tight tracking-tight text-center">Choose Your Class</h2>
-                    <div className="flex space-x-4 overflow-x-auto scrollbar-hide pb-4 justify-center">
+            {/* Class Selection - Responsive Grid */}
+            <div className="px-5 pb-8">
+                <div className="max-w-5xl mx-auto">
+                    <h2 className="text-xl font-heading font-bold text-content-primary mb-6 leading-tight tracking-tight text-center">Select Operative Class</h2>
+                    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
                         {classes.map((classItem) => {
                             const Icon = classIcons[classItem.name] || BookOpen;
                             const accentColor = classColors[classItem.name] || "#D56EED";
@@ -97,19 +98,19 @@ export default function ClassSelectionPage() {
                                 <button
                                     key={classItem.name}
                                     onClick={() => handleClassSelect(classItem)}
-                                    className={`flex flex-col shrink-0 w-40 rounded-2xl p-4 glass-card hover:scale-105 transition-transform ${isSelected ? "ring-2 ring-cyber-cyan" : ""
+                                    className={`flex flex-col items-center rounded-xl p-4 glass-card hover:scale-105 active:scale-[0.98] transition-all cursor-pointer ${isSelected ? "ring-2 ring-cyber-cyan" : ""
                                         }`}
                                 >
                                     <div
-                                        className="flex items-center justify-center size-12 rounded-xl mb-4"
+                                        className="flex items-center justify-center size-12 rounded-xl mb-3"
                                         style={{ backgroundColor: `${accentColor}33` }}
                                     >
-                                        <Icon className="text-3xl" style={{ color: accentColor }} />
+                                        <Icon className="w-6 h-6" style={{ color: accentColor }} />
                                     </div>
-                                    <h3 className="text-base font-body font-semibold text-content-primary mb-1 leading-tight">{classItem.name}</h3>
-                                    <p className="text-xs font-body font-normal text-content-secondary mb-2" style={{ opacity: 0.7 }}>{classItem.jobTitle}</p>
+                                    <h3 className="text-sm font-body font-semibold text-content-primary mb-0.5 leading-tight text-center">{classItem.name}</h3>
+                                    <p className="text-xs font-body font-normal text-content-secondary text-center" style={{ opacity: 0.7 }}>{classItem.jobTitle}</p>
                                     {isSelected && (
-                                        <p className="text-xs font-body font-semibold text-cyber-cyan mt-1">Selected</p>
+                                        <p className="text-xs font-body font-semibold text-cyber-cyan mt-2">Selected</p>
                                     )}
                                 </button>
                             );

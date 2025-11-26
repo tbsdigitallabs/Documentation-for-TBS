@@ -32,167 +32,143 @@ questions:
 
 # Foundation Module: Understanding AI for Developers
 
-Welcome! If you're completely new to AI in development, you're in the right place. This module will take you from 'AI? What's that?' to 'I can use AI to write better code!' 
+If you're new to AI-assisted development, this is where we start. By the end, you'll understand what these tools actually do, what's safe to share with them, and where they fit into your daily work.
 
-Think of this as your friendly guide—no jargon, no assumptions, just clear explanations that build on each other.
+## What You'll Walk Away With
 
-## Learning Objectives
+- A clear understanding of what AI, ML, and LLMs actually are
+- Knowledge of what's safe to share with AI tools (and what isn't)
+- A sense of where AI genuinely helps versus where it falls short
+- Confidence to start using these tools in your workflow
 
-By the end of this module, you will be able to:
-
-- Understand what AI actually is (in plain English!)
-- Tell the difference between AI, machine learning, and those chatbots everyone's talking about
-- Know what's safe to share with AI tools (and what definitely isn't)
-- Spot opportunities to use AI in your daily coding work
-
-![AI Developer Meme](https://via.placeholder.com/800x600/02022B/D56EED?text=Image)
-*'When you realise AI can write code faster than you can Google the error message'*
+![AI Developer Meme](https://media.giphy.com/media/26tn33aiTi1jkl6H6/giphy.gif)
 
 ---
 
-## What is AI? (The Simple Version)
+## What is AI? (The Practical Version)
 
-Let's start with the basics. **Artificial Intelligence (AI)** is basically a computer that can do things that normally need a human brain—like understanding language, recognising patterns, or making decisions.
+**Artificial Intelligence** is software that can handle tasks that typically require human reasoning—understanding language, recognising patterns, or making decisions based on incomplete information.
 
-**Think of it like this:** If regular code is a calculator (you press buttons, it gives you an answer), AI is more like a smart assistant that can figure out what you want even when you don't explain it perfectly.
+The key difference from traditional code: regular software follows explicit rules you write. AI systems learn patterns from data and can handle situations they weren't explicitly programmed for.
 
-### How AI Helps Developers (Real Examples)
+### What This Means for You
 
-Here's what AI can actually do for you right now:
+Here's what AI can actually do in your day-to-day work:
 
-- **Write Code for You**: Tell it 'create a function that sorts users by signup date' and it writes the code
-- **Find Bugs**: It can read your code and spot mistakes before you even run it
-- **Write Documentation**: Hate writing docs? AI can do it based on your code
-- **Create Tests**: It can write test cases to make sure your code works
-- **Explain Errors**: Stuck on an error message? AI can explain what went wrong and how to fix it
+- **Generate code** from natural language descriptions
+- **Spot bugs** before you run the code
+- **Write documentation** based on your codebase
+- **Generate test cases** for functions and modules
+- **Explain errors** and suggest fixes
 
-![Coding with AI](https://via.placeholder.com/800x600/02022B/D56EED?text=Image)
-*'Me: Write a function. AI: Done. Me: But I wanted it to... AI: Already fixed that too.'*
-
----
-
-## AI vs Machine Learning vs Large Language Models (Don't Panic!)
-
-Okay, this sounds complicated, but stick with me. These three terms get thrown around a lot, and understanding the difference will help you know what you're actually using.
-
-### Artificial Intelligence (AI) - The Big Umbrella
-
-**Think of AI as the whole category.** It's like saying 'vehicle'—that includes cars, trucks, bikes, everything.
-
-- **What it is**: Any computer system that acts intelligently
-- **Real example**: A chatbot that follows simple rules (like 'if user says hello, respond with hi')
-- **You've probably used**: Siri, Alexa, or any automated customer service chat
-
-![AI Umbrella](https://via.placeholder.com/800x600/02022B/D56EED?text=Image)
-*AI is the big umbrella—everything else fits under it*
-
-### Machine Learning (ML) - AI That Learns
-
-**This is AI that gets smarter by looking at data.** Instead of being programmed with every rule, it figures out patterns on its own.
-
-- **What it is**: AI that learns from examples (like showing it 1000 photos of cats until it can recognise cats)
-- **Real example**: Netflix recommending shows based on what you've watched
-- **In development**: Tools that predict which code is likely to have bugs based on past projects
-
-### Large Language Models (LLMs) - The Chatbots Everyone's Talking About
-
-**These are the AI tools you're probably here to learn about!** They're trained on massive amounts of text (books, websites, code) and can understand and generate human-like text.
-
-- **What it is**: AI that's really good at understanding and writing text (and code!)
-- **Real examples**: ChatGPT, GitHub Copilot, Cursor AI
-- **What makes them special**: They can understand context and have conversations
-
-![LLM Meme](https://via.placeholder.com/800x600/02022B/D56EED?text=Image)
-*'When the AI understands your vague request better than your project manager'*
+![Coding with AI](https://media.giphy.com/media/f3iwJFOVOwuy7K6FFw/giphy.gif)
 
 ---
 
-## The Safety Rules (This is Important!)
+## AI, ML, and LLMs: What's the Difference?
 
-Before we get to the fun stuff, let's talk about safety. AI is powerful, but like any powerful tool, you need to use it responsibly.
+These terms get used interchangeably, but they mean different things. Understanding the distinction helps you pick the right tool for the job.
 
-### Rule #1: Never Share Secrets
+### Artificial Intelligence (AI)
 
-**This is the most important rule.** AI tools can see everything you paste into them, and that data might be used to train future models.
+The umbrella term. Any system that can perform tasks requiring intelligence—whether through explicit rules or learned behaviour.
 
-**❌ NEVER share:**
-- API keys or passwords
-- Client data or personal information
-- Company secrets or proprietary code
+**Examples you've used:** Siri, Alexa, spam filters, autocomplete
+
+### Machine Learning (ML)
+
+A subset of AI where systems improve through exposure to data rather than explicit programming. You show it examples, and it learns patterns.
+
+**Examples:** Netflix recommendations, fraud detection, email categorisation
+
+### Large Language Models (LLMs)
+
+The category most relevant to your work. These are ML systems trained on massive text datasets—including code—that can understand and generate human-like text.
+
+**Examples:** ChatGPT, GitHub Copilot, Cursor, Claude
+
+LLMs are particularly useful for developers because they understand both natural language and programming languages, so you can describe what you want and get code back.
+
+![LLM Meme](https://media.giphy.com/media/citBl9yPwnUOs/giphy.gif)
+
+---
+
+## Security: The Non-Negotiable Rules
+
+Before we go further, let's cover what you absolutely must know about using these tools safely.
+
+### Rule 1: Never Share Secrets
+
+AI tools process everything you give them. Some providers use this data for training. Treat the input field like a public forum.
+
+**Never share:**
+- API keys, passwords, or tokens
+- Client data or PII
+- Proprietary business logic or trade secrets
 - Database credentials
 - Private keys or certificates
 
-**✅ SAFE to share:**
-- Public code examples
-- Generic code patterns
-- Error messages (without sensitive data)
+**Safe to share:**
+- Public code patterns
+- Generic examples
+- Error messages (scrubbed of sensitive context)
 - General programming questions
 
-![Security Meme](https://via.placeholder.com/800x600/02022B/D56EED?text=Image)
-*'Me: Can you help debug this? AI: Sure! Also, I now know your database password. Me: Wait, what?!'*
+![Security Meme](https://media.giphy.com/media/l0HlNQ03J5JxX6lva/giphy.gif)
 
-### Rule #2: Always Review AI-Generated Code
+### Rule 2: Review Everything
 
-AI is helpful, but it's not perfect. **Always review and test code that AI generates.**
+AI-generated code often works but isn't always correct, secure, or efficient. Treat it like code from a junior developer—review it properly before merging.
 
-- Check for security vulnerabilities
-- Make sure it follows your team's coding standards
-- Test it thoroughly before deploying
-- Understand what the code does (don't just copy-paste blindly)
+Check for:
+- Security vulnerabilities (especially in auth, input handling, and database queries)
+- Compliance with your team's coding standards
+- Edge cases the AI might have missed
+- Understanding of what the code actually does
 
-### Rule #3: Be Honest About AI Assistance
+### Rule 3: Be Transparent
 
-If AI helped you write code, that's fine! But be transparent about it:
-- Let your team know when you've used AI
-- Review AI suggestions with your colleagues
-- Don't claim AI-generated code as entirely your own work
+There's nothing wrong with using AI to write code. But be honest about it with your team. It helps with code review and builds trust.
 
-![Code Review](https://via.placeholder.com/800x600/02022B/D56EED?text=Image)
-*'Code review: Looks good! Did you write this? Me: ...define "write"'*
+![Code Review](https://media.giphy.com/media/LmNwrBhejkK9EFP504/giphy.gif)
 
 ---
 
-## What AI is Good At (And What It's Not)
+## Where AI Helps (And Where It Doesn't)
 
-Let's be realistic. AI is amazing, but it's not magic. Knowing what it can and can't do will save you a lot of frustration.
+Being realistic about capabilities saves frustration.
 
-### What AI Excels At ✅
+### What AI Does Well
 
-**The repetitive stuff:**
-- Writing boilerplate code (the boring setup code you write over and over)
-- Generating similar functions (like CRUD operations)
-- Creating documentation from code
-- Finding common bugs (typos, syntax errors, obvious mistakes)
-- Explaining what complex code does
+**Repetitive tasks:**
+- Boilerplate code you've written a hundred times
+- CRUD operations and similar patterns
+- Documentation from existing code
+- Catching common bugs and typos
+- Explaining unfamiliar codebases
 
-**Think of AI as your coding assistant**—great at the tedious tasks, so you can focus on the creative problem-solving.
+Think of it as handling the mechanical work so you can focus on the interesting problems.
 
-![AI Helper](https://via.placeholder.com/800x600/02022B/D56EED?text=Image)
-*'AI: I'll handle the boring stuff. You handle the "why does this exist?" questions.'*
+![AI Helper](https://media.giphy.com/media/3o7aCTfyhYawdOXcFW/giphy.gif)
 
-### What AI Struggles With ❌
+### What AI Struggles With
 
-**The important stuff that needs human judgement:**
-- Understanding your specific business rules (AI doesn't know your company's unique processes)
-- Making big architectural decisions (should we use microservices? AI can't decide that)
-- Handling weird edge cases (the 'but what if the user uploads a file that's actually a zip bomb?' scenarios)
-- Security decisions (AI might suggest code that works but isn't secure)
-- Understanding context (AI doesn't know why your client wants things done a certain way)
+**Judgement calls:**
+- Your specific business rules and domain logic
+- Architectural decisions (microservices vs monolith, database choices)
+- Edge cases that require understanding context
+- Security considerations in complex systems
+- Understanding why a client wants something done a certain way
 
-**Remember:** AI is a tool, not a replacement for thinking. You're still the developer—AI just makes you faster.
+AI is a tool, not a replacement for thinking. You're still the developer. AI just handles more of the grunt work.
 
-![AI Limitations](https://via.placeholder.com/800x600/02022B/D56EED?text=Image)
-*'AI: I can write code! Also AI: But I have no idea why you need it.'*
+![AI Limitations](https://media.giphy.com/media/VbnUQpnihPSIgIXuZv/giphy.gif)
 
 ---
 
-## Your First Practice: Let's Analyse Some Code Together
+## Practical Exercise: Analysing Code
 
-Ready to put this into practice? Let's look at a real code example and see how AI could help improve it.
-
-### The Code (Don't Worry, It's Simple!)
-
-Here's a function that calculates the total price of items in a shopping cart:
+Let's put this into practice. Here's a simple function:
 
 ```javascript
 function calculateTotal(items) {
@@ -204,72 +180,30 @@ function calculateTotal(items) {
 }
 ```
 
-**First, take a look at this code yourself.** What do you notice? Does it look okay? Can you spot any potential problems?
+Before asking AI for help, think through it yourself:
 
-### Step 1: What Could Go Wrong?
-
-Before we bring in AI, let's think like developers. What issues can you spot?
-
-**Hint:** What happens if:
-- Someone passes in `null` or `undefined`?
-- One of the items doesn't have a `price` property?
+**What happens if:**
+- Someone passes `null` or `undefined`?
+- An item doesn't have a `price` property?
 - The `price` is a string instead of a number?
 - The array is empty?
 
-![Debugging](https://via.placeholder.com/800x600/02022B/D56EED?text=Image)
-*'Code: Works on my machine! Reality: Your machine is lying.'*
+![Works on my machine](https://media.giphy.com/media/xUPGcguWZHRC2HyBRS/giphy.gif)
 
-### Step 2: How Could AI Help?
+This is the kind of analysis you should always do before—and after—AI generates code. The AI can help you improve this function, but you need to know what questions to ask and how to evaluate the response.
 
-Now, imagine you pasted this code into ChatGPT or Cursor AI and asked: *'Can you improve this function and add error handling?'*
-
-**What do you think AI would suggest?** (We'll show you in the next module, but try to guess first!)
-
-### Step 3: What Would You Add?
-
-Even with AI's help, you'd still need to think about:
-- **Error handling**: What if something goes wrong?
-- **Input validation**: How do we make sure the data is correct?
-- **Edge cases**: What about empty arrays or missing prices?
-- **Testing**: How would we test this to make sure it works?
-
-### Your Turn!
-
-Try this: Write down 3 improvements you'd make to this function. Don't worry if you're not sure—this is about thinking like a developer, not writing perfect code yet.
-
-**Next module, we'll show you how AI can help with this exact scenario!**
+In the next module, we'll use AI tools to actually improve this code and see the workflow in action.
 
 ---
 
-## What's Next? Your Learning Journey
+## What's Next
 
-Great work! You've completed the foundation. Here's what comes next:
+This was the foundation. The next modules cover:
 
-### Module 2: Your AI Tools
-You'll learn about the actual tools you'll use:
-- **Cursor IDE**: An editor with AI built right in
-- **GitHub Copilot**: AI that suggests code as you type
-- How to set them up and use them safely
-
-### Module 3: Real Workflows
-See AI in action with real examples:
-- Writing functions from scratch
-- Debugging actual errors
-- Refactoring messy code
-
-### Module 4: Going Deeper
-Once you're comfortable, we'll cover:
-- Advanced AI techniques
-- Building your own AI tools
-- Integrating AI into your team's workflow
-
-### Module 5: The Big Project
-Put it all together with a complete project that uses AI throughout.
-
-**Remember:** Everyone learns at their own pace. If something doesn't make sense, that's okay! Go back and re-read, or ask for help. You've got this! 🚀
-
-![Next Steps](https://via.placeholder.com/800x600/02022B/D56EED?text=Image)
-*'You: I understand AI now! Also you: Wait, there's more modules? Me: Always more modules.'*
+- **Module 2:** Setting up and using Cursor, Copilot, and other AI tools
+- **Module 3:** Real workflows—writing, debugging, and refactoring with AI
+- **Module 4:** Advanced techniques and team integration
+- **Module 5:** A complete project using AI throughout
 
 ## Resources
 
@@ -280,18 +214,13 @@ Put it all together with a complete project that uses AI throughout.
 
 ---
 
-## Module Checklist
+## Before Moving On
 
-Before moving on, make sure you've:
+Make sure you've:
 
-- [ ] Read through all the content (don't skip the safety rules!)
+- [ ] Read through the content (especially the security section)
 - [ ] Understood the difference between AI, ML, and LLMs
-- [ ] Completed the code analysis exercise (even if you're not sure, give it a go!)
-- [ ] Bookmarked the resources below for later
+- [ ] Thought through the code analysis exercise
+- [ ] Bookmarked the resources for reference
 
-**How long should this take?** About 30 minutes if you're reading carefully, longer if you're taking notes (which is great!).
-
-**Feeling confident?** Move on to the next module!
-**Still confused?** That's normal! Re-read the sections that didn't make sense, or jump ahead and come back—sometimes seeing it in practice helps.
-
-**Remember:** There's no test at the end. This is about learning, not passing exams. Take your time! 🎓
+This should take about 30 minutes. If you want to take notes or really dig into the exercise, allow more time.

@@ -49,7 +49,7 @@ export default function RolePageContent({
         return (
             <div className="min-h-screen bg-gradient-surface flex items-center justify-center">
                 <div className="text-center">
-                    <p className="text-content-secondary">Loading...</p>
+                    <p className="text-content-secondary mono-text text-sm">LOADING MISSION DATA...</p>
                 </div>
             </div>
         );
@@ -57,24 +57,24 @@ export default function RolePageContent({
 
     return (
         <>
-            <Section className="bg-gradient-surface py-16" size="lg">
+            <Section className="bg-gradient-surface py-8" size="lg">
                 <Container size="xl">
-                    <h2 className="text-2xl font-heading font-bold text-content-primary mb-6">
-                        {isUserClass ? "Your Adventures" : `${roleName} Adventures`}
+                    <h2 className="mono-label text-accent-readable-cyan mb-4">
+                        {isUserClass ? "ACTIVE MISSIONS" : `${roleName.toUpperCase()} MISSIONS`}
                     </h2>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch mb-12">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 items-stretch mb-8">
                         {modules.map((module) => (
                             <HoloCard key={module.slug} role={roleSlug as any} className="flex flex-col h-full">
                                 <div className="mb-6">
                                     <span
-                                        className="text-xs font-mono uppercase tracking-wider px-2 py-1 rounded-md border inline-block"
+                                        className="mono-label px-2 py-1 rounded-md border inline-block"
                                         style={{
                                             color: accentColor,
                                             backgroundColor: `${accentColor}15`,
                                             borderColor: `${accentColor}30`
                                         }}
                                     >
-                                        ADVENTURE {module.slug.split('-')[0].padStart(2, '0')}
+                                        MISSION {module.slug.split('-')[0].padStart(2, '0')}
                                     </span>
                                 </div>
                                 <h2 className="heading-3 text-content-primary mb-4 flex-grow">{module.title}</h2>
@@ -87,10 +87,11 @@ export default function RolePageContent({
                                 </div>
                                 <Link href={`/${roleSlug}/${module.slug}`} className="mt-auto">
                                     <Button
-                                        className="w-full text-white py-3 text-base"
-                                        style={{ backgroundColor: accentColor }}
+                                        variant="default"
+                                        size="lg"
+                                        className="w-full"
                                     >
-                                        Begin Adventure
+                                        Deploy
                                     </Button>
                                 </Link>
                             </HoloCard>
@@ -101,10 +102,10 @@ export default function RolePageContent({
                         <div className="mt-12">
                             <button
                                 onClick={() => setShowMore(!showMore)}
-                                className="w-full flex items-center justify-between px-6 py-4 bg-surface-card rounded-lg border border-border-primary hover:bg-surface-hover transition-colors mb-6"
+                                className="w-full flex items-center justify-between px-6 py-4 bg-surface-card rounded-lg border border-border-primary hover:bg-surface-hover hover:scale-[1.01] active:scale-[0.99] transition-all cursor-pointer mb-6"
                             >
-                                <span className="text-lg font-semibold text-content-primary">
-                                    Explore Other Classes
+                                <span className="mono-label text-content-primary">
+                                    Browse Other Operatives
                                 </span>
                                 {showMore ? (
                                     <ChevronUp className="w-5 h-5 text-content-secondary" />
@@ -124,8 +125,8 @@ export default function RolePageContent({
                                                 {mods.slice(0, 3).map((module) => (
                                                     <HoloCard key={module.slug} role={roleMap[classInfo.name] as any} className="flex flex-col h-full">
                                                         <div className="mb-6">
-                                                            <span className="text-xs font-mono uppercase tracking-wider px-2 py-1 rounded-md inline-block">
-                                                                ADVENTURE {module.slug.split('-')[0].padStart(2, '0')}
+                                                            <span className="mono-label px-2 py-1 rounded-md inline-block text-content-secondary">
+                                                                MISSION {module.slug.split('-')[0].padStart(2, '0')}
                                                             </span>
                                                         </div>
                                                         <h2 className="heading-3 text-content-primary mb-4 flex-grow">{module.title}</h2>
@@ -133,8 +134,8 @@ export default function RolePageContent({
                                                             {module.description || "Learn new skills in this module."}
                                                         </p>
                                                         <Link href={`${classInfo.route}/${module.slug}`} className="mt-auto">
-                                                            <Button className="w-full py-3 text-base">
-                                                                View Adventure
+                                                            <Button variant="default" size="lg" className="w-full">
+                                                                View Mission
                                                             </Button>
                                                         </Link>
                                                     </HoloCard>

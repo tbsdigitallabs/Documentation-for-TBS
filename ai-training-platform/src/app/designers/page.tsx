@@ -44,27 +44,29 @@ export default async function DesignersPage() {
   return (
     <div className="min-h-screen bg-gradient-surface">
       <PageHeader session={session} />
-      <Section className="bg-surface-hero py-16 pt-28" size="md">
+      <Section className="bg-surface-hero py-6 pt-20" size="sm">
         <Container size="lg">
-          <div className="text-center mb-16">
-            <div className="inline-flex items-center justify-center p-3 mb-6 rounded-full bg-accent-designers-10 border border-accent-designers-20">
-              <Sparkles className="w-12 h-12 text-accent-designers" />
+          <div className="flex items-center gap-6 mb-4">
+            <div className="inline-flex items-center justify-center p-3 rounded-full bg-accent-designers-10 border border-accent-designers-20 shadow-md">
+              <Sparkles className="w-8 h-8 text-accent-designers" />
             </div>
-            <Heading level={1} className="text-content-primary mb-2">
-              Bard
-            </Heading>
-            <p className="text-content-secondary mb-6 text-lg">
-              Designers
-            </p>
-            {userClass !== "Bard" && userClass && (
-              <p className="text-content-tertiary text-sm mb-4">
-                You're exploring the Bard class. Your primary class is {userClass}.
+            <div>
+              <Heading level={1} className="text-content-primary mb-0 tracking-tight text-2xl md:text-3xl">
+                Bard
+              </Heading>
+              <p className="text-content-secondary text-sm">
+                Designers
               </p>
-            )}
-            <p className="text-content-secondary max-w-2xl mx-auto text-xl leading-relaxed">
-              Embark on creative adventures with AI design tools. Level up your visual skills and unlock powerful workflows.
-            </p>
+            </div>
           </div>
+          {userClass !== "Bard" && userClass && (
+            <p className="text-content-tertiary text-xs mb-2">
+              Exploring Bard class. Your primary class is {userClass}.
+            </p>
+          )}
+          <p className="text-content-secondary max-w-3xl text-base leading-relaxed">
+            Embark on creative adventures with AI design tools. Level up your visual skills and unlock powerful workflows.
+          </p>
         </Container>
       </Section>
 

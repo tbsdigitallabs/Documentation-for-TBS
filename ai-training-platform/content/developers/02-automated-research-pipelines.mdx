@@ -32,109 +32,95 @@ questions:
 
 # Automated Research and Data Pipelines
 
-Welcome back! Now that you understand the basics of AI, let's build something useful. This module will teach you how to create tools that automatically gather and analyse information—think of it as giving yourself a research assistant that never sleeps.
+Now that you understand the basics, let's build something useful. This module covers how to create tools that gather and analyse information automatically—essentially giving yourself a research assistant that works around the clock.
 
-![Research Assistant](https://via.placeholder.com/800x600/02022B/D56EED?text=Image)
-*'When you realise you can automate the boring research tasks'*
+![Automated Research](https://media.giphy.com/media/3o7btNa0RUYa5E7iiQ/giphy.gif)
 
-## Learning Objectives
+## What You'll Build
 
 By the end of this module, you'll be able to:
 
-- Build simple automated scrapers using AI (don't worry, we'll start simple!)
+- Build simple automated scrapers using AI
 - Create data pipelines that feed information into AI for analysis
-- Understand the ethical rules of web scraping (this is important!)
-- Build a basic 'research engine' that runs automatically
+- Understand the ethical boundaries of web scraping
+- Build a basic research engine that runs on a schedule
 
 ---
 
-## Why Automate Research? (The Problem We're Solving)
+## The Problem We're Solving
 
-Let's be honest: manual research is **tedious**. 
+Manual research is slow and repetitive.
 
 **The old way:**
-- Spend 2 hours Googling
-- Copy-paste information into a document
-- Try to remember where you found everything
-- Do it all again next week when you need updated info
+- Spend hours searching and copying information
+- Lose track of where things came from
+- Repeat the whole process when you need updates
 
 **The new way:**
-- Click a button
-- Get a report with all the latest information
-- Have it update automatically
+- Run a script
+- Get a structured report
+- Schedule it to update automatically
 
-As developers, we can build tools that give our strategy team (and ourselves) superpowers. Instead of 'Googling for 2 hours,' we want 'Click button, get report.'
+As developers, we can build tools that turn "spend 2 hours Googling" into "click button, get report."
 
-![Manual vs Automated](https://via.placeholder.com/800x600/02022B/D56EED?text=Image)
-*'Manual research: 2 hours. Automated research: 2 minutes. Your boss: Why didn't you do this sooner?'*
-
----
-
-## How a Research Pipeline Works (The Simple Version)
-
-Think of a research pipeline like a factory assembly line:
-
-1. **Get the Data** (Ingestion): Visit websites, read APIs, check RSS feeds
-2. **Clean It Up** (Processing): Remove junk, organise the information
-3. **Understand It** (Analysis): Send it to AI to extract the important bits
-4. **Save It** (Storage): Put it in a database or file
-5. **Show It** (Presentation): Display it in a way that makes sense
-
-**Don't worry if this sounds complex**—we'll build it step by step, and you'll understand each part before moving to the next.
-
-![Pipeline Diagram](https://via.placeholder.com/800x600/02022B/D56EED?text=Image)
-*'Data goes in → Magic happens → Useful information comes out'*
+![Manual vs Automated](https://media.giphy.com/media/l0HlNQ03J5JxX6lva/giphy.gif)
 
 ---
 
-## The Tools You'll Use
+## How a Research Pipeline Works
 
-Before we start building, here are the tools we'll talk about:
+Think of it like an assembly line:
+
+1. **Ingestion** — Visit websites, call APIs, check RSS feeds
+2. **Processing** — Remove noise, organise the raw data
+3. **Analysis** — Send it to AI to extract what matters
+4. **Storage** — Save it to a database or file
+5. **Presentation** — Display it in a useful format
+
+We'll build this step by step. Each piece is straightforward on its own.
+
+![Data Pipeline](https://media.giphy.com/media/xT9IgzoKnwFNmISR8I/giphy.gif)
+
+---
+
+## The Tools
+
+Here's what we'll be working with:
 
 ### Puppeteer / Playwright
-**What it does:** Controls a web browser automatically (like a robot using Chrome)
-**Why you need it:** Some websites need JavaScript to load content—regular scraping can't see that
-**Think of it as:** A robot that can click buttons and scroll pages
+Controls a browser automatically. Useful for sites that need JavaScript to render content.
 
 ### LangChain / LlamaIndex
-**What it does:** Helps organise how AI processes information
-**Why you need it:** Makes it easier to send data to AI and get structured results back
-**Think of it as:** A translator between your code and the AI
+Frameworks for organising how AI processes information. Makes it easier to structure prompts and handle responses.
 
 ### OpenAI API / Anthropic API
-**What it does:** The 'brain' that analyses the data
-**Why you need it:** This is what actually understands and extracts information
-**Think of it as:** The smart assistant that reads everything and tells you what matters
+The AI that actually analyses the data. This is what understands context and extracts information.
 
 ### Supabase / Postgres
-**What it does:** Stores the data you collect
-**Why you need it:** You need somewhere to save all this information
-**Think of it as:** A filing cabinet for your research
+Where you store the collected data. Every pipeline needs somewhere to save results.
 
-**Don't worry about learning all of these right now**—we'll introduce them as we need them!
+We'll introduce these as needed—no need to learn them all upfront.
 
 ---
 
-## Building Your First Simple Scraper (Step by Step)
+## Building Your First Scraper
 
-Let's start with something simple: extracting information from a webpage.
+Let's start simple: extracting information from a webpage.
 
-### The Old Way (Why It's Frustrating)
+### The Old Way (Regex)
 
-Traditionally, developers would write complex code (called 'regex') to find specific patterns in HTML. This is **brittle**—if the website changes its layout even slightly, your code breaks.
+Traditional scrapers use pattern matching to find data in HTML. This breaks whenever the website changes its layout:
 
-**Example of the old way:**
 ```javascript
-// This is fragile and breaks if the HTML changes
+// Fragile—breaks if the HTML structure changes
 const title = html.match(/<h1>(.*?)<\/h1>/)[1];
 ```
 
-### The New Way (Using AI)
+### The New Way (AI Extraction)
 
-Instead of trying to parse HTML with code, we let AI understand the content and extract what we need:
+Instead of parsing HTML with code, let AI understand the content:
 
 ```typescript
-// Simplified example - don't worry about understanding this yet!
 const rawHtml = await page.content();
 const prompt = `
   Extract all news headlines and dates from this HTML.
@@ -144,106 +130,70 @@ const prompt = `
 const result = await llm.complete(prompt);
 ```
 
-**What's happening here?**
-1. We get the HTML from a webpage
-2. We send it to AI with instructions: 'Find headlines and dates'
+What's happening:
+1. Get the HTML from a page
+2. Ask AI to find headlines and dates
 3. AI understands the structure and extracts the data
-4. We get back clean, structured data
+4. You get clean, structured output
 
-**The beauty of this:** Even if the website changes its layout, AI can usually still find what you need!
-
-![AI Scraping](https://via.placeholder.com/800x600/02022B/D56EED?text=Image)
-*'Old way: Write 50 lines of regex. New way: Ask AI nicely.'*
+The advantage: even if the website changes its layout, AI can usually still find what you need.
 
 ---
 
-## The Ethical Rules (Please Read This!)
+## The Ethics of Scraping
 
-Just because you *can* scrape a website doesn't mean you *should*. Let's talk about being a good internet citizen.
+Just because you can scrape something doesn't mean you should.
 
-### Rule #1: Check robots.txt
+### Check robots.txt
 
-**What is it?** A file on websites that tells bots what they're allowed to access.
+Before scraping any site, visit `website.com/robots.txt`. This file tells you what the site owner allows bots to access. Respect it.
 
-**How to check:** Visit `website.com/robots.txt` before scraping
+### Rate Limiting
 
-**Why it matters:** It's the website owner's way of saying 'please don't scrape this' or 'this part is okay'
+Add delays between requests. Don't hammer servers with hundreds of requests per second. A 1-2 second delay between requests is reasonable.
 
-### Rule #2: Don't Hammer Their Servers
+### Identify Yourself
 
-**What this means:** Add delays between requests. Don't make 1000 requests per second.
+Set an honest User Agent:
 
-**Why it matters:** You could crash their website or get yourself blocked (or worse, sued)
-
-**How to do it right:** Add a 1-2 second delay between requests. Be respectful.
-
-### Rule #3: Identify Yourself
-
-**What this means:** Set a 'User Agent' that identifies your bot honestly
-
-**Why it matters:** Website owners can see who's accessing their site. Be transparent.
-
-**Example:**
 ```javascript
-// Good: Honest about who you are
+// Good: Honest identification
 'User-Agent': 'TBS-Research-Bot/1.0 (research@tbsdigitallabs.com.au)'
 
 // Bad: Pretending to be a regular browser
 'User-Agent': 'Mozilla/5.0...'
 ```
 
-![Ethical Scraping](https://via.placeholder.com/800x600/02022B/D56EED?text=Image)
-*'Be a good bot. Check robots.txt. Add delays. Identify yourself. Don't be that bot.'*
-
 ---
 
-## Your First Practice: Build a News Aggregator
+## Practical Exercise: News Aggregator
 
-Ready to build something? Let's create a simple script that gathers tech news.
-
-### What We're Building
-
-A script that:
-1. Visits a tech news website (like Hacker News)
+Let's build a script that:
+1. Visits a tech news site (like Hacker News)
 2. Extracts the top 5 stories
-3. Uses AI to summarise each story into one sentence
-4. Saves everything to a JSON file
+3. Uses AI to summarise each in one sentence
+4. Saves everything to JSON
 
-### Step 1: Set Up Your Environment
+### Setup
 
-**If you're using Node.js:**
+**Node.js:**
 ```bash
 npm install puppeteer openai
 ```
 
-**If you're using Python:**
+**Python:**
 ```bash
 pip install playwright openai
 ```
 
-**Don't worry if you're not sure which to use**—both work! Pick the language you're more comfortable with.
+### The Steps
 
-### Step 2: Write the Basic Scraper
+1. **Get the HTML** — Use Puppeteer/Playwright to load the page
+2. **Extract headlines** — Send the HTML to AI with extraction instructions
+3. **Summarise** — For each headline, ask AI for a one-sentence summary
+4. **Save** — Write results to a JSON file
 
-Start simple: just get the HTML from a page. Don't try to extract anything yet—just see if you can access the page.
-
-**Hint:** Use Puppeteer (Node.js) or Playwright (Python) to open the page and get its content.
-
-### Step 3: Extract the Headlines
-
-Now use AI to extract the headlines. Paste the HTML into ChatGPT or use the OpenAI API with a prompt like:
-
-> "Extract the top 5 news headlines from this HTML. Return them as a JSON array with 'headline' and 'link' fields."
-
-### Step 4: Summarise Each Story
-
-For each headline, ask AI to summarise it:
-
-> "Summarise this news story in one sentence: [headline]"
-
-### Step 5: Save to JSON
-
-Save all the results to a JSON file. You should end up with something like:
+### Expected Output
 
 ```json
 [
@@ -251,75 +201,58 @@ Save all the results to a JSON file. You should end up with something like:
     "headline": "New AI Tool Released",
     "link": "https://...",
     "summary": "A new AI tool that helps developers..."
-  },
-  ...
+  }
 ]
 ```
 
-### Questions to Think About
+### Things to Consider
 
-As you build this, consider:
 - What happens if the website is down?
 - How do you handle errors gracefully?
-- What if the AI doesn't understand the HTML?
-- How would you make this run automatically every day?
+- What if AI doesn't understand the HTML?
+- How would you schedule this to run daily?
 
-**Don't worry if you get stuck!** This is about learning, not perfection. Try each step, and if something doesn't work, that's okay—you're learning!
-
-![First Project](https://via.placeholder.com/800x600/02022B/D56EED?text=Image)
-*'Your first scraper: It works! Also your first scraper: Why is it getting blocked?'*
+If you get stuck, that's part of learning. Try each step and see what breaks.
 
 ---
 
-## Scaling Up: What's Next?
+## Scaling Up
 
-Once you've built your first scraper, you might wonder: 'How do I scale this to 100 websites?'
+Once your first scraper works, the question becomes: how do I handle 100 websites?
 
-**The answer:** Build it step by step.
+Build incrementally:
+1. Get one website working reliably
+2. Add error handling and retries
+3. Add a second website, reusing your code
+4. Build the infrastructure (database, scheduling, monitoring)
 
-1. **Start with one website** (which you just did!)
-2. **Make it work reliably** (handle errors, add retries)
-3. **Add a second website** (reuse your code)
-4. **Build a system** (database, scheduling, monitoring)
-
-**Don't try to build everything at once.** Get one thing working perfectly, then expand.
+Don't try to build everything at once.
 
 ---
 
-## Next Steps
+## What's Next
 
-You've built your first research tool! Here's what comes next:
+You've built your first research tool. Coming up:
 
-1. **AI-Assisted Testing**: Learn to test your code automatically
-2. **Refactoring**: Clean up and improve your code
-3. **Documentation**: Document your tools so others can use them
-
-**Remember:** Every expert was once a beginner. You're building real tools that solve real problems. That's impressive! 🚀
+1. **AI-Assisted Testing** — Automate your test suite
+2. **Refactoring** — Clean up and improve existing code
+3. **Documentation** — Generate docs for your tools
 
 ---
 
 ## Resources
 
-- [LangChain Documentation](https://js.langchain.com/docs/) - For organising AI workflows
-- [Puppeteer Guide](https://pptr.dev/) - For browser automation
-- [Robots.txt Guide](https://developers.google.com/search/docs/crawling-indexing/robots/intro) - Understanding the rules
+- [LangChain Documentation](https://js.langchain.com/docs/)
+- [Puppeteer Guide](https://pptr.dev/)
+- [Robots.txt Guide](https://developers.google.com/search/docs/crawling-indexing/robots/intro)
 
 ---
 
-## Module Checklist
+## Before Moving On
 
-Before moving on:
+- [ ] Read through the content
+- [ ] Built your first scraper (even a basic version)
+- [ ] Understood the ethical guidelines
+- [ ] Considered how you'd scale it
 
-- [ ] Read through all the content
-- [ ] Built your first news aggregator (even if it's simple!)
-- [ ] Understood the ethical scraping rules
-- [ ] Thought about how you'd scale your scraper
-
-**Estimated Time:** 60 minutes (longer if you're building along with the examples)
-
-**Difficulty:** Intermediate (but we've broken it down into simple steps!)
-
-**Feeling confident?** Move on to testing!
-**Still working on it?** That's fine! Take your time. Building things takes practice.
-
-**You've got this!** 💪
+This should take about 60 minutes—longer if you're building along with the examples.

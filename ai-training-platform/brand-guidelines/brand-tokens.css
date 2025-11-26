@@ -223,6 +223,34 @@
   --color-disabled-bg: #e5e7eb;
   --color-disabled-text: #6b7280;
   --color-disabled-border: #d1d5db;
+
+  /* === SEMANTIC BUTTON TOKENS - Auto-switch with theme === */
+  /* Primary Button (Brand gradient) */
+  --btn-primary-bg: linear-gradient(to right, #02022B, #121856);
+  --btn-primary-text: #FFFFFF;
+  --btn-primary-border: transparent;
+  
+  /* Secondary Button */
+  --btn-secondary-bg: #F0F2F5;
+  --btn-secondary-text: #02022B;
+  --btn-secondary-border: #d1d5db;
+  --btn-secondary-hover: #E5E7EB;
+  
+  /* Accent Button (Magenta/Sage gradient) */
+  --btn-accent-bg: linear-gradient(to right, #D56EED, #61BDBA);
+  --btn-accent-text: #02022B;
+  --btn-accent-border: transparent;
+
+  /* Ghost Button */
+  --btn-ghost-bg: transparent;
+  --btn-ghost-text: #374151;
+  --btn-ghost-hover: #F3F4F6;
+
+  /* Navigation/Previous Button */
+  --btn-nav-bg: #E5E7EB;
+  --btn-nav-text: #374151;
+  --btn-nav-hover: #D1D5DB;
+  --btn-nav-disabled-text: #9CA3AF;
 }
 
 /* Dark Mode Variables - Applied when .dark class is present */
@@ -276,6 +304,34 @@
   --color-disabled-bg: #374151;
   --color-disabled-text: #9ca3af;
   --color-disabled-border: #4b5563;
+
+  /* === SEMANTIC BUTTON TOKENS - Dark Mode === */
+  /* Primary Button (Brand gradient - same in dark) */
+  --btn-primary-bg: linear-gradient(to right, #61BDBA, #D56EED);
+  --btn-primary-text: #02022B;
+  --btn-primary-border: transparent;
+  
+  /* Secondary Button */
+  --btn-secondary-bg: rgba(255, 255, 255, 0.1);
+  --btn-secondary-text: #FFFFFF;
+  --btn-secondary-border: rgba(255, 255, 255, 0.2);
+  --btn-secondary-hover: rgba(255, 255, 255, 0.15);
+  
+  /* Accent Button */
+  --btn-accent-bg: linear-gradient(to right, #D56EED, #61BDBA);
+  --btn-accent-text: #02022B;
+  --btn-accent-border: transparent;
+
+  /* Ghost Button */
+  --btn-ghost-bg: transparent;
+  --btn-ghost-text: #E5E7EB;
+  --btn-ghost-hover: rgba(255, 255, 255, 0.1);
+
+  /* Navigation/Previous Button */
+  --btn-nav-bg: rgba(255, 255, 255, 0.1);
+  --btn-nav-text: #FFFFFF;
+  --btn-nav-hover: rgba(255, 255, 255, 0.2);
+  --btn-nav-disabled-text: #6B7280;
 }
 
 /* Font Face Declarations */

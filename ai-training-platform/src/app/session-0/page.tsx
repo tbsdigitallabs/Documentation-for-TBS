@@ -63,7 +63,7 @@ export default async function Session0Page() {
                   </div>
 
                   <Link href={`/session-0/${module.slug}`} className="mt-auto">
-                    <Button className="w-full bg-accent-magenta-500 text-white hover:bg-accent-magenta-600 py-3 text-base">
+                    <Button variant="default" size="lg" className="w-full">
                       Begin Adventure
                     </Button>
                   </Link>

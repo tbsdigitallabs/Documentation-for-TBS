@@ -1,13 +1,10 @@
 import { getModuleBySlug, getModuleSlugs } from '@/lib/mdx';
-import { MDXRemote } from 'next-mdx-remote/rsc';
 import Link from 'next/link';
-import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import ThemeToggle from '@/components/ThemeToggle';
-import { GlassCard } from '@/components/ui/GlassCard';
-import { ArrowLeft, Clock, Target, BookOpen } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 import { ModuleWrapper } from '@/components/modules/ModuleWrapper';
 
 // Force static generation for these pages
@@ -67,47 +64,35 @@ export default async function ModulePage({ params }: { params: Promise<{ role: s
 
         return (
             <div className="min-h-screen bg-surface-primary text-content-primary relative overflow-hidden flex flex-col h-screen">
-                {/* Background Effects */}
+                {/* Background Effects - Subtle */}
                 <div className="absolute top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none">
-                    <div className="absolute top-[-10%] right-[-5%] w-[500px] h-[500px] bg-cyber-magenta/10 rounded-full blur-[120px]" />
-                    <div className="absolute bottom-[-10%] left-[-5%] w-[500px] h-[500px] bg-cyber-cyan/10 rounded-full blur-[120px]" />
+                    <div className="absolute top-[-20%] right-[-10%] w-[400px] h-[400px] bg-cyber-magenta/5 rounded-full blur-[100px]" />
+                    <div className="absolute bottom-[-20%] left-[-10%] w-[400px] h-[400px] bg-cyber-cyan/5 rounded-full blur-[100px]" />
                 </div>
 
-                {/* Header */}
-                <header className="border-b border-white/10 bg-black/20 backdrop-blur-md sticky top-0 z-50 flex-shrink-0">
-                    <div className="container mx-auto px-5 py-4">
+                {/* Minimal Header - Just navigation */}
+                <header className="border-b border-gray-200 dark:border-white/10 bg-[#F0F2F5] dark:bg-[#02022B] sticky top-0 z-50 flex-shrink-0">
+                    <div className="px-4 py-1.5 max-w-7xl mx-auto">
                         <div className="flex items-center justify-between">
-                            <div className="flex items-center space-x-6">
-                                <Link href={role === 'session-0' ? '/session-0' : `/${role}`} className="p-2 rounded-full hover:bg-white/10 transition-colors group">
-                                    <ArrowLeft className="w-5 h-5 text-content-secondary group-hover:text-content-primary" />
-                                </Link>
-                                <div className="h-6 w-px bg-white/10" />
-                                <Link href="/" className="flex items-center gap-3">
-                                    <Image
-                                        src="/images/tbs-lab-logo.png?v=2"
-                                        alt="TBS Digital Labs"
-                                        width={140}
-                                        height={47}
-                                        className="h-8 w-auto object-contain invert dark:invert-0"
-                                        priority
-                                    />
-                                </Link>
-                            </div>
-                            <div className="flex items-center space-x-4">
+                            <Link href={role === 'session-0' ? '/session-0' : `/${role}`} className="py-1 px-2 -ml-2 rounded-lg hover:bg-white/10 transition-colors group flex items-center gap-2">
+                                <ArrowLeft className="w-4 h-4 text-content-secondary group-hover:text-content-primary" />
+                                <span className="text-sm text-content-secondary group-hover:text-content-primary">Back to overview</span>
+                            </Link>
+                            <div className="flex items-center space-x-2">
                                 {session?.user && (
                                     <Link
                                         href="/profile"
-                                        className="flex items-center justify-center w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 transition-colors"
+                                        className="flex items-center justify-center w-7 h-7 rounded-full bg-white/10 hover:bg-white/20 transition-colors"
                                         title="View Profile"
                                     >
                                         {session.user.profile?.profileImage || session.user.image ? (
                                             <img
                                                 src={session.user.profile?.profileImage || session.user.image || ''}
                                                 alt={session.user.name || 'Profile'}
-                                                className="w-10 h-10 rounded-full object-cover"
+                                                className="w-7 h-7 rounded-full object-cover"
                                             />
                                         ) : (
-                                            <span className="text-white text-sm font-semibold">
+                                            <span className="text-white text-xs font-semibold">
                                                 {session.user.name?.[0]?.toUpperCase() || 'U'}
                                             </span>
                                         )}
@@ -119,28 +104,12 @@ export default async function ModulePage({ params }: { params: Promise<{ role: s
                     </div>
                 </header>
 
-                {/* Main Layout Container - Uses flex to fill viewport minus header */}
-                <div className="flex-grow flex flex-col min-h-0 container mx-auto px-4 md:px-6 py-4">
-                    <div className="flex-grow flex flex-col min-h-0 max-w-[1600px] mx-auto w-full">
-                        {/* Module Header - Metadata removed as requested */}
-                        <div className="mb-2 flex-shrink-0">
-                            {/* Title removed to avoid duplication with ModulePresentation */}
-                        </div>
-
-                        {/* Content - Fills remaining space */}
+                {/* Main Content - Full viewport height minus header */}
+                <div className="flex-grow flex flex-col min-h-0 px-4 md:px-6 lg:px-8 py-3">
+                    <div className="flex-grow flex flex-col min-h-0 w-full max-w-7xl mx-auto">
+                        {/* Content - Fills all available space */}
                         <div className="flex-grow min-h-0 flex flex-col">
                             <ModuleWrapper content={content} questions={metadata.questions || []} />
-                        </div>
-
-                        {/* Footer Navigation - Fixed at bottom of container */}
-                        <div className="mt-2 flex justify-between items-center pt-2 border-t border-white/10 flex-shrink-0">
-                            <Link
-                                href={role === 'session-0' ? '/session-0' : `/${role}`}
-                                className="flex items-center gap-2 text-content-secondary hover:text-white transition-colors"
-                            >
-                                <ArrowLeft className="w-4 h-4" />
-                                <span>Back to Overview</span>
-                            </Link>
                         </div>
                     </div>
                 </div>

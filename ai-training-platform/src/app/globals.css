@@ -1848,6 +1848,7 @@ object {
 .cosmetic-tab {
   flex: 1;
   min-width: 60px;
+  max-width: 1fr;
   text-align: center;
   padding: var(--space-2) var(--space-2);
   font-size: var(--text-xs);

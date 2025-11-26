@@ -98,7 +98,7 @@ export default function ClassSelectionPage() {
                                 <button
                                     key={classItem.name}
                                     onClick={() => handleClassSelect(classItem)}
-                                    className={`flex flex-col items-center rounded-xl p-4 glass-card hover:scale-105 active:scale-[0.98] transition-all cursor-pointer ${isSelected ? "ring-2 ring-cyber-cyan" : ""
+                                    className={`flex flex-col items-center rounded-xl p-4 glass-card hover:scale-105 active:scale-[0.98] transition-all cursor-pointer ${isSelected ? "ring-2 ring-accent-sage-500 dark:ring-accent-sage-400" : ""
                                         }`}
                                 >
                                     <div
@@ -110,7 +110,7 @@ export default function ClassSelectionPage() {
                                     <h3 className="text-sm font-body font-semibold text-content-primary mb-0.5 leading-tight text-center">{classItem.name}</h3>
                                     <p className="text-xs font-body font-normal text-content-secondary text-center" style={{ opacity: 0.7 }}>{classItem.jobTitle}</p>
                                     {isSelected && (
-                                        <p className="text-xs font-body font-semibold text-cyber-cyan mt-2">Selected</p>
+                                        <p className="text-xs font-body font-semibold text-accent-readable-cyan mt-2">Selected</p>
                                     )}
                                 </button>
                             );

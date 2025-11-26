@@ -173,7 +173,7 @@ export function Questionnaire({ questions, onComplete }: QuestionnaireProps) {
         <div className="max-w-4xl mx-auto">
             <div className="mb-8 flex justify-between items-end">
                 <div>
-                    <span className="text-cyber-cyan text-sm font-bold tracking-wider uppercase mb-2 block">Question {currentQuestion + 1} of {questions.length}</span>
+                    <span className="text-accent-readable-cyan text-sm font-bold tracking-wider uppercase mb-2 block">Question {currentQuestion + 1} of {questions.length}</span>
                     <h2 className="text-2xl font-bold text-content-primary">{question.question}</h2>
                 </div>
                 <div className="text-content-tertiary font-mono text-sm">

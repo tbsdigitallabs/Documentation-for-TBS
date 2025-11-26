@@ -6,7 +6,7 @@
 // Operative Class Names (Cyberpunk/Shadowrun inspired)
 export const CLASS_NAMES = {
   DEVELOPERS: "Netrunner",
-  DESIGNERS: "Artisan", 
+  DESIGNERS: "Artisan",
   PROJECT_MANAGERS: "Fixer",
   CONTENT_CREATORS: "Media",
   SALES: "Face",

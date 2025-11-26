@@ -15,13 +15,13 @@ export function NextReward({ level, name, description, xpRequired, className }: 
   return (
     <div className={cn(
       'p-4 rounded-lg border',
-      'bg-gradient-to-r from-cyber-magenta/10 to-cyber-cyan/10',
-      'border-cyber-magenta/30',
+      'bg-gradient-to-r from-accent-magenta-50 to-accent-sage-50 dark:from-cyber-magenta/10 dark:to-cyber-cyan/10',
+      'border-accent-magenta-200 dark:border-cyber-magenta/30',
       className
     )}>
       <div className="flex items-center gap-2 mb-2">
-        <Zap className="w-4 h-4 text-cyber-magenta" />
-        <span className="mono-label text-cyber-magenta">Next Unlock</span>
+        <Zap className="w-4 h-4 text-accent-readable-magenta" />
+        <span className="mono-label text-accent-readable-magenta">Next Unlock</span>
       </div>
       <div className="flex items-center justify-between">
         <div>
@@ -29,11 +29,10 @@ export function NextReward({ level, name, description, xpRequired, className }: 
           <div className="text-sm text-content-secondary">{description}</div>
         </div>
         <div className="text-right">
-          <div className="mono-text text-lg font-bold text-cyber-magenta">Lv.{level}</div>
-          <div className="mono-text text-xs text-content-tertiary">{xpRequired} XP</div>
+          <div className="mono-text text-lg font-bold text-accent-readable-magenta">Lv.{level}</div>
+          <div className="mono-text text-xs text-content-secondary">{xpRequired} XP</div>
         </div>
       </div>
     </div>
   );
 }
-

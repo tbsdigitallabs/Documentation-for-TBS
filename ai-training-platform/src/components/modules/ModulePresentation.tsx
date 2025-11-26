@@ -20,7 +20,7 @@ const components = {
         <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-content-primary mb-4 md:mb-6 mt-2" {...props} />
     ),
     h3: (props: any) => (
-        <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-[#02022B] dark:text-cyber-cyan mb-3 md:mb-4 mt-4 md:mt-6" {...props} />
+        <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-accent-sage-700 dark:text-accent-sage-400 mb-3 md:mb-4 mt-4 md:mt-6" {...props} />
     ),
     p: (props: any) => (
         <div className="text-sm sm:text-base md:text-lg text-content-secondary leading-relaxed mb-4 md:mb-6" {...props} />

@@ -11,8 +11,8 @@ export default function OnboardingHeader({ step }: OnboardingHeaderProps) {
     return (
       <div className="text-center mb-8">
         <p className="mono-label text-accent-readable-cyan mb-3">INITIALISING PROFILE</p>
-        <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-cyber-magenta/20 mb-4">
-          <Sparkles className="w-7 h-7 text-cyber-magenta" />
+        <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-accent-magenta-100 dark:bg-accent-magenta-500/20 mb-4">
+          <Sparkles className="w-7 h-7 text-accent-readable-magenta" />
         </div>
         <h1 className="text-2xl font-heading font-bold text-content-primary mb-2">
           Personnel Configuration
@@ -27,8 +27,8 @@ export default function OnboardingHeader({ step }: OnboardingHeaderProps) {
   return (
     <div className="text-center mb-8">
       <p className="mono-label text-accent-readable-cyan mb-3">PROFILE CUSTOMISATION</p>
-      <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-cyber-cyan/20 mb-4">
-        <Upload className="w-7 h-7 text-cyber-cyan" />
+      <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-accent-sage-100 dark:bg-accent-sage-500/20 mb-4">
+        <Upload className="w-7 h-7 text-accent-readable-cyan" />
       </div>
       <h1 className="text-2xl font-heading font-bold text-content-primary mb-2">
         Upload Avatar

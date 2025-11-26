@@ -23,8 +23,8 @@ export function AvatarFrame({ src, alt = 'Avatar', size = 'md', className }: Ava
         {src ? (
           <img src={src} alt={alt} className="w-full h-full object-cover" />
         ) : (
-          <div className="w-full h-full flex items-center justify-center bg-gradient-to-b from-cyber-cyan/10 to-cyber-magenta/10">
-            <User className="w-1/2 h-1/2 text-cyber-cyan/40" />
+          <div className="w-full h-full flex items-center justify-center bg-gradient-to-b from-accent-sage-100 to-accent-magenta-100 dark:from-accent-sage-500/10 dark:to-accent-magenta-500/10">
+            <User className="w-1/2 h-1/2 text-accent-sage-400 dark:text-accent-sage-500/40" />
           </div>
         )}
       </div>

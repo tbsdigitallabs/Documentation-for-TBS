@@ -53,11 +53,11 @@ interface UserProfile {
 }
 
 const classIcons: Record<string, { icon: typeof Zap; color: string }> = {
-  [CLASS_NAMES.DEVELOPERS]: { icon: Cpu, color: "text-blue-400" },
-  [CLASS_NAMES.DESIGNERS]: { icon: Brain, color: "text-purple-400" },
-  [CLASS_NAMES.PROJECT_MANAGERS]: { icon: Shield, color: "text-emerald-400" },
-  [CLASS_NAMES.CONTENT_CREATORS]: { icon: Terminal, color: "text-amber-400" },
-  [CLASS_NAMES.SALES]: { icon: Target, color: "text-red-400" },
+  [CLASS_NAMES.DEVELOPERS]: { icon: Cpu, color: "text-blue-600 dark:text-blue-400" },
+  [CLASS_NAMES.DESIGNERS]: { icon: Brain, color: "text-purple-600 dark:text-purple-400" },
+  [CLASS_NAMES.PROJECT_MANAGERS]: { icon: Shield, color: "text-emerald-600 dark:text-emerald-400" },
+  [CLASS_NAMES.CONTENT_CREATORS]: { icon: Terminal, color: "text-amber-600 dark:text-amber-400" },
+  [CLASS_NAMES.SALES]: { icon: Target, color: "text-red-600 dark:text-red-400" },
 };
 
 // Use CLASS_JOB_TITLES from role-mapping for consistency
@@ -178,7 +178,7 @@ export default function ProfilePage() {
 
   const displayImage = imagePreview || profile?.image || profile?.profileImage;
   const ClassIcon = profile?.selectedClass ? classIcons[profile.selectedClass]?.icon || Zap : Zap;
-  const classColor = profile?.selectedClass ? classIcons[profile.selectedClass]?.color || "text-cyber-cyan" : "text-cyber-cyan";
+  const classColor = profile?.selectedClass ? classIcons[profile.selectedClass]?.color || "text-accent-readable-cyan" : "text-accent-readable-cyan";
   const currentLevel = profile?.level || 1;
   const currentXP = profile?.xp || 0;
   const xpNeeded = getXPForNextLevel(currentXP, currentLevel);
@@ -224,7 +224,7 @@ export default function ProfilePage() {
                     <button
                       onClick={handleSave}
                       disabled={loading}
-                      className="flex items-center gap-2 px-4 py-2 bg-accent-sage-700 dark:bg-cyber-cyan/20 border border-accent-sage-700 dark:border-cyber-cyan text-white dark:text-cyber-cyan hover:opacity-90 rounded mono-label transition-all disabled:opacity-50"
+                      className="flex items-center gap-2 px-4 py-2 bg-accent-sage-600 dark:bg-accent-sage-800 border border-accent-sage-600 dark:border-accent-sage-600 text-white hover:bg-accent-sage-700 dark:hover:bg-accent-sage-700 rounded mono-label transition-all disabled:opacity-50"
                     >
                       <Save className="w-3 h-3" />
                       Save
@@ -298,7 +298,7 @@ export default function ProfilePage() {
                     href="https://nanobanana.ai"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="mt-4 flex items-center justify-center gap-2 px-4 py-2 bg-cyber-magenta/20 border border-cyber-magenta/50 text-cyber-magenta rounded mono-label hover:bg-cyber-magenta/30 transition-all"
+                    className="mt-4 flex items-center justify-center gap-2 px-4 py-2 bg-accent-magenta-100 dark:bg-cyber-magenta/20 border border-accent-magenta-300 dark:border-cyber-magenta/50 text-accent-readable-magenta rounded mono-label hover:bg-accent-magenta-200 dark:hover:bg-cyber-magenta/30 transition-all"
                   >
                     Create Avatar
                     <ExternalLink className="w-3 h-3" />

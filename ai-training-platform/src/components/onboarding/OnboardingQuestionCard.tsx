@@ -83,7 +83,7 @@ export default function OnboardingQuestionCard({
                                         )}
                                     </div>
                                     {selectedAnswer === option.value && (
-                                        <ChevronRight className="w-5 h-5 text-cyber-cyan" />
+                                        <ChevronRight className="w-5 h-5 text-accent-sage-600 dark:text-accent-sage-400" />
                                     )}
                                 </div>
                             </button>

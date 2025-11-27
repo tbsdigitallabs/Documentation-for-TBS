@@ -225,8 +225,8 @@
   --color-disabled-border: #d1d5db;
 
   /* === SEMANTIC BUTTON TOKENS - Auto-switch with theme === */
-  /* Primary Button (Brand gradient) */
-  --btn-primary-bg: linear-gradient(to right, #02022B, #121856);
+  /* Primary Button (Brand Solid Colors) */
+  --btn-primary-bg: #02022B;
   --btn-primary-text: #FFFFFF;
   --btn-primary-border: transparent;
   
@@ -306,8 +306,8 @@
   --color-disabled-border: #4b5563;
 
   /* === SEMANTIC BUTTON TOKENS - Dark Mode === */
-  /* Primary Button (Brand gradient - same in dark) */
-  --btn-primary-bg: linear-gradient(to right, #61BDBA, #D56EED);
+  /* Primary Button (Brand Solid Colors - Sage for visibility) */
+  --btn-primary-bg: #61BDBA;
   --btn-primary-text: #02022B;
   --btn-primary-border: transparent;
   

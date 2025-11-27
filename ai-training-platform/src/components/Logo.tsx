@@ -22,7 +22,7 @@ export default function Logo({ className = "", showText = true, linkTo = "/" }: 
   // Use theme-specific logo (inverted: light logo for dark mode, dark logo for light mode)
   // Fallback to dark logo if not mounted yet
   const logoSrc = mounted
-    ? (theme === 'dark' ? '/images/logo-light.png' : '/images/logo-dark.png')
+    ? (theme === 'dark' ? '/images/logo-dark.png' : '/images/logo-light.png')
     : '/images/logo-dark.png';
 
   const logoContent = (

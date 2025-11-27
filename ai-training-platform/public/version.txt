@@ -1,0 +1,7 @@
+SYSTEM VERSION: 2.0 (CYBERPUNK) - BUILD VERIFICATION FILE
+Build Time: 2025-11-27
+Commit: e96faebe
+Image: gcr.io/learninglab-478822/learninglab:e96faebe
+Content: Updated Logic
+Classes: Netrunner, Artisan, Fixer
+CSS: Solid Brand Colors

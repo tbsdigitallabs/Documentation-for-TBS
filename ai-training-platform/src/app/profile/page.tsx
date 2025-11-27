@@ -57,11 +57,11 @@ interface UserProfile {
 }
 
 const classIcons: Record<string, { icon: typeof Zap; color: string }> = {
-  [CLASS_NAMES.DEVELOPERS]: { icon: Cpu, color: "text-blue-600 dark:text-blue-400" },
-  [CLASS_NAMES.DESIGNERS]: { icon: Brain, color: "text-purple-600 dark:text-purple-400" },
-  [CLASS_NAMES.PROJECT_MANAGERS]: { icon: Shield, color: "text-emerald-600 dark:text-emerald-400" },
-  [CLASS_NAMES.CONTENT_CREATORS]: { icon: Terminal, color: "text-amber-600 dark:text-amber-400" },
-  [CLASS_NAMES.SALES]: { icon: Target, color: "text-red-600 dark:text-red-400" },
+  [CLASS_NAMES.DEVELOPERS]: { icon: Cpu, color: "text-accent-developers" },
+  [CLASS_NAMES.DESIGNERS]: { icon: Brain, color: "text-accent-designers" },
+  [CLASS_NAMES.PROJECT_MANAGERS]: { icon: Shield, color: "text-accent-project-managers" },
+  [CLASS_NAMES.CONTENT_CREATORS]: { icon: Terminal, color: "text-accent-content-creators" },
+  [CLASS_NAMES.SALES]: { icon: Target, color: "text-accent-sales-business" },
 };
 
 // Use CLASS_JOB_TITLES from role-mapping for consistency

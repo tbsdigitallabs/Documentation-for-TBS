@@ -53,8 +53,8 @@ export default function HeaderNav() {
           transition-all duration-500 ease-out
           flex items-center justify-between
           ${scrolled
-                        ? 'w-[90%] max-w-5xl rounded-full border border-border-primary bg-[#F0F2F5] dark:bg-[#02022B] shadow-lg px-6 py-2 mt-2'
-                        : 'w-full border-b border-border-primary bg-[#F0F2F5] dark:bg-[#02022B] px-6 py-2'
+                        ? 'w-[90%] max-w-5xl rounded-full border border-border-primary bg-surface-primary shadow-lg px-6 py-2 mt-2'
+                        : 'w-full border-b border-border-primary bg-surface-primary px-6 py-2'
                     }
         `}
             >
@@ -111,7 +111,7 @@ export default function HeaderNav() {
                             </button>
                             
                             {showUserMenu && (
-                                <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-[#1a1a2e] border border-border-primary rounded-xl shadow-xl overflow-hidden z-50">
+                                <div className="absolute right-0 mt-2 w-48 bg-surface-card border border-border-primary rounded-xl shadow-xl overflow-hidden z-50">
                                     <div className="px-4 py-3 border-b border-border-primary">
                                         <p className="text-sm font-semibold text-content-primary truncate">
                                             {session.user.name || 'Operative'}

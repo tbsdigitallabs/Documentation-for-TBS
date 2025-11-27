@@ -78,7 +78,7 @@ export default async function DevelopersPage() {
         userClass={userClass}
         modules={modules}
         otherModules={otherModules}
-        accentColor="#0A84FF"
+        accentColor="var(--color-accent-developers)"
         description="Enhance your development capabilities with AI-powered tools."
       />
     </div>

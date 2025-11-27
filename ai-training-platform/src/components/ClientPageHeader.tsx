@@ -27,7 +27,7 @@ export default function ClientPageHeader() {
   };
 
   return (
-    <div className="fixed top-0 left-0 right-0 z-10 flex items-center justify-between bg-[#F0F2F5] dark:bg-[#02022B] px-5 py-3 border-b border-border-primary h-16 max-h-16">
+    <div className="fixed top-0 left-0 right-0 z-10 flex items-center justify-between bg-surface-primary px-5 py-3 border-b border-border-primary h-16 max-h-16">
       <Logo />
       <div className="flex items-center gap-4">
         {session?.user && (
@@ -51,7 +51,7 @@ export default function ClientPageHeader() {
             </button>
             
             {showUserMenu && (
-              <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-[#1a1a2e] border border-border-primary rounded-xl shadow-xl overflow-hidden z-50">
+              <div className="absolute right-0 mt-2 w-48 bg-surface-card border border-border-primary rounded-xl shadow-xl overflow-hidden z-50">
                 <div className="px-4 py-3 border-b border-border-primary">
                   <p className="text-sm font-semibold text-content-primary truncate">
                     {session.user.name || 'Operative'}

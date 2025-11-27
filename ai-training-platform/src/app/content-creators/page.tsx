@@ -76,7 +76,7 @@ export default async function ContentCreatorsPage() {
         userClass={userClass}
         modules={modules}
         otherModules={otherModules}
-        accentColor="#850AFF"
+        accentColor="var(--color-accent-content-creators)"
         description="Enhance your storytelling capabilities with AI writing tools."
       />
     </div>

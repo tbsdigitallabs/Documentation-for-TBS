@@ -65,7 +65,7 @@ export default function ThemeToggle() {
           className="absolute flex h-6 w-6 rounded-full shadow-md items-center justify-center transition-transform duration-200"
           style={{
             transform: theme === 'dark' ? 'translateX(26px)' : 'translateX(2px)',
-            backgroundColor: theme === 'dark' ? '#1a1a2e' : 'white',
+            backgroundColor: theme === 'dark' ? 'var(--color-surface-card)' : 'white',
           }}
         >
           {theme === 'dark' ? (
@@ -79,9 +79,9 @@ export default function ThemeToggle() {
       {/* Easter egg speech bubble */}
       {easterEggMessage && (
         <div className="absolute right-0 top-full mt-2 z-50 animate-in fade-in slide-in-from-top-2 duration-300">
-          <div className="relative bg-white dark:bg-[#1a1a2e] border border-border-primary rounded-lg shadow-xl px-3 py-2 max-w-[200px]">
+          <div className="relative bg-surface-card border border-border-primary rounded-lg shadow-xl px-3 py-2 max-w-[200px]">
             {/* Speech bubble triangle */}
-            <div className="absolute -top-2 right-4 w-0 h-0 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-b-[8px] border-b-white dark:border-b-[#1a1a2e]" />
+            <div className="absolute -top-2 right-4 w-0 h-0 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-b-[8px] border-b-white dark:border-b-[var(--color-surface-card)]" />
             <div className="absolute -top-[10px] right-4 w-0 h-0 border-l-[7px] border-l-transparent border-r-[7px] border-r-transparent border-b-[9px] border-b-border-primary" style={{ marginRight: '-1px' }} />
             <p className="text-xs text-content-secondary italic">
               &ldquo;{easterEggMessage}&rdquo;

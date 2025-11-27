@@ -96,5 +96,5 @@
     --color-content-secondary: var(--color-text-secondary-dark);
     --color-border-primary: rgba(255, 255, 255, 0.1);
     --color-surface-tertiary: rgba(255, 255, 255, 0.05);
-    --color-surface-card: var(--color-card-dark);
+    --color-surface-card: rgba(38, 38, 38, 0.5); /* Adjusted to match standard dark card token */
 }

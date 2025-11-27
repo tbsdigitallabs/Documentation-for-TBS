@@ -52,12 +52,12 @@ export default function ClassSelectionPage() {
     };
 
     const classColors: Record<string, string> = {
-        [CLASS_NAMES.DEVELOPERS]: "#0A84FF",
-        [CLASS_NAMES.DESIGNERS]: "#FFB800",
-        [CLASS_NAMES.PROJECT_MANAGERS]: "#00C48C",
-        [CLASS_NAMES.CONTENT_CREATORS]: "#850AFF",
-        [CLASS_NAMES.SALES]: "#EF4444",
-        [CLASS_NAMES.FOUNDATION]: "#D56EED",
+        [CLASS_NAMES.DEVELOPERS]: "var(--color-accent-developers)",
+        [CLASS_NAMES.DESIGNERS]: "var(--color-accent-designers)",
+        [CLASS_NAMES.PROJECT_MANAGERS]: "var(--color-accent-project-managers)",
+        [CLASS_NAMES.CONTENT_CREATORS]: "var(--color-accent-content-creators)",
+        [CLASS_NAMES.SALES]: "var(--color-accent-sales-business)",
+        [CLASS_NAMES.FOUNDATION]: "var(--accent-magenta-500)",
     };
 
     if (!mounted || status === "loading") {
@@ -95,7 +95,7 @@ export default function ClassSelectionPage() {
                             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
                                 {classes.map((classItem) => {
                                     const Icon = classIcons[classItem.name] || BookOpen;
-                                    const accentColor = classColors[classItem.name] || "#D56EED";
+                                    const accentColor = classColors[classItem.name] || "var(--accent-magenta-500)";
                                     const isSelected = selectedClass === classItem.name;
 
                                     return (
@@ -107,7 +107,7 @@ export default function ClassSelectionPage() {
                                         >
                                             <div
                                                 className="flex items-center justify-center size-12 rounded-xl mb-3"
-                                                style={{ backgroundColor: `${accentColor}33` }}
+                                                style={{ backgroundColor: `color-mix(in srgb, ${accentColor} 20%, transparent)` }}
                                             >
                                                 <Icon className="w-6 h-6" style={{ color: accentColor }} />
                                             </div>

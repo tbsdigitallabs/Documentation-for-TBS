@@ -76,7 +76,7 @@ export default async function SalesBusinessDevPage() {
         userClass={userClass}
         modules={modules}
         otherModules={otherModules}
-        accentColor="#EF4444"
+        accentColor="var(--color-accent-sales-business)"
         description="Enhance your business capabilities with AI-powered tools."
       />
     </div>

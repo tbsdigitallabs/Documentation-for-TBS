@@ -76,7 +76,7 @@ export default async function ProjectManagersPage() {
         userClass={userClass}
         modules={modules}
         otherModules={otherModules}
-        accentColor="#00C48C"
+        accentColor="var(--color-accent-project-managers)"
         description="Enhance your strategic capabilities with AI-powered tools."
       />
     </div>

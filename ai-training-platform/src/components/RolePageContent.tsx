@@ -70,9 +70,9 @@ export default function RolePageContent({
                                     <span
                                         className="mono-label px-2 py-1 rounded-md border inline-block"
                                         style={{
-                                            color: accentColor,
-                                            backgroundColor: `${accentColor}15`,
-                                            borderColor: `${accentColor}30`
+                                            color: accentColor.startsWith('var') ? accentColor : `var(--color-${accentColor})`,
+                                            backgroundColor: `color-mix(in srgb, ${accentColor.startsWith('var') ? accentColor : `var(--color-${accentColor})`} 10%, transparent)`,
+                                            borderColor: `color-mix(in srgb, ${accentColor.startsWith('var') ? accentColor : `var(--color-${accentColor})`} 20%, transparent)`
                                         }}
                                     >
                                         MISSION {module.slug.split('-')[0].padStart(2, '0')}

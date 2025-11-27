@@ -76,7 +76,7 @@ export default async function DesignersPage() {
         userClass={userClass}
         modules={modules}
         otherModules={otherModules}
-        accentColor="#FFB800"
+        accentColor="var(--color-accent-designers)"
         description="Enhance your creative capabilities with AI design tools."
       />
     </div>

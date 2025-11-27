@@ -30,7 +30,7 @@ export function DavidToast({ message, onClose, duration = 4000 }: DavidToastProp
         isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
       }`}
     >
-      <div className="relative bg-white dark:bg-[#1a1a2e] border border-border-primary rounded-lg shadow-xl px-4 py-3 max-w-[280px]">
+      <div className="relative bg-surface-card border border-border-primary rounded-lg shadow-xl px-4 py-3 max-w-[280px]">
         <button
           onClick={() => {
             setIsVisible(false);

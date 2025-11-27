@@ -97,6 +97,13 @@ export default function ClassSelectionPage() {
                                     const Icon = classIcons[classItem.name] || BookOpen;
                                     const accentColor = classColors[classItem.name] || "var(--accent-magenta-500)";
                                     const isSelected = selectedClass === classItem.name;
+                                    // Override for display
+                                    let displayName = classItem.name;
+                                    if (displayName === "Developers") displayName = "Netrunner";
+                                    if (displayName === "Designers") displayName = "Artisan";
+                                    if (displayName === "Project Managers") displayName = "Fixer";
+                                    if (displayName === "Content Creators") displayName = "Media";
+                                    if (displayName === "Sales") displayName = "Face";
 
                                     return (
                                         <button
@@ -111,7 +118,7 @@ export default function ClassSelectionPage() {
                                             >
                                                 <Icon className="w-6 h-6" style={{ color: accentColor }} />
                                             </div>
-                                            <h3 className="text-sm font-body font-semibold text-content-primary mb-0.5 leading-tight text-center">{classItem.name}</h3>
+                                            <h3 className="text-sm font-body font-semibold text-content-primary mb-0.5 leading-tight text-center">{displayName}</h3>
                                             <p className="text-xs font-body font-normal text-content-secondary text-center" style={{ opacity: 0.7 }}>{classItem.jobTitle}</p>
                                             {isSelected && (
                                                 <p className="text-xs font-body font-semibold text-accent-readable-cyan mt-2">Selected</p>

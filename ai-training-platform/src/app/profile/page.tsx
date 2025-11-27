@@ -141,7 +141,7 @@ export default function ProfilePage() {
         croppedAreaPixels,
         rotation
       );
-      
+
       if (croppedImageBlob) {
         const file = new File([croppedImageBlob], "avatar.jpg", { type: "image/jpeg" });
         setImageFile(file);
@@ -164,7 +164,7 @@ export default function ProfilePage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ seed: randomSeed }),
       });
-      
+
       if (response.ok) {
         const data = await response.json();
         const imageDataUrl = `data:${data.mimeType};base64,${data.imageData}`;
@@ -298,13 +298,13 @@ export default function ProfilePage() {
                 ) : (
                   <>
                     <button
-                    onClick={handleSave}
-                    disabled={loading}
-                    className="btn-primary flex items-center justify-center gap-2 px-4 py-2 rounded mono-label transition-all shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
-                  >
-                    <Save className="w-3 h-3" />
-                    Save
-                  </button>
+                      onClick={handleSave}
+                      disabled={loading}
+                      className="btn-primary flex items-center justify-center gap-2 px-4 py-2 rounded mono-label transition-all shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      <Save className="w-3 h-3" />
+                      Save
+                    </button>
                     <button
                       onClick={() => {
                         setEditing(false);
@@ -328,9 +328,9 @@ export default function ProfilePage() {
               <div className="col-span-12 lg:col-span-3 border-b lg:border-b-0 lg:border-r border-cyber-cyan/20 p-6">
                 {/* Avatar */}
                 <div className="relative mb-6">
-                  <AvatarFrame 
-                    src={displayImage} 
-                    alt={profile?.name || 'Profile'} 
+                  <AvatarFrame
+                    src={displayImage}
+                    alt={profile?.name || 'Profile'}
                     size="md"
                     frameStyle={cosmeticLoadout.equippedFrame?.replace('frame-', '') as any || 'starter'}
                     effectStyle={cosmeticLoadout.equippedEffect?.replace('effect-', '')}
@@ -355,8 +355,8 @@ export default function ProfilePage() {
                     {/* Titlebar */}
                     {cosmeticLoadout.equippedTitlebar && cosmeticLoadout.equippedTitlebar !== 'none' && (
                       <div className={`titlebar ${cosmeticLoadout.equippedTitlebar !== 'none' ? `titlebar-${cosmeticLoadout.equippedTitlebar}` : ''} mx-auto max-w-[240px]`}>
-                        {cosmeticLoadout.equippedTitle ? 
-                          TITLES.find(t => t.id === cosmeticLoadout.equippedTitle)?.name 
+                        {cosmeticLoadout.equippedTitle ?
+                          TITLES.find(t => t.id === cosmeticLoadout.equippedTitle)?.name
                           : 'OPERATIVE'}
                       </div>
                     )}
@@ -368,23 +368,23 @@ export default function ProfilePage() {
                         cosmeticLoadout.equippedNameplate && `nameplate nameplate-${cosmeticLoadout.equippedNameplate}`
                       )}>
                         {badgeReward && (
-                          <div 
+                          <div
                             className={cn(
-                              "badge-container transform hover:scale-110 transition-transform duration-200 flex-shrink-0", 
+                              "badge-container transform hover:scale-110 transition-transform duration-200 flex-shrink-0",
                               badgeReward.cssClass
-                            )} 
-                            title={badgeReward.name} 
+                            )}
+                            title={badgeReward.name}
                           />
                         )}
                         <span>{profile?.name || "Unknown Operative"}</span>
                       </h1>
-                      
+
                       {/* Level Badge */}
-                      <div 
+                      <div
                         className={cn(
                           "absolute -bottom-3 -right-3 w-8 h-8 flex items-center justify-center rounded-full z-20 font-heading font-bold text-sm shadow-lg transition-all duration-300",
-                          cosmeticLoadout.equippedNameplate 
-                            ? `level-badge-${cosmeticLoadout.equippedNameplate}` 
+                          cosmeticLoadout.equippedNameplate
+                            ? `level-badge-${cosmeticLoadout.equippedNameplate}`
                             : "level-badge-default"
                         )}
                         title={`Level ${currentLevel}`}
@@ -393,7 +393,7 @@ export default function ProfilePage() {
                       </div>
                     </div>
                   </div>
-                  
+
                   {/* Title if no titlebar */}
                   {cosmeticLoadout.equippedTitle && (!cosmeticLoadout.equippedTitlebar || cosmeticLoadout.equippedTitlebar === 'none') && (
                     <div className={cn(
@@ -490,7 +490,7 @@ export default function ProfilePage() {
                     <Terminal className="w-3 h-3" />
                     Personnel Data
                   </div>
-                  
+
                   {editing ? (
                     <div className="space-y-4">
                       <div>
@@ -588,7 +588,7 @@ export default function ProfilePage() {
                 <X className="w-5 h-5" />
               </button>
             </div>
-            
+
             <div className="relative w-full h-[300px] bg-black/90">
               <Cropper
                 image={tempImageSrc}
@@ -638,7 +638,7 @@ export default function ProfilePage() {
                   className="w-full h-2 bg-surface-secondary rounded-lg appearance-none cursor-pointer accent-[var(--color-sage)]"
                 />
               </div>
-              
+
               <div className="flex justify-end gap-2 pt-2">
                 <button
                   onClick={() => setShowCropper(false)}

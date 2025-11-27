@@ -8,6 +8,10 @@ const nextConfig: NextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
+  generateBuildId: async () => {
+    // Return a unique build ID based on timestamp to force cache invalidation
+    return `build-${Date.now()}`;
+  },
 };
 
 export default nextConfig;

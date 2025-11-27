@@ -127,7 +127,11 @@ export const authOptions: NextAuthOptions = {
       }
 
       // FORCE UPDATE for dev user during development to ensure max stats
-      if (process.env.NODE_ENV === 'development' && token.email === 'dev@tbsdigitallabs.com.au') {
+      // Supports both standard dev email and specific user david@thebigsmoke.com.au
+      const isDevUser = token.email === 'dev@tbsdigitallabs.com.au' || token.email === 'david@thebigsmoke.com.au';
+      
+      if (process.env.NODE_ENV === 'development' && isDevUser) {
+        token.name = "SLAM";
         token.profile = {
           ...(token.profile as any || {}),
           level: 10,

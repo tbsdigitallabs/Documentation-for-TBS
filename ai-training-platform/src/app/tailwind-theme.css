@@ -52,7 +52,12 @@
     /* Accent Colors */
     --accent-magenta: var(--color-light-magenta);
     --accent-magenta-500: var(--color-light-magenta);
+    
+    /* Sage Palette - Generated from #61BDBA */
     --accent-sage-500: var(--color-sage);
+    --accent-sage-600: color-mix(in srgb, var(--color-sage), black 10%);
+    --accent-sage-700: color-mix(in srgb, var(--color-sage), black 20%);
+    --accent-sage-800: color-mix(in srgb, var(--color-sage), black 30%);
 
     /* Role-Specific Accent Colors - Direct hex values for Tailwind v4 */
     /* These will work with opacity modifiers like /10, /20, /90 */

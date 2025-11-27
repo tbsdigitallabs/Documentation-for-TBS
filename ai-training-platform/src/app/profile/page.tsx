@@ -24,6 +24,8 @@ import {
   CosmeticSelector,
 } from "@/components/profile";
 import { getXPForNextLevel, getLevelProgress, getExperienceLevelName, getUnlockedRewards, getNextReward, MAX_LEVEL, XP_THRESHOLDS, COSMETIC_REWARDS, TITLES, DEFAULT_LOADOUT, type CosmeticLoadout } from "@/lib/levelling";
+import Cropper from 'react-easy-crop';
+import getCroppedImg from '@/lib/image-utils';
 
 export const dynamic = 'force-dynamic';
 
@@ -78,6 +80,14 @@ export default function ProfilePage() {
   const [generatingAvatar, setGeneratingAvatar] = useState(false);
   const [cosmeticLoadout, setCosmeticLoadout] = useState<CosmeticLoadout>(DEFAULT_LOADOUT);
 
+  // Crop state
+  const [crop, setCrop] = useState({ x: 0, y: 0 });
+  const [zoom, setZoom] = useState(1);
+  const [rotation, setRotation] = useState(0);
+  const [croppedAreaPixels, setCroppedAreaPixels] = useState<any>(null);
+  const [showCropper, setShowCropper] = useState(false);
+  const [tempImageSrc, setTempImageSrc] = useState<string | null>(null);
+
   useEffect(() => {
     if (status === "unauthenticated") {
       router.push("/auth/signin");
@@ -107,12 +117,41 @@ export default function ProfilePage() {
   const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      setImageFile(file);
       const reader = new FileReader();
       reader.onloadend = () => {
-        setImagePreview(reader.result as string);
+        setTempImageSrc(reader.result as string);
+        setShowCropper(true);
+        setZoom(1);
+        setRotation(0);
       };
       reader.readAsDataURL(file);
+    }
+    // Reset input so the same file can be selected again if needed
+    e.target.value = '';
+  };
+
+  const onCropComplete = (croppedArea: any, croppedAreaPixels: any) => {
+    setCroppedAreaPixels(croppedAreaPixels);
+  };
+
+  const handleCropSave = async () => {
+    if (!tempImageSrc || !croppedAreaPixels) return;
+    try {
+      const croppedImageBlob = await getCroppedImg(
+        tempImageSrc,
+        croppedAreaPixels,
+        rotation
+      );
+      
+      if (croppedImageBlob) {
+        const file = new File([croppedImageBlob], "avatar.jpg", { type: "image/jpeg" });
+        setImageFile(file);
+        setImagePreview(URL.createObjectURL(croppedImageBlob));
+        setShowCropper(false);
+        setTempImageSrc(null);
+      }
+    } catch (e) {
+      console.error("Failed to crop image:", e);
     }
   };
 
@@ -218,6 +257,7 @@ export default function ProfilePage() {
   const classColor = profile?.selectedClass ? classIcons[profile.selectedClass]?.color || "text-accent-readable-cyan" : "text-accent-readable-cyan";
   const currentLevel = profile?.level || 1;
   const currentXP = profile?.xp || 0;
+  const badgeReward = COSMETIC_REWARDS.find(r => r.id === cosmeticLoadout.equippedBadge);
   const xpNeeded = getXPForNextLevel(currentXP, currentLevel);
   const nextReward = getNextReward(currentLevel);
   const unlockedRewards = getUnlockedRewards(currentLevel);
@@ -259,13 +299,13 @@ export default function ProfilePage() {
                 ) : (
                   <>
                     <button
-                      onClick={handleSave}
-                      disabled={loading}
-                      className="flex items-center gap-2 px-4 py-2 bg-accent-sage-600 dark:bg-accent-sage-800 border border-accent-sage-600 dark:border-accent-sage-600 text-white hover:bg-accent-sage-700 dark:hover:bg-accent-sage-700 rounded mono-label transition-all disabled:opacity-50"
-                    >
-                      <Save className="w-3 h-3" />
-                      Save
-                    </button>
+                    onClick={handleSave}
+                    disabled={loading}
+                    className="btn-primary flex items-center justify-center gap-2 px-4 py-2 rounded mono-label transition-all shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    <Save className="w-3 h-3" />
+                    Save
+                  </button>
                     <button
                       onClick={() => {
                         setEditing(false);
@@ -311,23 +351,35 @@ export default function ProfilePage() {
                 </div>
 
                 {/* Identity */}
-                <div className="text-center mb-6 mt-8">
-                  {/* Titlebar */}
-                  {cosmeticLoadout.equippedTitlebar && cosmeticLoadout.equippedTitlebar !== 'none' && (
-                    <div className={`titlebar ${cosmeticLoadout.equippedTitlebar !== 'none' ? `titlebar-${cosmeticLoadout.equippedTitlebar}` : ''} mx-auto max-w-[240px]`}>
-                      {cosmeticLoadout.equippedTitle ? 
-                        TITLES.find(t => t.id === cosmeticLoadout.equippedTitle)?.name 
-                        : 'OPERATIVE'}
-                    </div>
-                  )}
+                <div className="flex flex-col items-center mb-6 mt-8">
+                  <div className="flex flex-col items-center w-full">
+                    {/* Titlebar */}
+                    {cosmeticLoadout.equippedTitlebar && cosmeticLoadout.equippedTitlebar !== 'none' && (
+                      <div className={`titlebar ${cosmeticLoadout.equippedTitlebar !== 'none' ? `titlebar-${cosmeticLoadout.equippedTitlebar}` : ''} mx-auto max-w-[240px]`}>
+                        {cosmeticLoadout.equippedTitle ? 
+                          TITLES.find(t => t.id === cosmeticLoadout.equippedTitle)?.name 
+                          : 'OPERATIVE'}
+                      </div>
+                    )}
 
-                  <div className="inline-block relative">
-                    <h1 className={cn(
-                      "text-2xl font-heading font-bold text-content-primary mb-1",
-                      cosmeticLoadout.equippedNameplate && `nameplate nameplate-${cosmeticLoadout.equippedNameplate}`
-                    )}>
-                      {profile?.name || "Unknown Operative"}
-                    </h1>
+                    {/* Nameplate */}
+                    <div className="inline-block relative">
+                      <h1 className={cn(
+                        "text-2xl font-heading font-bold text-content-primary mb-1 flex items-center gap-3",
+                        cosmeticLoadout.equippedNameplate && `nameplate nameplate-${cosmeticLoadout.equippedNameplate}`
+                      )}>
+                        {badgeReward && (
+                          <div 
+                            className={cn(
+                              "badge-container transform hover:scale-110 transition-transform duration-200 flex-shrink-0", 
+                              badgeReward.cssClass
+                            )} 
+                            title={badgeReward.name} 
+                          />
+                        )}
+                        <span>{profile?.name || "Unknown Operative"}</span>
+                      </h1>
+                    </div>
                   </div>
                   
                   {/* Title if no titlebar */}
@@ -519,6 +571,86 @@ export default function ProfilePage() {
           </CharacterSheet>
         </div>
       </main>
+
+      {/* Cropper Modal */}
+      {showCropper && tempImageSrc && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-sm animate-in fade-in duration-200">
+          <div className="glass-card rounded-lg w-full max-w-md overflow-hidden flex flex-col max-h-[90vh] shadow-2xl animate-in zoom-in-95 duration-200">
+            <div className="p-4 border-b border-border-primary flex justify-between items-center bg-surface-header-80">
+              <h3 className="font-heading text-lg text-content-primary uppercase tracking-wide">Adjust Profile Picture</h3>
+              <button onClick={() => setShowCropper(false)} className="text-content-secondary hover:text-content-primary transition-colors">
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+            
+            <div className="relative w-full h-[300px] bg-black/90">
+              <Cropper
+                image={tempImageSrc}
+                crop={crop}
+                zoom={zoom}
+                rotation={rotation}
+                aspect={1}
+                onCropChange={setCrop}
+                onCropComplete={onCropComplete}
+                onZoomChange={setZoom}
+                onRotationChange={setRotation}
+                showGrid={true}
+                cropShape="round"
+              />
+            </div>
+
+            <div className="p-4 space-y-4 bg-surface-tertiary">
+              <div className="space-y-1">
+                <div className="flex justify-between">
+                  <label className="text-xs mono-label text-content-secondary">Zoom</label>
+                  <span className="text-xs mono-text text-content-tertiary">{zoom.toFixed(1)}x</span>
+                </div>
+                <input
+                  type="range"
+                  value={zoom}
+                  min={1}
+                  max={3}
+                  step={0.1}
+                  aria-labelledby="Zoom"
+                  onChange={(e) => setZoom(Number(e.target.value))}
+                  className="w-full h-2 bg-surface-secondary rounded-lg appearance-none cursor-pointer accent-[var(--color-sage)]"
+                />
+              </div>
+              <div className="space-y-1">
+                <div className="flex justify-between">
+                  <label className="text-xs mono-label text-content-secondary">Rotation</label>
+                  <span className="text-xs mono-text text-content-tertiary">{rotation}°</span>
+                </div>
+                <input
+                  type="range"
+                  value={rotation}
+                  min={0}
+                  max={360}
+                  step={1}
+                  aria-labelledby="Rotation"
+                  onChange={(e) => setRotation(Number(e.target.value))}
+                  className="w-full h-2 bg-surface-secondary rounded-lg appearance-none cursor-pointer accent-[var(--color-sage)]"
+                />
+              </div>
+              
+              <div className="flex justify-end gap-2 pt-2">
+                <button
+                  onClick={() => setShowCropper(false)}
+                  className="px-4 py-2 rounded text-sm font-medium text-content-primary hover:bg-surface-hover transition-colors border border-border-primary bg-surface-secondary mono-label"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handleCropSave}
+                  className="btn-primary flex items-center justify-center gap-2 px-4 py-2 rounded mono-label transition-all shadow-lg"
+                >
+                  Confirm Crop
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

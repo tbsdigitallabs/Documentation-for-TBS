@@ -1395,168 +1395,136 @@ object {
   border-color: var(--color-gray-600);
 }
 
-/* Level 2: Bronze Badge */
-.cosmetic-badge-bronze::after {
-  content: '';
-  position: absolute;
-  top: -4px;
-  right: -4px;
-  width: 16px;
-  height: 16px;
-  background: linear-gradient(135deg, #cd7f32, #8b4513);
+/* ===== BADGE STYLES (TEKKEN INSPIRED) ===== */
+/* Badges are now standalone medals/icons */
+
+.badge-container {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
+}
+
+/* Base Badge Style */
+[class*="cosmetic-badge-"] {
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
-  border: 2px solid white;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  position: relative;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+  transition: transform 0.2s;
 }
 
-/* Level 3: Glow Effect */
-.cosmetic-effect-glow {
-  box-shadow: 0 0 20px rgba(97, 189, 186, 0.3);
+[class*="cosmetic-badge-"]:hover {
+  transform: scale(1.1);
+  z-index: 10;
 }
 
-.dark .cosmetic-effect-glow {
-  box-shadow: 0 0 20px rgba(97, 189, 186, 0.4);
+/* Level 2: Bronze Badge */
+.cosmetic-badge-bronze {
+  background: radial-gradient(circle at 30% 30%, #e8b88d, #cd7f32, #8b4513);
+  border: 3px solid #5A2D0C;
+  box-shadow: 
+    inset 0 0 10px rgba(0,0,0,0.5),
+    0 0 0 2px #cd7f32;
+}
+.cosmetic-badge-bronze::after {
+  content: "★";
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  color: #5A2D0C;
+  font-size: 20px;
+  text-shadow: 0 1px 0 rgba(255,255,255,0.3);
 }
 
 /* Level 4: Silver Badge */
+.cosmetic-badge-silver {
+  background: radial-gradient(circle at 30% 30%, #ffffff, #c0c0c0, #707070);
+  border: 3px solid #404040;
+  box-shadow: 
+    inset 0 0 10px rgba(0,0,0,0.5),
+    0 0 0 2px #c0c0c0;
+}
 .cosmetic-badge-silver::after {
-  content: '';
+  content: "★★";
   position: absolute;
-  top: -4px;
-  right: -4px;
-  width: 18px;
-  height: 18px;
-  background: linear-gradient(135deg, #c0c0c0, #808080);
-  border-radius: 50%;
-  border: 2px solid white;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-}
-
-/* Level 5: Gradient Background */
-.cosmetic-bg-gradient {
-  background: linear-gradient(135deg,
-      rgba(97, 189, 186, 0.1) 0%,
-      rgba(213, 110, 237, 0.1) 100%);
-}
-
-.dark .cosmetic-bg-gradient {
-  background: linear-gradient(135deg,
-      rgba(97, 189, 186, 0.15) 0%,
-      rgba(213, 110, 237, 0.15) 100%);
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  color: #404040;
+  font-size: 14px;
+  letter-spacing: -2px;
+  text-shadow: 0 1px 0 rgba(255,255,255,0.5);
 }
 
 /* Level 6: Gold Badge */
+.cosmetic-badge-gold {
+  background: radial-gradient(circle at 30% 30%, #fffacd, #ffd700, #b8860b);
+  border: 3px solid #8B4513;
+  box-shadow: 
+    inset 0 0 10px rgba(0,0,0,0.5),
+    0 0 10px rgba(255, 215, 0, 0.5);
+}
 .cosmetic-badge-gold::after {
-  content: '';
+  content: "♛";
   position: absolute;
-  top: -4px;
-  right: -4px;
-  width: 20px;
-  height: 20px;
-  background: linear-gradient(135deg, #ffd700, #b8860b);
-  border-radius: 50%;
-  border: 2px solid white;
-  box-shadow: 0 2px 6px rgba(255, 215, 0, 0.4);
-}
-
-/* Level 7: Animated Frame */
-.cosmetic-frame-animated {
-  position: relative;
-  border: 2px solid transparent;
-  background: linear-gradient(var(--color-surface-primary), var(--color-surface-primary)) padding-box,
-    linear-gradient(90deg, var(--color-sage), var(--color-light-magenta), var(--color-sage)) border-box;
-  background-size: 100% 100%, 200% 100%;
-  animation: cosmetic-border-flow 3s linear infinite;
-  border-radius: var(--radius-lg);
-}
-
-@keyframes cosmetic-border-flow {
-  0% {
-    background-position: 0 0, 0% 0;
-  }
-
-  100% {
-    background-position: 0 0, 200% 0;
-  }
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  color: #8B4513;
+  font-size: 24px;
+  text-shadow: 0 1px 0 rgba(255,255,255,0.4);
 }
 
 /* Level 8: Platinum Badge */
+.cosmetic-badge-platinum {
+  background: radial-gradient(circle at 30% 30%, #ffffff, #e5e4e2, #78909c);
+  border: 3px solid #263238;
+  box-shadow: 
+    inset 0 0 10px rgba(0,0,0,0.5),
+    0 0 15px rgba(229, 228, 226, 0.6);
+}
 .cosmetic-badge-platinum::after {
-  content: '';
+  content: "✦";
   position: absolute;
-  top: -6px;
-  right: -6px;
-  width: 24px;
-  height: 24px;
-  background: linear-gradient(135deg, #e5e4e2, #a9a9a9, #e5e4e2);
-  border-radius: 50%;
-  border: 2px solid white;
-  box-shadow: 0 2px 8px rgba(229, 228, 226, 0.6);
-}
-
-/* Level 9: Particle Effect */
-.cosmetic-effect-particles {
-  position: relative;
-}
-
-.cosmetic-effect-particles::before,
-.cosmetic-effect-particles::after {
-  content: '✦';
-  position: absolute;
-  font-size: 10px;
-  color: var(--color-sage);
-  animation: cosmetic-float 2s ease-in-out infinite;
-}
-
-.cosmetic-effect-particles::before {
-  top: -8px;
-  left: 20%;
-  animation-delay: 0s;
-}
-
-.cosmetic-effect-particles::after {
-  top: -8px;
-  right: 20%;
-  animation-delay: 1s;
-  color: var(--color-light-magenta);
-}
-
-@keyframes cosmetic-float {
-
-  0%,
-  100% {
-    transform: translateY(0);
-    opacity: 0.6;
-  }
-
-  50% {
-    transform: translateY(-6px);
-    opacity: 1;
-  }
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  color: #263238;
+  font-size: 28px;
+  text-shadow: 0 0 5px rgba(255,255,255,0.8);
 }
 
 /* Level 10: Legendary Crown */
+.cosmetic-badge-crown {
+  background: radial-gradient(circle at 30% 30%, #ff00cc, #333399);
+  border: 3px solid #ffd700;
+  animation: badge-pulse 3s infinite;
+}
 .cosmetic-badge-crown::before {
-  content: '👑';
+  content: '';
   position: absolute;
-  top: -16px;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 20px;
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
-  animation: cosmetic-crown-bob 2s ease-in-out infinite;
+  inset: -3px;
+  border-radius: 50%;
+  background: linear-gradient(45deg, #ffd700, transparent, #ffd700);
+  z-index: -1;
+  animation: spin-slow 4s linear infinite;
+}
+.cosmetic-badge-crown::after {
+  content: "👑";
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 28px;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
 }
 
-@keyframes cosmetic-crown-bob {
+@keyframes badge-pulse {
+  0%, 100% { box-shadow: 0 0 10px rgba(255, 0, 204, 0.5); }
+  50% { box-shadow: 0 0 20px rgba(255, 0, 204, 0.8); }
+}
 
-  0%,
-  100% {
-    transform: translateX(-50%) translateY(0);
-  }
-
-  50% {
-    transform: translateX(-50%) translateY(-3px);
-  }
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
 /* Leaderboard Styles */

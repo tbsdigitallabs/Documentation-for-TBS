@@ -11,7 +11,8 @@ interface XPBarProps {
 }
 
 export function XPBar({ current, max, label, sublabel, className }: XPBarProps) {
-  const percentage = Math.min((current / max) * 100, 100);
+  // Handle case where max is 0 (e.g., max level) -> default to 100%
+  const percentage = max > 0 ? Math.min((current / max) * 100, 100) : 100;
   
   return (
     <div className={cn('space-y-2', className)}>

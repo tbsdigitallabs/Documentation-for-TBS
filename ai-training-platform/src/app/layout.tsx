@@ -1,18 +1,12 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
-import PageTransition from "@/components/PageTransition";
-import SessionProvider from "@/components/SessionProvider";
-import { ToastProvider } from "@/contexts/ToastContext";
+import AuthProvider from "@/components/AuthProvider";
+import DavidToast from "@/components/DavidToast";
 
 export const metadata: Metadata = {
-  title: "TBS Digital Labs - LearningLab",
-  description: "Interactive LearningLab for TBS Digital Labs team members. Master AI tools and workflows for your role.",
-  keywords: ["AI training", "TBS Digital Labs", "artificial intelligence", "team training", "Australia"],
-  authors: [{ name: "TBS Digital Labs" }],
-  creator: "TBS Digital Labs",
-  publisher: "TBS Digital Labs",
-  robots: "noindex, nofollow", // Internal platform
+  title: "TBS Digital Labs | LearningLab",
+  description: "AI Training Platform for TBS Digital Labs",
 };
 
 export default function RootLayout({
@@ -21,18 +15,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en-AU" suppressHydrationWarning>
-      <head>
-        <script src="/theme-init.js" />
-      </head>
-      <body className="font-body antialiased">
-        <SessionProvider>
-          <ThemeProvider>
-            <ToastProvider>
-              {children}
-            </ToastProvider>
-          </ThemeProvider>
-        </SessionProvider>
+    <html lang="en" suppressHydrationWarning>
+      <body className="antialiased">
+        <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', background: 'red', color: 'white', zIndex: 9999, textAlign: 'center', padding: '2px', fontSize: '10px', pointerEvents: 'none' }}>
+          DEBUG: BUILD 2025-11-27 T03:45 | CYBERPUNK UPDATE
+        </div>
+        <ThemeProvider>
+          <AuthProvider>
+            {children}
+            <DavidToast />
+          </AuthProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

@@ -19,6 +19,19 @@ COPY . .
 
 # Build Next.js
 ENV NEXT_TELEMETRY_DISABLED 1
+
+# Accept build arguments for environment variables needed during build
+ARG GOOGLE_CLIENT_ID
+ARG GOOGLE_CLIENT_SECRET
+ARG NEXTAUTH_SECRET
+ARG NEXT_PUBLIC_APP_URL
+
+# Set them as environment variables for the build process
+ENV GOOGLE_CLIENT_ID=$GOOGLE_CLIENT_ID
+ENV GOOGLE_CLIENT_SECRET=$GOOGLE_CLIENT_SECRET
+ENV NEXTAUTH_SECRET=$NEXTAUTH_SECRET
+ENV NEXT_PUBLIC_APP_URL=$NEXT_PUBLIC_APP_URL
+
 RUN npm run build
 
 # Production image, copy all the files and run next

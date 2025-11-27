@@ -50,6 +50,7 @@ export default function Home() {
         <main className="px-5 pt-28 pb-10">
           <div className="max-w-2xl mx-auto space-y-8 text-center">
             <h1 className="text-[32px] font-heading font-bold text-content-primary mb-3 leading-tight tracking-tight">Empower Your Work with AI</h1>
+            <p className="text-xs font-mono text-accent-magenta-500 mb-2">SYSTEM VERSION: 2.0 (CYBERPUNK)</p>
             <p className="body-regular text-content-secondary mb-8">
               Select your operative class and begin your AI mastery journey. Each track contains specialised missions designed for TBS Digital Labs team members.
             </p>

@@ -13,7 +13,6 @@ import {
   CharacterSheet,
   CharacterSheetHeader,
   CharacterSheetBody,
-  StatBlock,
   DataPanel,
   XPBar,
   LevelPath,
@@ -363,7 +362,7 @@ export default function ProfilePage() {
                     )}
 
                     {/* Nameplate */}
-                    <div className="inline-block relative">
+                    <div className="inline-block relative group">
                       <h1 className={cn(
                         "text-2xl font-heading font-bold text-content-primary mb-1 flex items-center gap-3",
                         cosmeticLoadout.equippedNameplate && `nameplate nameplate-${cosmeticLoadout.equippedNameplate}`
@@ -379,6 +378,19 @@ export default function ProfilePage() {
                         )}
                         <span>{profile?.name || "Unknown Operative"}</span>
                       </h1>
+                      
+                      {/* Level Badge */}
+                      <div 
+                        className={cn(
+                          "absolute -bottom-3 -right-3 w-8 h-8 flex items-center justify-center rounded-full z-20 font-heading font-bold text-sm shadow-lg transition-all duration-300",
+                          cosmeticLoadout.equippedNameplate 
+                            ? `level-badge-${cosmeticLoadout.equippedNameplate}` 
+                            : "level-badge-default"
+                        )}
+                        title={`Level ${currentLevel}`}
+                      >
+                        {currentLevel}
+                      </div>
                     </div>
                   </div>
                   
@@ -400,12 +412,6 @@ export default function ProfilePage() {
                       <span className="text-content-secondary">{classNames[profile.selectedClass]}</span>
                     </div>
                   )}
-                </div>
-
-                {/* Quick Stats */}
-                <div className="grid grid-cols-2 gap-3 mb-4">
-                  <StatBlock value={currentLevel} label="Level" color="cyan" />
-                  <StatBlock value={currentXP} label="XP" color="magenta" />
                 </div>
 
                 {/* Experience Rank */}

@@ -1710,6 +1710,60 @@ object {
     inset 0 0 10px #d56eed;
 }
 
+/* ===== LEVEL BADGE STYLES (MATCHING NAMEPLATES) ===== */
+
+.level-badge-default {
+  background: var(--color-surface-card);
+  color: var(--color-text-primary);
+  border: 2px solid var(--color-border-primary);
+}
+
+.level-badge-bronze {
+  background: linear-gradient(135deg, #8B4513 0%, #CD7F32 100%);
+  border: 2px solid #5A2D0C;
+  color: #fff;
+  text-shadow: 0 1px 1px rgba(0,0,0,0.8);
+}
+
+.level-badge-silver {
+  background: linear-gradient(135deg, #707070 0%, #E0E0E0 100%);
+  border: 2px solid #505050;
+  color: #000;
+}
+
+.level-badge-gold {
+  background: linear-gradient(135deg, #B8860B 0%, #FFD700 100%);
+  border: 2px solid #8B6508;
+  color: #3E2723;
+}
+
+.level-badge-platinum {
+  background: linear-gradient(135deg, #78909C 0%, #FFFFFF 100%);
+  border: 2px solid #455A64;
+  color: #263238;
+}
+
+.level-badge-legendary {
+  background: linear-gradient(135deg, #2b003e 0%, #d56eed 100%);
+  border: 2px solid #d56eed;
+  color: #fff;
+  box-shadow: 0 0 10px rgba(213, 110, 237, 0.4);
+}
+
+.level-badge-cyber {
+  background: #02022B;
+  border: 2px solid var(--color-sage);
+  color: var(--color-sage);
+  box-shadow: 0 0 5px rgba(97, 189, 186, 0.3);
+}
+
+.level-badge-neon {
+  background: #1a0b2e;
+  border: 2px solid #d56eed;
+  color: #fff;
+  box-shadow: 0 0 5px #d56eed;
+}
+
 /* ===== TITLEBAR STYLES (TEKKEN INSPIRED) ===== */
 /* These appear ABOVE the nameplate usually */
 

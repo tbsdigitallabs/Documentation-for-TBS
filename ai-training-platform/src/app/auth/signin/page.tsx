@@ -70,7 +70,7 @@ export default function SignIn() {
         {/* Header */}
         <div className="text-center mb-8">
           <h1 className="text-3xl font-heading font-bold text-content-primary mb-2">
-            Welcome to LearningLab
+            Welcome to LearningLab v2.0
           </h1>
           <p className="text-content-secondary">
             Begin your quest to master AI tools and level up your skills

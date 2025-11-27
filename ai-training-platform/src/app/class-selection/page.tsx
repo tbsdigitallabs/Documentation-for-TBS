@@ -77,7 +77,7 @@ export default function ClassSelectionPage() {
             {/* Main Content */}
             <main className="px-5 pt-24 pb-10">
                 <div className="max-w-2xl mx-auto text-center">
-                    <p className="mono-label text-accent-readable-cyan mb-2">TBS DIGITAL LABS // TRAINING DIVISION</p>
+                    <p className="mono-label text-accent-readable-cyan mb-2">TBS DIGITAL LABS // TRAINING DIVISION // CYBERPUNK MODE ACTIVE</p>
                     <h1 className="text-[32px] font-heading font-bold text-content-primary mb-3 leading-tight tracking-tight">Initialise Training Protocol</h1>
                     <p className="body-regular text-content-secondary mb-8">
                         Select your operative class and begin your AI mastery journey. Each track contains specialised missions designed for your role.

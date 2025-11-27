@@ -130,7 +130,7 @@ export default function SignIn() {
             </button>
 
           {/* Dev Skip Auth Button (Development Only) */}
-          {isDev && (
+          {/* {isDev && (
             <>
               <div className="my-4 flex items-center">
                 <div className="flex-1 border-t border-border-primary"></div>
@@ -152,7 +152,7 @@ export default function SignIn() {
                 )}
               </button>
             </>
-          )}
+          )} */}
         </div>
 
         {/* Theme Toggle */}

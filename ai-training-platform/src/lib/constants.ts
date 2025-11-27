@@ -3,7 +3,7 @@
  * Centralised values that may change - update here to apply everywhere
  */
 
-// Operative Class Names (Cyberpunk/Shadowrun inspired)
+// Operative Class Names (Cyberpunk/Shadowrun inspired) - FORCE UPDATE 2025-11-27
 export const CLASS_NAMES = {
   DEVELOPERS: "Netrunner",
   DESIGNERS: "Artisan",

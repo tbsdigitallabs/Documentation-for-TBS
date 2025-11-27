@@ -75,11 +75,11 @@ export default function OnboardingPage() {
                         type: "multiple-choice" as const,
                         required: true,
                         options: [
-                            { value: CLASS_NAMES.DEVELOPERS, label: `${CLASS_NAMES.DEVELOPERS} (Developer)`, description: "I write code, build applications, and work with technical systems" },
-                            { value: CLASS_NAMES.DESIGNERS, label: `${CLASS_NAMES.DESIGNERS} (Designer)`, description: "I create visual designs, user interfaces, and brand assets" },
-                            { value: CLASS_NAMES.PROJECT_MANAGERS, label: `${CLASS_NAMES.PROJECT_MANAGERS} (Account/Project Manager)`, description: "I manage projects, coordinate teams, and ensure deliverables are met" },
-                            { value: CLASS_NAMES.CONTENT_CREATORS, label: `${CLASS_NAMES.CONTENT_CREATORS} (Content Creator & PR)`, description: "I write content, manage communications, and handle public relations" },
-                            { value: CLASS_NAMES.SALES, label: `${CLASS_NAMES.SALES} (Sales & Business Development)`, description: "I work with clients, manage sales, and develop business opportunities" },
+                            { value: CLASS_NAMES.DEVELOPERS, label: "Netrunner", description: "Jack into systems and run code" },
+                            { value: CLASS_NAMES.DESIGNERS, label: "Artisan", description: "Craft interfaces and visual experiences" },
+                            { value: CLASS_NAMES.PROJECT_MANAGERS, label: "Fixer", description: "Coordinate ops and make things happen" },
+                            { value: CLASS_NAMES.CONTENT_CREATORS, label: "Media", description: "Control the narrative and shape stories" },
+                            { value: CLASS_NAMES.SALES, label: "Face", description: "Work the angles and close deals" },
                         ],
                     },
                     {
@@ -88,9 +88,9 @@ export default function OnboardingPage() {
                         type: "multiple-choice" as const,
                         required: true,
                         options: [
-                            { value: "Novice", label: "Novice", description: "I'm new to AI tools and want to learn the basics" },
-                            { value: "Apprentice", label: "Apprentice", description: "I've used some AI tools but want to improve my skills" },
-                            { value: "Master", label: "Master", description: "I'm experienced with AI and want to learn advanced techniques" },
+                            { value: "Novice", label: "Novice (Beginner)", description: "I'm new to AI tools" },
+                            { value: "Apprentice", label: "Apprentice (Intermediate)", description: "I've used some AI tools" },
+                            { value: "Master", label: "Master (Advanced)", description: "I'm experienced with AI" },
                         ],
                     },
                 ]);
@@ -105,11 +105,11 @@ export default function OnboardingPage() {
                     type: "multiple-choice" as const,
                     required: true,
                     options: [
-                        { value: CLASS_NAMES.DEVELOPERS, label: CLASS_NAMES.DEVELOPERS, description: "Jack into systems and run code" },
-                        { value: CLASS_NAMES.DESIGNERS, label: CLASS_NAMES.DESIGNERS, description: "Craft interfaces and visual experiences" },
-                        { value: CLASS_NAMES.PROJECT_MANAGERS, label: CLASS_NAMES.PROJECT_MANAGERS, description: "Coordinate ops and make things happen" },
-                        { value: CLASS_NAMES.CONTENT_CREATORS, label: CLASS_NAMES.CONTENT_CREATORS, description: "Control the narrative and shape stories" },
-                        { value: CLASS_NAMES.SALES, label: CLASS_NAMES.SALES, description: "Work the angles and close deals" },
+                        { value: CLASS_NAMES.DEVELOPERS, label: "Netrunner", description: "Jack into systems and run code" },
+                        { value: CLASS_NAMES.DESIGNERS, label: "Artisan", description: "Craft interfaces and visual experiences" },
+                        { value: CLASS_NAMES.PROJECT_MANAGERS, label: "Fixer", description: "Coordinate ops and make things happen" },
+                        { value: CLASS_NAMES.CONTENT_CREATORS, label: "Media", description: "Control the narrative and shape stories" },
+                        { value: CLASS_NAMES.SALES, label: "Face", description: "Work the angles and close deals" },
                     ],
                 },
             ]);

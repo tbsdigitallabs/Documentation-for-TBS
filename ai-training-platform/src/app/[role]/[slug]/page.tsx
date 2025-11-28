@@ -74,6 +74,11 @@ export default async function ModulePage({ params }: { params: Promise<{ role: s
       : role === 'sales-business-dev' 
         ? 'sales' 
         : role;
+    
+    // Debug logging for sales modules
+    if (role === 'sales-business-dev') {
+        console.log(`Loading sales module: role=${role}, slug=${slug}, contentRole=${contentRole}`);
+    }
 
     // Check foundation requirement for non-foundation modules
     const moduleId = role === 'session-0' ? `session-0/${slug}` : `${role}/${slug}`;
@@ -169,7 +174,14 @@ export default async function ModulePage({ params }: { params: Promise<{ role: s
             </div>
         );
     } catch (error) {
-        notFound();
+        console.error(`Error loading module ${contentRole}/${slug}:`, error);
+        // If it's a file not found error, return 404, otherwise log and return 404
+        if (error instanceof Error && error.message.includes('not found')) {
+            notFound();
+        } else {
+            console.error('Unexpected error loading module:', error);
+            notFound();
+        }
     }
 }
 

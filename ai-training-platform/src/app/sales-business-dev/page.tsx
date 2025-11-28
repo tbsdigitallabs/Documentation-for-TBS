@@ -51,7 +51,13 @@ export default async function SalesBusinessDevPage() {
     }
   }
   
-  const modules = getAllModules('sales');
+  let modules;
+  try {
+    modules = getAllModules('sales');
+  } catch (error) {
+    console.error('Error loading sales modules:', error);
+    modules = [];
+  }
 
   const otherClasses = getAllClasses().filter(c => c.name !== CLASS_NAMES.SALES && c.name !== CLASS_NAMES.FOUNDATION);
   const otherModules: Array<{ class: ClassInfo; modules: ReturnType<typeof getAllModules> }> = [];

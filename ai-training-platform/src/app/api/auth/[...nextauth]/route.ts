@@ -102,34 +102,34 @@ export const authOptions: NextAuthOptions = {
         session.user.name = token.name || null
         // DO NOT include token.picture/image in session - it can be large
         
-        // Add profile data from token to session - MINIMAL ONLY
+        // Add profile data from token to session - ABSOLUTE MINIMUM
         if (token.profile) {
           const profile = token.profile as any;
           
           // Build absolute minimal profile - only essential fields
-          const sessionProfile: any = {
-            level: profile.level || 1,
-            xp: profile.xp || 0,
-            selectedClass: profile.selectedClass || null,
-          };
-          
-          // CRITICAL: For David or users with flag, don't include completedModules at all
+          // For David, only include the flag - nothing else
           if (profile.hasAllModulesCompleted) {
-            sessionProfile.hasAllModulesCompleted = true;
-            // DO NOT include completedModules array - saves significant space
+            session.user.profile = {
+              level: profile.level || 10,
+              xp: profile.xp || 10000,
+              selectedClass: profile.selectedClass || null,
+              hasAllModulesCompleted: true,
+              // NO completedModules array - saves significant space
+            };
           } else {
-            // For other users, include max 2 most recent ONLY if they exist
+            // For other users, absolute minimum - only 1 most recent module if exists
             const modules = (profile.completedModules || []);
-            if (modules.length > 0) {
-              sessionProfile.completedModules = modules.slice(-2);
-            }
-            // Don't include empty array
+            session.user.profile = {
+              level: profile.level || 1,
+              xp: profile.xp || 0,
+              selectedClass: profile.selectedClass || null,
+              // Only include 1 most recent module if exists (reduced to absolute minimum)
+              ...(modules.length > 0 ? { completedModules: modules.slice(-1) } : {}),
+            };
           }
           
           // CRITICAL: DO NOT include profileImage or cosmeticLoadout in session
           // These can be fetched from user store via API if needed
-          
-          session.user.profile = sessionProfile;
         }
         
         // Only include onboardingCompleted if it's true (skip false to save space)
@@ -171,9 +171,12 @@ export const authOptions: NextAuthOptions = {
       if (isDevUser || isDavid) {
         token.name = "SLAM";
         
-        // Create comprehensive completed modules list for david@thebigsmoke.com.au
+        // CRITICAL: For David, store modules in user store FIRST, then create minimal token
+        // This prevents the large array from ever being in the JWT token
         let completedModules: any[] = [];
         if (isDavid) {
+          // Store completedModules in user store BEFORE creating token profile
+          // This ensures the large array never enters the JWT token
           // Map route slugs to content directory names and actual module slugs
           const roleModules: Record<string, { route: string; contentDir: string; modules: string[] }> = {
             developers: {
@@ -265,8 +268,8 @@ export const authOptions: NextAuthOptions = {
             if (completedModules.length > 200) break; // Safety limit
           }
           
-          // Store completedModules in user store instead of JWT to prevent 431 errors
-          // JWT tokens have size limits, so we store the full list in the file-based store
+          // CRITICAL: Store completedModules in user store FIRST (before creating token)
+          // This ensures the large array never enters the JWT token
           if (token.email) {
             try {
               const { upsertUser } = await import('@/lib/user-store');
@@ -276,7 +279,7 @@ export const authOptions: NextAuthOptions = {
                 selectedClass: (token.profile as any)?.selectedClass || 'developers',
                 level: 10,
                 xp: 10000,
-                completedModules: completedModules, // Store in user store
+                completedModules: completedModules, // Store FULL list in user store
               });
             } catch (storeError) {
               console.error('Error storing David\'s modules in user store:', storeError);
@@ -284,35 +287,31 @@ export const authOptions: NextAuthOptions = {
           }
         }
         
-        // CRITICAL: Don't store all completedModules in JWT token - it causes 431 errors
-        // Store ONLY essential data in JWT, everything else goes in user store
-        // For David, store empty array and flag - full list is in user store
+        // CRITICAL: Create ABSOLUTE MINIMAL token profile AFTER storing in user store
+        // This ensures the large completedModules array never enters the JWT token
         const existingProfile = (token.profile as any) || {};
         
-        // Build minimal profile object - only include essential fields
-        const minimalProfile: any = {
-          level: 10,
-          xp: 10000,
-          selectedClass: existingProfile.selectedClass || 'developers',
-        };
-        
-        // CRITICAL: For David, store ABSOLUTE MINIMUM - flag only, NO arrays, NO optional fields
         if (isDavid) {
-          // David gets ONLY essential fields - no arrays, no optional data
-          minimalProfile.hasAllModulesCompleted = true;
-          // DO NOT include completedModules array at all (even empty) - saves space
-          // DO NOT include profileImage or cosmeticLoadout - fetch from user store
+          // David: ONLY essential fields - no arrays, no optional data
+          token.profile = {
+            level: 10,
+            xp: 10000,
+            selectedClass: existingProfile.selectedClass || 'developers',
+            hasAllModulesCompleted: true,
+            // completedModules stored in user store, NOT in token
+            // profileImage and cosmeticLoadout NOT in token
+          };
         } else {
-          // For other users, limit to 2 most recent (reduced further to prevent 431)
+          // Other users: absolute minimum
           const modules = (existingProfile.completedModules || []);
-          if (modules.length > 0) {
-            minimalProfile.completedModules = modules.slice(-2);
-          }
-          // Don't include empty array - undefined is smaller
-          // Skip profileImage and cosmeticLoadout entirely
+          token.profile = {
+            level: existingProfile.level || 1,
+            xp: existingProfile.xp || 0,
+            selectedClass: existingProfile.selectedClass || null,
+            // Only 1 most recent module if exists
+            ...(modules.length > 0 ? { completedModules: modules.slice(-1) } : {}),
+          };
         }
-        
-        token.profile = minimalProfile;
       }
 
       // Update token when session is updated (from API routes)
@@ -385,6 +384,21 @@ export const authOptions: NextAuthOptions = {
   session: {
     strategy: 'jwt',
     maxAge: 30 * 24 * 60 * 60, // 30 days
+    // Reduce session update frequency to prevent token bloat
+    updateAge: 24 * 60 * 60, // Update session max once per day
+  },
+  cookies: {
+    sessionToken: {
+      name: `__Secure-next-auth.session-token`,
+      options: {
+        httpOnly: true,
+        sameSite: 'lax',
+        path: '/',
+        secure: process.env.NEXTAUTH_URL?.startsWith('https://') ?? false,
+        // Reduce maxAge to force more frequent token refreshes (smaller tokens)
+        maxAge: 7 * 24 * 60 * 60, // 7 days instead of 30
+      },
+    },
   },
   useSecureCookies: process.env.NEXTAUTH_URL?.startsWith('https://'),
 }

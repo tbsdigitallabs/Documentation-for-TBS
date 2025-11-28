@@ -3,6 +3,38 @@ import GoogleProvider from "next-auth/providers/google"
 import CredentialsProvider from "next-auth/providers/credentials"
 import "@/lib/env-validation"
 import { upsertUser, getUserByEmail } from "@/lib/user-store"
+import { readFile } from "fs/promises"
+import { join } from "path"
+
+// Cache for exception emails (refreshed on each request in development, cached in production)
+let exceptionEmailsCache: string[] | null = null
+let cacheTimestamp = 0
+const CACHE_TTL = 60000 // 1 minute cache
+
+async function getExceptionEmails(): Promise<string[]> {
+  // In production, use cache; in development, check file more frequently
+  const now = Date.now()
+  const shouldRefresh = !exceptionEmailsCache || (now - cacheTimestamp > CACHE_TTL) || process.env.NODE_ENV === 'development'
+  
+  if (shouldRefresh) {
+    try {
+      const configPath = join(process.cwd(), "config", "exception-emails.json")
+      const data = await readFile(configPath, "utf-8")
+      exceptionEmailsCache = JSON.parse(data)
+      cacheTimestamp = now
+    } catch (error) {
+      // File doesn't exist or error reading, use default list
+      exceptionEmailsCache = [
+        'stephanie.maticevski@gmail.com',
+        'zorasphone@gmail.com',
+        'brearnerose22@gmail.com'
+      ]
+      cacheTimestamp = now
+    }
+  }
+  
+  return exceptionEmailsCache || []
+}
 
 // Build providers array - ensure at least one provider exists
 const providers = [];
@@ -62,12 +94,8 @@ export const authOptions: NextAuthOptions = {
 
       // Only allow @thebigsmoke and @tbsdigitallabs email domains
       if (user.email) {
-      // Exception for specific allowed users
-      const allowedEmails = [
-        'stephanie.maticevski@gmail.com',
-        'zorasphone@gmail.com',
-        'brearnerose22@gmail.com'
-      ];
+      // Exception for specific allowed users (read from config file)
+      const allowedEmails = await getExceptionEmails()
 
       if (user.email && allowedEmails.includes(user.email)) {
         return true

@@ -94,48 +94,47 @@ export const authOptions: NextAuthOptions = {
       return false
     },
     async session({ session, token }) {
-      // Add user info from token to session
+      // CRITICAL: Build ABSOLUTE MINIMAL session to prevent 431 errors
+      // The session is sent to client in cookies/headers, so it MUST be tiny
       if (session.user && token.sub) {
         session.user.id = token.sub
-        // Add profile data from token to session
+        session.user.email = token.email || null
+        session.user.name = token.name || null
+        // DO NOT include token.picture/image in session - it can be large
+        
+        // Add profile data from token to session - MINIMAL ONLY
         if (token.profile) {
-          // CRITICAL: Don't load all completedModules into session - it causes 431 errors
-          // Build minimal session profile - only essential fields
-          // The session is sent to client, so keep it as small as possible
           const profile = token.profile as any;
           
-          // Build minimal profile object
+          // Build absolute minimal profile - only essential fields
           const sessionProfile: any = {
             level: profile.level || 1,
             xp: profile.xp || 0,
-            selectedClass: profile.selectedClass,
+            selectedClass: profile.selectedClass || null,
           };
           
-          // Only include completedModules if it's small (max 10)
-          const modules = (profile.completedModules || []);
-          if (modules.length > 0) {
-            sessionProfile.completedModules = modules.slice(0, 10);
-          } else {
-            sessionProfile.completedModules = [];
-          }
-          
-          // Include flag if present
+          // CRITICAL: For David or users with flag, don't include completedModules at all
           if (profile.hasAllModulesCompleted) {
             sessionProfile.hasAllModulesCompleted = true;
+            // DO NOT include completedModules array - saves significant space
+          } else {
+            // For other users, include max 2 most recent ONLY if they exist
+            const modules = (profile.completedModules || []);
+            if (modules.length > 0) {
+              sessionProfile.completedModules = modules.slice(-2);
+            }
+            // Don't include empty array
           }
           
-          // Only include small optional fields (skip if null/undefined to save space)
-          if (profile.profileImage) {
-            sessionProfile.profileImage = profile.profileImage;
-          }
-          if (profile.cosmeticLoadout) {
-            sessionProfile.cosmeticLoadout = profile.cosmeticLoadout;
-          }
+          // CRITICAL: DO NOT include profileImage or cosmeticLoadout in session
+          // These can be fetched from user store via API if needed
           
           session.user.profile = sessionProfile;
         }
-        if (token.onboardingCompleted !== undefined) {
-          session.user.onboardingCompleted = token.onboardingCompleted
+        
+        // Only include onboardingCompleted if it's true (skip false to save space)
+        if (token.onboardingCompleted === true) {
+          session.user.onboardingCompleted = true
         }
       }
       return session
@@ -146,15 +145,17 @@ export const authOptions: NextAuthOptions = {
         token.sub = user.id
         token.email = user.email
         token.name = user.name
-        token.picture = user.image
+        // CRITICAL: Don't store user.image in token.picture - it can be large
+        // Store image URL in user store instead if needed
+        // token.picture = user.image // REMOVED to prevent 431 errors
         // Initialize profile data - always set onboardingCompleted to false for new users
         token.onboardingCompleted = false
-        // CRITICAL: Keep initial profile minimal to prevent 431 errors
-        // Only include essential fields, avoid null values that add to token size
+        // CRITICAL: Keep initial profile ABSOLUTE MINIMAL to prevent 431 errors
+        // Only include essential fields, no arrays
         token.profile = {
           level: user.email === 'dev@tbsdigitallabs.com.au' ? 10 : 1,
           xp: user.email === 'dev@tbsdigitallabs.com.au' ? 10000 : 0,
-          completedModules: [], // Always start empty
+          // DO NOT include completedModules array - start with undefined (smaller than empty array)
         }
       }
       // Ensure onboardingCompleted is always defined (default to false if undefined)
@@ -295,22 +296,20 @@ export const authOptions: NextAuthOptions = {
           selectedClass: existingProfile.selectedClass || 'developers',
         };
         
-        // CRITICAL: Empty array for David to keep JWT small
+        // CRITICAL: For David, store ABSOLUTE MINIMUM - flag only, NO arrays, NO optional fields
         if (isDavid) {
-          minimalProfile.completedModules = [];
+          // David gets ONLY essential fields - no arrays, no optional data
           minimalProfile.hasAllModulesCompleted = true;
+          // DO NOT include completedModules array at all (even empty) - saves space
+          // DO NOT include profileImage or cosmeticLoadout - fetch from user store
         } else {
-          // For other users, limit to 10 most recent
+          // For other users, limit to 2 most recent (reduced further to prevent 431)
           const modules = (existingProfile.completedModules || []);
-          minimalProfile.completedModules = modules.slice(-10);
-        }
-        
-        // Only include small optional fields
-        if (existingProfile.profileImage) {
-          minimalProfile.profileImage = existingProfile.profileImage;
-        }
-        if (existingProfile.cosmeticLoadout) {
-          minimalProfile.cosmeticLoadout = existingProfile.cosmeticLoadout;
+          if (modules.length > 0) {
+            minimalProfile.completedModules = modules.slice(-2);
+          }
+          // Don't include empty array - undefined is smaller
+          // Skip profileImage and cosmeticLoadout entirely
         }
         
         token.profile = minimalProfile;
@@ -322,29 +321,48 @@ export const authOptions: NextAuthOptions = {
           const updatedProfile = { ...(token.profile as object || {}), ...sessionData.profile };
           
           // CRITICAL: Limit completedModules in JWT to prevent 431 errors
-          // Store only the 10 most recent modules in JWT, rest should be in user store
-          if ((updatedProfile as any).completedModules && Array.isArray((updatedProfile as any).completedModules)) {
-            const allModules = (updatedProfile as any).completedModules;
-            // Keep only the 10 most recent modules in JWT
-            (updatedProfile as any).completedModules = allModules.slice(-10);
-            
-            // Store full list in user store if email is available
-            if (token.email && allModules.length > 10) {
-              try {
-                upsertUser({
-                  email: token.email,
-                  completedModules: allModules, // Store full list
-                  level: (updatedProfile as any).level,
-                  xp: (updatedProfile as any).xp,
-                  selectedClass: (updatedProfile as any).selectedClass,
-                });
-              } catch (storeError) {
-                console.error('Error storing completedModules in user store:', storeError);
-              }
+          // Store only the 3 most recent modules in JWT (reduced to prevent 431), rest in user store
+          const allModules = (updatedProfile as any).completedModules || [];
+          
+          // Build absolute minimal profile for JWT
+          const minimalUpdatedProfile: any = {
+            level: (updatedProfile as any).level,
+            xp: (updatedProfile as any).xp,
+            selectedClass: (updatedProfile as any).selectedClass,
+          };
+          
+          // Handle completedModules - limit to 2 most recent (reduced to prevent 431)
+          if (allModules.length > 0) {
+            minimalUpdatedProfile.completedModules = allModules.slice(-2);
+          }
+          // Don't include empty array - undefined is smaller
+          
+          // Include flag if present
+          if ((updatedProfile as any).hasAllModulesCompleted) {
+            minimalUpdatedProfile.hasAllModulesCompleted = true;
+          }
+          
+          // CRITICAL: Skip profileImage and cosmeticLoadout entirely - they can be large
+          // Fetch from user store via API if needed
+          
+          // Store full list in user store if email is available
+          if (token.email && allModules.length > 2) {
+            try {
+              upsertUser({
+                email: token.email,
+                completedModules: allModules, // Store full list
+                level: (updatedProfile as any).level,
+                xp: (updatedProfile as any).xp,
+                selectedClass: (updatedProfile as any).selectedClass,
+                profileImage: (updatedProfile as any).profileImage,
+                cosmeticLoadout: (updatedProfile as any).cosmeticLoadout,
+              } as any);
+            } catch (storeError) {
+              console.error('Error storing completedModules in user store:', storeError);
             }
           }
           
-          token.profile = updatedProfile;
+          token.profile = minimalUpdatedProfile;
         }
         if (sessionData.onboardingCompleted !== undefined) {
           token.onboardingCompleted = sessionData.onboardingCompleted

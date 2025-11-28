@@ -81,40 +81,45 @@ export default async function ModulePage({ params }: { params: Promise<{ role: s
     }
 
     // Check foundation requirement for non-foundation modules
+    // SAFETY: This check is wrapped in try-catch to ensure it NEVER blocks access on error
     const moduleId = role === 'session-0' ? `session-0/${slug}` : `${role}/${slug}`;
     const isFoundation = isFoundationModule(moduleId);
     
-    // Only check foundation if user is authenticated and it's not a foundation module
-    // Allow unauthenticated users to access (they'll be redirected by auth)
+    // Skip foundation check entirely if it's a foundation module
     if (!isFoundation && session?.user?.profile) {
       try {
         const completedModules = session.user.profile.completedModules || [];
         const foundationModuleIds = getFoundationModuleIds();
         
-        // If no foundation modules exist, allow access (shouldn't happen, but safety check)
-        if (foundationModuleIds.length === 0) {
-          console.warn('No foundation modules found, allowing access');
-        } else {
+        // If no foundation modules exist, allow access (no requirement)
+        if (foundationModuleIds.length > 0) {
           const hasFoundation = hasCompletedFoundation(completedModules);
           
           if (!hasFoundation) {
-            const incompleteModules = getIncompleteFoundationModules(completedModules);
-            
-            return (
-              <FoundationRequirement 
-                incompleteModules={incompleteModules}
-                totalFoundationModules={foundationModuleIds.length}
-              />
-            );
+            try {
+              const incompleteModules = getIncompleteFoundationModules(completedModules);
+              
+              return (
+                <FoundationRequirement 
+                  incompleteModules={incompleteModules}
+                  totalFoundationModules={foundationModuleIds.length}
+                />
+              );
+            } catch (reqError) {
+              // If showing requirement fails, allow access
+              console.error('Error showing foundation requirement (allowing access):', reqError);
+            }
           }
         }
       } catch (error) {
-        console.error('Error checking foundation requirements:', error);
-        // On error, allow access to prevent blocking users - log but don't fail
+        // CRITICAL: On ANY error, allow access to prevent blocking users
+        // This ensures the foundation check can never cause a 403 or block access
+        console.error('Error in foundation check (allowing access):', error);
+        // Continue to render the module normally - fail open
       }
     }
     
-    // If no session, allow access (auth will handle redirect)
+    // If no session, allow access (auth middleware will handle redirect)
     // If foundation module, always allow access
 
     try {

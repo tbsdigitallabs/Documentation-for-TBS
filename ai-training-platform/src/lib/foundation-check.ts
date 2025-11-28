@@ -9,18 +9,19 @@ import { getAllModules } from './mdx';
 
 /**
  * Get all foundational module IDs (Session 0 / shared modules)
+ * Returns empty array on any error to prevent blocking access
  */
 export function getFoundationModuleIds(): string[] {
   try {
     const modules = getAllModules('shared');
     if (!modules || modules.length === 0) {
-      console.warn('No foundation modules found in shared directory');
+      // No foundation modules = no requirement, allow access
       return [];
     }
     return modules.map(module => `session-0/${module.slug}`).filter(Boolean);
   } catch (error) {
-    console.error('Error getting foundation modules:', error);
-    // Return empty array to prevent blocking access
+    // On any error, return empty array to allow access (fail open)
+    // This prevents the foundation check from blocking users if there's a file system issue
     return [];
   }
 }
@@ -56,10 +57,16 @@ export function hasCompletedFoundation(completedModules: Array<{ moduleId: strin
  * @returns Array of incomplete foundation module IDs
  */
 export function getIncompleteFoundationModules(completedModules: Array<{ moduleId: string }> = []): string[] {
-  const foundationModuleIds = getFoundationModuleIds();
-  const completedIds = new Set(completedModules.map(m => m.moduleId));
-  
-  return foundationModuleIds.filter(id => !completedIds.has(id));
+  try {
+    const foundationModuleIds = getFoundationModuleIds();
+    const completedIds = new Set(completedModules.map(m => m.moduleId));
+    
+    return foundationModuleIds.filter(id => !completedIds.has(id));
+  } catch (error) {
+    console.error('Error getting incomplete foundation modules:', error);
+    // Return empty array on error to prevent blocking
+    return [];
+  }
 }
 
 /**

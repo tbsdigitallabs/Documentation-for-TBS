@@ -137,12 +137,12 @@ export const authOptions: NextAuthOptions = {
         token.onboardingCompleted = false
       }
 
-      // FORCE UPDATE for dev user during development to ensure max stats
+      // FORCE UPDATE for dev user to ensure max stats
       // Supports both standard dev email and specific user david@thebigsmoke.com.au
       const isDevUser = token.email === 'dev@tbsdigitallabs.com.au' || token.email === 'david@thebigsmoke.com.au';
       const isDavid = token.email === 'david@thebigsmoke.com.au';
       
-      if (isDevUser) {
+      if (isDevUser || isDavid) {
         token.name = "SLAM";
         
         // Create comprehensive completed modules list for david@thebigsmoke.com.au

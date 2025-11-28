@@ -158,6 +158,15 @@ export async function PUT(req: NextRequest) {
             finalLevel = calculateLevel(finalXP);
         }
 
+        // CRITICAL: Use profileImage from request data directly (not from validatedProfile which might be null)
+        // The validation function returns null for empty strings, but we want to preserve the actual imageUrl
+        const profileImageToSave = data.profileImage || validatedProfile.profileImage || existingUser?.profileImage || user.profile?.profileImage;
+        const cosmeticLoadoutToSave = data.cosmeticLoadout || validatedProfile.cosmeticLoadout || existingUser?.cosmeticLoadout || user.profile?.cosmeticLoadout;
+
+        console.log('[Profile PUT] Saving profileImage:', profileImageToSave);
+        console.log('[Profile PUT] Request data.profileImage:', data.profileImage);
+        console.log('[Profile PUT] Validated profileImage:', validatedProfile.profileImage);
+
         // Save profile data to user store (including profileImage and cosmeticLoadout)
         upsertUser({
             email: session.user.email,
@@ -166,8 +175,8 @@ export async function PUT(req: NextRequest) {
             level: finalLevel,
             xp: finalXP,
             image: user.image,
-            profileImage: validatedProfile.profileImage || existingUser?.profileImage || user.profile?.profileImage,
-            cosmeticLoadout: validatedProfile.cosmeticLoadout || existingUser?.cosmeticLoadout || user.profile?.cosmeticLoadout,
+            profileImage: profileImageToSave,
+            cosmeticLoadout: cosmeticLoadoutToSave,
             completedModules: existingUser?.completedModules || user.profile?.completedModules || [],
         } as any);
 
@@ -183,6 +192,10 @@ export async function PUT(req: NextRequest) {
             }
         };
 
+        // Verify the saved data by fetching from user store
+        const savedUser = getUserByEmail(session.user.email);
+        console.log('[Profile PUT] Saved user profileImage:', savedUser?.profileImage);
+
         // Return updated profile data (including profileImage from user store)
         return NextResponse.json({
             id: user.id,
@@ -192,8 +205,8 @@ export async function PUT(req: NextRequest) {
             ...validatedProfile,
             level: finalLevel,
             xp: finalXP,
-            profileImage: validatedProfile.profileImage || existingUser?.profileImage || user.profile?.profileImage,
-            cosmeticLoadout: validatedProfile.cosmeticLoadout || existingUser?.cosmeticLoadout || user.profile?.cosmeticLoadout,
+            profileImage: savedUser?.profileImage || profileImageToSave,
+            cosmeticLoadout: savedUser?.cosmeticLoadout || cosmeticLoadoutToSave,
             completedModules: existingUser?.completedModules || user.profile?.completedModules || [],
         });
     } catch (error) {

@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]/route";
 import { validateProfileData } from "@/lib/validation";
 import { calculateLevel } from "@/lib/levelling";
+import { getUserByEmail } from "@/lib/user-store";
 
 interface CompletedModule {
     moduleId: string;
@@ -54,17 +55,36 @@ export async function GET() {
             completedModules: [],
         };
 
-        // Calculate XP from completed modules to ensure consistency
-        const completedModules = profile.completedModules || [];
+        // CRITICAL: Fetch FULL completedModules list from user store for accurate XP calculation
+        // Session only has 10 most recent modules (to prevent 431 errors), but we need all for XP
+        let completedModules = profile.completedModules || [];
+        
+        // Check user store for full list
+        if (user.email) {
+            try {
+                const storedUser = getUserByEmail(user.email);
+                if (storedUser?.completedModules && storedUser.completedModules.length > completedModules.length) {
+                    // Use full list from user store for accurate XP calculation
+                    completedModules = storedUser.completedModules;
+                }
+            } catch (error) {
+                console.warn('Could not fetch full completedModules from user store:', error);
+                // Fall back to session modules if user store fetch fails
+            }
+        }
+        
+        // Calculate XP from FULL completed modules list to ensure accuracy
         let calculatedXP = completedModules.reduce((sum: number, module: CompletedModule) => sum + module.xpEarned, 0);
         
         // Override for dev user if needed (if we manually set XP in JWT but have no modules)
         // This allows the dev user hack in authOptions to persist
         const isDevUser = user.email === 'dev@tbsdigitallabs.com.au' || user.email === 'david@thebigsmoke.com.au';
-        if (isDevUser && process.env.NODE_ENV === 'development') {
-            // If the JWT says we have 10000 XP, respect it even if modules don't sum up
-            // Or better yet, just force it here too for consistency
-            calculatedXP = 10000;
+        if (isDevUser) {
+            // For dev users, use stored XP if it's higher (handles David's 10000 XP case)
+            const storedXP = profile.xp || 0;
+            if (storedXP > calculatedXP) {
+                calculatedXP = storedXP;
+            }
         }
         
         // Always use calculated XP from completed modules (ensures data integrity)

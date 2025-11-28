@@ -29,20 +29,41 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Check if module is already completed
-    const completedModules = session.user.profile?.completedModules || [];
+    // CRITICAL: Get FULL completedModules list from user store for accurate XP calculation
+    // Session only has 10 most recent modules (to prevent 431 errors), but we need all for XP
+    let completedModules = session.user.profile?.completedModules || [];
+    
+    // Fetch full list from user store if available
+    if (session.user.email) {
+      try {
+        const storedUser = getUserByEmail(session.user.email);
+        if (storedUser?.completedModules && storedUser.completedModules.length > completedModules.length) {
+          // Use full list from user store for accurate duplicate check and XP calculation
+          completedModules = storedUser.completedModules;
+        }
+      } catch (error) {
+        console.warn('Could not fetch full completedModules from user store:', error);
+        // Fall back to session modules if user store fetch fails
+      }
+    }
+    
+    // Check if module is already completed (using full list)
     const alreadyCompleted = completedModules.find(
       (m) => m.moduleId === moduleId
     );
 
     if (alreadyCompleted) {
+      // Calculate current XP from full list
+      const currentXPFromModules = completedModules.reduce((sum, m) => sum + m.xpEarned, 0);
+      const currentLevelFromXP = calculateLevel(currentXPFromModules);
+      
       return NextResponse.json({
         success: false,
         alreadyCompleted: true,
         message: "This module has already been completed",
         xpAwarded: 0,
-        currentXP: session.user.profile?.xp || 0,
-        currentLevel: session.user.profile?.level || 1,
+        currentXP: currentXPFromModules,
+        currentLevel: currentLevelFromXP,
       });
     }
 
@@ -64,10 +85,10 @@ export async function POST(req: NextRequest) {
 
     const totalXP = baseXP + bonusXP;
 
-    // Get current user profile from session
-    const currentXP = session.user.profile?.xp || 0;
-    const currentLevel = session.user.profile?.level || 1;
-    const newXP = currentXP + totalXP;
+    // Calculate current XP from FULL completed modules list (not session's limited list)
+    const currentXPFromModules = completedModules.reduce((sum, m) => sum + m.xpEarned, 0);
+    const currentLevelFromXP = calculateLevel(currentXPFromModules);
+    const newXP = currentXPFromModules + totalXP;
     const newLevel = calculateLevel(newXP);
 
     // Add module to completed modules
@@ -123,7 +144,7 @@ export async function POST(req: NextRequest) {
       bonusXP,
       newXP,
       newLevel,
-      levelUp: newLevel > currentLevel,
+      levelUp: newLevel > currentLevelFromXP,
       profile: updatedProfile,
       completedModule: newCompletedModule,
     });

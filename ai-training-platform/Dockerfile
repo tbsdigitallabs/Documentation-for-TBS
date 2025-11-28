@@ -37,11 +37,10 @@ ENV NEXT_PUBLIC_APP_URL=$NEXT_PUBLIC_APP_URL
 # Calculate git revision count and set as env var before build
 # This ensures git count is available during npm run build (next.config.ts reads it)
 # In Cloud Build, git history might be shallow, so we handle errors gracefully
+# Use single RUN command to ensure GIT_REVISION_COUNT is available during npm run build
 RUN GIT_COUNT=$(git rev-list --count HEAD 2>/dev/null || echo "0") && \
     echo "Git revision count: $GIT_COUNT" && \
-    export GIT_REVISION_COUNT=$GIT_COUNT
-ENV GIT_REVISION_COUNT=${GIT_REVISION_COUNT:-0}
-RUN npm run build
+    GIT_REVISION_COUNT=$GIT_COUNT npm run build
 
 # Production image, copy all the files and run next
 FROM base AS runner

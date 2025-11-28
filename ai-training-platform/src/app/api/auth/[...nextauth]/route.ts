@@ -123,20 +123,12 @@ export const authOptions: NextAuthOptions = {
         token.picture = user.image
         // Initialize profile data - always set onboardingCompleted to false for new users
         token.onboardingCompleted = false
+        // CRITICAL: Keep initial profile minimal to prevent 431 errors
+        // Only include essential fields, avoid null values that add to token size
         token.profile = {
-          bio: null,
-          role: null,
-          skills: [],
-          interests: [],
-          learningGoals: null,
-          experienceLevel: null,
-          profileImage: null,
-          selectedClass: null,
-          hobbies: null,
-          systems: null,
           level: user.email === 'dev@tbsdigitallabs.com.au' ? 10 : 1,
           xp: user.email === 'dev@tbsdigitallabs.com.au' ? 10000 : 0,
-          completedModules: [],
+          completedModules: [], // Always start empty
         }
       }
       // Ensure onboardingCompleted is always defined (default to false if undefined)
@@ -266,16 +258,19 @@ export const authOptions: NextAuthOptions = {
         }
         
         // CRITICAL: Don't store all completedModules in JWT token - it causes 431 errors
-        // Instead, store a flag that modules are completed and fetch from user store when needed
+        // Store ONLY essential data in JWT, everything else goes in user store
+        // For David, store empty array and flag - full list is in user store
+        const existingProfile = (token.profile as any) || {};
         token.profile = {
-          ...(token.profile as any || {}),
           level: 10,
           xp: 10000,
-          // Ensure cosmetic unlocks work by setting a valid class if missing
-          selectedClass: (token.profile as any)?.selectedClass || 'developers',
-          // Only store a flag, not the full array, to prevent JWT size issues
-          completedModules: isDavid ? [] : ((token.profile as any)?.completedModules || []).slice(0, 10), // Limit to 10 most recent
+          selectedClass: existingProfile.selectedClass || 'developers',
+          // CRITICAL: Empty array for David to keep JWT small
+          completedModules: isDavid ? [] : (existingProfile.completedModules || []).slice(-10), // Max 10 most recent
           hasAllModulesCompleted: isDavid ? true : undefined, // Flag for David
+          // Preserve other profile fields but don't add large arrays
+          profileImage: existingProfile.profileImage,
+          cosmeticLoadout: existingProfile.cosmeticLoadout,
         };
       }
 

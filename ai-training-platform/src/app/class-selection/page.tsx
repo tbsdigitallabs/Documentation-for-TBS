@@ -88,8 +88,16 @@ export default function ClassSelectionPage() {
 
             {/* Foundation Requirement Banner */}
             {session?.user?.profile && (() => {
+                // Check if user has flag indicating all modules completed (David's case)
+                const hasAllCompleted = (session.user.profile as any)?.hasAllModulesCompleted;
+                
+                // For client-side check, use session modules (limited to 10)
+                // Full check happens server-side on role pages
                 const completedModules = session.user.profile.completedModules || [];
-                const hasFoundation = hasCompletedFoundation(completedModules);
+                
+                // If user has flag, skip foundation requirement
+                // Otherwise check with available modules (may be incomplete list, but better than blocking)
+                const hasFoundation = hasAllCompleted || hasCompletedFoundation(completedModules);
                 
                 if (!hasFoundation) {
                     return (

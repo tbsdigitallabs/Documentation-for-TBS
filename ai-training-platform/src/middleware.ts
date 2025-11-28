@@ -18,6 +18,46 @@ export default isDevWithoutAuth
     async function middleware(req: NextRequestWithAuth) {
       const request = req as unknown as NextRequest;
 
+      // CRITICAL: Check for oversized cookies (431 error prevention)
+      // Clear any NextAuth cookies larger than 3KB to force re-authentication with minimal token
+      const MAX_COOKIE_SIZE = 3000; // bytes
+      const cookies = request.cookies.getAll();
+      let hasOversizedCookie = false;
+      
+      for (const cookie of cookies) {
+        // Check NextAuth session cookies
+        if (cookie.name.includes('next-auth') || cookie.name.includes('session')) {
+          const cookieSize = cookie.value.length;
+          if (cookieSize > MAX_COOKIE_SIZE) {
+            console.log(`[Middleware] Detected oversized cookie: ${cookie.name} (${cookieSize} bytes), clearing to prevent 431 error`);
+            hasOversizedCookie = true;
+          }
+        }
+      }
+      
+      // If oversized cookie detected, clear all NextAuth cookies and redirect to sign in
+      if (hasOversizedCookie) {
+        const response = NextResponse.redirect(new URL('/auth/signin', request.url));
+        // Clear all NextAuth cookies
+        cookies.forEach(cookie => {
+          if (cookie.name.includes('next-auth') || cookie.name.includes('session')) {
+            response.cookies.set(cookie.name, '', {
+              expires: new Date(0),
+              path: '/',
+              httpOnly: true,
+              secure: process.env.NEXTAUTH_URL?.startsWith('https://') ?? false,
+              sameSite: 'lax',
+            });
+          }
+        });
+        // Set CSP header
+        response.headers.set(
+          'Content-Security-Policy',
+          "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://apis.google.com chrome-extension: blob:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com chrome-extension:; img-src 'self' data: https: blob:; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' https://apis.google.com https://accounts.google.com blob:; frame-src 'self' https://accounts.google.com; worker-src 'self' blob:; object-src 'none'; base-uri 'self'; form-action 'self';"
+        );
+        return response;
+      }
+
       // Create response
       let response: NextResponse;
 

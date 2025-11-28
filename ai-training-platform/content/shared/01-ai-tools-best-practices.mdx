@@ -1,0 +1,374 @@
+---
+title: "AI Tools: Best Practices & Standard Operating Procedures"
+description: "Learn best practices for using popular AI tools safely and effectively, with SOPs based on official documentation."
+estimatedTime: "30 minutes"
+difficulty: "Beginner"
+questions:
+  - id: "q1"
+    question: "What is the most important security practice when using AI tools?"
+    options:
+      - "Using the latest version"
+      - "Never sharing secrets, API keys, or sensitive data"
+      - "Using a VPN"
+      - "Keeping your browser updated"
+    correctAnswer: 1
+  - id: "q2"
+    question: "What should you always do with AI-generated code?"
+    options:
+      - "Use it immediately"
+      - "Review it thoroughly before using it"
+      - "Share it publicly"
+      - "Never modify it"
+    correctAnswer: 1
+  - id: "q3"
+    question: "When should you use a VPN with AI tools?"
+    options:
+      - "Always"
+      - "Only when the tool is not available in your region"
+      - "Never"
+      - "Only for video generation"
+    correctAnswer: 1
+---
+
+# AI Tools: Best Practices & Standard Operating Procedures
+
+This module covers best practices and standard operating procedures for the most commonly used AI tools at TBS Digital Labs.
+
+---
+
+## Security First: Universal Rules
+
+Before using any AI tool, follow these universal security practices:
+
+### Rule 1: Never Share Secrets
+
+**Never share with AI tools:**
+- API keys, passwords, or authentication tokens
+- Client data or personal information
+- Proprietary business logic or trade secrets
+- Database credentials or connection strings
+- Private keys or certificates
+- Internal URLs or system architecture details
+
+**Safe to share:**
+- Public code patterns
+- Generic examples
+- Error messages (scrubbed of sensitive context)
+- General programming questions
+- Public documentation or examples
+
+**Remember:** If you wouldn't post it on a public forum, don't share it with AI.
+
+---
+
+## Security First: Review Everything
+
+AI-generated content often works, but it's not always correct, secure, or appropriate.
+
+**Always review:**
+- Code for security vulnerabilities
+- Content for accuracy and brand compliance
+- Suggestions for appropriateness
+- Outputs for edge cases or errors
+
+**The rule:** If you can't verify it, don't use it.
+
+---
+
+## ChatGPT & Claude: Best Practices
+
+### Official Documentation
+- [OpenAI Usage Policies](https://openai.com/policies/usage-policies)
+- [Anthropic Claude Safety](https://www.anthropic.com/safety)
+
+### Best Practices
+
+**Prompting:**
+- Be specific about what you need
+- Provide context when relevant
+- Ask for explanations when unsure
+- Iterate and refine your prompts
+
+**Security:**
+- Never share sensitive data
+- Review all outputs before use
+- Don't rely on AI for security-critical decisions
+- Be transparent about AI use with your team
+
+**Cost Management:**
+- Use appropriate models for the task (don't use GPT-4 for simple tasks)
+- Be mindful of token usage
+- Review usage regularly
+
+---
+
+## GitHub Copilot: Best Practices
+
+### Official Documentation
+- [GitHub Copilot Documentation](https://docs.github.com/en/copilot)
+- [GitHub Copilot Privacy](https://github.com/features/copilot#faq-privacy)
+
+### Best Practices
+
+**Code Review:**
+- Always review Copilot suggestions before accepting
+- Test all generated code
+- Check for security vulnerabilities
+- Ensure code follows team standards
+
+**Privacy:**
+- Copilot may send code snippets to improve suggestions
+- Don't use with proprietary code without approval
+- Review your organisation's Copilot policy
+
+**Efficiency:**
+- Use clear, descriptive function names
+- Write good comments to guide Copilot
+- Accept suggestions selectively, not blindly
+
+---
+
+## Cursor IDE: Best Practices
+
+### Official Documentation
+- [Cursor Documentation](https://cursor.sh/docs)
+- [Cursor Privacy Policy](https://cursor.sh/privacy)
+
+### Best Practices
+
+**Chat Feature:**
+- Use for code explanations and debugging
+- Never share secrets or sensitive data
+- Review all suggestions before applying
+- Use for learning, not just copying
+
+**Composer:**
+- Break large changes into smaller requests
+- Review generated code thoroughly
+- Test incrementally
+- Understand what changes were made
+
+**Security:**
+- Cursor may send code to AI services
+- Review privacy settings
+- Don't use with highly sensitive projects without approval
+
+---
+
+## Sora 2: Video Generation Setup & Best Practices
+
+Sora 2 (OpenAI's video generation AI) is currently not available in Australia. This section provides setup instructions and best practices for TBS Digital Labs team members.
+
+### Official Documentation
+- [OpenAI Sora Documentation](https://openai.com/sora)
+- [OpenAI Terms of Service](https://openai.com/policies/terms-of-use)
+
+---
+
+## Sora 2: Access Setup
+
+### Prerequisites
+
+- Stable internet connection (minimum 25 Mbps)
+- Modern browser (Chrome, Firefox, Safari, Edge)
+- OpenAI account with Sora 2 access
+- VPN service subscription (for Australian users)
+
+### Method 1: VPN Setup (Recommended)
+
+**Step 1: Choose a VPN Provider**
+
+Recommended VPNs for Sora 2 access:
+- **ExpressVPN** - Reliable, fast, good for streaming
+- **NordVPN** - Strong privacy features, multiple server locations
+- **Surfshark** - Cost-effective, unlimited devices
+- **CyberGhost** - User-friendly, good for beginners
+
+**Step 2: Installation & Setup**
+
+1. Download the VPN client for your device
+2. Install following the provider's instructions
+3. Create account and subscribe to service
+4. Connect to a US server (preferably West Coast)
+
+**Step 3: Access Sora 2**
+
+1. Clear browser cache and cookies
+2. Connect VPN to US server
+3. Visit [OpenAI Sora 2](https://openai.com/sora)
+4. Sign up or log in to OpenAI account
+5. Request access to Sora 2 beta
+
+**Step 4: Verification**
+
+- Ensure VPN is connected before each use
+- Use incognito/private browsing mode
+- Clear browser data if access issues occur
+
+---
+
+## Sora 2: Best Practices
+
+### Legal & Ethical Guidelines
+
+- **Personal use only** - Don't share access with non-team members
+- **Respect OpenAI's terms** of service
+- **Use responsibly** - Don't abuse the service
+- **Keep access private** - Don't publicly advertise usage
+
+### Technical Requirements
+
+- **Stable internet connection** (minimum 25 Mbps)
+- **Modern browser** (Chrome, Firefox, Safari, Edge)
+- **Sufficient storage** for generated videos
+- **Powerful device** for video processing
+
+### Cost Considerations
+
+- **VPN subscription**: $5-15 AUD/month
+- **OpenAI credits**: Pay-per-use pricing
+- **Cloud instance** (if needed): $20-100 AUD/month
+
+### Usage Best Practices
+
+**Prompting:**
+- Be specific about video style and content
+- Describe camera movements and angles
+- Specify duration and pacing
+- Iterate and refine prompts
+
+**Quality:**
+- Review all generated videos
+- Check for appropriateness
+- Ensure brand compliance
+- Test before using in projects
+
+**Team Guidelines:**
+- Professional use only
+- Document usage and generated content
+- Respect rate limits
+- Report issues to team
+
+---
+
+## Sora 2: Troubleshooting
+
+### Common Issues
+
+**"Service not available in your region"**
+- Ensure VPN is connected to US server
+- Clear browser cache and cookies
+- Try different US server location
+- Use incognito/private browsing
+
+**"Access denied"**
+- Verify OpenAI account is in good standing
+- Check if Sora 2 access has been granted
+- Contact OpenAI support if needed
+
+**Slow performance**
+- Switch to faster VPN server
+- Close unnecessary browser tabs
+- Check internet connection speed
+- Consider upgrading VPN plan
+
+### Performance Optimisation
+
+- Use wired connection instead of WiFi
+- Close background applications
+- Use dedicated browser for Sora 2
+- Regularly update VPN client
+
+---
+
+## Alternative Video Generation Tools
+
+If Sora 2 is unavailable or doesn't meet your needs:
+
+### Runway ML
+- Similar video generation capabilities
+- [Documentation](https://runwayml.com/docs)
+- Available in Australia
+
+### Pika Labs
+- AI video creation platform
+- [Documentation](https://pika.art/docs)
+- Web-based access
+
+### Stable Video Diffusion
+- Open-source alternative
+- Self-hosted option available
+- [Documentation](https://stability.ai/stable-video-diffusion)
+
+---
+
+## General Tool Usage Guidelines
+
+### Before Using Any AI Tool
+
+1. **Check official documentation** for best practices
+2. **Review privacy policies** to understand data usage
+3. **Verify security practices** align with TBS standards
+4. **Test with non-sensitive data** first
+5. **Get approval** for proprietary or sensitive projects
+
+### During Use
+
+1. **Never share secrets** or sensitive data
+2. **Review all outputs** before using
+3. **Be transparent** with your team about AI use
+4. **Document your process** for future reference
+5. **Report issues** or concerns immediately
+
+### After Use
+
+1. **Verify outputs** meet requirements
+2. **Check for security issues**
+3. **Ensure brand compliance**
+4. **Document what was AI-generated**
+5. **Share learnings** with the team
+
+---
+
+## Resources
+
+### Official Documentation
+- [OpenAI Documentation](https://platform.openai.com/docs)
+- [Anthropic Claude Documentation](https://docs.anthropic.com/)
+- [GitHub Copilot Documentation](https://docs.github.com/en/copilot)
+- [Cursor IDE Documentation](https://cursor.sh/docs)
+
+### Security Resources
+- [OWASP AI Security Guidelines](https://owasp.org/www-project-top-10-for-large-language-model-applications/)
+- [TBS Security Policies](https://tbs.digital/security)
+
+### Support
+- **IT Team** - Technical setup assistance
+- **Training Team** - Usage guidance and best practices
+- **Project Managers** - Integration with workflows
+
+---
+
+## Key Takeaways
+
+1. **Security first** - Never share secrets or sensitive data
+2. **Review everything** - AI outputs need human verification
+3. **Be transparent** - Tell your team when you use AI
+4. **Follow official docs** - Use tools according to best practices
+5. **Respect terms of service** - Understand what's allowed
+
+---
+
+## Before Moving On
+
+Make sure you've:
+
+- [ ] Read through all the content (especially security sections)
+- [ ] Understood the universal security rules
+- [ ] Reviewed best practices for tools you'll use
+- [ ] Bookmarked official documentation
+- [ ] Understood when VPN access is needed
+
+**Estimated time:** 30 minutes
+
+Ready to start using AI tools safely? Move on to your role-specific training!

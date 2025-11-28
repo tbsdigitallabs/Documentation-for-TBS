@@ -14,7 +14,7 @@ interface ModuleWrapperProps {
 export function ModuleWrapper({ content, questions }: ModuleWrapperProps) {
     const [mode, setMode] = useState<'presentation' | 'questionnaire'>('presentation');
     const pathname = usePathname();
-    const { update } = useSession();
+    const { data: session, update } = useSession();
 
     // Extract module info from pathname (e.g., /developers/module-1 or /session-0/module-1)
     const pathParts = pathname.split('/');
@@ -24,12 +24,12 @@ export function ModuleWrapper({ content, questions }: ModuleWrapperProps) {
     const moduleId = `${role}/${moduleSlug}`;
     const moduleName = moduleSlug.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
 
-    const handlePresentationComplete = () => {
+    const handlePresentationComplete = async () => {
         if (questions && questions.length > 0) {
             setMode('questionnaire');
         } else {
             // No quiz, award XP immediately
-            awardXP(0, 0);
+            await awardXP(0, 0);
         }
     };
 
@@ -54,6 +54,17 @@ export function ModuleWrapper({ content, questions }: ModuleWrapperProps) {
             if (response.ok) {
                 const data = await response.json();
                 
+                if (data.alreadyCompleted) {
+                    console.log('Module already completed');
+                    // Still update session to ensure UI is in sync
+                    if (data.profile) {
+                        await update({
+                            profile: data.profile,
+                        });
+                    }
+                    return;
+                }
+                
                 // Update session with new XP and level
                 await update({
                     profile: data.profile,
@@ -64,9 +75,17 @@ export function ModuleWrapper({ content, questions }: ModuleWrapperProps) {
                     // You could add a toast notification here
                     console.log(`Level up! You're now level ${data.newLevel}!`);
                 }
+                
+                // Reload the page to show updated progress
+                window.location.reload();
+            } else {
+                const errorData = await response.json().catch(() => ({}));
+                console.error('Failed to complete module:', errorData.error || 'Unknown error');
+                alert(`Failed to complete module: ${errorData.error || 'Please try again'}`);
             }
         } catch (error) {
             console.error('Failed to award XP:', error);
+            alert('Failed to complete module. Please try again.');
         }
     };
 

@@ -285,7 +285,7 @@ export const authOptions: NextAuthOptions = {
           let totalXP = 0;
           
           // Add all foundation modules first (Session 0)
-          const foundationModules = ['02-admin-automation', '03-ai-cybersecurity-best-practices', '04-ai-landscape-2025', 'sora-setup'];
+          const foundationModules = ['01-ai-tools-best-practices', '02-admin-automation', '03-ai-cybersecurity-best-practices', '04-ai-landscape-2025'];
           foundationModules.forEach(moduleSlug => {
             const moduleId = `session-0/${moduleSlug}`;
             const moduleName = moduleSlug.replace(/^\d+-/, '').replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());

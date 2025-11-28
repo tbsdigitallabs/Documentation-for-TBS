@@ -107,7 +107,10 @@ export function ModulePresentation({ content, onComplete }: ModulePresentationPr
         if (currentSlide < slides.length - 1) {
             setCurrentSlide(prev => prev + 1);
         } else {
-            onComplete();
+            // Ensure onComplete is called when completing the module
+            if (onComplete) {
+                onComplete();
+            }
         }
     };
 

@@ -1,6 +1,7 @@
 steps:
   # Build the container image
   # Git revision count will be calculated inside Docker build using git command
+  # The git command runs in the Docker build context where the repo is available
   - name: 'gcr.io/cloud-builders/docker'
     dir: 'ai-training-platform'
     args: 
@@ -14,6 +15,7 @@ steps:
       - 'GOOGLE_CLIENT_SECRET=placeholder'
       - '--build-arg'
       - 'NEXTAUTH_SECRET=placeholder'
+      # Git revision count calculated inside Dockerfile using git command
       - '-t'
       - 'gcr.io/$PROJECT_ID/learninglab:$SHORT_SHA'
       - '.'

@@ -6,13 +6,17 @@ import { execSync } from "child_process";
 function getGitRevisionCount(): string {
   // Check if passed as build arg (Docker builds)
   if (process.env.GIT_REVISION_COUNT) {
-    return process.env.GIT_REVISION_COUNT;
+    const count = process.env.GIT_REVISION_COUNT.trim();
+    if (count && count !== '') {
+      return count;
+    }
   }
   // Fallback to git command (local development)
   try {
-    const count = execSync("git rev-list --count HEAD", { encoding: "utf-8" }).trim();
+    const count = execSync("git rev-list --count HEAD", { encoding: "utf-8", cwd: process.cwd() }).trim();
     return count || "0";
-  } catch {
+  } catch (error) {
+    console.warn('Could not get git revision count:', error);
     return "0";
   }
 }

@@ -27,16 +27,19 @@ ARG GOOGLE_CLIENT_ID
 ARG GOOGLE_CLIENT_SECRET
 ARG NEXTAUTH_SECRET
 ARG NEXT_PUBLIC_APP_URL
-ARG GIT_REVISION_COUNT
 
 # Set them as environment variables for the build process
 ENV GOOGLE_CLIENT_ID=$GOOGLE_CLIENT_ID
 ENV GOOGLE_CLIENT_SECRET=$GOOGLE_CLIENT_SECRET
 ENV NEXTAUTH_SECRET=$NEXTAUTH_SECRET
 ENV NEXT_PUBLIC_APP_URL=$NEXT_PUBLIC_APP_URL
-ENV GIT_REVISION_COUNT=$GIT_REVISION_COUNT
 
-RUN npm run build
+# Calculate git revision count and set as env var before build
+# This ensures git count is available during npm run build (next.config.ts reads it)
+RUN GIT_COUNT=$(git rev-list --count HEAD 2>/dev/null || echo "0") && \
+    echo "Git revision count: $GIT_COUNT" && \
+    export GIT_REVISION_COUNT=$GIT_COUNT && \
+    GIT_REVISION_COUNT=$GIT_COUNT npm run build
 
 # Production image, copy all the files and run next
 FROM base AS runner

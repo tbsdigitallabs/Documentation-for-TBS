@@ -100,13 +100,39 @@ export const authOptions: NextAuthOptions = {
         // Add profile data from token to session
         if (token.profile) {
           // CRITICAL: Don't load all completedModules into session - it causes 431 errors
-          // Only keep the limited set from token (max 10 modules)
-          session.user.profile = {
-            ...token.profile,
-            // Keep only the limited completedModules from token (already limited to 10)
-            completedModules: (token.profile as any).completedModules || [],
-            // Don't fetch from user store here - fetch on-demand via API when needed
+          // Build minimal session profile - only essential fields
+          // The session is sent to client, so keep it as small as possible
+          const profile = token.profile as any;
+          
+          // Build minimal profile object
+          const sessionProfile: any = {
+            level: profile.level || 1,
+            xp: profile.xp || 0,
+            selectedClass: profile.selectedClass,
+          };
+          
+          // Only include completedModules if it's small (max 10)
+          const modules = (profile.completedModules || []);
+          if (modules.length > 0) {
+            sessionProfile.completedModules = modules.slice(0, 10);
+          } else {
+            sessionProfile.completedModules = [];
           }
+          
+          // Include flag if present
+          if (profile.hasAllModulesCompleted) {
+            sessionProfile.hasAllModulesCompleted = true;
+          }
+          
+          // Only include small optional fields (skip if null/undefined to save space)
+          if (profile.profileImage) {
+            sessionProfile.profileImage = profile.profileImage;
+          }
+          if (profile.cosmeticLoadout) {
+            sessionProfile.cosmeticLoadout = profile.cosmeticLoadout;
+          }
+          
+          session.user.profile = sessionProfile;
         }
         if (token.onboardingCompleted !== undefined) {
           session.user.onboardingCompleted = token.onboardingCompleted
@@ -261,17 +287,33 @@ export const authOptions: NextAuthOptions = {
         // Store ONLY essential data in JWT, everything else goes in user store
         // For David, store empty array and flag - full list is in user store
         const existingProfile = (token.profile as any) || {};
-        token.profile = {
+        
+        // Build minimal profile object - only include essential fields
+        const minimalProfile: any = {
           level: 10,
           xp: 10000,
           selectedClass: existingProfile.selectedClass || 'developers',
-          // CRITICAL: Empty array for David to keep JWT small
-          completedModules: isDavid ? [] : (existingProfile.completedModules || []).slice(-10), // Max 10 most recent
-          hasAllModulesCompleted: isDavid ? true : undefined, // Flag for David
-          // Preserve other profile fields but don't add large arrays
-          profileImage: existingProfile.profileImage,
-          cosmeticLoadout: existingProfile.cosmeticLoadout,
         };
+        
+        // CRITICAL: Empty array for David to keep JWT small
+        if (isDavid) {
+          minimalProfile.completedModules = [];
+          minimalProfile.hasAllModulesCompleted = true;
+        } else {
+          // For other users, limit to 10 most recent
+          const modules = (existingProfile.completedModules || []);
+          minimalProfile.completedModules = modules.slice(-10);
+        }
+        
+        // Only include small optional fields
+        if (existingProfile.profileImage) {
+          minimalProfile.profileImage = existingProfile.profileImage;
+        }
+        if (existingProfile.cosmeticLoadout) {
+          minimalProfile.cosmeticLoadout = existingProfile.cosmeticLoadout;
+        }
+        
+        token.profile = minimalProfile;
       }
 
       // Update token when session is updated (from API routes)

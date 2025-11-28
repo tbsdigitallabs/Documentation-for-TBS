@@ -106,27 +106,34 @@ export const authOptions: NextAuthOptions = {
         if (token.profile) {
           const profile = token.profile as any;
           
-          // Build absolute minimal profile - only essential fields
-          // For David, only include the flag - nothing else
+          // Build absolute minimal profile - only include non-default values
+          // For David, only include the flag and non-default values
+          const sessionProfile: any = {};
+          
           if (profile.hasAllModulesCompleted) {
-            session.user.profile = {
-              level: profile.level || 10,
-              xp: profile.xp || 10000,
-              selectedClass: profile.selectedClass || null,
-              hasAllModulesCompleted: true,
-              // NO completedModules array - saves significant space
-            };
+            // David: ONLY the flag - everything else fetched from user store
+            sessionProfile.hasAllModulesCompleted = true;
+            // NO level, NO xp, NO selectedClass, NO completedModules - saves significant space
+            // All data fetched from user store via /api/profile endpoint
           } else {
-            // For other users, absolute minimum - only 1 most recent module if exists
+            // Other users: absolute minimum - only non-default values
+            if (profile.level && profile.level !== 1) {
+              sessionProfile.level = profile.level;
+            }
+            if (profile.xp && profile.xp !== 0) {
+              sessionProfile.xp = profile.xp;
+            }
+            if (profile.selectedClass) {
+              sessionProfile.selectedClass = profile.selectedClass;
+            }
+            // Only include 1 most recent module if exists
             const modules = (profile.completedModules || []);
-            session.user.profile = {
-              level: profile.level || 1,
-              xp: profile.xp || 0,
-              selectedClass: profile.selectedClass || null,
-              // Only include 1 most recent module if exists (reduced to absolute minimum)
-              ...(modules.length > 0 ? { completedModules: modules.slice(-1) } : {}),
-            };
+            if (modules.length > 0) {
+              sessionProfile.completedModules = modules.slice(-1);
+            }
           }
+          
+          session.user.profile = sessionProfile;
           
           // CRITICAL: DO NOT include profileImage or cosmeticLoadout in session
           // These can be fetched from user store via API if needed
@@ -148,20 +155,20 @@ export const authOptions: NextAuthOptions = {
         // CRITICAL: Don't store user.image in token.picture - it can be large
         // Store image URL in user store instead if needed
         // token.picture = user.image // REMOVED to prevent 431 errors
-        // Initialize profile data - always set onboardingCompleted to false for new users
-        token.onboardingCompleted = false
+        // CRITICAL: Don't store onboardingCompleted in token - only include if true
+        // token.onboardingCompleted = false // REMOVED - only include if true to save space
         // CRITICAL: Keep initial profile ABSOLUTE MINIMAL to prevent 431 errors
-        // Only include essential fields, no arrays
+        // Only include essential fields, no arrays, no optional fields
+        const isDev = user.email === 'dev@tbsdigitallabs.com.au' || user.email === 'david@thebigsmoke.com.au';
         token.profile = {
-          level: user.email === 'dev@tbsdigitallabs.com.au' ? 10 : 1,
-          xp: user.email === 'dev@tbsdigitallabs.com.au' ? 10000 : 0,
-          // DO NOT include completedModules array - start with undefined (smaller than empty array)
+          level: isDev ? 10 : 1,
+          xp: isDev ? 10000 : 0,
+          // DO NOT include completedModules, selectedClass, or any other optional fields
+          // DO NOT include hasAllModulesCompleted flag here - set it later if needed
         }
       }
-      // Ensure onboardingCompleted is always defined (default to false if undefined)
-      if (token.onboardingCompleted === undefined) {
-        token.onboardingCompleted = false
-      }
+      // CRITICAL: Only store onboardingCompleted if true (skip false to save space)
+      // Don't set it to false - undefined is smaller than false in JSON
 
       // FORCE UPDATE for dev user to ensure max stats
       // Supports both standard dev email and specific user david@thebigsmoke.com.au
@@ -292,25 +299,39 @@ export const authOptions: NextAuthOptions = {
         const existingProfile = (token.profile as any) || {};
         
         if (isDavid) {
-          // David: ONLY essential fields - no arrays, no optional data
+          // David: ABSOLUTE MINIMUM - only the flag
+          // Level and XP can be calculated from user store, don't store in token
           token.profile = {
-            level: 10,
-            xp: 10000,
-            selectedClass: existingProfile.selectedClass || 'developers',
             hasAllModulesCompleted: true,
-            // completedModules stored in user store, NOT in token
-            // profileImage and cosmeticLoadout NOT in token
+            // NO level, NO xp, NO selectedClass, NO completedModules, NO profileImage, NO cosmeticLoadout
+            // All other data fetched from user store on demand
           };
         } else {
-          // Other users: absolute minimum
+          // Other users: absolute minimum - only level and xp if non-default
           const modules = (existingProfile.completedModules || []);
-          token.profile = {
-            level: existingProfile.level || 1,
-            xp: existingProfile.xp || 0,
-            selectedClass: existingProfile.selectedClass || null,
-            // Only 1 most recent module if exists
-            ...(modules.length > 0 ? { completedModules: modules.slice(-1) } : {}),
-          };
+          const profile: any = {};
+          
+          // Only include level if not default (1)
+          if (existingProfile.level && existingProfile.level !== 1) {
+            profile.level = existingProfile.level;
+          }
+          
+          // Only include xp if not zero
+          if (existingProfile.xp && existingProfile.xp !== 0) {
+            profile.xp = existingProfile.xp;
+          }
+          
+          // Only include selectedClass if it exists
+          if (existingProfile.selectedClass) {
+            profile.selectedClass = existingProfile.selectedClass;
+          }
+          
+          // Only include 1 most recent module if exists (absolute minimum)
+          if (modules.length > 0) {
+            profile.completedModules = modules.slice(-1);
+          }
+          
+          token.profile = profile;
         }
       }
 
@@ -323,18 +344,31 @@ export const authOptions: NextAuthOptions = {
           // Store only the 3 most recent modules in JWT (reduced to prevent 431), rest in user store
           const allModules = (updatedProfile as any).completedModules || [];
           
-          // Build absolute minimal profile for JWT
-          const minimalUpdatedProfile: any = {
-            level: (updatedProfile as any).level,
-            xp: (updatedProfile as any).xp,
-            selectedClass: (updatedProfile as any).selectedClass,
-          };
+          // Build absolute minimal profile for JWT - only include non-default values
+          const minimalUpdatedProfile: any = {};
           
-          // Handle completedModules - limit to 2 most recent (reduced to prevent 431)
-          if (allModules.length > 0) {
-            minimalUpdatedProfile.completedModules = allModules.slice(-2);
+          // Only include level if not default (1)
+          const level = (updatedProfile as any).level;
+          if (level && level !== 1) {
+            minimalUpdatedProfile.level = level;
           }
-          // Don't include empty array - undefined is smaller
+          
+          // Only include xp if not zero
+          const xp = (updatedProfile as any).xp;
+          if (xp && xp !== 0) {
+            minimalUpdatedProfile.xp = xp;
+          }
+          
+          // Only include selectedClass if it exists
+          const selectedClass = (updatedProfile as any).selectedClass;
+          if (selectedClass) {
+            minimalUpdatedProfile.selectedClass = selectedClass;
+          }
+          
+          // Handle completedModules - limit to 1 most recent (absolute minimum)
+          if (allModules.length > 0) {
+            minimalUpdatedProfile.completedModules = allModules.slice(-1);
+          }
           
           // Include flag if present
           if ((updatedProfile as any).hasAllModulesCompleted) {
@@ -345,14 +379,14 @@ export const authOptions: NextAuthOptions = {
           // Fetch from user store via API if needed
           
           // Store full list in user store if email is available
-          if (token.email && allModules.length > 2) {
+          if (token.email && allModules.length > 1) {
             try {
               upsertUser({
                 email: token.email,
                 completedModules: allModules, // Store full list
-                level: (updatedProfile as any).level,
-                xp: (updatedProfile as any).xp,
-                selectedClass: (updatedProfile as any).selectedClass,
+                level: level || 1,
+                xp: xp || 0,
+                selectedClass: selectedClass,
                 profileImage: (updatedProfile as any).profileImage,
                 cosmeticLoadout: (updatedProfile as any).cosmeticLoadout,
               } as any);
@@ -389,7 +423,9 @@ export const authOptions: NextAuthOptions = {
   },
   cookies: {
     sessionToken: {
-      name: `__Secure-next-auth.session-token`,
+      name: process.env.NEXTAUTH_URL?.startsWith('https://') 
+        ? `__Secure-next-auth.session-token`
+        : `next-auth.session-token`,
       options: {
         httpOnly: true,
         sameSite: 'lax',

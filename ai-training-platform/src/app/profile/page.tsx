@@ -332,12 +332,8 @@ export default function ProfilePage() {
                       onClick={() => {
                         setEditing(false);
                         setEditedProfile(profile || {});
-                        // Don't clear imageFile/imagePreview on cancel if user generated an avatar
-                        // Only reset if they haven't generated/uploaded anything new
-                        if (!imageFile && !imagePreview) {
-                          setImagePreview(profile?.profileImage || profile?.image || null);
-                        }
-                        // Keep imageFile and imagePreview if they exist (user can save later)
+                        setImageFile(null);
+                        setImagePreview(profile?.profileImage || profile?.image || null);
                       }}
                       className="flex items-center gap-2 px-4 py-2 bg-red-100 dark:bg-red-500/10 border border-red-300 dark:border-red-500/30 text-red-700 dark:text-red-400 hover:bg-red-200 dark:hover:bg-red-500/20 rounded mono-label transition-all"
                     >

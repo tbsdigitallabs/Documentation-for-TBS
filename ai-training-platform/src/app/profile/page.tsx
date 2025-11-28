@@ -151,7 +151,9 @@ export default function ProfilePage() {
       if (croppedImageBlob) {
         const file = new File([croppedImageBlob], "avatar.jpg", { type: "image/jpeg" });
         setImageFile(file);
-        setImagePreview(URL.createObjectURL(croppedImageBlob));
+        // Create blob URL for preview, but we'll replace it with server URL after upload
+        const blobUrl = URL.createObjectURL(croppedImageBlob);
+        setImagePreview(blobUrl);
         setShowCropper(false);
         setTempImageSrc(null);
       }
@@ -163,6 +165,13 @@ export default function ProfilePage() {
   const handleGenerateAvatar = async () => {
     setGeneratingAvatar(true);
     try {
+      // Revoke any existing blob URLs
+      if (imagePreview && (imagePreview.startsWith('blob:') || imagePreview.startsWith('data:'))) {
+        if (imagePreview.startsWith('blob:')) {
+          URL.revokeObjectURL(imagePreview);
+        }
+      }
+      
       // Use random seed each time to generate a new avatar
       const randomSeed = `${Date.now()}-${Math.random().toString(36).substring(2, 15)}`;
       const response = await fetch('/api/onboarding/generate-avatar', {
@@ -197,6 +206,12 @@ export default function ProfilePage() {
     setLoading(true);
     try {
       let imageUrl = editedProfile.profileImage;
+      
+      // Revoke any existing blob URLs before uploading
+      if (imagePreview && imagePreview.startsWith('blob:')) {
+        URL.revokeObjectURL(imagePreview);
+      }
+      
       if (imageFile) {
         const formData = new FormData();
         formData.append("image", imageFile);
@@ -207,6 +222,10 @@ export default function ProfilePage() {
         if (uploadResponse.ok) {
           const uploadData = await uploadResponse.json();
           imageUrl = uploadData.imageUrl;
+          // Immediately update preview to server URL (not blob URL)
+          if (imageUrl) {
+            setImagePreview(imageUrl);
+          }
         } else {
           console.error("Failed to upload image");
           setLoading(false);
@@ -233,6 +252,11 @@ export default function ProfilePage() {
           profileImage: finalProfileImage,
         });
         
+        // CRITICAL: Always use server URL, never blob URL for persistence
+        if (finalProfileImage && !finalProfileImage.startsWith('blob:')) {
+          setImagePreview(finalProfileImage);
+        }
+        
         // Update session with the new profile data including image and cosmetic loadout
         await update({
           profile: {
@@ -249,11 +273,6 @@ export default function ProfilePage() {
             cosmeticLoadout: cosmeticLoadout,
           }
         });
-        
-        // Update imagePreview to persist the saved image
-        if (finalProfileImage) {
-          setImagePreview(finalProfileImage);
-        }
         
         setEditing(false);
         setImageFile(null);
@@ -281,7 +300,11 @@ export default function ProfilePage() {
     );
   }
 
-  const displayImage = imagePreview || profile?.image || profile?.profileImage;
+  // Only use blob URLs if we're in edit mode and haven't saved yet
+  // Otherwise, always prefer server URLs to prevent broken images after reload
+  const displayImage = editing && imagePreview && imagePreview.startsWith('blob:')
+    ? imagePreview
+    : (profile?.profileImage || profile?.image || imagePreview);
   const ClassIcon = profile?.selectedClass ? classIcons[profile.selectedClass]?.icon || Zap : Zap;
   const classColor = profile?.selectedClass ? classIcons[profile.selectedClass]?.color || "text-accent-readable-cyan" : "text-accent-readable-cyan";
   const currentLevel = profile?.level || 1;
@@ -337,6 +360,10 @@ export default function ProfilePage() {
                     </button>
                     <button
                       onClick={() => {
+                        // Revoke any blob URLs when canceling
+                        if (imagePreview && imagePreview.startsWith('blob:')) {
+                          URL.revokeObjectURL(imagePreview);
+                        }
                         setEditing(false);
                         setEditedProfile(profile || {});
                         setImageFile(null);

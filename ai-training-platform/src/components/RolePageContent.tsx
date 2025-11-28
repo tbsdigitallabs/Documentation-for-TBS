@@ -106,7 +106,7 @@ export default function RolePageContent({
                                 className="w-full flex items-center justify-between px-6 py-4 bg-surface-card rounded-lg border border-border-primary hover:bg-surface-hover hover:scale-[1.01] active:scale-[0.99] transition-all cursor-pointer mb-6"
                             >
                                 <span className="mono-label text-content-primary">
-                                    Browse Other Operatives
+                                    Browse Other Roles
                                 </span>
                                 {showMore ? (
                                     <ChevronUp className="w-5 h-5 text-content-secondary" />
@@ -158,7 +158,7 @@ export default function RolePageContent({
 
                     <div className="text-center mt-12">
                         <Link href="/class-selection" className="inline-flex items-center text-content-secondary hover:text-content-primary transition-colors text-base font-medium">
-                            ← Return to Operative Selection
+                            ← Return to Role Selection
                         </Link>
                     </div>
                 </Container>

@@ -83,7 +83,7 @@ export function Leaderboard() {
           <span className="mono-label text-accent-readable-cyan">Leaderboard</span>
         </div>
         <p className="text-sm text-content-secondary text-center py-4">
-          No operatives ranked yet
+          No team members ranked yet
         </p>
       </div>
     );

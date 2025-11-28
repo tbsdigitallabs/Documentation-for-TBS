@@ -10,7 +10,7 @@ export default function OnboardingHeader({ step }: OnboardingHeaderProps) {
   if (step === "questions") {
     return (
       <div className="text-center mb-8">
-        <p className="mono-label text-accent-readable-cyan mb-3">INITIALISING PROFILE</p>
+        <p className="mono-label text-accent-readable-cyan mb-3">SETUP YOUR PROFILE</p>
         <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-accent-magenta-100 dark:bg-accent-magenta-500/20 mb-4">
           <Sparkles className="w-7 h-7 text-accent-readable-magenta" />
         </div>
@@ -18,7 +18,7 @@ export default function OnboardingHeader({ step }: OnboardingHeaderProps) {
           Personnel Configuration
         </h1>
         <p className="text-content-secondary text-sm">
-          Complete the following to configure your operative profile
+          Complete the following to configure your profile
         </p>
       </div>
     );

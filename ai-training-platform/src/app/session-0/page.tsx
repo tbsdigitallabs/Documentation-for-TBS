@@ -24,7 +24,7 @@ export default async function Session0Page() {
       <Section className="bg-surface-hero py-8 pt-24" size="md">
         <Container size="lg">
           <div className="text-center mb-8">
-            <p className="mono-label text-accent-readable-magenta mb-2">TRAINING PROTOCOL // FOUNDATION</p>
+            <p className="mono-label text-accent-readable-magenta mb-2">FOUNDATION TRAINING</p>
             <div className="inline-flex items-center justify-center p-3 mb-4 rounded-full bg-accent-magenta-5 border border-accent-magenta-20 shadow-lg">
               <BookOpen className="w-8 h-8 text-accent-magenta-500" />
             </div>
@@ -35,7 +35,7 @@ export default async function Session0Page() {
               Core Systems Training
             </p>
             <p className="text-content-secondary max-w-2xl mx-auto text-lg leading-relaxed">
-              Master the fundamentals of AI tools and concepts that apply to all operatives. Complete these modules before accessing role-specific missions.
+              Master the fundamentals of AI tools and concepts that apply to all team members. Complete these modules before accessing role-specific training.
             </p>
           </div>
         </Container>
@@ -81,7 +81,7 @@ export default async function Session0Page() {
           {/* Back Button */}
           <div className="text-center mt-12">
             <Link href="/class-selection" className="inline-flex items-center text-content-secondary hover:text-content-primary transition-colors text-base font-medium">
-              ← Return to Operative Selection
+              ← Return to Role Selection
             </Link>
           </div>
         </Container>

@@ -54,7 +54,7 @@ export default function ClientPageHeader() {
               <div className="absolute right-0 mt-2 w-48 bg-surface-card border border-border-primary rounded-xl shadow-xl overflow-hidden z-50">
                 <div className="px-4 py-3 border-b border-border-primary">
                   <p className="text-sm font-semibold text-content-primary truncate">
-                    {session.user.name || 'Operative'}
+                    {session.user.name || 'Team Member'}
                   </p>
                   <p className="text-xs text-content-tertiary truncate">
                     {session.user.email}

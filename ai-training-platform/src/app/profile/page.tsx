@@ -387,7 +387,7 @@ export default function ProfilePage() {
                       <div className={`titlebar ${cosmeticLoadout.equippedTitlebar !== 'none' ? `titlebar-${cosmeticLoadout.equippedTitlebar}` : ''} mx-auto max-w-[240px]`}>
                         {cosmeticLoadout.equippedTitle ?
                           TITLES.find(t => t.id === cosmeticLoadout.equippedTitle)?.name
-                          : 'OPERATIVE'}
+                          : 'TEAM MEMBER'}
                       </div>
                     )}
 
@@ -406,7 +406,7 @@ export default function ProfilePage() {
                             title={badgeReward.name}
                           />
                         )}
-                        <span>{profile?.name || "Unknown Operative"}</span>
+                        <span>{profile?.name || "Team Member"}</span>
                       </h1>
 
                       {/* Level Badge */}

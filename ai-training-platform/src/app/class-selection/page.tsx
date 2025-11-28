@@ -65,7 +65,7 @@ export default function ClassSelectionPage() {
         return (
             <div className="min-h-screen bg-surface-primary text-content-primary flex items-center justify-center">
                 <div className="text-center">
-                    <p className="text-content-secondary mono-text text-sm">INITIALISING SYSTEM...</p>
+                    <p className="text-content-secondary mono-text text-sm">Loading...</p>
                 </div>
             </div>
         );
@@ -78,10 +78,10 @@ export default function ClassSelectionPage() {
             {/* Main Content */}
             <main className="px-5 pt-24 pb-10">
                 <div className="max-w-2xl mx-auto text-center">
-                    <p className="mono-label text-accent-readable-cyan mb-2">TBS DIGITAL LABS // TRAINING DIVISION // CYBERPUNK MODE ACTIVE</p>
-                    <h1 className="text-[32px] font-heading font-bold text-content-primary mb-3 leading-tight tracking-tight">Initialise Training Protocol</h1>
+                    <p className="mono-label text-accent-readable-cyan mb-2">TBS DIGITAL LABS // TRAINING DIVISION</p>
+                    <h1 className="text-[32px] font-heading font-bold text-content-primary mb-3 leading-tight tracking-tight">Select Your Training Path</h1>
                     <p className="body-regular text-content-secondary mb-8">
-                        Select your operative class and begin your AI mastery journey. Each track contains specialised missions designed for your role.
+                        Choose your role and begin your AI training journey. Each path contains specialised modules designed for your role.
                     </p>
                 </div>
             </main>
@@ -142,7 +142,7 @@ export default function ClassSelectionPage() {
                     <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
                         {/* Main Content */}
                         <div className="lg:col-span-3">
-                            <h2 className="text-xl font-heading font-bold text-content-primary mb-6 leading-tight tracking-tight text-center lg:text-left">Select Operative Class</h2>
+                            <h2 className="text-xl font-heading font-bold text-content-primary mb-6 leading-tight tracking-tight text-center lg:text-left">Select Your Role</h2>
                             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
                                 {classes.map((classItem) => {
                                     const Icon = classIcons[classItem.name] || BookOpen;

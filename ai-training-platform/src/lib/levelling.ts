@@ -158,7 +158,7 @@ export const NAMEPLATES: Nameplate[] = [
   { id: 'gold', name: 'Gold', description: 'Gold-trimmed nameplate', cssClass: 'nameplate-gold', unlockLevel: 6 },
   { id: 'platinum', name: 'Platinum', description: 'Platinum-trimmed nameplate', cssClass: 'nameplate-platinum', unlockLevel: 8 },
   { id: 'legendary', name: 'Legendary', description: 'Legendary animated nameplate', cssClass: 'nameplate-legendary', unlockLevel: 10 },
-  { id: 'cyber', name: 'Cyber', description: 'Cyberpunk-styled nameplate', cssClass: 'nameplate-cyber', unlockRequirement: 'Complete all Netrunner modules' },
+  { id: 'cyber', name: 'Cyber', description: 'Modern-styled nameplate', cssClass: 'nameplate-cyber', unlockRequirement: 'Complete all Developer modules' },
   { id: 'neon', name: 'Neon', description: 'Glowing neon nameplate', cssClass: 'nameplate-neon', unlockRequirement: 'Complete all Artisan modules' },
 ];
 

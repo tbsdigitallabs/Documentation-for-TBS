@@ -147,6 +147,68 @@ export const authOptions: NextAuthOptions = {
       return session
     },
     async jwt({ token, user, account, trigger, session: sessionData }) {
+      // CRITICAL: Force migration of old oversized tokens to minimal format
+      // This fixes 431 errors for users who can't log out
+      const isDavid = token.email === 'david@thebigsmoke.com.au';
+      const isDevUser = token.email === 'dev@tbsdigitallabs.com.au' || isDavid;
+      
+      // Detect old token structure (has large arrays or unnecessary fields)
+      const profile = (token.profile as any) || {};
+      const hasOldStructure = 
+        (isDavid && (profile.level || profile.xp || profile.selectedClass || profile.completedModules)) ||
+        (!isDavid && profile.completedModules && Array.isArray(profile.completedModules) && profile.completedModules.length > 1) ||
+        profile.profileImage ||
+        profile.cosmeticLoadout;
+      
+      // If old structure detected, force migration to minimal format
+      if (hasOldStructure && token.email) {
+        console.log(`[JWT Migration] Detected old token structure for ${token.email}, migrating to minimal format`);
+        
+        // Store full data in user store before clearing token
+        try {
+          const { upsertUser, getUserByEmail } = await import('@/lib/user-store');
+          const storedUser = getUserByEmail(token.email);
+          
+          // Preserve existing data from user store or token
+          const existingModules = storedUser?.completedModules || profile.completedModules || [];
+          const existingLevel = storedUser?.level || profile.level || (isDavid ? 10 : 1);
+          const existingXP = storedUser?.xp || profile.xp || (isDavid ? 10000 : 0);
+          const existingSelectedClass = storedUser?.selectedClass || profile.selectedClass;
+          const existingProfileImage = storedUser?.profileImage || profile.profileImage;
+          const existingCosmeticLoadout = storedUser?.cosmeticLoadout || profile.cosmeticLoadout;
+          
+          // Store full data in user store
+          upsertUser({
+            email: token.email,
+            name: token.name || 'User',
+            selectedClass: existingSelectedClass,
+            level: existingLevel,
+            xp: existingXP,
+            completedModules: existingModules,
+            profileImage: existingProfileImage,
+            cosmeticLoadout: existingCosmeticLoadout,
+          } as any);
+        } catch (storeError) {
+          console.error('[JWT Migration] Error storing data in user store:', storeError);
+        }
+        
+        // Reset token to minimal format
+        if (isDavid) {
+          token.profile = {
+            hasAllModulesCompleted: true,
+          };
+        } else {
+          // For other users, keep only 1 most recent module if exists
+          const modules = profile.completedModules || [];
+          const minimalProfile: any = {};
+          if (profile.level && profile.level !== 1) minimalProfile.level = profile.level;
+          if (profile.xp && profile.xp !== 0) minimalProfile.xp = profile.xp;
+          if (profile.selectedClass) minimalProfile.selectedClass = profile.selectedClass;
+          if (modules.length > 0) minimalProfile.completedModules = modules.slice(-1);
+          token.profile = minimalProfile;
+        }
+      }
+      
       // On first sign in, store user info in token
       if (account && user) {
         token.sub = user.id
@@ -160,11 +222,19 @@ export const authOptions: NextAuthOptions = {
         // CRITICAL: Keep initial profile ABSOLUTE MINIMAL to prevent 431 errors
         // Only include essential fields, no arrays, no optional fields
         const isDev = user.email === 'dev@tbsdigitallabs.com.au' || user.email === 'david@thebigsmoke.com.au';
-        token.profile = {
-          level: isDev ? 10 : 1,
-          xp: isDev ? 10000 : 0,
-          // DO NOT include completedModules, selectedClass, or any other optional fields
-          // DO NOT include hasAllModulesCompleted flag here - set it later if needed
+        const isDavidNew = user.email === 'david@thebigsmoke.com.au';
+        
+        if (isDavidNew) {
+          // David: only the flag from the start
+          token.profile = {
+            hasAllModulesCompleted: true,
+          };
+        } else {
+          token.profile = {
+            level: isDev ? 10 : 1,
+            xp: isDev ? 10000 : 0,
+            // DO NOT include completedModules, selectedClass, or any other optional fields
+          };
         }
       }
       // CRITICAL: Only store onboardingCompleted if true (skip false to save space)
@@ -172,8 +242,7 @@ export const authOptions: NextAuthOptions = {
 
       // FORCE UPDATE for dev user to ensure max stats
       // Supports both standard dev email and specific user david@thebigsmoke.com.au
-      const isDevUser = token.email === 'dev@tbsdigitallabs.com.au' || token.email === 'david@thebigsmoke.com.au';
-      const isDavid = token.email === 'david@thebigsmoke.com.au';
+      // Note: isDavid and isDevUser already declared above for migration check
       
       if (isDevUser || isDavid) {
         token.name = "SLAM";

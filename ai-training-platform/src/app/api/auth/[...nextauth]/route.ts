@@ -179,6 +179,23 @@ export const authOptions: NextAuthOptions = {
           
           let totalXP = 0;
           
+          // Add all foundation modules first (Session 0)
+          const foundationModules = ['02-admin-automation', '03-ai-cybersecurity-best-practices', '04-ai-landscape-2025', 'sora-setup'];
+          foundationModules.forEach(moduleSlug => {
+            const moduleId = `session-0/${moduleSlug}`;
+            const moduleName = moduleSlug.replace(/^\d+-/, '').replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+            const xpEarned = 75;
+            totalXP += xpEarned;
+            
+            completedModules.push({
+              moduleId,
+              moduleName,
+              completedAt: new Date().toISOString(),
+              xpEarned,
+              quizScore: 10,
+            });
+          });
+          
           // Add all actual modules
           Object.values(roleModules).forEach(({ route, modules }) => {
             modules.forEach(moduleSlug => {

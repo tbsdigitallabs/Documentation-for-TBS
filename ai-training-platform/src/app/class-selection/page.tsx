@@ -4,10 +4,11 @@ import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { BookOpen, Hammer, Sparkles, Shield, Scroll, Coins } from "lucide-react";
+import { BookOpen, Hammer, Sparkles, Shield, Scroll, Coins, Lock, AlertTriangle } from "lucide-react";
 import { getClassRoute, getAllClasses, CLASS_NAMES, type ClassInfo } from "@/lib/role-mapping";
 import ClientPageHeader from "@/components/ClientPageHeader";
 import { Leaderboard } from "@/components/Leaderboard";
+import { hasCompletedFoundation } from "@/lib/foundation-check";
 
 export default function ClassSelectionPage() {
     const { data: session, status, update } = useSession();
@@ -84,6 +85,48 @@ export default function ClassSelectionPage() {
                     </p>
                 </div>
             </main>
+
+            {/* Foundation Requirement Banner */}
+            {session?.user?.profile && (() => {
+                const completedModules = session.user.profile.completedModules || [];
+                const hasFoundation = hasCompletedFoundation(completedModules);
+                
+                if (!hasFoundation) {
+                    return (
+                        <div className="px-5 mb-6">
+                            <div className="max-w-6xl mx-auto">
+                                <div className="bg-accent-magenta-5 border-2 border-accent-magenta-500/30 rounded-xl p-6 shadow-lg">
+                                    <div className="flex items-start gap-4">
+                                        <div className="flex-shrink-0">
+                                            <div className="inline-flex items-center justify-center p-2 rounded-full bg-accent-magenta-500/20">
+                                                <Lock className="w-5 h-5 text-accent-magenta-500" />
+                                            </div>
+                                        </div>
+                                        <div className="flex-1">
+                                            <div className="flex items-center gap-2 mb-2">
+                                                <AlertTriangle className="w-4 h-4 text-accent-magenta-500" />
+                                                <h3 className="text-lg font-heading font-bold text-content-primary">
+                                                    Foundation Training Required
+                                                </h3>
+                                            </div>
+                                            <p className="text-content-secondary mb-4">
+                                                Complete all foundational modules in <strong>Session 0</strong> before accessing role-specific AI training. This ensures you understand cybersecurity best practices and secure workflows.
+                                            </p>
+                                            <Link href="/session-0">
+                                                <button className="px-4 py-2 bg-accent-magenta-500 hover:bg-accent-magenta-600 text-white rounded-lg font-medium transition-colors flex items-center gap-2">
+                                                    <BookOpen className="w-4 h-4" />
+                                                    Start Foundation Training
+                                                </button>
+                                            </Link>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    );
+                }
+                return null;
+            })()}
 
             {/* Class Selection with Leaderboard */}
             <div className="px-5 pb-8">

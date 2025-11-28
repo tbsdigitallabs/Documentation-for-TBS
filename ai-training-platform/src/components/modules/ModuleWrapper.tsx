@@ -16,11 +16,12 @@ export function ModuleWrapper({ content, questions }: ModuleWrapperProps) {
     const pathname = usePathname();
     const { update } = useSession();
 
-    // Extract module info from pathname (e.g., /developers/module-1)
+    // Extract module info from pathname (e.g., /developers/module-1 or /session-0/module-1)
     const pathParts = pathname.split('/');
     const role = pathParts[1];
     const moduleSlug = pathParts[2] || '';
-    const moduleId = `${role}-${moduleSlug}`;
+    // Use slash format to match foundation check format (session-0/slug or role/slug)
+    const moduleId = `${role}/${moduleSlug}`;
     const moduleName = moduleSlug.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
 
     const handlePresentationComplete = () => {

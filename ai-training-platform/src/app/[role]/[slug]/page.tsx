@@ -1,11 +1,13 @@
 import { getModuleBySlug, getModuleSlugs } from '@/lib/mdx';
 import Link from 'next/link';
-import { notFound } from 'next/navigation';
+import { notFound, redirect } from 'next/navigation';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import ThemeToggle from '@/components/ThemeToggle';
 import { ArrowLeft } from 'lucide-react';
 import { ModuleWrapper } from '@/components/modules/ModuleWrapper';
+import { hasCompletedFoundation, isFoundationModule, getFoundationModuleIds, getIncompleteFoundationModules } from '@/lib/foundation-check';
+import { FoundationRequirement } from '@/components/FoundationRequirement';
 
 // Force static generation for these pages
 export const dynamic = 'force-static';
@@ -72,6 +74,27 @@ export default async function ModulePage({ params }: { params: Promise<{ role: s
       : role === 'sales-business-dev' 
         ? 'sales' 
         : role;
+
+    // Check foundation requirement for non-foundation modules
+    const moduleId = role === 'session-0' ? `session-0/${slug}` : `${role}/${slug}`;
+    const isFoundation = isFoundationModule(moduleId);
+    
+    if (!isFoundation && session?.user?.profile) {
+      const completedModules = session.user.profile.completedModules || [];
+      const hasFoundation = hasCompletedFoundation(completedModules);
+      
+      if (!hasFoundation) {
+        const foundationModuleIds = getFoundationModuleIds();
+        const incompleteModules = getIncompleteFoundationModules(completedModules);
+        
+        return (
+          <FoundationRequirement 
+            incompleteModules={incompleteModules}
+            totalFoundationModules={foundationModuleIds.length}
+          />
+        );
+      }
+    }
 
     try {
         const { content, metadata } = getModuleBySlug(contentRole, slug);

@@ -8,6 +8,8 @@ import RolePageContent from '@/components/RolePageContent';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import PageHeader from '@/components/PageHeader';
+import { hasCompletedFoundation, getFoundationModuleIds, getIncompleteFoundationModules } from '@/lib/foundation-check';
+import { FoundationRequirement } from '@/components/FoundationRequirement';
 
 export const dynamic = 'force-dynamic';
 
@@ -23,6 +25,28 @@ const classToRouteSlug: Record<string, string> = {
 export default async function DevelopersPage() {
   const session = await getServerSession(authOptions);
   const userClass = session?.user?.profile?.selectedClass;
+  
+  // Check foundation requirement
+  if (session?.user?.profile) {
+    const completedModules = session.user.profile.completedModules || [];
+    const hasFoundation = hasCompletedFoundation(completedModules);
+    
+    if (!hasFoundation) {
+      const foundationModuleIds = getFoundationModuleIds();
+      const incompleteModules = getIncompleteFoundationModules(completedModules);
+      
+      return (
+        <div className="min-h-screen bg-gradient-surface">
+          <PageHeader session={session} />
+          <FoundationRequirement 
+            incompleteModules={incompleteModules}
+            totalFoundationModules={foundationModuleIds.length}
+          />
+        </div>
+      );
+    }
+  }
+  
   const modules = getAllModules('developers');
 
   // Get modules from other roles for "See More"

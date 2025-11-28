@@ -13,20 +13,30 @@ export const dynamic = 'force-static';
 // Generate all possible paths at build time
 export async function generateStaticParams() {
     try {
-        const roles = ['project-managers', 'developers', 'content-creators', 'designers', 'sales', 'shared'];
+        // Map route slugs to content directories
+        const roleMappings: Record<string, string> = {
+            'project-managers': 'project-managers',
+            'developers': 'developers',
+            'content-creators': 'content-creators',
+            'designers': 'designers',
+            'sales-business-dev': 'sales',
+            'sales': 'sales',
+            'shared': 'shared',
+        };
+        
         const params = [];
 
-        for (const role of roles) {
+        for (const [routeRole, contentRole] of Object.entries(roleMappings)) {
             try {
-                const slugs = getModuleSlugs(role);
+                const slugs = getModuleSlugs(contentRole);
                 for (const slug of slugs) {
                     params.push({
-                        role,
+                        role: routeRole,
                         slug: slug.replace(/\.mdx$/, ''),
                     });
                 }
             } catch (error) {
-                console.warn(`Failed to get modules for role ${role}:`, error);
+                console.warn(`Failed to get modules for role ${contentRole}:`, error);
                 // Continue with other roles
             }
         }
@@ -56,8 +66,12 @@ export default async function ModulePage({ params }: { params: Promise<{ role: s
     const { role, slug } = await params;
     const session = await getServerSession(authOptions);
 
-    // Map session-0 to shared content directory
-    const contentRole = role === 'session-0' ? 'shared' : role;
+    // Map route slugs to content directory names
+    const contentRole = role === 'session-0' 
+      ? 'shared' 
+      : role === 'sales-business-dev' 
+        ? 'sales' 
+        : role;
 
     try {
         const { content, metadata } = getModuleBySlug(contentRole, slug);

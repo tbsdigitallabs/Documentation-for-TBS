@@ -24,6 +24,7 @@ export async function generateStaticParams() {
             'sales-business-dev': 'sales',
             'sales': 'sales',
             'shared': 'shared',
+            'tools': 'tools',
         };
         
         const params = [];

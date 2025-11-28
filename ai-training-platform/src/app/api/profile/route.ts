@@ -3,7 +3,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]/route";
 import { validateProfileData } from "@/lib/validation";
 import { calculateLevel } from "@/lib/levelling";
-import { getUserByEmail } from "@/lib/user-store";
+import { getUserByEmail, upsertUser } from "@/lib/user-store";
 
 interface CompletedModule {
     moduleId: string;
@@ -91,6 +91,24 @@ export async function GET() {
         const finalXP = calculatedXP;
         const finalLevel = calculateLevel(finalXP);
 
+        // Fetch profileImage and cosmeticLoadout from user store (not from session/JWT)
+        let profileImage = profile.profileImage;
+        let cosmeticLoadout = profile.cosmeticLoadout;
+        
+        if (user.email) {
+            try {
+                const storedUser = getUserByEmail(user.email);
+                if (storedUser?.profileImage) {
+                    profileImage = storedUser.profileImage;
+                }
+                if (storedUser?.cosmeticLoadout) {
+                    cosmeticLoadout = storedUser.cosmeticLoadout;
+                }
+            } catch (error) {
+                console.warn('Could not fetch profileImage/cosmeticLoadout from user store:', error);
+            }
+        }
+
         return NextResponse.json({
             id: user.id,
             name: user.name,
@@ -100,7 +118,8 @@ export async function GET() {
             xp: finalXP,
             level: finalLevel,
             completedModules: completedModules,
-            cosmeticLoadout: profile.cosmeticLoadout || undefined,
+            profileImage: profileImage || undefined,
+            cosmeticLoadout: cosmeticLoadout || undefined,
         });
     } catch (error) {
         console.error("Error fetching profile:", error);
@@ -122,13 +141,60 @@ export async function PUT(req: NextRequest) {
 
         const user = session.user as SessionUser;
 
-        // Return validated profile data
+        // CRITICAL: Fetch existing user data from user store to preserve XP, level, completedModules
+        let existingUser = null;
+        try {
+            existingUser = getUserByEmail(session.user.email);
+        } catch (error) {
+            console.warn('Could not fetch existing user from store:', error);
+        }
+
+        // Calculate XP and level from completed modules (preserve existing if no modules)
+        let finalXP = existingUser?.xp || user.profile?.xp || 0;
+        let finalLevel = existingUser?.level || user.profile?.level || 1;
+        
+        if (existingUser?.completedModules && existingUser.completedModules.length > 0) {
+            finalXP = existingUser.completedModules.reduce((sum: number, m: CompletedModule) => sum + m.xpEarned, 0);
+            finalLevel = calculateLevel(finalXP);
+        }
+
+        // Save profile data to user store (including profileImage and cosmeticLoadout)
+        upsertUser({
+            email: session.user.email,
+            name: user.name || session.user.name || 'Anonymous',
+            selectedClass: validatedProfile.selectedClass || existingUser?.selectedClass || user.profile?.selectedClass,
+            level: finalLevel,
+            xp: finalXP,
+            image: user.image,
+            profileImage: validatedProfile.profileImage || existingUser?.profileImage || user.profile?.profileImage,
+            cosmeticLoadout: validatedProfile.cosmeticLoadout || existingUser?.cosmeticLoadout || user.profile?.cosmeticLoadout,
+            completedModules: existingUser?.completedModules || user.profile?.completedModules || [],
+        } as any);
+
+        // Update session with new profile data (but keep it minimal to prevent 431 errors)
+        // Note: profileImage and cosmeticLoadout are NOT stored in JWT, only in user store
+        const sessionUpdate = {
+            profile: {
+                ...validatedProfile,
+                level: finalLevel,
+                xp: finalXP,
+                // DO NOT include profileImage or cosmeticLoadout in session update
+                // They are stored in user store and fetched via GET /api/profile
+            }
+        };
+
+        // Return updated profile data (including profileImage from user store)
         return NextResponse.json({
             id: user.id,
             name: user.name,
             email: user.email,
             image: user.image,
             ...validatedProfile,
+            level: finalLevel,
+            xp: finalXP,
+            profileImage: validatedProfile.profileImage || existingUser?.profileImage || user.profile?.profileImage,
+            cosmeticLoadout: validatedProfile.cosmeticLoadout || existingUser?.cosmeticLoadout || user.profile?.cosmeticLoadout,
+            completedModules: existingUser?.completedModules || user.profile?.completedModules || [],
         });
     } catch (error) {
         console.error("Error updating profile:", error);

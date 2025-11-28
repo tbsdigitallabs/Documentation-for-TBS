@@ -3,9 +3,12 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import SessionProvider from "@/components/SessionProvider";
 import DavidToast from "@/components/DavidToast";
+import { getAppVersionWithPrefix } from "@/lib/version";
+
+const appVersion = getAppVersionWithPrefix();
 
 export const metadata: Metadata = {
-  title: "TBS Digital Labs | LearningLab",
+  title: `TBS Digital Labs | LearningLab ${appVersion}`,
   description: "AI Training Platform for TBS Digital Labs",
 };
 

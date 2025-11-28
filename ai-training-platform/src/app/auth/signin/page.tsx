@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Logo from "@/components/Logo";
 import ThemeToggle from "@/components/ThemeToggle";
+import { APP_NAME_WITH_VERSION } from "@/lib/version";
 
 export default function SignIn() {
   const router = useRouter();
@@ -70,7 +71,7 @@ export default function SignIn() {
         {/* Header */}
         <div className="text-center mb-8">
           <h1 className="text-3xl font-heading font-bold text-content-primary mb-2">
-            Welcome to LearningLab {process.env.NEXT_PUBLIC_APP_VERSION || 'v0.0'}
+            Welcome to {APP_NAME_WITH_VERSION}
           </h1>
           <p className="text-content-secondary">
             Click below to validate your clearance

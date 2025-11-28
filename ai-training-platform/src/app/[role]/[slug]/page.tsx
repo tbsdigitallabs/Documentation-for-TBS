@@ -9,8 +9,8 @@ import { ModuleWrapper } from '@/components/modules/ModuleWrapper';
 import { hasCompletedFoundation, isFoundationModule, getFoundationModuleIds, getIncompleteFoundationModules } from '@/lib/foundation-check';
 import { FoundationRequirement } from '@/components/FoundationRequirement';
 
-// Force static generation for these pages
-export const dynamic = 'force-static';
+// Use dynamic rendering to check foundation requirements
+export const dynamic = 'force-dynamic';
 
 // Generate all possible paths at build time
 export async function generateStaticParams() {
@@ -79,22 +79,38 @@ export default async function ModulePage({ params }: { params: Promise<{ role: s
     const moduleId = role === 'session-0' ? `session-0/${slug}` : `${role}/${slug}`;
     const isFoundation = isFoundationModule(moduleId);
     
+    // Only check foundation if user is authenticated and it's not a foundation module
+    // Allow unauthenticated users to access (they'll be redirected by auth)
     if (!isFoundation && session?.user?.profile) {
-      const completedModules = session.user.profile.completedModules || [];
-      const hasFoundation = hasCompletedFoundation(completedModules);
-      
-      if (!hasFoundation) {
+      try {
+        const completedModules = session.user.profile.completedModules || [];
         const foundationModuleIds = getFoundationModuleIds();
-        const incompleteModules = getIncompleteFoundationModules(completedModules);
         
-        return (
-          <FoundationRequirement 
-            incompleteModules={incompleteModules}
-            totalFoundationModules={foundationModuleIds.length}
-          />
-        );
+        // If no foundation modules exist, allow access (shouldn't happen, but safety check)
+        if (foundationModuleIds.length === 0) {
+          console.warn('No foundation modules found, allowing access');
+        } else {
+          const hasFoundation = hasCompletedFoundation(completedModules);
+          
+          if (!hasFoundation) {
+            const incompleteModules = getIncompleteFoundationModules(completedModules);
+            
+            return (
+              <FoundationRequirement 
+                incompleteModules={incompleteModules}
+                totalFoundationModules={foundationModuleIds.length}
+              />
+            );
+          }
+        }
+      } catch (error) {
+        console.error('Error checking foundation requirements:', error);
+        // On error, allow access to prevent blocking users - log but don't fail
       }
     }
+    
+    // If no session, allow access (auth will handle redirect)
+    // If foundation module, always allow access
 
     try {
         const { content, metadata } = getModuleBySlug(contentRole, slug);

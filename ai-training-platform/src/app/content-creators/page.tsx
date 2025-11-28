@@ -27,22 +27,27 @@ export default async function ContentCreatorsPage() {
   
   // Check foundation requirement
   if (session?.user?.profile) {
-    const completedModules = session.user.profile.completedModules || [];
-    const hasFoundation = hasCompletedFoundation(completedModules);
-    
-    if (!hasFoundation) {
-      const foundationModuleIds = getFoundationModuleIds();
-      const incompleteModules = getIncompleteFoundationModules(completedModules);
+    try {
+      const completedModules = session.user.profile.completedModules || [];
+      const hasFoundation = hasCompletedFoundation(completedModules);
       
-      return (
-        <div className="min-h-screen bg-gradient-surface">
-          <PageHeader session={session} />
-          <FoundationRequirement 
-            incompleteModules={incompleteModules}
-            totalFoundationModules={foundationModuleIds.length}
-          />
-        </div>
-      );
+      if (!hasFoundation) {
+        const foundationModuleIds = getFoundationModuleIds();
+        const incompleteModules = getIncompleteFoundationModules(completedModules);
+        
+        return (
+          <div className="min-h-screen bg-gradient-surface">
+            <PageHeader session={session} />
+            <FoundationRequirement 
+              incompleteModules={incompleteModules}
+              totalFoundationModules={foundationModuleIds.length}
+            />
+          </div>
+        );
+      }
+    } catch (error) {
+      console.error('Error checking foundation requirement:', error);
+      // On error, allow access to prevent blocking users
     }
   }
   

@@ -2,7 +2,7 @@ import NextAuth, { type NextAuthOptions } from "next-auth"
 import GoogleProvider from "next-auth/providers/google"
 import CredentialsProvider from "next-auth/providers/credentials"
 import "@/lib/env-validation"
-import { upsertUser } from "@/lib/user-store"
+import { upsertUser, getUserByEmail } from "@/lib/user-store"
 
 // Build providers array - ensure at least one provider exists
 const providers = [];
@@ -100,6 +100,20 @@ export const authOptions: NextAuthOptions = {
         // Add profile data from token to session
         if (token.profile) {
           session.user.profile = token.profile
+          
+          // If user has hasAllModulesCompleted flag, fetch completedModules from user store
+          // This prevents JWT token size issues (431 errors)
+          if ((token.profile as any)?.hasAllModulesCompleted && token.email) {
+            try {
+              const { getUserByEmail } = await import('@/lib/user-store');
+              const storedUser = getUserByEmail(token.email);
+              if (storedUser?.completedModules) {
+                session.user.profile.completedModules = storedUser.completedModules;
+              }
+            } catch (error) {
+              console.error('Error fetching completedModules from user store:', error);
+            }
+          }
         }
         if (token.onboardingCompleted !== undefined) {
           session.user.onboardingCompleted = token.onboardingCompleted
@@ -238,22 +252,69 @@ export const authOptions: NextAuthOptions = {
             
             if (completedModules.length > 200) break; // Safety limit
           }
+          
+          // Store completedModules in user store instead of JWT to prevent 431 errors
+          // JWT tokens have size limits, so we store the full list in the file-based store
+          if (token.email) {
+            try {
+              const { upsertUser } = await import('@/lib/user-store');
+              upsertUser({
+                email: token.email,
+                name: token.name || 'SLAM',
+                selectedClass: (token.profile as any)?.selectedClass || 'developers',
+                level: 10,
+                xp: 10000,
+                completedModules: completedModules, // Store in user store
+              });
+            } catch (storeError) {
+              console.error('Error storing David\'s modules in user store:', storeError);
+            }
+          }
         }
         
+        // CRITICAL: Don't store all completedModules in JWT token - it causes 431 errors
+        // Instead, store a flag that modules are completed and fetch from user store when needed
         token.profile = {
           ...(token.profile as any || {}),
           level: 10,
           xp: 10000,
           // Ensure cosmetic unlocks work by setting a valid class if missing
           selectedClass: (token.profile as any)?.selectedClass || 'developers',
-          completedModules: isDavid ? completedModules : (token.profile as any)?.completedModules || [],
+          // Only store a flag, not the full array, to prevent JWT size issues
+          completedModules: isDavid ? [] : ((token.profile as any)?.completedModules || []).slice(0, 10), // Limit to 10 most recent
+          hasAllModulesCompleted: isDavid ? true : undefined, // Flag for David
         };
       }
 
       // Update token when session is updated (from API routes)
       if (trigger === 'update' && sessionData) {
         if (sessionData.profile && typeof sessionData.profile === 'object') {
-          token.profile = { ...(token.profile as object || {}), ...sessionData.profile }
+          const updatedProfile = { ...(token.profile as object || {}), ...sessionData.profile };
+          
+          // CRITICAL: Limit completedModules in JWT to prevent 431 errors
+          // Store only the 10 most recent modules in JWT, rest should be in user store
+          if ((updatedProfile as any).completedModules && Array.isArray((updatedProfile as any).completedModules)) {
+            const allModules = (updatedProfile as any).completedModules;
+            // Keep only the 10 most recent modules in JWT
+            (updatedProfile as any).completedModules = allModules.slice(-10);
+            
+            // Store full list in user store if email is available
+            if (token.email && allModules.length > 10) {
+              try {
+                upsertUser({
+                  email: token.email,
+                  completedModules: allModules, // Store full list
+                  level: (updatedProfile as any).level,
+                  xp: (updatedProfile as any).xp,
+                  selectedClass: (updatedProfile as any).selectedClass,
+                });
+              } catch (storeError) {
+                console.error('Error storing completedModules in user store:', storeError);
+              }
+            }
+          }
+          
+          token.profile = updatedProfile;
         }
         if (sessionData.onboardingCompleted !== undefined) {
           token.onboardingCompleted = sessionData.onboardingCompleted

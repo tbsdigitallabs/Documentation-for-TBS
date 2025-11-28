@@ -30,6 +30,13 @@ export interface StoredUser {
     equippedTitlebar?: string;
     equippedTitle?: string;
   };
+  completedModules?: Array<{
+    moduleId: string;
+    moduleName: string;
+    completedAt: string;
+    xpEarned: number;
+    quizScore?: number;
+  }>;
   lastUpdated: string;
 }
 
@@ -75,6 +82,7 @@ export function upsertUser(user: Partial<StoredUser> & { email: string }) {
     image: user.image,
     profileImage: user.profileImage,
     cosmeticLoadout: user.cosmeticLoadout,
+    completedModules: (user as any).completedModules,
     lastUpdated: new Date().toISOString(),
   };
 

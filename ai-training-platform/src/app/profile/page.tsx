@@ -201,6 +201,10 @@ export default function ProfilePage() {
         if (uploadResponse.ok) {
           const uploadData = await uploadResponse.json();
           imageUrl = uploadData.imageUrl;
+        } else {
+          console.error("Failed to upload image");
+          setLoading(false);
+          return;
         }
       }
 
@@ -215,7 +219,15 @@ export default function ProfilePage() {
 
       if (response.ok) {
         const updated = await response.json();
-        setProfile(updated);
+        // Update profileImage in the response to ensure it's set
+        const finalProfileImage = imageUrl || updated.profileImage;
+        
+        setProfile({
+          ...updated,
+          profileImage: finalProfileImage,
+        });
+        
+        // Update session with the new profile data including image
         await update({
           profile: {
             bio: updated.bio,
@@ -224,14 +236,25 @@ export default function ProfilePage() {
             interests: updated.interests,
             learningGoals: updated.learningGoals,
             experienceLevel: updated.experienceLevel,
-            profileImage: updated.profileImage,
+            profileImage: finalProfileImage,
             selectedClass: updated.selectedClass,
             level: updated.level,
             xp: updated.xp,
           }
         });
+        
+        // Update imagePreview to persist the saved image
+        if (finalProfileImage) {
+          setImagePreview(finalProfileImage);
+        }
+        
         setEditing(false);
         setImageFile(null);
+        
+        // Refresh the profile to ensure consistency
+        await fetchProfile();
+      } else {
+        console.error("Failed to save profile:", await response.text());
       }
     } catch (error) {
       console.error("Failed to save profile:", error);
@@ -309,8 +332,12 @@ export default function ProfilePage() {
                       onClick={() => {
                         setEditing(false);
                         setEditedProfile(profile || {});
-                        setImageFile(null);
-                        setImagePreview(profile?.profileImage || profile?.image || null);
+                        // Don't clear imageFile/imagePreview on cancel if user generated an avatar
+                        // Only reset if they haven't generated/uploaded anything new
+                        if (!imageFile && !imagePreview) {
+                          setImagePreview(profile?.profileImage || profile?.image || null);
+                        }
+                        // Keep imageFile and imagePreview if they exist (user can save later)
                       }}
                       className="flex items-center gap-2 px-4 py-2 bg-red-100 dark:bg-red-500/10 border border-red-300 dark:border-red-500/30 text-red-700 dark:text-red-400 hover:bg-red-200 dark:hover:bg-red-500/20 rounded mono-label transition-all"
                     >

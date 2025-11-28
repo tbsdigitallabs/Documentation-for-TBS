@@ -73,7 +73,7 @@ export default function SignIn() {
             Welcome to LearningLab v2.0
           </h1>
           <p className="text-content-secondary">
-            Begin your quest to master AI tools and level up your skills
+            Click below to validate your clearance
           </p>
         </div>
 

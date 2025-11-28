@@ -255,11 +255,18 @@ object {
   font-weight: var(--font-weight-semibold);
   border: none;
   cursor: pointer;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius-lg);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
 }
 
 .btn-primary:hover {
   opacity: 0.9;
   transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .btn-accent {
@@ -269,11 +276,18 @@ object {
   font-weight: var(--font-weight-bold);
   border: none;
   cursor: pointer;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius-lg);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
 }
 
 .btn-accent:hover {
   opacity: 0.9;
   transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .btn-nav {

@@ -44,7 +44,7 @@ export function ToastMessage({ message, onClose, duration = 4000 }: DavidToastPr
         isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
       }`}
     >
-      <div className="relative bg-surface-card border border-border-primary rounded-lg shadow-xl px-4 py-3 max-w-[280px]">
+      <div className="relative bg-surface-card border border-border-primary rounded-lg shadow-xl px-4 py-3 max-w-[90vw] w-auto sm:max-w-[400px] min-w-[280px]">
         <button
           onClick={() => {
             setIsVisible(false);

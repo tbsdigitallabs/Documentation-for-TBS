@@ -226,19 +226,19 @@
 
   /* === SEMANTIC BUTTON TOKENS - Auto-switch with theme === */
   /* Primary Button (Brand Solid Colors) */
-  --btn-primary-bg: #02022B;
-  --btn-primary-text: #FFFFFF;
+  --btn-primary-bg: var(--color-oxford-blue);
+  --btn-primary-text: var(--color-text-primary-dark);
   --btn-primary-border: transparent;
   
   /* Secondary Button */
   --btn-secondary-bg: #F0F2F5;
-  --btn-secondary-text: #02022B;
+  --btn-secondary-text: var(--color-oxford-blue);
   --btn-secondary-border: #d1d5db;
   --btn-secondary-hover: #E5E7EB;
   
   /* Accent Button (Magenta/Sage gradient) */
-  --btn-accent-bg: linear-gradient(to right, #D56EED, #61BDBA);
-  --btn-accent-text: #02022B;
+  --btn-accent-bg: linear-gradient(to right, var(--color-light-magenta), var(--color-sage));
+  --btn-accent-text: var(--color-oxford-blue);
   --btn-accent-border: transparent;
 
   /* Ghost Button */
@@ -307,19 +307,19 @@
 
   /* === SEMANTIC BUTTON TOKENS - Dark Mode === */
   /* Primary Button (Brand Solid Colors - Sage for visibility) */
-  --btn-primary-bg: #61BDBA;
-  --btn-primary-text: #02022B;
+  --btn-primary-bg: var(--color-sage);
+  --btn-primary-text: var(--color-oxford-blue);
   --btn-primary-border: transparent;
   
   /* Secondary Button */
   --btn-secondary-bg: rgba(255, 255, 255, 0.1);
-  --btn-secondary-text: #FFFFFF;
+  --btn-secondary-text: var(--color-text-primary-dark);
   --btn-secondary-border: rgba(255, 255, 255, 0.2);
   --btn-secondary-hover: rgba(255, 255, 255, 0.15);
   
   /* Accent Button */
-  --btn-accent-bg: linear-gradient(to right, #D56EED, #61BDBA);
-  --btn-accent-text: #02022B;
+  --btn-accent-bg: linear-gradient(to right, var(--color-light-magenta), var(--color-sage));
+  --btn-accent-text: var(--color-oxford-blue);
   --btn-accent-border: transparent;
 
   /* Ghost Button */

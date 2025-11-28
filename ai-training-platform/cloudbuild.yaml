@@ -30,7 +30,7 @@ steps:
       - '--image'
       - 'gcr.io/$PROJECT_ID/learninglab:$COMMIT_SHA'
       - '--region'
-      - 'australia-southeast1'
+      - 'us-central1'
       - '--platform'
       - 'managed'
       - '--allow-unauthenticated'

@@ -62,10 +62,16 @@ export const authOptions: NextAuthOptions = {
 
       // Only allow @thebigsmoke and @tbsdigitallabs email domains
       if (user.email) {
-        // Exception for Stephanie Maticevski
-        if (user.email === 'stephanie.maticevski@gmail.com') {
-          return true
-        }
+      // Exception for specific allowed users
+      const allowedEmails = [
+        'stephanie.maticevski@gmail.com',
+        'zorasphone@gmail.com',
+        'brearnerose22@gmail.com'
+      ];
+
+      if (user.email && allowedEmails.includes(user.email)) {
+        return true
+      }
 
         const allowedDomains = ['@thebigsmoke.com', '@thebigsmoke.com.au', '@oh-hello.co', '@tbsdigitallabs.com', '@tbsdigitallabs.com.au']
         const userDomain = user.email.substring(user.email.lastIndexOf('@'))

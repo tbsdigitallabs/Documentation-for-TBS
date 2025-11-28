@@ -37,14 +37,13 @@ export default function HeaderNav() {
     }, []);
 
     const handleSignOut = () => {
-        signOut({ callbackUrl: '/auth/signin' });
+        signOut({ callbackUrl: '/auth/login' });
     };
 
-    // Use theme-specific logo (inverted: light logo for dark mode, dark logo for light mode)
-    // Fallback to dark logo if not mounted yet
+    // Use theme-specific logo
     const logoSrc = mounted
-        ? (theme === 'dark' ? '/images/logo-light.png' : '/images/logo-dark.png')
-        : '/images/logo-dark.png';
+        ? (theme === 'dark' ? '/images/logo-dark.png' : '/images/logo-light.png')
+        : '/images/logo-light.png';
 
     return (
         <div className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 flex justify-center ${scrolled ? 'pt-4' : 'pt-0'}`}>
@@ -109,7 +108,7 @@ export default function HeaderNav() {
                                 )}
                                 <ChevronDown className={`w-4 h-4 transition-transform ${showUserMenu ? 'rotate-180' : ''}`} />
                             </button>
-                            
+
                             {showUserMenu && (
                                 <div className="absolute right-0 mt-2 w-48 bg-surface-card border border-border-primary rounded-xl shadow-xl overflow-hidden z-50">
                                     <div className="px-4 py-3 border-b border-border-primary">

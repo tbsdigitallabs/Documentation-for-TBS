@@ -71,7 +71,7 @@ export default async function ModulePage({ params }: { params: Promise<{ role: s
                 </div>
 
                 {/* Minimal Header - Just navigation */}
-                <header className="border-b border-gray-200 dark:border-white/10 bg-[#F0F2F5] dark:bg-[#02022B] sticky top-0 z-50 flex-shrink-0">
+                <header className="border-b border-border-primary bg-surface-primary sticky top-0 z-50 flex-shrink-0">
                     <div className="px-4 py-1.5 max-w-7xl mx-auto">
                         <div className="flex items-center justify-between">
                             <Link href={role === 'session-0' ? '/session-0' : `/${role}`} className="py-1 px-2 -ml-2 rounded-lg hover:bg-white/10 transition-colors group flex items-center gap-2">

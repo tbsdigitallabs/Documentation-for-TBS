@@ -99,20 +99,13 @@ export const authOptions: NextAuthOptions = {
         session.user.id = token.sub
         // Add profile data from token to session
         if (token.profile) {
-          session.user.profile = token.profile
-          
-          // If user has hasAllModulesCompleted flag, fetch completedModules from user store
-          // This prevents JWT token size issues (431 errors)
-          if ((token.profile as any)?.hasAllModulesCompleted && token.email) {
-            try {
-              const { getUserByEmail } = await import('@/lib/user-store');
-              const storedUser = getUserByEmail(token.email);
-              if (storedUser?.completedModules) {
-                session.user.profile.completedModules = storedUser.completedModules;
-              }
-            } catch (error) {
-              console.error('Error fetching completedModules from user store:', error);
-            }
+          // CRITICAL: Don't load all completedModules into session - it causes 431 errors
+          // Only keep the limited set from token (max 10 modules)
+          session.user.profile = {
+            ...token.profile,
+            // Keep only the limited completedModules from token (already limited to 10)
+            completedModules: (token.profile as any).completedModules || [],
+            // Don't fetch from user store here - fetch on-demand via API when needed
           }
         }
         if (token.onboardingCompleted !== undefined) {

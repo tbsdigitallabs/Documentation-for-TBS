@@ -88,7 +88,29 @@ export default async function ModulePage({ params }: { params: Promise<{ role: s
     // Skip foundation check entirely if it's a foundation module
     if (!isFoundation && session?.user?.profile) {
       try {
-        const completedModules = session.user.profile.completedModules || [];
+        // Check if user has flag indicating all modules completed (David's case)
+        const hasAllCompleted = (session.user.profile as any)?.hasAllModulesCompleted;
+        
+        // Get completedModules from session (limited to 10 most recent)
+        let completedModules = session.user.profile.completedModules || [];
+        
+        // If user has flag or we need to check foundation, fetch full list from user store
+        if (hasAllCompleted || completedModules.length < 10) {
+          try {
+            const { getUserByEmail } = await import('@/lib/user-store');
+            if (session.user.email) {
+              const storedUser = getUserByEmail(session.user.email);
+              if (storedUser?.completedModules && storedUser.completedModules.length > completedModules.length) {
+                // Use full list from user store for foundation check
+                completedModules = storedUser.completedModules;
+              }
+            }
+          } catch (storeError) {
+            // If user store fetch fails, use session modules (fail gracefully)
+            console.warn('Could not fetch from user store, using session modules:', storeError);
+          }
+        }
+        
         const foundationModuleIds = getFoundationModuleIds();
         
         // If no foundation modules exist, allow access (no requirement)

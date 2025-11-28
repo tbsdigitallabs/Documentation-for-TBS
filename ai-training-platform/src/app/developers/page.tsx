@@ -29,7 +29,27 @@ export default async function DevelopersPage() {
   // Check foundation requirement
   if (session?.user?.profile) {
     try {
-      const completedModules = session.user.profile.completedModules || [];
+      // Check if user has flag indicating all modules completed (David's case)
+      const hasAllCompleted = (session.user.profile as any)?.hasAllModulesCompleted;
+      
+      // Get completedModules from session (limited to 10 most recent)
+      let completedModules = session.user.profile.completedModules || [];
+      
+      // If user has flag or we need full list, fetch from user store
+      if (hasAllCompleted || completedModules.length < 10) {
+        try {
+          const { getUserByEmail } = await import('@/lib/user-store');
+          if (session.user.email) {
+            const storedUser = getUserByEmail(session.user.email);
+            if (storedUser?.completedModules && storedUser.completedModules.length > completedModules.length) {
+              completedModules = storedUser.completedModules;
+            }
+          }
+        } catch (storeError) {
+          console.warn('Could not fetch from user store:', storeError);
+        }
+      }
+      
       const hasFoundation = hasCompletedFoundation(completedModules);
       
       if (!hasFoundation) {

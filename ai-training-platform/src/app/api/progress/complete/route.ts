@@ -81,12 +81,17 @@ export async function POST(req: NextRequest) {
 
     const updatedCompletedModules = [...completedModules, newCompletedModule];
 
-    // Update session with new XP, level, and completed modules
+    // CRITICAL: Limit completedModules in session update to prevent 431 errors
+    // Store only the 10 most recent modules in the session/JWT token
+    // Full list is stored in user store above
+    const limitedCompletedModules = updatedCompletedModules.slice(-10);
+    
+    // Update session with new XP, level, and limited completed modules
     const updatedProfile = {
       ...session.user.profile,
       xp: newXP,
       level: newLevel,
-      completedModules: updatedCompletedModules,
+      completedModules: limitedCompletedModules, // Only 10 most recent in JWT
     };
 
     // Update user in leaderboard store
@@ -94,6 +99,7 @@ export async function POST(req: NextRequest) {
       try {
         // Get existing user to preserve cosmetic loadout if not in session
         const existingUser = getUserByEmail(session.user.email);
+        // Store FULL completedModules list in user store (not limited to 10)
         upsertUser({
           email: session.user.email,
           name: session.user.name || 'Anonymous',
@@ -103,7 +109,8 @@ export async function POST(req: NextRequest) {
           image: session.user.profile?.profileImage || session.user.image || undefined,
           profileImage: session.user.profile?.profileImage,
           cosmeticLoadout: session.user.profile?.cosmeticLoadout || existingUser?.cosmeticLoadout,
-        });
+          completedModules: updatedCompletedModules, // Store FULL list in user store
+        } as any);
       } catch (error) {
         console.error('Failed to update user store:', error);
       }

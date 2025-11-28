@@ -9,10 +9,13 @@ export async function GET() {
       users: users.map(user => ({
         id: user.id,
         name: user.name,
+        email: user.email,
         selectedClass: user.selectedClass,
         level: user.level,
         xp: user.xp,
         image: user.image,
+        profileImage: user.profileImage,
+        cosmeticLoadout: user.cosmeticLoadout,
       })),
     });
   } catch (error) {

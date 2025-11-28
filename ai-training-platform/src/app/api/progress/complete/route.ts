@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../../auth/[...nextauth]/route";
 import { calculateLevel } from "@/lib/levelling";
-import { upsertUser } from "@/lib/user-store";
+import { upsertUser, getUserByEmail } from "@/lib/user-store";
 
 /**
  * Award XP when a module is completed
@@ -92,6 +92,8 @@ export async function POST(req: NextRequest) {
     // Update user in leaderboard store
     if (session.user.email) {
       try {
+        // Get existing user to preserve cosmetic loadout if not in session
+        const existingUser = getUserByEmail(session.user.email);
         upsertUser({
           email: session.user.email,
           name: session.user.name || 'Anonymous',
@@ -99,6 +101,8 @@ export async function POST(req: NextRequest) {
           level: newLevel,
           xp: newXP,
           image: session.user.profile?.profileImage || session.user.image || undefined,
+          profileImage: session.user.profile?.profileImage,
+          cosmeticLoadout: session.user.profile?.cosmeticLoadout || existingUser?.cosmeticLoadout,
         });
       } catch (error) {
         console.error('Failed to update user store:', error);

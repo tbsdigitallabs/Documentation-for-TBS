@@ -80,6 +80,7 @@ export async function GET() {
             xp: finalXP,
             level: finalLevel,
             completedModules: completedModules,
+            cosmeticLoadout: profile.cosmeticLoadout || undefined,
         });
     } catch (error) {
         console.error("Error fetching profile:", error);

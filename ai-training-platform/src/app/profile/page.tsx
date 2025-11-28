@@ -105,6 +105,12 @@ export default function ProfilePage() {
         if (data.profileImage) {
           setImagePreview(data.profileImage);
         }
+        // Load cosmetic loadout from profile if available
+        if (data.cosmeticLoadout) {
+          setCosmeticLoadout(data.cosmeticLoadout);
+        } else if (session?.user?.profile?.cosmeticLoadout) {
+          setCosmeticLoadout(session.user.profile.cosmeticLoadout);
+        }
       }
     } catch (error) {
       console.error("Failed to fetch profile:", error);
@@ -227,7 +233,7 @@ export default function ProfilePage() {
           profileImage: finalProfileImage,
         });
         
-        // Update session with the new profile data including image
+        // Update session with the new profile data including image and cosmetic loadout
         await update({
           profile: {
             bio: updated.bio,
@@ -240,6 +246,7 @@ export default function ProfilePage() {
             selectedClass: updated.selectedClass,
             level: updated.level,
             xp: updated.xp,
+            cosmeticLoadout: cosmeticLoadout,
           }
         });
         

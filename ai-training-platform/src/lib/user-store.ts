@@ -21,6 +21,15 @@ export interface StoredUser {
   level: number;
   xp: number;
   image?: string;
+  profileImage?: string;
+  cosmeticLoadout?: {
+    equippedFrame?: string;
+    equippedEffect?: string;
+    equippedBadge?: string;
+    equippedNameplate?: string;
+    equippedTitlebar?: string;
+    equippedTitle?: string;
+  };
   lastUpdated: string;
 }
 
@@ -64,6 +73,8 @@ export function upsertUser(user: Partial<StoredUser> & { email: string }) {
     level: user.level || 1,
     xp: user.xp || 0,
     image: user.image,
+    profileImage: user.profileImage,
+    cosmeticLoadout: user.cosmeticLoadout,
     lastUpdated: new Date().toISOString(),
   };
 

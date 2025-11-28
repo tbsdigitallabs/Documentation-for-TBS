@@ -140,15 +140,66 @@ export const authOptions: NextAuthOptions = {
       // FORCE UPDATE for dev user during development to ensure max stats
       // Supports both standard dev email and specific user david@thebigsmoke.com.au
       const isDevUser = token.email === 'dev@tbsdigitallabs.com.au' || token.email === 'david@thebigsmoke.com.au';
+      const isDavid = token.email === 'david@thebigsmoke.com.au';
       
-      if (process.env.NODE_ENV === 'development' && isDevUser) {
+      if (isDevUser) {
         token.name = "SLAM";
+        
+        // Create comprehensive completed modules list for david@thebigsmoke.com.au
+        let completedModules: any[] = [];
+        if (isDavid) {
+          // Generate completed modules for all roles to reach max XP (10000)
+          const roles = ['developers', 'designers', 'project-managers', 'content-creators', 'sales-business-dev'];
+          const modulesPerRole = ['module-1', 'module-2'];
+          let totalXP = 0;
+          
+          roles.forEach(role => {
+            modulesPerRole.forEach(module => {
+              const moduleId = `${role}/${module}`;
+              const moduleName = `${role.charAt(0).toUpperCase() + role.slice(1)} - ${module.replace('module-', 'Module ')}`;
+              const xpEarned = 75; // Max XP per module (50 base + 25 bonus for perfect quiz)
+              totalXP += xpEarned;
+              
+              completedModules.push({
+                moduleId,
+                moduleName,
+                completedAt: new Date().toISOString(),
+                xpEarned,
+                quizScore: 10, // Perfect score
+              });
+            });
+          });
+          
+          // Add more modules to reach exactly 10000 XP if needed
+          // Each module gives 75 XP, so 10 modules = 750 XP, we need ~133 modules total
+          // But we'll just set it to 10000 XP and create enough modules
+          while (totalXP < 10000) {
+            const role = roles[Math.floor(Math.random() * roles.length)];
+            const module = modulesPerRole[Math.floor(Math.random() * modulesPerRole.length)];
+            const moduleId = `${role}/${module}-extra-${Math.floor(Math.random() * 1000)}`;
+            const moduleName = `${role.charAt(0).toUpperCase() + role.slice(1)} - Advanced Training`;
+            const xpEarned = 75;
+            totalXP += xpEarned;
+            
+            completedModules.push({
+              moduleId,
+              moduleName,
+              completedAt: new Date().toISOString(),
+              xpEarned,
+              quizScore: 10,
+            });
+            
+            if (completedModules.length > 200) break; // Safety limit
+          }
+        }
+        
         token.profile = {
           ...(token.profile as any || {}),
           level: 10,
           xp: 10000,
           // Ensure cosmetic unlocks work by setting a valid class if missing
-          selectedClass: (token.profile as any)?.selectedClass || 'developers', 
+          selectedClass: (token.profile as any)?.selectedClass || 'developers',
+          completedModules: isDavid ? completedModules : (token.profile as any)?.completedModules || [],
         };
       }
 

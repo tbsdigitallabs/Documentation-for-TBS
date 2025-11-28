@@ -1,0 +1,502 @@
+---
+title: "AI Cybersecurity Best Practices"
+description: "Learn how to safely integrate AI tools into your workflow while protecting company IP and sensitive data."
+estimatedTime: "45 minutes"
+difficulty: "Intermediate"
+questions:
+  - id: "q1"
+    question: "What is the recommended approach for testing AI tools with company data?"
+    options:
+      - "Use production data immediately"
+      - "Test in isolated, secure environments first with non-sensitive data"
+      - "Never use AI tools with company data"
+      - "Share everything with AI tools - they're secure"
+    correctAnswer: 1
+  - id: "q2"
+    question: "Which of the following should NEVER be shared with public AI tools?"
+    options:
+      - "API keys and credentials"
+      - "Client names and project details"
+      - "Proprietary code or algorithms"
+      - "All of the above"
+    correctAnswer: 3
+  - id: "q3"
+    question: "What is the 'sandbox approach' for AI integration?"
+    options:
+      - "Avoiding AI tools entirely"
+      - "Testing AI tools in isolated environments before production use"
+      - "Using AI only for personal projects"
+      - "Sharing all data with AI tools"
+    correctAnswer: 1
+  - id: "q4"
+    question: "When should you use enterprise/on-premise AI solutions?"
+    options:
+      - "Never - public tools are always better"
+      - "When working with sensitive IP, client data, or proprietary information"
+      - "Only for personal projects"
+      - "When you want slower responses"
+    correctAnswer: 1
+  - id: "q5"
+    question: "What is data sanitisation in the context of AI?"
+    options:
+      - "Cleaning your computer"
+      - "Removing sensitive information before sharing data with AI tools"
+      - "Deleting all your files"
+      - "Using AI to clean data"
+    correctAnswer: 1
+---
+
+# AI Cybersecurity Best Practices
+
+Welcome to one of the most critical modules in this training platform. As we integrate AI tools into our workflows, we must balance innovation with security. This isn't about avoiding AI—it's about using it intelligently and safely.
+
+**This module will teach you:** How to leverage AI tools effectively while protecting TBS Digital Labs' intellectual property, client data, and proprietary information. Think of it as learning to drive safely—you don't avoid cars, you learn the rules of the road.
+
+![Cybersecurity Best Practices](/images/ai-commercial.jpg)
+*'AI Tools: *powerful and useful* Company IP: *valuable and sensitive* You: *using both safely* Also you: This is how professionals do it!'*
+
+## Learning Objectives
+
+By the end of this module, you'll be able to:
+
+- Identify what data is safe to share with AI tools and what isn't
+- Implement secure testing environments for AI integration
+- Apply data sanitisation techniques before using public AI tools
+- Choose between public and enterprise AI solutions appropriately
+- Establish secure workflows for AI-assisted development and content creation
+- Understand the legal and compliance implications of AI data sharing
+
+---
+
+## The Core Principle: Secure Testing, Not Abstinence
+
+**We don't avoid AI—we use it safely.**
+
+The goal isn't to ban AI tools from our workflows. Instead, we create secure testing environments where we can safely experiment, validate, and integrate AI capabilities without risking our intellectual property or client data.
+
+### Why This Matters
+
+- **Protect Company IP**: Our proprietary processes, algorithms, and strategies stay confidential
+- **Client Confidentiality**: Client data, project details, and sensitive information remain protected
+- **Compliance**: Meet legal and regulatory requirements for data handling
+- **Competitive Advantage**: Keep our unique approaches and innovations secure
+
+---
+
+## What Should NEVER Be Shared with Public AI Tools
+
+### Critical Data Categories
+
+**1. Credentials & Authentication**
+- API keys, tokens, passwords
+- Database connection strings
+- OAuth secrets and private keys
+- Authentication credentials of any kind
+
+**2. Client Information**
+- Client names, contact details, or identifying information
+- Project specifics, budgets, timelines
+- Client communications or meeting notes
+- Any data covered by NDAs or confidentiality agreements
+
+**3. Proprietary Code & Algorithms**
+- Unique algorithms or business logic
+- Proprietary codebases or architecture
+- Internal tools or systems
+- Trade secrets or competitive advantages
+
+**4. Financial Data**
+- Pricing strategies or cost structures
+- Revenue figures or financial projections
+- Budget allocations or financial planning
+
+**5. Personal Data**
+- Employee personal information
+- Client personal data (GDPR/privacy concerns)
+- Any personally identifiable information (PII)
+
+---
+
+## The Secure Testing Workflow
+
+### Step 1: Create Isolated Test Environments
+
+**Before integrating AI into any production workflow:**
+
+1. **Set up a sandbox environment**
+   - Use non-production data
+   - Create synthetic test cases
+   - Use anonymised or dummy data that mirrors real structure
+
+2. **Test with non-sensitive examples**
+   - Generic code patterns (not your proprietary logic)
+   - Public domain content (not client-specific work)
+   - Example scenarios (not real project details)
+
+3. **Validate outputs carefully**
+   - Review all AI-generated content for accuracy
+   - Check for data leakage or unexpected outputs
+   - Verify the AI hasn't memorised or stored sensitive data
+
+### Step 2: Data Sanitisation Techniques
+
+**Before sharing ANY data with public AI tools:**
+
+**For Code:**
+- Remove API keys, credentials, and secrets
+- Replace proprietary algorithms with generic patterns
+- Use placeholder values instead of real data
+- Remove client-specific identifiers
+
+**For Content:**
+- Anonymise client names and project details
+- Use generic examples instead of real scenarios
+- Remove financial figures or sensitive metrics
+- Strip out any identifying information
+
+**For Documents:**
+- Redact sensitive sections before sharing
+- Use summaries instead of full documents
+- Extract only the specific information needed
+- Never share entire documents containing IP
+
+### Step 3: Choose the Right Tool for the Job
+
+**Public AI Tools** (ChatGPT, Claude, etc.)
+- ✅ Safe for: Generic questions, public domain content, learning
+- ❌ Never use for: Sensitive data, proprietary code, client information
+
+**Enterprise AI Solutions** (On-premise, private instances)
+- ✅ Use for: Sensitive IP, client data, proprietary workflows
+- ✅ Benefits: Data stays within your infrastructure, compliance-friendly
+
+**Self-Hosted AI** (Local models, private deployments)
+- ✅ Use for: Highly sensitive work, maximum control
+- ✅ Benefits: Complete data isolation, no external sharing
+
+---
+
+## Practical Workflows by Role
+
+### For Developers
+
+**Safe AI Usage:**
+- Use AI for generic coding patterns and syntax help
+- Generate boilerplate code with placeholder data
+- Get explanations of public libraries and frameworks
+- Debug generic error messages (without sharing your code)
+
+**Secure Integration:**
+- Test AI-generated code in isolated branches
+- Review all code before merging to production
+- Never paste proprietary algorithms into public AI tools
+- Use enterprise AI solutions for code review of sensitive projects
+
+**Example Safe Prompt:**
+```
+"Show me a generic React component structure for a user profile form. 
+Use placeholder data, not real user information."
+```
+
+**Example Unsafe Prompt:**
+```
+"Here's our proprietary authentication algorithm: [pastes code]. 
+How can I optimise it?"
+```
+
+### For Designers
+
+**Safe AI Usage:**
+- Generate design concepts and mood boards
+- Create generic UI components and patterns
+- Get inspiration from public design systems
+- Generate placeholder images and assets
+
+**Secure Integration:**
+- Never share client brand guidelines or proprietary design systems
+- Use AI for exploration, then refine with client-specific requirements
+- Test AI-generated designs in isolated design files
+- Keep client-specific work in secure, private environments
+
+**Example Safe Prompt:**
+```
+"Generate a modern dashboard design concept with a tech aesthetic. 
+Use generic colours and placeholder content."
+```
+
+**Example Unsafe Prompt:**
+```
+"Here are our client's brand guidelines and proprietary design system: 
+[pastes document]. Generate designs using these."
+```
+
+### For Content Creators
+
+**Safe AI Usage:**
+- Generate content ideas and outlines
+- Create generic templates and frameworks
+- Get writing assistance for public-facing content
+- Research and summarise public information
+
+**Secure Integration:**
+- Never share client-specific messaging or strategies
+- Use AI for drafts, then customise with client requirements
+- Sanitise all content before using AI tools
+- Keep client-specific work in secure environments
+
+**Example Safe Prompt:**
+```
+"Create a generic blog post outline about digital transformation 
+for B2B companies. Use placeholder company examples."
+```
+
+**Example Unsafe Prompt:**
+```
+"Here's our client's messaging strategy and campaign details: 
+[pastes document]. Generate content using this."
+```
+
+### For Project Managers
+
+**Safe AI Usage:**
+- Generate generic project templates and frameworks
+- Get suggestions for project management methodologies
+- Create example timelines and resource plans
+- Research best practices from public sources
+
+**Secure Integration:**
+- Never share actual project details, budgets, or timelines
+- Use AI for generic planning, then adapt to real projects
+- Keep client-specific project information secure
+- Use enterprise solutions for sensitive project analysis
+
+**Example Safe Prompt:**
+```
+"Create a generic project timeline template for a 3-month 
+software development project with placeholder milestones."
+```
+
+**Example Unsafe Prompt:**
+```
+"Here's our client's project scope, budget, and timeline: 
+[pastes document]. Optimise this project plan."
+```
+
+### For Sales & Business Development
+
+**Safe AI Usage:**
+- Generate generic sales templates and frameworks
+- Create example pitch decks with placeholder content
+- Research public information about industries and trends
+- Get suggestions for sales methodologies
+
+**Secure Integration:**
+- Never share actual client information or deal details
+- Use AI for generic frameworks, then customise for clients
+- Keep all client-specific information secure
+- Use enterprise solutions for sensitive client analysis
+
+**Example Safe Prompt:**
+```
+"Create a generic B2B sales email template for following up 
+after an initial meeting. Use placeholder company names."
+```
+
+**Example Unsafe Prompt:**
+```
+"Here's our client's information and our sales strategy: 
+[pastes document]. Generate a personalised pitch."
+```
+
+---
+
+## Enterprise AI Solutions: When to Use Them
+
+### Indicators You Need Enterprise AI
+
+- ✅ Working with client data covered by NDAs
+- ✅ Handling proprietary algorithms or business logic
+- ✅ Processing financial or sensitive business data
+- ✅ Working with personal data (GDPR/privacy requirements)
+- ✅ Need for audit trails and compliance documentation
+
+### Benefits of Enterprise Solutions
+
+- **Data Isolation**: Your data never leaves your infrastructure
+- **Compliance**: Meets regulatory requirements (GDPR, HIPAA, etc.)
+- **Control**: You control data retention and deletion policies
+- **Security**: Enterprise-grade security and access controls
+- **Support**: Dedicated support and customisation options
+
+---
+
+## The Secure AI Integration Checklist
+
+Before using any AI tool with company-related work, ask:
+
+- [ ] **Is this data sensitive?** (IP, client data, proprietary info)
+- [ ] **Have I sanitised the data?** (Removed credentials, identifiers, sensitive details)
+- [ ] **Am I using the right tool?** (Public vs enterprise vs self-hosted)
+- [ ] **Have I tested in isolation?** (Sandbox environment, non-production data)
+- [ ] **Can I verify the output?** (Review for accuracy and data leakage)
+- [ ] **Is this compliant?** (Meets legal and regulatory requirements)
+
+**If any answer is uncertain, use enterprise solutions or consult with security/compliance teams.**
+
+---
+
+## Common Pitfalls to Avoid
+
+### ❌ "It's Just Code"
+**Reality**: Code contains business logic, architecture decisions, and sometimes credentials. Even "harmless" code can reveal proprietary approaches.
+
+### ❌ "I'll Remove Sensitive Data Later"
+**Reality**: Once shared, data may be stored in AI training data. Prevention is better than cleanup.
+
+### ❌ "It's Just for Learning"
+**Reality**: Learning examples can still leak sensitive patterns or approaches. Use generic examples.
+
+### ❌ "The AI Said It's Secure"
+**Reality**: Public AI tools explicitly state they may use your data for training. Always assume data is not private.
+
+### ❌ "I'll Use It Once and Delete"
+**Reality**: Data shared with public AI tools may be retained and used for training. Deletion doesn't guarantee removal from training data.
+
+---
+
+## Best Practices Summary
+
+### ✅ DO
+
+- Test AI tools in isolated, secure environments first
+- Use data sanitisation before sharing with public AI tools
+- Choose enterprise solutions for sensitive work
+- Review all AI outputs carefully before use
+- Keep sensitive work in secure, private environments
+- Use generic examples and placeholder data for testing
+- Consult security/compliance teams when uncertain
+
+### ❌ DON'T
+
+- Share credentials, API keys, or authentication data
+- Paste proprietary code or algorithms into public AI tools
+- Share client-specific information or project details
+- Use production data for AI testing
+- Assume public AI tools are private or secure
+- Skip the sandbox testing phase
+- Use AI tools for sensitive work without proper safeguards
+
+---
+
+## Real-World Scenarios
+
+### Scenario 1: Developer Needs Help with Authentication
+
+**❌ Unsafe Approach:**
+```
+Pastes entire authentication system code into ChatGPT:
+"Here's our login system. How can I improve it?"
+```
+
+**✅ Safe Approach:**
+```
+"Show me a generic authentication flow using OAuth2. 
+I'll adapt the pattern to our specific implementation."
+```
+
+### Scenario 2: Designer Creating Client Brand Assets
+
+**❌ Unsafe Approach:**
+```
+Uploads client brand guidelines to AI image generator:
+"Create designs using these exact brand colours and guidelines."
+```
+
+**✅ Safe Approach:**
+```
+"Generate a modern tech brand aesthetic with a professional palette. 
+I'll refine this with our client's specific brand requirements."
+```
+
+### Scenario 3: Content Creator Writing Client Campaign
+
+**❌ Unsafe Approach:**
+```
+Pastes client messaging strategy and campaign brief:
+"Write social media posts using this strategy."
+```
+
+**✅ Safe Approach:**
+```
+"Create generic social media post templates for a B2B tech campaign. 
+I'll customise these with our client's specific messaging."
+```
+
+---
+
+## Compliance & Legal Considerations
+
+### Data Protection Regulations
+
+- **GDPR** (EU): Personal data cannot be shared with public AI tools without proper safeguards
+- **CCPA** (California): Similar protections for personal information
+- **NDAs**: Client agreements may prohibit sharing data with third-party AI services
+- **Industry Regulations**: Healthcare, finance, and other industries have specific requirements
+
+### Intellectual Property
+
+- **Trade Secrets**: Proprietary processes and algorithms are protected
+- **Copyright**: Be aware of who owns AI-generated content
+- **Client IP**: Client-owned content cannot be shared without permission
+
+### Best Practice
+
+When in doubt, consult with legal/compliance teams before using AI tools with sensitive data.
+
+---
+
+## Tools & Resources
+
+### Enterprise AI Solutions
+
+- **Microsoft Copilot for Business**: Enterprise-grade AI with data isolation
+- **GitHub Copilot Enterprise**: Secure code assistance
+- **AWS Bedrock**: Private AI model hosting
+- **Google Cloud AI**: Enterprise AI solutions with data controls
+
+### Self-Hosted Options
+
+- **Ollama**: Run AI models locally
+- **LM Studio**: Local AI model management
+- **PrivateGPT**: Self-hosted document Q&A
+
+### Security Tools
+
+- **Data Loss Prevention (DLP)**: Monitor and prevent sensitive data sharing
+- **Credential Scanners**: Detect and prevent credential sharing
+- **Code Review Tools**: Automated checks for sensitive data in code
+
+---
+
+## Key Takeaways
+
+1. **Test First, Integrate Later**: Always test AI tools in secure, isolated environments
+2. **Sanitise Before Sharing**: Remove sensitive data before using public AI tools
+3. **Choose the Right Tool**: Use enterprise solutions for sensitive work
+4. **When in Doubt, Don't Share**: If uncertain, use enterprise solutions or consult security teams
+5. **Review Everything**: Always review AI outputs for accuracy and data leakage
+6. **Stay Compliant**: Understand and follow legal and regulatory requirements
+
+---
+
+## Next Steps
+
+- Review your current AI usage and identify any risky practices
+- Set up secure testing environments for AI tool evaluation
+- Familiarise yourself with enterprise AI solutions available
+- Establish personal workflows that follow these best practices
+- Share these practices with your team
+
+Remember: **We don't avoid AI—we use it safely and intelligently.**
+
+By following these practices, you can leverage the power of AI tools while protecting TBS Digital Labs' valuable intellectual property and maintaining client confidentiality.

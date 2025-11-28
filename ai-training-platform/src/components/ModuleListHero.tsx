@@ -27,9 +27,9 @@ const accentClasses = {
   },
   cyan: {
     label: 'text-accent-readable-cyan',
-    iconBg: 'bg-accent-cyan-5',
-    iconBorder: 'border-accent-cyan-20',
-    iconColor: 'text-accent-cyan-500',
+    iconBg: 'bg-accent-developers-10',
+    iconBorder: 'border-accent-developers-20',
+    iconColor: 'text-accent-readable-cyan',
   },
 };
 

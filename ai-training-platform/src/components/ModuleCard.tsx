@@ -19,7 +19,7 @@ const accentClasses = {
     badge: 'text-accent-sage-500 bg-accent-sage-5 border-accent-sage-20',
   },
   cyan: {
-    badge: 'text-accent-cyan-500 bg-accent-cyan-5 border-accent-cyan-20',
+    badge: 'text-accent-readable-cyan bg-accent-developers-10 border-accent-developers-20',
   },
 };
 

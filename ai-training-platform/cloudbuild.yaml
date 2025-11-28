@@ -1,5 +1,6 @@
 steps:
   # Build the container image
+  # Git revision count will be calculated inside Docker build using git command
   - name: 'gcr.io/cloud-builders/docker'
     args: 
       - 'build'

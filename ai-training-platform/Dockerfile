@@ -13,6 +13,8 @@ RUN npm ci
 
 # Rebuild the source code only when needed
 FROM base AS builder
+# Install git for version calculation
+RUN apk add --no-cache git
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
@@ -25,12 +27,14 @@ ARG GOOGLE_CLIENT_ID
 ARG GOOGLE_CLIENT_SECRET
 ARG NEXTAUTH_SECRET
 ARG NEXT_PUBLIC_APP_URL
+ARG GIT_REVISION_COUNT
 
 # Set them as environment variables for the build process
 ENV GOOGLE_CLIENT_ID=$GOOGLE_CLIENT_ID
 ENV GOOGLE_CLIENT_SECRET=$GOOGLE_CLIENT_SECRET
 ENV NEXTAUTH_SECRET=$NEXTAUTH_SECRET
 ENV NEXT_PUBLIC_APP_URL=$NEXT_PUBLIC_APP_URL
+ENV GIT_REVISION_COUNT=$GIT_REVISION_COUNT
 
 RUN npm run build
 

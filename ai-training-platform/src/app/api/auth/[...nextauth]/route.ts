@@ -148,15 +148,42 @@ export const authOptions: NextAuthOptions = {
         // Create comprehensive completed modules list for david@thebigsmoke.com.au
         let completedModules: any[] = [];
         if (isDavid) {
-          // Generate completed modules for all roles to reach max XP (10000)
-          const roles = ['developers', 'designers', 'project-managers', 'content-creators', 'sales-business-dev'];
-          const modulesPerRole = ['module-1', 'module-2'];
+          // Map route slugs to content directory names and actual module slugs
+          const roleModules: Record<string, { route: string; contentDir: string; modules: string[] }> = {
+            developers: {
+              route: 'developers',
+              contentDir: 'developers',
+              modules: ['01-foundation', '02-automated-research-pipelines', '03-ai-assisted-testing', '04-refactoring-legacy-code', '05-documenting-proprietary-systems']
+            },
+            designers: {
+              route: 'designers',
+              contentDir: 'designers',
+              modules: ['01-ai-ui-ux-workflow', '02-generative-assets', '03-design-systems-ai']
+            },
+            'project-managers': {
+              route: 'project-managers',
+              contentDir: 'project-managers',
+              modules: ['01-strategy-foundations', '02-ai-research-strategy', '03-ai-internal-data', '04-strategy-workflows', '05-qa-validation', '06-asana-automation', '07-meeting-governance']
+            },
+            'content-creators': {
+              route: 'content-creators',
+              contentDir: 'content-creators',
+              modules: ['01-pr-angles', '02-creative-systems', '03-video-generation']
+            },
+            'sales-business-dev': {
+              route: 'sales-business-dev',
+              contentDir: 'sales',
+              modules: ['01-gtm-planning', '02-lead-gen-systems', '03-hubspot-hygiene', '04-automated-reporting']
+            }
+          };
+          
           let totalXP = 0;
           
-          roles.forEach(role => {
-            modulesPerRole.forEach(module => {
-              const moduleId = `${role}/${module}`;
-              const moduleName = `${role.charAt(0).toUpperCase() + role.slice(1)} - ${module.replace('module-', 'Module ')}`;
+          // Add all actual modules
+          Object.values(roleModules).forEach(({ route, modules }) => {
+            modules.forEach(moduleSlug => {
+              const moduleId = `${route}/${moduleSlug}`;
+              const moduleName = moduleSlug.replace(/^\d+-/, '').replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
               const xpEarned = 75; // Max XP per module (50 base + 25 bonus for perfect quiz)
               totalXP += xpEarned;
               
@@ -171,13 +198,16 @@ export const authOptions: NextAuthOptions = {
           });
           
           // Add more modules to reach exactly 10000 XP if needed
-          // Each module gives 75 XP, so 10 modules = 750 XP, we need ~133 modules total
-          // But we'll just set it to 10000 XP and create enough modules
+          // Each module gives 75 XP, we have ~22 modules = 1650 XP, need ~8350 more = ~111 more modules
+          const allRoles = Object.keys(roleModules);
+          const allModules = Object.values(roleModules).flatMap(r => r.modules);
+          
           while (totalXP < 10000) {
-            const role = roles[Math.floor(Math.random() * roles.length)];
-            const module = modulesPerRole[Math.floor(Math.random() * modulesPerRole.length)];
-            const moduleId = `${role}/${module}-extra-${Math.floor(Math.random() * 1000)}`;
-            const moduleName = `${role.charAt(0).toUpperCase() + role.slice(1)} - Advanced Training`;
+            const role = allRoles[Math.floor(Math.random() * allRoles.length)];
+            const roleData = roleModules[role];
+            const module = roleData.modules[Math.floor(Math.random() * roleData.modules.length)];
+            const moduleId = `${roleData.route}/${module}-repeat-${Math.floor(Math.random() * 1000)}`;
+            const moduleName = `${module.replace(/^\d+-/, '').replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase())} (Advanced)`;
             const xpEarned = 75;
             totalXP += xpEarned;
             

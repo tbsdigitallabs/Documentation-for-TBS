@@ -688,6 +688,27 @@ object {
   border-color: color-mix(in srgb, var(--accent-magenta-500) 20%, transparent);
 }
 
+/* Accent Sage Utilities for Tools */
+.bg-accent-sage-5 {
+  background-color: color-mix(in srgb, var(--color-sage) 5%, transparent);
+}
+
+.bg-accent-sage-20 {
+  background-color: color-mix(in srgb, var(--color-sage) 20%, transparent);
+}
+
+.bg-accent-sage-500 {
+  background-color: var(--color-sage);
+}
+
+.text-accent-sage-500 {
+  color: var(--color-sage);
+}
+
+.border-accent-sage-20 {
+  border-color: color-mix(in srgb, var(--color-sage) 20%, transparent);
+}
+
 /* Scrollbar Hide Utility */
 .scrollbar-hide::-webkit-scrollbar {
   display: none;

@@ -1,0 +1,6 @@
+.git
+.gitignore
+node_modules
+ai-training-platform-laravel
+ai-training-platform/node_modules
+

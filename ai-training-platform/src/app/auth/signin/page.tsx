@@ -5,13 +5,13 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Logo from "@/components/Logo";
 import ThemeToggle from "@/components/ThemeToggle";
-import { APP_NAME_WITH_VERSION } from "@/lib/version";
 
 export default function SignIn() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [isDev, setIsDev] = useState(false);
+  const [version, setVersion] = useState("0.0");
 
   useEffect(() => {
     // Check if we're in development mode
@@ -19,6 +19,13 @@ export default function SignIn() {
       process.env.NODE_ENV === 'development' ||
       (typeof window !== 'undefined' && window.location.hostname === 'localhost')
     );
+    
+    // Get version - for client component, we'll fetch it from an API route
+    // since environment variables aren't available on client
+    fetch('/api/version')
+      .then(res => res.json())
+      .then(data => setVersion(data.version || "0.0"))
+      .catch(() => setVersion("0.0"));
   }, []);
 
   const handleGoogleSignIn = async () => {
@@ -71,7 +78,7 @@ export default function SignIn() {
         {/* Header */}
         <div className="text-center mb-8">
           <h1 className="text-3xl font-heading font-bold text-content-primary mb-2">
-            Welcome to {APP_NAME_WITH_VERSION}
+            Welcome to LearningLab v{version}
           </h1>
           <p className="text-content-secondary">
             Click below to validate your clearance

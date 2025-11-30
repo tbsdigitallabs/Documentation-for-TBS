@@ -94,15 +94,31 @@ export const authOptions: NextAuthOptions = {
 
       // Only allow @thebigsmoke and @tbsdigitallabs email domains
       if (user.email) {
-      // Exception for specific allowed users (read from config file)
-      const allowedEmails = await getExceptionEmails()
+        // Normalize email for comparison (lowercase, trim)
+        const normalizedEmail = user.email.toLowerCase().trim();
+        
+        // Exception for specific allowed users (read from config file)
+        const allowedEmails = (await getExceptionEmails()).map(email => email.toLowerCase().trim());
 
-      if (user.email && allowedEmails.includes(user.email)) {
-        return true
-      }
+        // Check allowed emails first
+        if (allowedEmails.includes(normalizedEmail)) {
+          // Store user in leaderboard database on sign in
+          try {
+            upsertUser({
+              id: user.id || user.email,
+              email: user.email,
+              name: user.name || 'Anonymous',
+              image: user.image || undefined,
+            });
+          } catch (error) {
+            console.error('Failed to store user:', error);
+          }
+          return true
+        }
 
+        // Check allowed domains
         const allowedDomains = ['@thebigsmoke.com', '@thebigsmoke.com.au', '@oh-hello.co', '@tbsdigitallabs.com', '@tbsdigitallabs.com.au']
-        const userDomain = user.email.substring(user.email.lastIndexOf('@'))
+        const userDomain = normalizedEmail.substring(normalizedEmail.lastIndexOf('@'))
 
         if (allowedDomains.includes(userDomain)) {
           // Store user in leaderboard database on sign in
@@ -472,23 +488,25 @@ export const authOptions: NextAuthOptions = {
             minimalUpdatedProfile.hasAllModulesCompleted = true;
           }
           
-          // CRITICAL: Skip profileImage and cosmeticLoadout entirely - they can be large
+          // CRITICAL: Skip profileImage and cosmeticLoadout entirely from JWT - they can be large
+          // Store profileImage in user store instead to prevent 431 errors
           // Fetch from user store via API if needed
           
-          // Store full list in user store if email is available
-          if (token.email && allModules.length > 1) {
+          // Store profileImage and other data in user store if email is available
+          if (token.email) {
             try {
               upsertUser({
                 email: token.email,
-                completedModules: allModules, // Store full list
+                completedModules: allModules.length > 1 ? allModules : undefined, // Store full list if > 1
                 level: level || 1,
                 xp: xp || 0,
                 selectedClass: selectedClass,
+                // CRITICAL: Store profileImage in user store, not JWT token
                 profileImage: (updatedProfile as any).profileImage,
                 cosmeticLoadout: (updatedProfile as any).cosmeticLoadout,
               } as any);
             } catch (storeError) {
-              console.error('Error storing completedModules in user store:', storeError);
+              console.error('Error storing profile data in user store:', storeError);
             }
           }
           

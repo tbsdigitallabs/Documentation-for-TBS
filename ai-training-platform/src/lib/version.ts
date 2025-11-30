@@ -2,23 +2,42 @@
  * Application Version Token
  * 
  * Centralised version management for LearningLab.
- * Version format: 0.{git-revision-count}
+ * Version format: 0.[REVISION_NUMBER]
  * 
- * The version is calculated at build time from git revision count
- * and made available via NEXT_PUBLIC_APP_VERSION environment variable.
+ * Priority:
+ * 1. Google Cloud Run K_REVISION (production)
+ * 2. NEXT_PUBLIC_APP_VERSION (build-time)
+ * 3. Fallback to "0.0"
  */
 
 /**
  * Get the current application version
- * @returns Version string in format "0.{revision-count}" or fallback "0.0"
+ * @returns Version string in format "0.{revision-number}" or fallback "0.0"
  */
 export function getAppVersion(): string {
-  return process.env.NEXT_PUBLIC_APP_VERSION || '0.0';
+  // Priority 1: Google Cloud Run revision number (production)
+  const kRevision = process.env.K_REVISION;
+  if (kRevision) {
+    // Extract revision number from revision name
+    // Format: learninglab-XXXXX -> extract XXXXX
+    const match = kRevision.match(/-(\d+)$/);
+    if (match && match[1]) {
+      return `0.${match[1]}`;
+    }
+  }
+
+  // Priority 2: Build-time version from environment variable
+  if (process.env.NEXT_PUBLIC_APP_VERSION) {
+    return process.env.NEXT_PUBLIC_APP_VERSION;
+  }
+
+  // Fallback
+  return '0.0';
 }
 
 /**
  * Get the version with "v" prefix
- * @returns Version string in format "v0.{revision-count}" or fallback "v0.0"
+ * @returns Version string in format "v0.{revision-number}" or fallback "v0.0"
  */
 export function getAppVersionWithPrefix(): string {
   return `v${getAppVersion()}`;

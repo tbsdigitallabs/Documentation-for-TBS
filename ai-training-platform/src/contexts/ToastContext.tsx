@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useContext, useState, useCallback, ReactNode } from 'react';
-import { DavidToast, getRandomMessage, ENCOURAGEMENT_MESSAGES } from '@/components/DavidToast';
+import { ToastMessage, getRandomMessage, ENCOURAGEMENT_MESSAGES } from '@/components/DavidToast';
 
 interface Toast {
   id: string;
@@ -38,7 +38,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
       {/* Toast container - fixed at bottom right */}
       <div className="fixed bottom-6 right-6 z-50 flex flex-col-reverse gap-3">
         {toasts.map((toast) => (
-          <DavidToast
+          <ToastMessage
             key={toast.id}
             message={toast.message}
             onClose={() => removeToast(toast.id)}

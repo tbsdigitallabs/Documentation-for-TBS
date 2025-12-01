@@ -10,6 +10,7 @@ export type ModuleMetadata = {
     estimatedTime?: string;
     difficulty?: string;
     prerequisites?: string;
+    category?: string;
     slug: string;
     role: string;
     questions?: Array<{

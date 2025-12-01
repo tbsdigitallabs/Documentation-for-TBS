@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from 'react';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import { ModulePresentation } from './ModulePresentation';
 import { Questionnaire, Question } from './Questionnaire';
@@ -14,6 +14,7 @@ interface ModuleWrapperProps {
 export function ModuleWrapper({ content, questions }: ModuleWrapperProps) {
     const [mode, setMode] = useState<'presentation' | 'questionnaire'>('presentation');
     const pathname = usePathname();
+    const router = useRouter();
     const { update } = useSession();
 
     // Extract module info from pathname (e.g., /developers/module-1 or /session-0/module-1)
@@ -64,9 +65,21 @@ export function ModuleWrapper({ content, questions }: ModuleWrapperProps) {
                     // You could add a toast notification here
                     console.log(`Level up! You're now level ${data.newLevel}!`);
                 }
+                
+                // Redirect to role page or session-0 page after completion
+                if (role === 'session-0') {
+                    router.push('/session-0');
+                } else {
+                    router.push(`/${role}`);
+                }
+            } else {
+                const errorData = await response.json().catch(() => ({}));
+                console.error('Failed to award XP:', response.status, errorData);
+                alert(`Failed to complete module: ${errorData.error || 'Unknown error'}`);
             }
         } catch (error) {
             console.error('Failed to award XP:', error);
+            alert('Failed to complete module. Please try again.');
         }
     };
 

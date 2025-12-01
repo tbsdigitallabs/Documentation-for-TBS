@@ -45,32 +45,80 @@ export default async function Session0Page() {
       <Section className="bg-gradient-surface py-16" size="lg">
         <Container size="xl">
           {modules.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
-              {modules.map((module) => (
-                <HoloCard key={module.slug} className="flex flex-col h-full">
-                  <div className="mb-6">
-                    <span className="mono-label text-accent-magenta-500 px-2 py-1 rounded-md bg-accent-magenta-5 border border-accent-magenta-20 inline-block">
-                      MISSION {module.slug.split('-')[0].padStart(2, '0')}
-                    </span>
-                  </div>
-                  <h2 className="heading-3 text-content-primary mb-4 flex-grow">{module.title}</h2>
-                  <p className="body-regular text-content-secondary mb-8">
-                    {module.description || "Complete this module to unlock new capabilities."}
-                  </p>
+            <>
+              {/* Regular modules */}
+              {(() => {
+                const regularModules = modules.filter(m => !m.category || m.category !== 'tools');
+                const toolsModules = modules.filter(m => m.category === 'tools');
+                
+                return (
+                  <>
+                    {regularModules.length > 0 && (
+                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch mb-8">
+                        {regularModules.map((module) => (
+                          <HoloCard key={module.slug} className="flex flex-col h-full">
+                            <div className="mb-6">
+                              <span className="mono-label text-accent-magenta-500 px-2 py-1 rounded-md bg-accent-magenta-5 border border-accent-magenta-20 inline-block">
+                                MISSION {module.slug.split('-')[0].padStart(2, '0')}
+                              </span>
+                            </div>
+                            <h2 className="heading-3 text-content-primary mb-4 flex-grow">{module.title}</h2>
+                            <p className="body-regular text-content-secondary mb-8">
+                              {module.description || "Complete this module to unlock new capabilities."}
+                            </p>
 
-                  <div className="flex items-center justify-between text-sm text-content-tertiary mb-8 pt-4 border-t border-border-primary">
-                    <span className="flex items-center gap-2">⏱️ {module.estimatedTime || "30 mins"}</span>
-                    <span className="flex items-center gap-2">🎯 {module.difficulty || "Beginner"}</span>
-                  </div>
+                            <div className="flex items-center justify-between text-sm text-content-tertiary mb-8 pt-4 border-t border-border-primary">
+                              <span className="flex items-center gap-2">⏱️ {module.estimatedTime || "30 mins"}</span>
+                              <span className="flex items-center gap-2">🎯 {module.difficulty || "Beginner"}</span>
+                            </div>
 
-                  <Link href={`/session-0/${module.slug}`} className="mt-auto">
-                    <Button variant="default" size="lg" className="w-full">
-                      Deploy
-                    </Button>
-                  </Link>
-                </HoloCard>
-              ))}
-            </div>
+                            <Link href={`/session-0/${module.slug}`} className="mt-auto">
+                              <Button variant="default" size="lg" className="w-full">
+                                Deploy
+                              </Button>
+                            </Link>
+                          </HoloCard>
+                        ))}
+                      </div>
+                    )}
+
+                    {toolsModules.length > 0 && (
+                      <div className="mt-12 mb-8">
+                        <h2 className="mono-label text-accent-readable-magenta mb-4">
+                          TOOLS & SETUP
+                        </h2>
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
+                          {toolsModules.map((module) => (
+                            <HoloCard key={module.slug} className="flex flex-col h-full">
+                              <div className="mb-6">
+                                <span className="mono-label text-accent-magenta-500 px-2 py-1 rounded-md bg-accent-magenta-5 border border-accent-magenta-20 inline-block">
+                                  MISSION {module.slug.split('-')[0].padStart(2, '0')}
+                                </span>
+                              </div>
+                              <h2 className="heading-3 text-content-primary mb-4 flex-grow">{module.title}</h2>
+                              <p className="body-regular text-content-secondary mb-8">
+                                {module.description || "Complete this module to unlock new capabilities."}
+                              </p>
+
+                              <div className="flex items-center justify-between text-sm text-content-tertiary mb-8 pt-4 border-t border-border-primary">
+                                <span className="flex items-center gap-2">⏱️ {module.estimatedTime || "30 mins"}</span>
+                                <span className="flex items-center gap-2">🎯 {module.difficulty || "Beginner"}</span>
+                              </div>
+
+                              <Link href={`/session-0/${module.slug}`} className="mt-auto">
+                                <Button variant="default" size="lg" className="w-full">
+                                  Deploy
+                                </Button>
+                              </Link>
+                            </HoloCard>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </>
+                );
+              })()}
+            </>
           ) : (
             <div className="text-center py-12">
               <p className="text-content-secondary text-lg mb-4 mono-text">AWAITING MODULE DATA...</p>

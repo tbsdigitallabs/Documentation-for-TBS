@@ -56,6 +56,44 @@ export default function RolePageContent({
         );
     }
 
+    // Group modules by category
+    const regularModules = modules.filter(m => !m.category || m.category !== 'tools');
+    const toolsModules = modules.filter(m => m.category === 'tools');
+
+    const renderModuleCard = (module: ModuleMetadata) => (
+        <HoloCard key={module.slug} role={roleSlug as any} className="flex flex-col h-full">
+            <div className="mb-6">
+                <span
+                    className="mono-label px-2 py-1 rounded-md border inline-block"
+                    style={{
+                        color: accentColor.startsWith('var') ? accentColor : `var(--color-${accentColor})`,
+                        backgroundColor: `color-mix(in srgb, ${accentColor.startsWith('var') ? accentColor : `var(--color-${accentColor})`} 10%, transparent)`,
+                        borderColor: `color-mix(in srgb, ${accentColor.startsWith('var') ? accentColor : `var(--color-${accentColor})`} 20%, transparent)`
+                    }}
+                >
+                    MISSION {module.slug.split('-')[0].padStart(2, '0')}
+                </span>
+            </div>
+            <h2 className="heading-3 text-content-primary mb-4 flex-grow">{module.title}</h2>
+            <p className="body-regular text-content-secondary mb-8">
+                {module.description || "Learn new skills in this module."}
+            </p>
+            <div className="flex items-center justify-between text-sm text-content-tertiary mb-8 pt-4 border-t border-border-primary">
+                <span className="flex items-center gap-2">⏱️ {module.estimatedTime || "30 mins"}</span>
+                <span className="flex items-center gap-2">🎯 {module.difficulty || "Intermediate"}</span>
+            </div>
+            <Link href={`/${roleSlug}/${module.slug}`} className="mt-auto">
+                <Button
+                    variant="default"
+                    size="lg"
+                    className="w-full"
+                >
+                    Deploy
+                </Button>
+            </Link>
+        </HoloCard>
+    );
+
     return (
         <>
             <Section className="bg-gradient-surface py-8" size="lg">
@@ -63,41 +101,22 @@ export default function RolePageContent({
                     <h2 className="mono-label text-accent-readable-cyan mb-4">
                         {isUserClass ? "ACTIVE MISSIONS" : `${roleName.toUpperCase()} MISSIONS`}
                     </h2>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 items-stretch mb-8">
-                        {modules.map((module) => (
-                            <HoloCard key={module.slug} role={roleSlug as any} className="flex flex-col h-full">
-                                <div className="mb-6">
-                                    <span
-                                        className="mono-label px-2 py-1 rounded-md border inline-block"
-                                        style={{
-                                            color: accentColor.startsWith('var') ? accentColor : `var(--color-${accentColor})`,
-                                            backgroundColor: `color-mix(in srgb, ${accentColor.startsWith('var') ? accentColor : `var(--color-${accentColor})`} 10%, transparent)`,
-                                            borderColor: `color-mix(in srgb, ${accentColor.startsWith('var') ? accentColor : `var(--color-${accentColor})`} 20%, transparent)`
-                                        }}
-                                    >
-                                        MISSION {module.slug.split('-')[0].padStart(2, '0')}
-                                    </span>
-                                </div>
-                                <h2 className="heading-3 text-content-primary mb-4 flex-grow">{module.title}</h2>
-                                <p className="body-regular text-content-secondary mb-8">
-                                    {module.description || "Learn new skills in this module."}
-                                </p>
-                                <div className="flex items-center justify-between text-sm text-content-tertiary mb-8 pt-4 border-t border-border-primary">
-                                    <span className="flex items-center gap-2">⏱️ {module.estimatedTime || "30 mins"}</span>
-                                    <span className="flex items-center gap-2">🎯 {module.difficulty || "Intermediate"}</span>
-                                </div>
-                                <Link href={`/${roleSlug}/${module.slug}`} className="mt-auto">
-                                    <Button
-                                        variant="default"
-                                        size="lg"
-                                        className="w-full"
-                                    >
-                                        Deploy
-                                    </Button>
-                                </Link>
-                            </HoloCard>
-                        ))}
-                    </div>
+                    {regularModules.length > 0 && (
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 items-stretch mb-8">
+                            {regularModules.map(renderModuleCard)}
+                        </div>
+                    )}
+
+                    {toolsModules.length > 0 && (
+                        <div className="mt-12 mb-8">
+                            <h2 className="mono-label text-accent-readable-cyan mb-4">
+                                TOOLS & SETUP
+                            </h2>
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 items-stretch">
+                                {toolsModules.map(renderModuleCard)}
+                            </div>
+                        </div>
+                    )}
 
                     {otherModules.length > 0 && (
                         <div className="mt-12">

@@ -102,6 +102,7 @@ export default function HeaderNav() {
                                         width={32}
                                         height={32}
                                         className="w-8 h-8 rounded-full object-cover"
+                                        unoptimized={(session.user.profile?.profileImage || session.user.image || '').startsWith('/api/images/')}
                                     />
                                 ) : (
                                     <div className="w-8 h-8 rounded-full bg-surface-tertiary flex items-center justify-center">

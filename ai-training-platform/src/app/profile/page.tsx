@@ -126,10 +126,12 @@ export default function ProfilePage() {
       console.log('[Profile] Parsing response JSON...');
       const data = await response.json();
       console.log('[Profile] Profile data received');
+      console.log('[Profile] Full data object:', JSON.stringify(data, null, 2));
       console.log('[Profile] Has profile:', !!data);
       console.log('[Profile] Profile image URL:', data.profileImage);
       console.log('[Profile] Has profileImage:', !!data.profileImage);
       console.log('[Profile] Profile image type:', typeof data.profileImage);
+      console.log('[Profile] Profile image value check:', data.profileImage === null ? 'null' : data.profileImage === undefined ? 'undefined' : data.profileImage);
       console.log('[Profile] Has cosmeticLoadout:', !!data.cosmeticLoadout);
       console.log('[Profile] Level:', data.level);
       console.log('[Profile] XP:', data.xp);

@@ -141,16 +141,17 @@ export async function GET() {
         const finalLevel = calculateLevel(finalXP);
 
         const totalTime = Date.now() - startTime;
-        console.log('[Profile API] Preparing response', {
-            finalXP,
-            finalLevel,
-            completedModulesCount: completedModules.length,
-            hasProfileImage: !!profileImage,
-            hasCosmeticLoadout: !!cosmeticLoadout,
-            totalTime: `${totalTime}ms`
-        });
+        console.log('[Profile API] Preparing response');
+        console.log('[Profile API] finalXP:', finalXP);
+        console.log('[Profile API] finalLevel:', finalLevel);
+        console.log('[Profile API] completedModulesCount:', completedModules.length);
+        console.log('[Profile API] profileImage value:', profileImage);
+        console.log('[Profile API] profileImage type:', typeof profileImage);
+        console.log('[Profile API] profileImage truthy:', !!profileImage);
+        console.log('[Profile API] hasCosmeticLoadout:', !!cosmeticLoadout);
+        console.log('[Profile API] totalTime:', `${totalTime}ms`);
         
-        const response = NextResponse.json({
+        const responseData = {
             id: user.id,
             name: user.name,
             email: user.email,
@@ -161,7 +162,12 @@ export async function GET() {
             completedModules: completedModules,
             profileImage: profileImage || undefined,
             cosmeticLoadout: cosmeticLoadout || undefined,
-        });
+        };
+        
+        console.log('[Profile API] Response data profileImage:', responseData.profileImage);
+        console.log('[Profile API] Response data profileImage type:', typeof responseData.profileImage);
+        
+        const response = NextResponse.json(responseData);
         
         console.log('[Profile API] Response sent successfully');
         return response;

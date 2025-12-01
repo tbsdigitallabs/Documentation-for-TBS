@@ -7,6 +7,7 @@ import { Edit2, Save, X, Upload, Sparkles, Zap, Shield, Target, Brain, Cpu, Term
 import { cn } from "@/lib/utils";
 import ClientPageHeader from "@/components/ClientPageHeader";
 import { CLASS_NAMES, CLASS_JOB_TITLES } from "@/lib/role-mapping";
+import type { ClassJobTitleKey } from "@/lib/constants";
 import Link from "next/link";
 import { Container } from "@/components/Container";
 import {
@@ -84,14 +85,6 @@ export default function ProfilePage() {
   const [croppedAreaPixels, setCroppedAreaPixels] = useState<any>(null);
   const [showCropper, setShowCropper] = useState(false);
   const [tempImageSrc, setTempImageSrc] = useState<string | null>(null);
-
-  useEffect(() => {
-    if (status === "unauthenticated") {
-      router.push("/auth/signin");
-    } else if (status === "authenticated" && session) {
-      fetchProfile();
-    }
-  }, [status, session, router, fetchProfile]);
 
   const fetchProfile = useCallback(async () => {
     try {
@@ -172,7 +165,7 @@ export default function ProfilePage() {
           URL.revokeObjectURL(imagePreview);
         }
       }
-      
+
       // Use random seed each time to generate a new avatar
       const randomSeed = `${Date.now()}-${Math.random().toString(36).substring(2, 15)}`;
       const response = await fetch('/api/onboarding/generate-avatar', {
@@ -207,12 +200,12 @@ export default function ProfilePage() {
     setLoading(true);
     try {
       let imageUrl = editedProfile.profileImage;
-      
+
       // Revoke any existing blob URLs before uploading
       if (imagePreview && imagePreview.startsWith('blob:')) {
         URL.revokeObjectURL(imagePreview);
       }
-      
+
       if (imageFile) {
         const formData = new FormData();
         formData.append("image", imageFile);
@@ -247,17 +240,17 @@ export default function ProfilePage() {
         const updated = await response.json();
         // Update profileImage in the response to ensure it's set
         const finalProfileImage = imageUrl || updated.profileImage;
-        
+
         setProfile({
           ...updated,
           profileImage: finalProfileImage,
         });
-        
+
         // CRITICAL: Always use server URL, never blob URL for persistence
         if (finalProfileImage && !finalProfileImage.startsWith('blob:')) {
           setImagePreview(finalProfileImage);
         }
-        
+
         // Update session with the new profile data including image and cosmetic loadout
         await update({
           profile: {
@@ -274,10 +267,10 @@ export default function ProfilePage() {
             cosmeticLoadout: cosmeticLoadout,
           }
         });
-        
+
         setEditing(false);
         setImageFile(null);
-        
+
         // Refresh the profile to ensure consistency
         await fetchProfile();
       } else {
@@ -467,7 +460,7 @@ export default function ProfilePage() {
                       <ClassIcon className={`w-4 h-4 ${classColor}`} />
                       <span className={classColor}>{profile.selectedClass}</span>
                       <span className="text-content-tertiary">•</span>
-                      <span className="text-content-secondary">{CLASS_JOB_TITLES[profile.selectedClass as keyof typeof CLASS_JOB_TITLES] || profile.selectedClass}</span>
+                      <span className="text-content-secondary">{CLASS_JOB_TITLES[profile.selectedClass as ClassJobTitleKey] || profile.selectedClass}</span>
                     </div>
                   )}
                 </div>
@@ -622,7 +615,7 @@ export default function ProfilePage() {
                     <div className="p-4 bg-surface-card border border-dashed border-border-primary rounded text-center">
                       <div className="text-content-secondary text-sm mono-text">No missions completed</div>
                       <Link
-                        href={profile?.selectedClass ? `/${CLASS_JOB_TITLES[profile.selectedClass as keyof typeof CLASS_JOB_TITLES]?.toLowerCase().replace(/ & /g, '-').replace(/ /g, '-')}` : '/class-selection'}
+                        href={profile?.selectedClass ? `/${CLASS_JOB_TITLES[profile.selectedClass as ClassJobTitleKey]?.toLowerCase().replace(/ & /g, '-').replace(/ /g, '-')}` : '/class-selection'}
                         className="mt-2 inline-block text-accent-readable-cyan text-xs mono-label hover:underline"
                       >
                         Begin Training

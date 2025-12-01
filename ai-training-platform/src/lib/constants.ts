@@ -46,6 +46,9 @@ export const ROUTE_TO_CLASS = {
 // Type for class names
 export type ClassName = typeof CLASS_NAMES[keyof typeof CLASS_NAMES];
 
+// Type for CLASS_JOB_TITLES keys (same as ClassName, but explicit for clarity)
+export type ClassJobTitleKey = ClassName;
+
 // All class names as array (excluding Foundation for selection screens)
 export const SELECTABLE_CLASSES = [
   CLASS_NAMES.DEVELOPERS,

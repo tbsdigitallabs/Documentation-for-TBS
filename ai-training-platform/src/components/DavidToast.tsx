@@ -59,7 +59,10 @@ export function ToastMessage({ message, onClose, duration = 4000 }: DavidToastPr
 }
 
 // Encouragement messages for different achievements
-export const ENCOURAGEMENT_MESSAGES = {
+// Using explicit type instead of keyof typeof to avoid initialization order issues
+type EncouragementType = 'moduleComplete' | 'levelUp' | 'firstModule' | 'streak' | 'rewardUnlocked';
+
+export const ENCOURAGEMENT_MESSAGES: Record<EncouragementType, string[]> = {
   moduleComplete: [
     "Nice work, you're on fire!",
     "Another one bites the dust!",
@@ -91,7 +94,7 @@ export const ENCOURAGEMENT_MESSAGES = {
   ],
 };
 
-export function getRandomMessage(type: keyof typeof ENCOURAGEMENT_MESSAGES): string {
+export function getRandomMessage(type: EncouragementType): string {
   const messages = ENCOURAGEMENT_MESSAGES[type];
   return messages[Math.floor(Math.random() * messages.length)];
 }

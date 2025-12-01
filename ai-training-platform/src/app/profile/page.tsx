@@ -26,7 +26,7 @@ import {
 import { getXPForNextLevel, getLevelProgress, getExperienceLevelName, getUnlockedRewards, getNextReward, MAX_LEVEL, XP_THRESHOLDS, COSMETIC_REWARDS, TITLES, DEFAULT_LOADOUT, type CosmeticLoadout } from "@/lib/levelling";
 import Cropper from 'react-easy-crop';
 import getCroppedImg from '@/lib/image-utils';
-import { uploadImageFromSource } from '@/lib/file-upload';
+import { uploadImageFromSource } from '@/lib/file-upload-client';
 
 export const dynamic = 'force-dynamic';
 
@@ -90,28 +90,28 @@ export default function ProfilePage() {
   const fetchProfile = useCallback(async () => {
     console.log('[Profile] fetchProfile called', { hasSession: !!session, sessionEmail: session?.user?.email });
     setLoading(true);
-    
+
     try {
       console.log('[Profile] Starting fetch to /api/profile');
       const startTime = Date.now();
-      
+
       // Add timeout to prevent hanging
       const controller = new AbortController();
       const timeoutId = setTimeout(() => {
         console.error('[Profile] Fetch timeout triggered after 10 seconds');
         controller.abort();
       }, 10000); // 10 second timeout
-      
+
       console.log('[Profile] Making fetch request...');
       const response = await fetch("/api/profile", {
         signal: controller.signal,
       });
-      
+
       const fetchTime = Date.now() - startTime;
       console.log('[Profile] Fetch completed', { status: response.status, statusText: response.statusText, time: `${fetchTime}ms` });
-      
+
       clearTimeout(timeoutId);
-      
+
       if (!response.ok) {
         console.error('[Profile] Response not OK', { status: response.status, statusText: response.statusText });
         const errorData = await response.json().catch((e) => {
@@ -122,17 +122,17 @@ export default function ProfilePage() {
         setLoading(false);
         return;
       }
-      
+
       console.log('[Profile] Parsing response JSON...');
       const data = await response.json();
-      console.log('[Profile] Profile data received', { 
-        hasProfile: !!data, 
+      console.log('[Profile] Profile data received', {
+        hasProfile: !!data,
         hasProfileImage: !!data.profileImage,
         hasCosmeticLoadout: !!data.cosmeticLoadout,
         level: data.level,
         xp: data.xp
       });
-      
+
       setProfile(data);
       setEditedProfile(data);
       if (data.profileImage) {
@@ -167,24 +167,24 @@ export default function ProfilePage() {
 
   // Fetch profile on mount and when session changes
   useEffect(() => {
-    console.log('[Profile] useEffect triggered', { 
-      status, 
-      hasSession: !!session, 
+    console.log('[Profile] useEffect triggered', {
+      status,
+      hasSession: !!session,
       sessionEmail: session?.user?.email,
-      loading 
+      loading
     });
-    
+
     if (status === 'loading') {
       console.log('[Profile] Session still loading, waiting...');
       return;
     }
-    
+
     if (status === 'unauthenticated') {
       console.log('[Profile] User not authenticated, redirecting...');
       router.push('/auth/signin');
       return;
     }
-    
+
     if (status === 'authenticated' && session?.user?.email) {
       console.log('[Profile] Session authenticated, fetching profile...');
       fetchProfile();
@@ -289,14 +289,14 @@ export default function ProfilePage() {
       // Upload image from either imageFile or imagePreview (handles File, data URL, blob URL, or server URL)
       const imageSource = imageFile || imagePreview || null;
       if (imageSource) {
-        console.log('[Profile Save] Uploading image', { 
-          hasImageFile: !!imageFile, 
+        console.log('[Profile Save] Uploading image', {
+          hasImageFile: !!imageFile,
           hasImagePreview: !!imagePreview,
           previewType: imagePreview ? (imagePreview.startsWith('data:') ? 'data' : imagePreview.startsWith('blob:') ? 'blob' : imagePreview.startsWith('/uploads/') ? 'server' : 'unknown') : null
         });
-        
+
         const uploadResult = await uploadImageFromSource(imageSource, "/api/profile/upload-image");
-        
+
         if (uploadResult.success && uploadResult.imageUrl) {
           imageUrl = uploadResult.imageUrl;
           console.log('[Profile Save] Image uploaded successfully', { imageUrl });

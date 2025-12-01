@@ -1,11 +1,16 @@
 import fs from 'fs';
 import path from 'path';
+import * as firestore from './firestore';
 
-// File-based user storage for leaderboard
-// In production, replace with database
+// File-based user storage for leaderboard (development)
+// Firestore storage (production)
+// Automatically switches based on environment
 
 const DATA_DIR = path.join(process.cwd(), 'data');
 const USERS_FILE = path.join(DATA_DIR, 'users.json');
+
+// Use Firestore in production, local filesystem in development
+const useFirestore = process.env.NODE_ENV === 'production' || process.env.USE_FIRESTORE === 'true';
 
 // Excluded accounts (dev accounts)
 const EXCLUDED_EMAILS = [
@@ -68,7 +73,14 @@ function writeUsers(users: StoredUser[]) {
   }
 }
 
-export function upsertUser(user: Partial<StoredUser> & { email: string }) {
+export async function upsertUser(user: Partial<StoredUser> & { email: string }): Promise<StoredUser> {
+  if (useFirestore) {
+    console.log('[User Store] Using Firestore');
+    return await firestore.upsertUser(user);
+  }
+
+  // Local filesystem fallback for development
+  console.log('[User Store] Using local filesystem');
   const users = readUsers();
   const existingIndex = users.findIndex(u => u.email === user.email);
   
@@ -103,7 +115,14 @@ export function upsertUser(user: Partial<StoredUser> & { email: string }) {
   return updatedUser;
 }
 
-export function getLeaderboard(): StoredUser[] {
+export async function getLeaderboard(): Promise<StoredUser[]> {
+  if (useFirestore) {
+    console.log('[User Store] Using Firestore for leaderboard');
+    return await firestore.getLeaderboard();
+  }
+
+  // Local filesystem fallback for development
+  console.log('[User Store] Using local filesystem for leaderboard');
   const users = readUsers();
   
   // Filter out excluded accounts and sort by XP
@@ -112,7 +131,14 @@ export function getLeaderboard(): StoredUser[] {
     .sort((a, b) => b.xp - a.xp);
 }
 
-export function getUserByEmail(email: string): StoredUser | null {
+export async function getUserByEmail(email: string): Promise<StoredUser | null> {
+  if (useFirestore) {
+    console.log('[User Store] Using Firestore');
+    return await firestore.getUserByEmail(email);
+  }
+
+  // Local filesystem fallback for development
+  console.log('[User Store] Using local filesystem');
   const users = readUsers();
   return users.find(u => u.email === email) || null;
 }

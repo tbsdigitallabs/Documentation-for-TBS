@@ -88,7 +88,7 @@ export async function GET() {
             try {
                 console.log('[Profile API] Fetching user from store...', { email: user.email });
                 const storeStartTime = Date.now();
-                const storedUser = getUserByEmail(user.email);
+                const storedUser = await getUserByEmail(user.email);
                 const storeTime = Date.now() - storeStartTime;
                 console.log('[Profile API] User store fetch completed', { 
                     found: !!storedUser,
@@ -204,7 +204,7 @@ export async function PUT(req: NextRequest) {
         // CRITICAL: Fetch existing user data from user store to preserve XP, level, completedModules
         let existingUser = null;
         try {
-            existingUser = getUserByEmail(session.user.email);
+            existingUser = await getUserByEmail(session.user.email);
         } catch (error) {
             console.warn('Could not fetch existing user from store:', error);
         }
@@ -235,7 +235,7 @@ export async function PUT(req: NextRequest) {
         console.log('[Profile PUT] Final profileImageToSave truthy:', !!profileImageToSave);
 
         // Save profile data to user store (including profileImage and cosmeticLoadout)
-        upsertUser({
+        await upsertUser({
             email: session.user.email,
             name: user.name || session.user.name || 'Anonymous',
             selectedClass: validatedProfile.selectedClass || existingUser?.selectedClass || user.profile?.selectedClass,
@@ -260,7 +260,7 @@ export async function PUT(req: NextRequest) {
         };
 
         // Verify the saved data by fetching from user store
-        const savedUser = getUserByEmail(session.user.email);
+        const savedUser = await getUserByEmail(session.user.email);
         console.log('[Profile PUT] Saved user profileImage:', savedUser?.profileImage);
 
         // Return updated profile data (including profileImage from user store)

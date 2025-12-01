@@ -37,7 +37,7 @@ export async function POST(req: NextRequest) {
     // Fetch full list from user store if available
     if (session.user.email) {
       try {
-        const storedUser = getUserByEmail(session.user.email);
+        const storedUser = await getUserByEmail(session.user.email);
         if (storedUser?.completedModules && storedUser.completedModules.length > completedModules.length) {
           // Use full list from user store for accurate duplicate check and XP calculation
           completedModules = storedUser.completedModules;
@@ -120,9 +120,9 @@ export async function POST(req: NextRequest) {
     if (session.user.email) {
       try {
         // Get existing user to preserve cosmetic loadout if not in session
-        const existingUser = getUserByEmail(session.user.email);
+        const existingUser = await getUserByEmail(session.user.email);
         // Store FULL completedModules list in user store (not limited to 10)
-        upsertUser({
+        await upsertUser({
           email: session.user.email,
           name: session.user.name || 'Anonymous',
           selectedClass: session.user.profile?.selectedClass,

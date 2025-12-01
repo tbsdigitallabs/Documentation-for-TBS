@@ -15,7 +15,7 @@ export async function GET(_req: NextRequest) {
     }
 
     // Fetch full completedModules list from user store
-    const storedUser = getUserByEmail(session.user.email);
+    const storedUser = await getUserByEmail(session.user.email);
     const completedModules = storedUser?.completedModules || [];
 
     return NextResponse.json({

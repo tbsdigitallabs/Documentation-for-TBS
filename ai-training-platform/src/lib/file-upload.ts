@@ -1,5 +1,6 @@
 import { writeFile, mkdir } from "fs/promises";
 import { join } from "path";
+import { uploadImageToGCS } from "./gcs-storage";
 
 // Allowed image MIME types
 const ALLOWED_MIME_TYPES = [
@@ -25,6 +26,7 @@ export interface UploadResult {
 
 /**
  * Validates and uploads an image file
+ * Uses Cloud Storage in production, local filesystem in development
  */
 export async function uploadImage(
     file: File,
@@ -53,7 +55,16 @@ export async function uploadImage(
             return { success: false, error: "Invalid file extension. Only JPEG, PNG, GIF, WebP, and SVG are allowed" };
         }
 
-        // Sanitize email for filename (prevent path traversal)
+        // Use Cloud Storage in production, local filesystem in development
+        const useCloudStorage = process.env.NODE_ENV === 'production' || process.env.USE_CLOUD_STORAGE === 'true';
+        
+        if (useCloudStorage) {
+            console.log('[File Upload] Using Cloud Storage');
+            return await uploadImageToGCS(file, userEmail, subdirectory);
+        }
+
+        // Local filesystem fallback for development
+        console.log('[File Upload] Using local filesystem');
         const sanitizedEmail = userEmail.replace(/[^a-zA-Z0-9@._-]/g, "_").substring(0, 100);
 
         // Create uploads directory if it doesn't exist

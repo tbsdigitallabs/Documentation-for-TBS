@@ -104,7 +104,7 @@ export const authOptions: NextAuthOptions = {
         if (allowedEmails.includes(normalizedEmail)) {
           // Store user in leaderboard database on sign in
           try {
-            upsertUser({
+            await upsertUser({
               id: user.id || user.email,
               email: user.email,
               name: user.name || 'Anonymous',
@@ -123,7 +123,7 @@ export const authOptions: NextAuthOptions = {
         if (allowedDomains.includes(userDomain)) {
           // Store user in leaderboard database on sign in
           try {
-            upsertUser({
+            await upsertUser({
               id: user.id || user.email,
               email: user.email,
               name: user.name || 'Anonymous',
@@ -211,7 +211,7 @@ export const authOptions: NextAuthOptions = {
         // Store full data in user store before clearing token
         try {
           const { upsertUser, getUserByEmail } = await import('@/lib/user-store');
-          const storedUser = getUserByEmail(token.email);
+          const storedUser = await getUserByEmail(token.email);
 
           // Preserve existing data from user store or token
           const existingModules = storedUser?.completedModules || profile.completedModules || [];
@@ -222,7 +222,7 @@ export const authOptions: NextAuthOptions = {
           const existingCosmeticLoadout = storedUser?.cosmeticLoadout || profile.cosmeticLoadout;
 
           // Store full data in user store
-          upsertUser({
+          await upsertUser({
             email: token.email,
             name: token.name || 'User',
             selectedClass: existingSelectedClass,
@@ -393,7 +393,7 @@ export const authOptions: NextAuthOptions = {
           if (token.email) {
             try {
               const { upsertUser } = await import('@/lib/user-store');
-              upsertUser({
+              await upsertUser({
                 email: token.email,
                 name: token.name || 'SLAM',
                 selectedClass: (token.profile as any)?.selectedClass || 'developers',
@@ -495,7 +495,7 @@ export const authOptions: NextAuthOptions = {
           // Store profileImage and other data in user store if email is available
           if (token.email) {
             try {
-              upsertUser({
+              await upsertUser({
                 email: token.email,
                 completedModules: allModules.length > 1 ? allModules : undefined, // Store full list if > 1
                 level: level || 1,

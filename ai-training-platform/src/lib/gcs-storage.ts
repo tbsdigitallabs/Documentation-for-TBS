@@ -4,7 +4,6 @@
  */
 
 import { Storage } from '@google-cloud/storage';
-import { join } from 'path';
 
 let storage: Storage | null = null;
 
@@ -129,9 +128,29 @@ export async function deleteImageFromGCS(imageUrl: string): Promise<boolean> {
     const bucket = storageInstance.bucket(BUCKET_NAME);
 
     // Extract file path from URL
-    // Format: https://storage.googleapis.com/BUCKET_NAME/path/to/file.jpg
-    const urlParts = imageUrl.split('/');
-    const filepath = urlParts.slice(4).join('/'); // Skip https://storage.googleapis.com/BUCKET_NAME
+    // Handle multiple URL formats:
+    // - https://storage.googleapis.com/BUCKET_NAME/path/to/file.jpg
+    // - https://storage.cloud.google.com/BUCKET_NAME/path/to/file.jpg
+    // - gs://BUCKET_NAME/path/to/file.jpg
+    let filepath: string;
+    
+    if (imageUrl.startsWith('gs://')) {
+      // gs:// format
+      filepath = imageUrl.replace(`gs://${BUCKET_NAME}/`, '');
+    } else if (imageUrl.includes(BUCKET_NAME)) {
+      // HTTP/HTTPS format - extract path after bucket name
+      const bucketIndex = imageUrl.indexOf(BUCKET_NAME);
+      filepath = imageUrl.substring(bucketIndex + BUCKET_NAME.length + 1);
+    } else {
+      // Assume it's already a relative path
+      filepath = imageUrl.startsWith('/') ? imageUrl.substring(1) : imageUrl;
+    }
+
+    // Validate filepath is not empty
+    if (!filepath || filepath.trim() === '') {
+      console.error('Invalid file path extracted from URL:', imageUrl);
+      return false;
+    }
 
     const file = bucket.file(filepath);
     await file.delete();

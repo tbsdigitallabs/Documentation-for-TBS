@@ -3,7 +3,7 @@
  * Replaces file-based storage with persistent Firestore database
  */
 
-import { initializeApp, getApps, cert, App } from 'firebase-admin/app';
+import { initializeApp, getApps, App } from 'firebase-admin/app';
 import { getFirestore, Firestore } from 'firebase-admin/firestore';
 
 let firestore: Firestore | null = null;
@@ -81,6 +81,7 @@ export async function upsertUser(user: Partial<StoredUser> & { email: string }):
       selectedClass: user.selectedClass ?? existingData?.selectedClass,
       level: user.level ?? existingData?.level ?? 1,
       xp: user.xp ?? existingData?.xp ?? 0,
+      // Preserve existing values if not provided (using ?? operator)
       image: user.image ?? existingData?.image,
       profileImage: user.profileImage ?? existingData?.profileImage,
       cosmeticLoadout: user.cosmeticLoadout ?? existingData?.cosmeticLoadout,

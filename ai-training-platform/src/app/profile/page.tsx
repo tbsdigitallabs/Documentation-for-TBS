@@ -88,26 +88,44 @@ export default function ProfilePage() {
 
   const fetchProfile = useCallback(async () => {
     try {
-      const response = await fetch("/api/profile");
-      if (response.ok) {
-        const data = await response.json();
-        setProfile(data);
-        setEditedProfile(data);
-        if (data.profileImage) {
-          setImagePreview(data.profileImage);
-        }
-        // Load cosmetic loadout from profile if available
-        if (data.cosmeticLoadout) {
-          setCosmeticLoadout(data.cosmeticLoadout);
-        } else if (session?.user?.profile) {
-          const profileWithCosmetics = session.user.profile as UserProfile;
-          if (profileWithCosmetics.cosmeticLoadout) {
-            setCosmeticLoadout(profileWithCosmetics.cosmeticLoadout);
-          }
+      // Add timeout to prevent hanging
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+      
+      const response = await fetch("/api/profile", {
+        signal: controller.signal,
+      });
+      
+      clearTimeout(timeoutId);
+      
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({ error: 'Unknown error' }));
+        console.error("Failed to fetch profile:", response.status, errorData);
+        setLoading(false);
+        return;
+      }
+      
+      const data = await response.json();
+      setProfile(data);
+      setEditedProfile(data);
+      if (data.profileImage) {
+        setImagePreview(data.profileImage);
+      }
+      // Load cosmetic loadout from profile if available
+      if (data.cosmeticLoadout) {
+        setCosmeticLoadout(data.cosmeticLoadout);
+      } else if (session?.user?.profile) {
+        const profileWithCosmetics = session.user.profile as UserProfile;
+        if (profileWithCosmetics.cosmeticLoadout) {
+          setCosmeticLoadout(profileWithCosmetics.cosmeticLoadout);
         }
       }
     } catch (error) {
-      console.error("Failed to fetch profile:", error);
+      if (error instanceof Error && error.name === 'AbortError') {
+        console.error("Profile fetch timed out after 10 seconds");
+      } else {
+        console.error("Failed to fetch profile:", error);
+      }
     } finally {
       setLoading(false);
     }

@@ -57,21 +57,32 @@ export async function GET() {
             completedModules: [],
         };
 
-        // CRITICAL: Fetch FULL completedModules list from user store for accurate XP calculation
+        // CRITICAL: Fetch user data from user store once (optimize file reads)
         // Session only has 10 most recent modules (to prevent 431 errors), but we need all for XP
         let completedModules = profile.completedModules || [];
+        let profileImage = profile.profileImage;
+        let cosmeticLoadout = profile.cosmeticLoadout;
         
-        // Check user store for full list
+        // Fetch from user store once
         if (user.email) {
             try {
                 const storedUser = getUserByEmail(user.email);
-                if (storedUser?.completedModules && storedUser.completedModules.length > completedModules.length) {
-                    // Use full list from user store for accurate XP calculation
-                    completedModules = storedUser.completedModules;
+                if (storedUser) {
+                    // Use full completedModules list from user store for accurate XP calculation
+                    if (storedUser.completedModules && storedUser.completedModules.length > completedModules.length) {
+                        completedModules = storedUser.completedModules;
+                    }
+                    // Fetch profileImage and cosmeticLoadout from user store (not from session/JWT)
+                    if (storedUser.profileImage) {
+                        profileImage = storedUser.profileImage;
+                    }
+                    if (storedUser.cosmeticLoadout) {
+                        cosmeticLoadout = storedUser.cosmeticLoadout;
+                    }
                 }
             } catch (error) {
-                console.warn('Could not fetch full completedModules from user store:', error);
-                // Fall back to session modules if user store fetch fails
+                console.warn('Could not fetch user data from user store:', error);
+                // Fall back to session data if user store fetch fails
             }
         }
         
@@ -92,24 +103,6 @@ export async function GET() {
         // Always use calculated XP from completed modules (ensures data integrity)
         const finalXP = calculatedXP;
         const finalLevel = calculateLevel(finalXP);
-
-        // Fetch profileImage and cosmeticLoadout from user store (not from session/JWT)
-        let profileImage = profile.profileImage;
-        let cosmeticLoadout = profile.cosmeticLoadout;
-        
-        if (user.email) {
-            try {
-                const storedUser = getUserByEmail(user.email);
-                if (storedUser?.profileImage) {
-                    profileImage = storedUser.profileImage;
-                }
-                if (storedUser?.cosmeticLoadout) {
-                    cosmeticLoadout = storedUser.cosmeticLoadout;
-                }
-            } catch (error) {
-                console.warn('Could not fetch profileImage/cosmeticLoadout from user store:', error);
-            }
-        }
 
         return NextResponse.json({
             id: user.id,

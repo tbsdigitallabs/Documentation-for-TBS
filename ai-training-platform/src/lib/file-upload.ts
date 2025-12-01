@@ -1,6 +1,7 @@
 import { writeFile, mkdir } from "fs/promises";
 import { join } from "path";
 import { uploadImageToGCS } from "./gcs-storage";
+import sharp from "sharp";
 
 // Allowed image MIME types
 const ALLOWED_MIME_TYPES = [
@@ -55,12 +56,77 @@ export async function uploadImage(
             return { success: false, error: "Invalid file extension. Only JPEG, PNG, GIF, WebP, and SVG are allowed" };
         }
 
+        // Convert file to buffer
+        const bytes = await file.arrayBuffer();
+        let buffer = Buffer.from(bytes);
+
+        // Optimize image before upload (skip SVG as it's vector)
+        let wasOptimized = false;
+        if (file.type !== 'image/svg+xml' && file.type.startsWith('image/')) {
+            try {
+                const originalSize = buffer.length;
+                const sharpInstance = sharp(buffer);
+
+                // Get image metadata to determine if resizing is needed
+                const metadata = await sharpInstance.metadata();
+                const maxDimension = 1920; // Max width/height for profile images
+
+                // Resize if image is too large
+                if (metadata.width && metadata.height && (metadata.width > maxDimension || metadata.height > maxDimension)) {
+                    const optimizedBuffer = await sharpInstance
+                        .resize(maxDimension, maxDimension, {
+                            fit: 'inside',
+                            withoutEnlargement: true,
+                        })
+                        .webp({ quality: 85, effort: 4 }) // Convert to WebP for better compression
+                        .toBuffer();
+                    
+                    buffer = Buffer.from(optimizedBuffer);
+                    wasOptimized = true;
+                    
+                    console.log('[File Upload] Image optimized', {
+                        originalSize,
+                        optimizedSize: buffer.length,
+                        reduction: `${((1 - buffer.length / originalSize) * 100).toFixed(1)}%`,
+                        originalDimensions: `${metadata.width}x${metadata.height}`,
+                    });
+                } else {
+                    // Just convert to WebP for better compression without resizing
+                    const optimizedBuffer = await sharpInstance
+                        .webp({ quality: 85, effort: 4 })
+                        .toBuffer();
+                    
+                    buffer = Buffer.from(optimizedBuffer);
+                    wasOptimized = true;
+                    
+                    console.log('[File Upload] Image converted to WebP', {
+                        originalSize,
+                        optimizedSize: buffer.length,
+                        reduction: `${((1 - buffer.length / originalSize) * 100).toFixed(1)}%`,
+                    });
+                }
+            } catch (optimizationError) {
+                console.warn('[File Upload] Image optimization failed, using original', {
+                    error: optimizationError instanceof Error ? optimizationError.message : String(optimizationError),
+                });
+                // Continue with original buffer if optimization fails
+            }
+        }
+
         // Use Cloud Storage in production, local filesystem in development
         const useCloudStorage = process.env.NODE_ENV === 'production' || process.env.USE_CLOUD_STORAGE === 'true';
         
         if (useCloudStorage) {
             console.log('[File Upload] Using Cloud Storage');
-            return await uploadImageToGCS(file, userEmail, subdirectory);
+            // Determine final extension and MIME type based on optimization
+            const finalExtension = wasOptimized ? 'webp' : fileExtension;
+            const finalMimeType = wasOptimized ? 'image/webp' : file.type;
+            
+            // Create a new File object with optimized buffer for GCS upload
+            const optimizedFile = new File([buffer], file.name.replace(/\.[^.]+$/, `.${finalExtension}`), {
+                type: finalMimeType,
+            });
+            return await uploadImageToGCS(optimizedFile, userEmail, subdirectory);
         }
 
         // Local filesystem fallback for development
@@ -72,9 +138,11 @@ export async function uploadImage(
         await mkdir(uploadsDir, { recursive: true });
 
         // Generate unique filename with timestamp and sanitized email
+        // Use .webp extension if image was optimized
+        const finalExtension = wasOptimized ? 'webp' : fileExtension;
         const timestamp = Date.now();
         const randomSuffix = Math.random().toString(36).substring(2, 8);
-        const filename = `${sanitizedEmail}_${timestamp}_${randomSuffix}.${fileExtension}`;
+        const filename = `${sanitizedEmail}_${timestamp}_${randomSuffix}.${finalExtension}`;
 
         // Use join to prevent path traversal attacks
         const filepath = join(uploadsDir, filename);
@@ -85,9 +153,7 @@ export async function uploadImage(
             return { success: false, error: "Invalid file path" };
         }
 
-        // Convert file to buffer and save
-        const bytes = await file.arrayBuffer();
-        const buffer = Buffer.from(bytes);
+        // Save optimized buffer
         await writeFile(resolvedPath, buffer);
 
         // Return the public URL

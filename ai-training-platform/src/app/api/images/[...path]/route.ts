@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../../auth/[...nextauth]/route";
 import { Storage } from "@google-cloud/storage";
+import sharp from "sharp";
 
 // Initialize Cloud Storage (uses ADC)
 let storage: Storage | null = null;
@@ -73,16 +74,103 @@ export async function GET(
 
     // Get file metadata to determine content type
     const [metadata] = await file.getMetadata();
-    const contentType = metadata.contentType || 'image/jpeg';
+    const originalContentType = metadata.contentType || 'image/jpeg';
 
     // Download file as buffer
     const [buffer] = await file.download();
 
-    // Return image with proper content type
-    return new NextResponse(buffer, {
+    // Parse query parameters for optimization
+    const { searchParams } = new URL(req.url);
+    const width = searchParams.get('w') ? parseInt(searchParams.get('w')!, 10) : null;
+    const height = searchParams.get('h') ? parseInt(searchParams.get('h')!, 10) : null;
+    const quality = searchParams.get('q') ? parseInt(searchParams.get('q')!, 10) : 85;
+    const format = searchParams.get('f') || 'webp'; // Default to WebP for better compression
+
+    // Check if image optimization is requested
+    const shouldOptimize = width || height || format !== 'original';
+
+    let optimizedBuffer: Buffer;
+    let finalContentType: string;
+
+    if (shouldOptimize && originalContentType.startsWith('image/')) {
+      try {
+        // Create sharp instance from buffer
+        let sharpInstance = sharp(buffer);
+
+        // Resize if dimensions specified
+        if (width || height) {
+          sharpInstance = sharpInstance.resize(width || undefined, height || undefined, {
+            fit: 'inside', // Maintain aspect ratio
+            withoutEnlargement: true, // Don't upscale small images
+          });
+        }
+
+        // Convert format and optimize
+        switch (format) {
+          case 'webp':
+            optimizedBuffer = await sharpInstance
+              .webp({ quality, effort: 4 }) // effort 4 = good balance of speed/compression
+              .toBuffer();
+            finalContentType = 'image/webp';
+            break;
+          case 'avif':
+            optimizedBuffer = await sharpInstance
+              .avif({ quality, effort: 4 })
+              .toBuffer();
+            finalContentType = 'image/avif';
+            break;
+          case 'jpeg':
+          case 'jpg':
+            optimizedBuffer = await sharpInstance
+              .jpeg({ quality, mozjpeg: true })
+              .toBuffer();
+            finalContentType = 'image/jpeg';
+            break;
+          case 'png':
+            optimizedBuffer = await sharpInstance
+              .png({ quality, compressionLevel: 9 })
+              .toBuffer();
+            finalContentType = 'image/png';
+            break;
+          default:
+            // If format not supported, just resize if needed
+            if (width || height) {
+              optimizedBuffer = await sharpInstance.toBuffer();
+            } else {
+              optimizedBuffer = buffer;
+            }
+            finalContentType = originalContentType;
+        }
+
+        console.log('[Image API] Image optimized', {
+          filepath,
+          originalSize: buffer.length,
+          optimizedSize: optimizedBuffer.length,
+          reduction: `${((1 - optimizedBuffer.length / buffer.length) * 100).toFixed(1)}%`,
+          format,
+          dimensions: width || height ? `${width || 'auto'}x${height || 'auto'}` : 'original',
+        });
+      } catch (optimizationError) {
+        console.warn('[Image API] Optimization failed, serving original', {
+          error: optimizationError instanceof Error ? optimizationError.message : String(optimizationError),
+          filepath,
+        });
+        // Fallback to original if optimization fails
+        optimizedBuffer = buffer;
+        finalContentType = originalContentType;
+      }
+    } else {
+      // No optimization requested, serve original
+      optimizedBuffer = buffer;
+      finalContentType = originalContentType;
+    }
+
+    // Return optimized image with proper content type
+    return new NextResponse(optimizedBuffer, {
       headers: {
-        'Content-Type': contentType,
+        'Content-Type': finalContentType,
         'Cache-Control': 'public, max-age=31536000, immutable', // Cache for 1 year
+        'X-Image-Optimized': shouldOptimize ? 'true' : 'false',
       },
     });
   } catch (error) {

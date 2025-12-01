@@ -64,9 +64,6 @@ const classIcons: Record<string, { icon: typeof Zap; color: string }> = {
   [CLASS_NAMES.SALES]: { icon: Target, color: "text-accent-sales-business" },
 };
 
-// Use CLASS_JOB_TITLES from role-mapping for consistency
-const classNames = CLASS_JOB_TITLES;
-
 export default function ProfilePage() {
   const router = useRouter();
   const [profile, setProfile] = useState<UserProfile | null>(null);
@@ -470,7 +467,7 @@ export default function ProfilePage() {
                       <ClassIcon className={`w-4 h-4 ${classColor}`} />
                       <span className={classColor}>{profile.selectedClass}</span>
                       <span className="text-content-tertiary">•</span>
-                      <span className="text-content-secondary">{classNames[profile.selectedClass as keyof typeof classNames] || profile.selectedClass}</span>
+                      <span className="text-content-secondary">{CLASS_JOB_TITLES[profile.selectedClass as keyof typeof CLASS_JOB_TITLES] || profile.selectedClass}</span>
                     </div>
                   )}
                 </div>
@@ -625,7 +622,7 @@ export default function ProfilePage() {
                     <div className="p-4 bg-surface-card border border-dashed border-border-primary rounded text-center">
                       <div className="text-content-secondary text-sm mono-text">No missions completed</div>
                       <Link
-                        href={profile?.selectedClass ? `/${classNames[profile.selectedClass as keyof typeof classNames]?.toLowerCase().replace(/ & /g, '-').replace(/ /g, '-')}` : '/class-selection'}
+                        href={profile?.selectedClass ? `/${CLASS_JOB_TITLES[profile.selectedClass as keyof typeof CLASS_JOB_TITLES]?.toLowerCase().replace(/ & /g, '-').replace(/ /g, '-')}` : '/class-selection'}
                         className="mt-2 inline-block text-accent-readable-cyan text-xs mono-label hover:underline"
                       >
                         Begin Training

@@ -178,6 +178,7 @@ export default async function ModulePage({ params }: { params: Promise<{ role: s
                                                 width={28}
                                                 height={28}
                                                 className="w-7 h-7 rounded-full object-cover"
+                                                unoptimized={(session.user.profile?.profileImage || session.user.image || '').startsWith('/api/images/')}
                                             />
                                         ) : (
                                             <span className="text-white text-xs font-semibold">

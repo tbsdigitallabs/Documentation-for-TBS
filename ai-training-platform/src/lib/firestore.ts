@@ -65,27 +65,30 @@ export async function upsertUser(user: Partial<StoredUser> & { email: string }):
     const existingDoc = await userRef.get();
     const existingData = existingDoc.exists ? (existingDoc.data() as StoredUser) : null;
 
-    const updatedUser: StoredUser = {
+    // Build user object, only including fields that are not undefined
+    const updatedUser: any = {
       id: user.id || user.email,
       email: user.email,
       name: user.name || existingData?.name || 'Anonymous',
-      selectedClass: user.selectedClass ?? existingData?.selectedClass,
       level: user.level ?? existingData?.level ?? 1,
       xp: user.xp ?? existingData?.xp ?? 0,
-      // Preserve existing values if not provided (using ?? operator)
-      // Convert undefined to null for Firestore compatibility
-      image: user.image ?? existingData?.image ?? null,
-      profileImage: user.profileImage ?? existingData?.profileImage ?? null,
-      cosmeticLoadout: user.cosmeticLoadout ?? existingData?.cosmeticLoadout ?? null,
       completedModules: (user as any).completedModules ?? existingData?.completedModules ?? [],
       lastUpdated: new Date().toISOString(),
     };
 
-    // Remove undefined values (Firestore doesn't allow undefined)
-    // Convert to object and filter out undefined properties
-    const cleanedUser = Object.fromEntries(
-      Object.entries(updatedUser).filter(([_, value]) => value !== undefined)
-    ) as StoredUser;
+    // Add optional fields only if they have values (avoid undefined)
+    if (user.selectedClass !== undefined || existingData?.selectedClass !== undefined) {
+      updatedUser.selectedClass = user.selectedClass ?? existingData?.selectedClass ?? null;
+    }
+    if (user.image !== undefined || existingData?.image !== undefined) {
+      updatedUser.image = user.image ?? existingData?.image ?? null;
+    }
+    if (user.profileImage !== undefined || existingData?.profileImage !== undefined) {
+      updatedUser.profileImage = user.profileImage ?? existingData?.profileImage ?? null;
+    }
+    if (user.cosmeticLoadout !== undefined || existingData?.cosmeticLoadout !== undefined) {
+      updatedUser.cosmeticLoadout = user.cosmeticLoadout ?? existingData?.cosmeticLoadout ?? null;
+    }
 
     // Preserve higher XP/level if not provided
     if (existingData) {
@@ -97,7 +100,7 @@ export async function upsertUser(user: Partial<StoredUser> & { email: string }):
       }
     }
 
-    await userRef.set(cleanedUser, { merge: true });
+    await userRef.set(cleanedUser, { merge: true, ignoreUndefinedProperties: true });
     return cleanedUser as StoredUser;
   } catch (error) {
     console.error('Error upserting user to Firestore:', error);

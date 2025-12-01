@@ -35,8 +35,22 @@ export async function GET(
     const resolvedParams = await params;
     const filepath = resolvedParams.path.join('/');
 
+    console.log('[Image API] Request received', {
+      pathArray: resolvedParams.path,
+      filepath,
+      filepathLength: filepath.length,
+      hasDotDot: filepath.includes('..'),
+      startsWithSlash: filepath.startsWith('/'),
+    });
+
     // Validate filepath (prevent path traversal)
     if (!filepath || filepath.includes('..') || filepath.startsWith('/')) {
+      console.error('[Image API] Invalid file path', {
+        filepath,
+        isEmpty: !filepath,
+        hasDotDot: filepath.includes('..'),
+        startsWithSlash: filepath.startsWith('/'),
+      });
       return NextResponse.json({ error: "Invalid file path" }, { status: 400 });
     }
 
@@ -47,7 +61,13 @@ export async function GET(
 
     // Check if file exists
     const [exists] = await file.exists();
+    console.log('[Image API] File check', {
+      filepath,
+      exists,
+      bucket: BUCKET_NAME,
+    });
     if (!exists) {
+      console.error('[Image API] File not found', { filepath, bucket: BUCKET_NAME });
       return NextResponse.json({ error: "File not found" }, { status: 404 });
     }
 
@@ -67,8 +87,16 @@ export async function GET(
     });
   } catch (error) {
     console.error('Error serving image:', error);
+    console.error('Error details:', {
+      name: error instanceof Error ? error.name : 'Unknown',
+      message: error instanceof Error ? error.message : String(error),
+      stack: error instanceof Error ? error.stack : undefined,
+    });
     return NextResponse.json(
-      { error: "Failed to serve image" },
+      { 
+        error: "Failed to serve image",
+        details: error instanceof Error ? error.message : String(error)
+      },
       { status: 500 }
     );
   }

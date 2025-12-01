@@ -414,11 +414,10 @@ export default function ProfilePage() {
     );
   }
 
-  // Only use blob URLs if we're in edit mode and haven't saved yet
-  // Otherwise, always prefer server URLs to prevent broken images after reload
-  const displayImage = editing && imagePreview && imagePreview.startsWith('blob:')
+  // Always prioritize imagePreview when editing, regardless of source (blob, data url, etc)
+  const displayImage = editing && imagePreview
     ? imagePreview
-    : (profile?.profileImage || profile?.image || imagePreview);
+    : (profile?.profileImage || profile?.image);
 
   // Debug logging for image display
   console.log('[Profile Display] displayImage:', displayImage);

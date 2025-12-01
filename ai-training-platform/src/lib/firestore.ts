@@ -100,6 +100,11 @@ export async function upsertUser(user: Partial<StoredUser> & { email: string }):
       }
     }
 
+    // Remove any remaining undefined values (Firestore doesn't allow undefined)
+    const cleanedUser = Object.fromEntries(
+      Object.entries(updatedUser).filter(([_, value]) => value !== undefined)
+    );
+
     await userRef.set(cleanedUser, { merge: true, ignoreUndefinedProperties: true });
     return cleanedUser as StoredUser;
   } catch (error) {

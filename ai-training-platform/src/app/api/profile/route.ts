@@ -214,9 +214,16 @@ export async function PUT(req: NextRequest) {
         const profileImageToSave = data.profileImage || validatedProfile.profileImage || existingUser?.profileImage || user.profile?.profileImage;
         const cosmeticLoadoutToSave = data.cosmeticLoadout || validatedProfile.cosmeticLoadout || existingUser?.cosmeticLoadout || user.profile?.cosmeticLoadout;
 
-        console.log('[Profile PUT] Saving profileImage:', profileImageToSave);
+        console.log('[Profile PUT] Saving profileImage');
         console.log('[Profile PUT] Request data.profileImage:', data.profileImage);
+        console.log('[Profile PUT] Request data.profileImage type:', typeof data.profileImage);
+        console.log('[Profile PUT] Request data.profileImage truthy:', !!data.profileImage);
         console.log('[Profile PUT] Validated profileImage:', validatedProfile.profileImage);
+        console.log('[Profile PUT] Existing user profileImage:', existingUser?.profileImage);
+        console.log('[Profile PUT] User profile profileImage:', user.profile?.profileImage);
+        console.log('[Profile PUT] Final profileImageToSave:', profileImageToSave);
+        console.log('[Profile PUT] Final profileImageToSave type:', typeof profileImageToSave);
+        console.log('[Profile PUT] Final profileImageToSave truthy:', !!profileImageToSave);
 
         // Save profile data to user store (including profileImage and cosmeticLoadout)
         upsertUser({

@@ -87,9 +87,9 @@ export function validateProfileData(data: unknown): ProfileData {
         experienceLevel: obj.experienceLevel
             ? sanitizeString(String(obj.experienceLevel), 50)
             : null,
-        profileImage: obj.profileImage
+        profileImage: obj.profileImage && String(obj.profileImage).trim()
             ? sanitizeString(String(obj.profileImage), 500)
-            : null,
+            : undefined, // Use undefined instead of null to allow fallback
     selectedClass: obj.selectedClass
       ? sanitizeString(String(obj.selectedClass), 100)
       : null,

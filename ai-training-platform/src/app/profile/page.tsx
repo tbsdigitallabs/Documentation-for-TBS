@@ -319,6 +319,9 @@ export default function ProfilePage() {
         }
       }
 
+      console.log('[Profile Save] Sending PUT request with profileImage:', imageUrl);
+      console.log('[Profile Save] editedProfile:', editedProfile);
+      
       const response = await fetch("/api/profile", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
@@ -327,6 +330,8 @@ export default function ProfilePage() {
           profileImage: imageUrl,
         }),
       });
+      
+      console.log('[Profile Save] PUT response status:', response.status);
 
       if (response.ok) {
         const updated = await response.json();
@@ -334,7 +339,7 @@ export default function ProfilePage() {
         console.log('[Profile Save] Updated profileImage from server:', updated.profileImage);
         console.log('[Profile Save] ImageUrl from upload:', imageUrl);
         console.log('[Profile Save] Has updated object:', !!updated);
-        
+
         // Update profileImage in the response to ensure it's set
         const finalProfileImage = imageUrl || updated.profileImage;
         console.log('[Profile Save] Final profile image URL:', finalProfileImage);
@@ -409,14 +414,14 @@ export default function ProfilePage() {
   const displayImage = editing && imagePreview && imagePreview.startsWith('blob:')
     ? imagePreview
     : (profile?.profileImage || profile?.image || imagePreview);
-  
+
   // Debug logging for image display
   console.log('[Profile Display] displayImage:', displayImage);
   console.log('[Profile Display] profile?.profileImage:', profile?.profileImage);
   console.log('[Profile Display] profile?.image:', profile?.image);
   console.log('[Profile Display] imagePreview:', imagePreview);
   console.log('[Profile Display] editing:', editing);
-  
+
   const ClassIcon = profile?.selectedClass ? classIcons[profile.selectedClass]?.icon || Zap : Zap;
   const classColor = profile?.selectedClass ? classIcons[profile.selectedClass]?.color || "text-accent-readable-cyan" : "text-accent-readable-cyan";
   const currentLevel = profile?.level || 1;

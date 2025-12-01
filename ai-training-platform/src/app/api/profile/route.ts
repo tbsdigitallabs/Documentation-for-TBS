@@ -255,16 +255,19 @@ export async function PUT(req: NextRequest) {
         console.log('[Profile PUT] Saved user profileImage:', savedUser?.profileImage);
 
         // Return updated profile data (including profileImage from user store)
+        // IMPORTANT: Don't spread validatedProfile.profileImage as it might be undefined/null
+        // Use the saved profileImage instead
+        const { profileImage: _, cosmeticLoadout: __, ...validatedProfileWithoutImages } = validatedProfile;
         return NextResponse.json({
             id: user.id,
             name: user.name,
             email: user.email,
             image: user.image,
-            ...validatedProfile,
+            ...validatedProfileWithoutImages,
             level: finalLevel,
             xp: finalXP,
-            profileImage: savedUser?.profileImage || profileImageToSave,
-            cosmeticLoadout: savedUser?.cosmeticLoadout || cosmeticLoadoutToSave,
+            profileImage: savedUser?.profileImage || profileImageToSave || undefined,
+            cosmeticLoadout: savedUser?.cosmeticLoadout || cosmeticLoadoutToSave || undefined,
             completedModules: existingUser?.completedModules || user.profile?.completedModules || [],
         });
     } catch (error) {

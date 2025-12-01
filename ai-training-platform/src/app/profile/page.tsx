@@ -334,11 +334,14 @@ export default function ProfilePage() {
       });
       
       console.log('[Profile Save] PUT response status:', response.status);
+      console.log('[Profile Save] PUT response ok:', response.ok);
 
       if (response.ok) {
         const updated = await response.json();
         console.log('[Profile Save] Response received');
+        console.log('[Profile Save] Full updated object:', JSON.stringify(updated, null, 2));
         console.log('[Profile Save] Updated profileImage from server:', updated.profileImage);
+        console.log('[Profile Save] Updated profileImage type:', typeof updated.profileImage);
         console.log('[Profile Save] ImageUrl from upload:', imageUrl);
         console.log('[Profile Save] Has updated object:', !!updated);
 

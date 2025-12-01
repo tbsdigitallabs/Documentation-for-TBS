@@ -66,13 +66,20 @@ export async function upsertUser(user: Partial<StoredUser> & { email: string }):
     const existingData = existingDoc.exists ? (existingDoc.data() as StoredUser) : null;
 
     // Build user object, only including fields that are not undefined
+    // CRITICAL: If completedModules is provided, use it (replace existing array)
+    // Otherwise, preserve existing completedModules
+    const providedCompletedModules = (user as any).completedModules;
+    const finalCompletedModules = providedCompletedModules !== undefined 
+      ? providedCompletedModules 
+      : (existingData?.completedModules ?? []);
+
     const updatedUser: any = {
       id: user.id || user.email,
       email: user.email,
       name: user.name || existingData?.name || 'Anonymous',
       level: user.level ?? existingData?.level ?? 1,
       xp: user.xp ?? existingData?.xp ?? 0,
-      completedModules: (user as any).completedModules ?? existingData?.completedModules ?? [],
+      completedModules: finalCompletedModules,
       lastUpdated: new Date().toISOString(),
     };
 

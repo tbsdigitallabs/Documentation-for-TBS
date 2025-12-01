@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import Logo from '@/components/Logo';
 import ThemeToggle from '@/components/ThemeToggle';
 import { User } from 'lucide-react';
@@ -20,9 +21,11 @@ export default function PageHeader({ session }: PageHeaderProps) {
             title="View Profile"
           >
             {session.user.profile?.profileImage || session.user.image ? (
-              <img
+              <Image
                 src={session.user.profile?.profileImage || session.user.image || ''}
                 alt={session.user.name || 'Profile'}
+                width={40}
+                height={40}
                 className="w-10 h-10 rounded-full object-cover"
               />
             ) : (

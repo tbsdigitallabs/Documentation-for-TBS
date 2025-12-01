@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../../auth/[...nextauth]/route";
-import { writeFile } from "fs/promises";
+import { readFile, writeFile } from "fs/promises";
 import { join } from "path";
 
 const EXCEPTION_EMAILS_FILE = join(process.cwd(), "config", "exception-emails.json");
@@ -24,7 +24,7 @@ async function getExceptionEmails(): Promise<string[]> {
     const data = await readFile(EXCEPTION_EMAILS_FILE, "utf-8");
     const parsed = JSON.parse(data);
     return Array.isArray(parsed) ? parsed : [];
-  } catch (error) {
+  } catch {
     // File doesn't exist, return default list
     return [
       'stephanie.maticevski@gmail.com',

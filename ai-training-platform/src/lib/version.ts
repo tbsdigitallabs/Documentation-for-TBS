@@ -20,9 +20,15 @@ export function getAppVersion(): string {
   if (kRevision) {
     // Extract revision number from revision name
     // Format: learninglab-XXXXX -> extract XXXXX
-    const match = kRevision.match(/-(\d+)$/);
+    // Also handle formats like: learninglab-00001-abc or just the number
+    const match = kRevision.match(/-(\d+)(?:-|$)/);
     if (match && match[1]) {
-      return `0.${match[1]}`;
+      const revisionNumber = match[1];
+      return `0.${revisionNumber}`;
+    }
+    // If K_REVISION is just a number, use it directly
+    if (/^\d+$/.test(kRevision)) {
+      return `0.${kRevision}`;
     }
   }
 

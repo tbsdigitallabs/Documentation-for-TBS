@@ -2,7 +2,7 @@ import NextAuth, { type NextAuthOptions } from "next-auth"
 import GoogleProvider from "next-auth/providers/google"
 import CredentialsProvider from "next-auth/providers/credentials"
 import "@/lib/env-validation"
-import { upsertUser, getUserByEmail } from "@/lib/user-store"
+import { upsertUser } from "@/lib/user-store"
 import { readFile } from "fs/promises"
 import { join } from "path"
 
@@ -15,14 +15,14 @@ async function getExceptionEmails(): Promise<string[]> {
   // In production, use cache; in development, check file more frequently
   const now = Date.now()
   const shouldRefresh = !exceptionEmailsCache || (now - cacheTimestamp > CACHE_TTL) || process.env.NODE_ENV === 'development'
-  
+
   if (shouldRefresh) {
     try {
       const configPath = join(process.cwd(), "config", "exception-emails.json")
       const data = await readFile(configPath, "utf-8")
       exceptionEmailsCache = JSON.parse(data)
       cacheTimestamp = now
-    } catch (error) {
+    } catch {
       // File doesn't exist or error reading, use default list
       exceptionEmailsCache = [
         'stephanie.maticevski@gmail.com',
@@ -32,7 +32,7 @@ async function getExceptionEmails(): Promise<string[]> {
       cacheTimestamp = now
     }
   }
-  
+
   return exceptionEmailsCache || []
 }
 
@@ -86,7 +86,7 @@ export const authOptions: NextAuthOptions = {
   providers,
   debug: false, // Disable debug mode to reduce connection issues
   callbacks: {
-    async signIn({ user, account, profile }) {
+    async signIn({ user, account }) {
       // Allow dev skip auth in development
       if (account?.provider === 'dev-skip') {
         return true
@@ -96,7 +96,7 @@ export const authOptions: NextAuthOptions = {
       if (user.email) {
         // Normalize email for comparison (lowercase, trim)
         const normalizedEmail = user.email.toLowerCase().trim();
-        
+
         // Exception for specific allowed users (read from config file)
         const allowedEmails = (await getExceptionEmails()).map(email => email.toLowerCase().trim());
 
@@ -145,15 +145,15 @@ export const authOptions: NextAuthOptions = {
         session.user.email = token.email || null
         session.user.name = token.name || null
         // DO NOT include token.picture/image in session - it can be large
-        
+
         // Add profile data from token to session - ABSOLUTE MINIMUM
         if (token.profile) {
           const profile = token.profile as any;
-          
+
           // Build absolute minimal profile - only include non-default values
           // For David, only include the flag and non-default values
           const sessionProfile: any = {};
-          
+
           if (profile.hasAllModulesCompleted) {
             // David: ONLY the flag - everything else fetched from user store
             sessionProfile.hasAllModulesCompleted = true;
@@ -176,13 +176,13 @@ export const authOptions: NextAuthOptions = {
               sessionProfile.completedModules = modules.slice(-1);
             }
           }
-          
+
           session.user.profile = sessionProfile;
-          
+
           // CRITICAL: DO NOT include profileImage or cosmeticLoadout in session
           // These can be fetched from user store via API if needed
         }
-        
+
         // Only include onboardingCompleted if it's true (skip false to save space)
         if (token.onboardingCompleted === true) {
           session.user.onboardingCompleted = true
@@ -195,24 +195,24 @@ export const authOptions: NextAuthOptions = {
       // This fixes 431 errors for users who can't log out
       const isDavid = token.email === 'david@thebigsmoke.com.au';
       const isDevUser = token.email === 'dev@tbsdigitallabs.com.au' || isDavid;
-      
+
       // Detect old token structure (has large arrays or unnecessary fields)
       const profile = (token.profile as any) || {};
-      const hasOldStructure = 
+      const hasOldStructure =
         (isDavid && (profile.level || profile.xp || profile.selectedClass || profile.completedModules)) ||
         (!isDavid && profile.completedModules && Array.isArray(profile.completedModules) && profile.completedModules.length > 1) ||
         profile.profileImage ||
         profile.cosmeticLoadout;
-      
+
       // If old structure detected, force migration to minimal format
       if (hasOldStructure && token.email) {
         console.log(`[JWT Migration] Detected old token structure for ${token.email}, migrating to minimal format`);
-        
+
         // Store full data in user store before clearing token
         try {
           const { upsertUser, getUserByEmail } = await import('@/lib/user-store');
           const storedUser = getUserByEmail(token.email);
-          
+
           // Preserve existing data from user store or token
           const existingModules = storedUser?.completedModules || profile.completedModules || [];
           const existingLevel = storedUser?.level || profile.level || (isDavid ? 10 : 1);
@@ -220,7 +220,7 @@ export const authOptions: NextAuthOptions = {
           const existingSelectedClass = storedUser?.selectedClass || profile.selectedClass;
           const existingProfileImage = storedUser?.profileImage || profile.profileImage;
           const existingCosmeticLoadout = storedUser?.cosmeticLoadout || profile.cosmeticLoadout;
-          
+
           // Store full data in user store
           upsertUser({
             email: token.email,
@@ -235,12 +235,12 @@ export const authOptions: NextAuthOptions = {
         } catch (storeError) {
           console.error('[JWT Migration] Error storing data in user store:', storeError);
         }
-        
+
         // Reset token to minimal format
         if (isDavid) {
           token.profile = {
             hasAllModulesCompleted: true,
-          };
+          } as any;
         } else {
           // For other users, keep only 1 most recent module if exists
           const modules = profile.completedModules || [];
@@ -252,7 +252,7 @@ export const authOptions: NextAuthOptions = {
           token.profile = minimalProfile;
         }
       }
-      
+
       // On first sign in, store user info in token
       if (account && user) {
         token.sub = user.id
@@ -267,12 +267,12 @@ export const authOptions: NextAuthOptions = {
         // Only include essential fields, no arrays, no optional fields
         const isDev = user.email === 'dev@tbsdigitallabs.com.au' || user.email === 'david@thebigsmoke.com.au';
         const isDavidNew = user.email === 'david@thebigsmoke.com.au';
-        
+
         if (isDavidNew) {
           // David: only the flag from the start
           token.profile = {
             hasAllModulesCompleted: true,
-          };
+          } as any;
         } else {
           token.profile = {
             level: isDev ? 10 : 1,
@@ -287,13 +287,13 @@ export const authOptions: NextAuthOptions = {
       // FORCE UPDATE for dev user to ensure max stats
       // Supports both standard dev email and specific user david@thebigsmoke.com.au
       // Note: isDavid and isDevUser already declared above for migration check
-      
+
       if (isDevUser || isDavid) {
         token.name = "SLAM";
-        
+
         // CRITICAL: For David, store modules in user store FIRST, then create minimal token
         // This prevents the large array from ever being in the JWT token
-        let completedModules: any[] = [];
+        const completedModules: any[] = [];
         if (isDavid) {
           // Store completedModules in user store BEFORE creating token profile
           // This ensures the large array never enters the JWT token
@@ -325,9 +325,9 @@ export const authOptions: NextAuthOptions = {
               modules: ['01-gtm-planning', '02-lead-gen-systems', '03-hubspot-hygiene', '04-automated-reporting']
             }
           };
-          
+
           let totalXP = 0;
-          
+
           // Add all foundation modules first (Session 0)
           const foundationModules = ['02-admin-automation', '03-ai-cybersecurity-best-practices', '04-ai-landscape-2025', 'sora-setup'];
           foundationModules.forEach(moduleSlug => {
@@ -335,7 +335,7 @@ export const authOptions: NextAuthOptions = {
             const moduleName = moduleSlug.replace(/^\d+-/, '').replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
             const xpEarned = 75;
             totalXP += xpEarned;
-            
+
             completedModules.push({
               moduleId,
               moduleName,
@@ -344,7 +344,7 @@ export const authOptions: NextAuthOptions = {
               quizScore: 10,
             });
           });
-          
+
           // Add all actual modules
           Object.values(roleModules).forEach(({ route, modules }) => {
             modules.forEach(moduleSlug => {
@@ -352,7 +352,7 @@ export const authOptions: NextAuthOptions = {
               const moduleName = moduleSlug.replace(/^\d+-/, '').replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
               const xpEarned = 75; // Max XP per module (50 base + 25 bonus for perfect quiz)
               totalXP += xpEarned;
-              
+
               completedModules.push({
                 moduleId,
                 moduleName,
@@ -362,21 +362,21 @@ export const authOptions: NextAuthOptions = {
               });
             });
           });
-          
+
           // Add more modules to reach exactly 10000 XP if needed
           // Each module gives 75 XP, we have ~22 modules = 1650 XP, need ~8350 more = ~111 more modules
           const allRoles = Object.keys(roleModules);
           const allModules = Object.values(roleModules).flatMap(r => r.modules);
-          
+
           while (totalXP < 10000) {
             const role = allRoles[Math.floor(Math.random() * allRoles.length)];
             const roleData = roleModules[role];
-            const module = roleData.modules[Math.floor(Math.random() * roleData.modules.length)];
-            const moduleId = `${roleData.route}/${module}-repeat-${Math.floor(Math.random() * 1000)}`;
-            const moduleName = `${module.replace(/^\d+-/, '').replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase())} (Advanced)`;
+            const moduleSlug = roleData.modules[Math.floor(Math.random() * roleData.modules.length)];
+            const moduleId = `${roleData.route}/${moduleSlug}-repeat-${Math.floor(Math.random() * 1000)}`;
+            const moduleName = `${moduleSlug.replace(/^\d+-/, '').replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase())} (Advanced)`;
             const xpEarned = 75;
             totalXP += xpEarned;
-            
+
             completedModules.push({
               moduleId,
               moduleName,
@@ -384,10 +384,10 @@ export const authOptions: NextAuthOptions = {
               xpEarned,
               quizScore: 10,
             });
-            
+
             if (completedModules.length > 200) break; // Safety limit
           }
-          
+
           // CRITICAL: Store completedModules in user store FIRST (before creating token)
           // This ensures the large array never enters the JWT token
           if (token.email) {
@@ -406,11 +406,11 @@ export const authOptions: NextAuthOptions = {
             }
           }
         }
-        
+
         // CRITICAL: Create ABSOLUTE MINIMAL token profile AFTER storing in user store
         // This ensures the large completedModules array never enters the JWT token
         const existingProfile = (token.profile as any) || {};
-        
+
         if (isDavid) {
           // David: ABSOLUTE MINIMUM - only the flag
           // Level and XP can be calculated from user store, don't store in token
@@ -418,32 +418,32 @@ export const authOptions: NextAuthOptions = {
             hasAllModulesCompleted: true,
             // NO level, NO xp, NO selectedClass, NO completedModules, NO profileImage, NO cosmeticLoadout
             // All other data fetched from user store on demand
-          };
+          } as any;
         } else {
           // Other users: absolute minimum - only level and xp if non-default
           const modules = (existingProfile.completedModules || []);
           const profile: any = {};
-          
+
           // Only include level if not default (1)
           if (existingProfile.level && existingProfile.level !== 1) {
             profile.level = existingProfile.level;
           }
-          
+
           // Only include xp if not zero
           if (existingProfile.xp && existingProfile.xp !== 0) {
             profile.xp = existingProfile.xp;
           }
-          
+
           // Only include selectedClass if it exists
           if (existingProfile.selectedClass) {
             profile.selectedClass = existingProfile.selectedClass;
           }
-          
+
           // Only include 1 most recent module if exists (absolute minimum)
           if (modules.length > 0) {
             profile.completedModules = modules.slice(-1);
           }
-          
+
           token.profile = profile;
         }
       }
@@ -452,46 +452,46 @@ export const authOptions: NextAuthOptions = {
       if (trigger === 'update' && sessionData) {
         if (sessionData.profile && typeof sessionData.profile === 'object') {
           const updatedProfile = { ...(token.profile as object || {}), ...sessionData.profile };
-          
+
           // CRITICAL: Limit completedModules in JWT to prevent 431 errors
           // Store only the 3 most recent modules in JWT (reduced to prevent 431), rest in user store
           const allModules = (updatedProfile as any).completedModules || [];
-          
+
           // Build absolute minimal profile for JWT - only include non-default values
           const minimalUpdatedProfile: any = {};
-          
+
           // Only include level if not default (1)
           const level = (updatedProfile as any).level;
           if (level && level !== 1) {
             minimalUpdatedProfile.level = level;
           }
-          
+
           // Only include xp if not zero
           const xp = (updatedProfile as any).xp;
           if (xp && xp !== 0) {
             minimalUpdatedProfile.xp = xp;
           }
-          
+
           // Only include selectedClass if it exists
           const selectedClass = (updatedProfile as any).selectedClass;
           if (selectedClass) {
             minimalUpdatedProfile.selectedClass = selectedClass;
           }
-          
+
           // Handle completedModules - limit to 1 most recent (absolute minimum)
           if (allModules.length > 0) {
             minimalUpdatedProfile.completedModules = allModules.slice(-1);
           }
-          
+
           // Include flag if present
           if ((updatedProfile as any).hasAllModulesCompleted) {
             minimalUpdatedProfile.hasAllModulesCompleted = true;
           }
-          
+
           // CRITICAL: Skip profileImage and cosmeticLoadout entirely from JWT - they can be large
           // Store profileImage in user store instead to prevent 431 errors
           // Fetch from user store via API if needed
-          
+
           // Store profileImage and other data in user store if email is available
           if (token.email) {
             try {
@@ -509,7 +509,7 @@ export const authOptions: NextAuthOptions = {
               console.error('Error storing profile data in user store:', storeError);
             }
           }
-          
+
           token.profile = minimalUpdatedProfile;
         }
         if (sessionData.onboardingCompleted !== undefined) {
@@ -538,7 +538,7 @@ export const authOptions: NextAuthOptions = {
   },
   cookies: {
     sessionToken: {
-      name: process.env.NEXTAUTH_URL?.startsWith('https://') 
+      name: process.env.NEXTAUTH_URL?.startsWith('https://')
         ? `__Secure-next-auth.session-token`
         : `next-auth.session-token`,
       options: {

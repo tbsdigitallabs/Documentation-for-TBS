@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronLeft, ChevronRight, CheckCircle, Layers, ArrowRight } from 'lucide-react';
+import Image from 'next/image';
 import { MDXRemote } from 'next-mdx-remote';
 import { serialize } from 'next-mdx-remote/serialize';
 
@@ -46,8 +47,11 @@ const components = {
     ),
     img: (props: any) => (
         <div className="my-3 md:my-4 rounded-lg md:rounded-xl overflow-hidden border border-white/10 shadow-lg bg-black/20">
-            <img
+            <Image
                 className="w-full h-auto max-h-[300px] md:max-h-[400px] object-contain mx-auto"
+                width={800}
+                height={400}
+                alt={props.alt || 'Module image'}
                 {...props}
             />
         </div>
@@ -162,9 +166,11 @@ export function ModulePresentation({ content, onComplete }: ModulePresentationPr
                                 <div className="space-y-4">
                                     {/* Image - Full width at top */}
                                     <div className="rounded-xl overflow-hidden border border-white/10 shadow-lg bg-black/10 flex items-center justify-center max-w-2xl mx-auto lg:float-right lg:ml-6 lg:mb-4 lg:w-[40%] lg:max-w-md">
-                                        <img
+                                        <Image
                                             src={currentSlideData.image.src}
-                                            alt={currentSlideData.image.alt}
+                                            alt={currentSlideData.image.alt || 'Module image'}
+                                            width={400}
+                                            height={280}
                                             className="w-full h-auto max-h-[280px] object-contain"
                                         />
                                     </div>

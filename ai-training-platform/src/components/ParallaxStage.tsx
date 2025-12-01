@@ -10,6 +10,19 @@ interface ParallaxStageProps {
   disabled?: boolean;
 }
 
+// Static lookup tables - moved outside component to prevent recreation on every render
+const speedClasses = {
+  slow: 'transform-gpu',
+  normal: 'transform-gpu',
+  fast: 'transform-gpu'
+};
+
+const speedValues = {
+  slow: 0.5,
+  normal: 1,
+  fast: 1.5
+};
+
 export function ParallaxStage({ 
   children, 
   className,
@@ -17,18 +30,6 @@ export function ParallaxStage({
   disabled = false
 }: ParallaxStageProps) {
   const stageRef = useRef<HTMLDivElement>(null);
-
-  const speedClasses = {
-    slow: 'transform-gpu',
-    normal: 'transform-gpu',
-    fast: 'transform-gpu'
-  };
-
-  const speedValues = {
-    slow: 0.5,
-    normal: 1,
-    fast: 1.5
-  };
 
   useEffect(() => {
     if (disabled || typeof window === 'undefined') return;

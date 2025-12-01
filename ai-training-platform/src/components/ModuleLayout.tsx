@@ -32,7 +32,7 @@ export default function ModuleLayout({
     estimatedTime,
     progress = 0,
 }: ModuleLayoutProps) {
-    const { theme } = useTheme();
+    // theme removed - not used
 
     const roleAccentMap: Record<string, string> = {
         Developer: 'bg-accent-developers',

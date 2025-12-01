@@ -1,7 +1,6 @@
 "use client";
 
 import React from 'react';
-import Image from 'next/image';
 import { ArrowLeft, Bell, Layers, Cpu, Code, Network, Brain, Sparkles } from 'lucide-react';
 import { GlassCard } from '@/components/ui/GlassCard';
 import { useParams } from 'next/navigation';

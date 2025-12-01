@@ -3,11 +3,12 @@ import { Container } from './Container';
 import { Section } from './Section';
 import { Heading } from './Heading';
 import { FeatureCard } from './FeatureCard';
+import type { LucideIcon } from 'lucide-react';
 
 interface Feature {
   title: string;
   description: string;
-  icon: string;
+  icon: LucideIcon;
 }
 
 interface FeaturesSectionProps {
@@ -20,8 +21,7 @@ interface FeaturesSectionProps {
 export function FeaturesSection({
   title,
   description,
-  features,
-  className
+  features
 }: FeaturesSectionProps) {
   return (
     <Section size="lg" className="bg-surface-secondary">

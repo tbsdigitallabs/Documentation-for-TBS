@@ -9,18 +9,11 @@ interface DavidToastProps {
   duration?: number;
 }
 
+// Default export for layout.tsx (placeholder component)
 export default function DavidToast() {
   // This component is a placeholder for the global toast container
-  // The actual toast logic is managed by a global state (e.g. Context or Event Bus)
-  // For now, returning null to satisfy the build, as the layout expects a component.
-  // The original implementation was taking props which layout.tsx wasn't providing.
+  // The actual toast logic is managed by ToastContext
   return null;
-}
-
-interface DavidToastProps {
-  message: string;
-  onClose: () => void;
-  duration?: number;
 }
 
 export function ToastMessage({ message, onClose, duration = 4000 }: DavidToastProps) {
@@ -64,6 +57,9 @@ export function ToastMessage({ message, onClose, duration = 4000 }: DavidToastPr
     </div>
   );
 }
+
+// Named export as DavidToast for ToastContext (alias for ToastMessage)
+export { ToastMessage as DavidToast };
 
 // Encouragement messages for different achievements
 export const ENCOURAGEMENT_MESSAGES = {

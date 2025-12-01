@@ -23,8 +23,7 @@ export function CTASection({
   title,
   description,
   primaryAction,
-  secondaryAction,
-  className
+  secondaryAction
 }: CTASectionProps) {
   return (
     <Section size="md" className="bg-surface-primary">

@@ -1,6 +1,7 @@
 "use client";
 
 import { cn } from '@/lib/utils';
+import Image from 'next/image';
 import { User } from 'lucide-react';
 
 type FrameStyle = 'starter' | 'bronze' | 'silver' | 'gold' | 'platinum' | 'animated' | 'legendary';
@@ -46,9 +47,9 @@ export function AvatarFrame({
       effectStyle && `effect-${effectStyle}`,
       className
     )}>
-      <div className="char-avatar-inner">
+      <div className="char-avatar-inner relative">
         {src ? (
-          <img src={src} alt={alt} className="w-full h-full object-cover" />
+          <Image src={src} alt={alt || 'Avatar'} fill className="object-cover" />
         ) : (
           <div className="w-full h-full flex items-center justify-center bg-gradient-to-b from-accent-sage-100 to-accent-magenta-100 dark:from-accent-sage-500/10 dark:to-accent-magenta-500/10">
             <User className="w-1/2 h-1/2 text-accent-sage-400 dark:text-accent-sage-500/40" />

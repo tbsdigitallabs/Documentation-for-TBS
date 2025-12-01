@@ -1,6 +1,7 @@
 "use client";
 
 import Link from 'next/link';
+import Image from 'next/image';
 import Logo from '@/components/Logo';
 import ThemeToggle from '@/components/ThemeToggle';
 import { User, LogOut, ChevronDown } from 'lucide-react';
@@ -37,9 +38,11 @@ export default function ClientPageHeader() {
               className="flex items-center gap-2 px-2 py-1 rounded-full bg-surface-secondary hover:bg-surface-hover transition-colors text-content-secondary hover:text-content-primary"
             >
               {session.user.profile?.profileImage || session.user.image ? (
-                <img
+                <Image
                   src={session.user.profile?.profileImage || session.user.image || ''}
                   alt={session.user.name || 'Profile'}
+                  width={32}
+                  height={32}
                   className="w-8 h-8 rounded-full object-cover"
                 />
               ) : (

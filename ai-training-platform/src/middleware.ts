@@ -5,7 +5,7 @@ import { NextResponse, NextRequest } from "next/server";
 const isDevWithoutAuth = process.env.NODE_ENV === 'development' && !process.env.NEXTAUTH_SECRET;
 
 export default isDevWithoutAuth
-  ? async function middleware(req: NextRequest) {
+  ? async function middleware(_req: NextRequest) {
     // Simple middleware for dev without auth - just set CSP and allow all routes
     const response = NextResponse.next();
     response.headers.set(

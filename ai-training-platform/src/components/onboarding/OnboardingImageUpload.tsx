@@ -1,6 +1,7 @@
 "use client";
 
 import { Upload, Loader2, Sparkles } from "lucide-react";
+import Image from "next/image";
 import { useState } from "react";
 
 interface OnboardingImageUploadProps {
@@ -84,9 +85,11 @@ export default function OnboardingImageUpload({
       ) : (
         <div className="space-y-4">
           <div className="relative w-48 h-48 mx-auto rounded-full overflow-hidden border-4 border-cyber-cyan">
-            <img
+            <Image
               src={imagePreview}
               alt="Profile preview"
+              width={192}
+              height={192}
               className="w-full h-full object-cover"
             />
           </div>

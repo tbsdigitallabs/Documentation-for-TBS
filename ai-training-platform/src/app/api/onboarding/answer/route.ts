@@ -17,7 +17,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Question ID and answer are required" }, { status: 400 });
     }
 
-    let updatedProfile = { ...(currentData || {}) };
+    const updatedProfile = { ...(currentData || {}) };
 
     // Process answer based on question ID
     if (questionId === "class") {

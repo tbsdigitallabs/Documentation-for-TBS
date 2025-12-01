@@ -7,7 +7,7 @@ import { getUserByEmail } from "@/lib/user-store";
  * API endpoint to fetch full completedModules list from user store
  * This prevents storing all modules in JWT token (which causes 431 errors)
  */
-export async function GET(req: NextRequest) {
+export async function GET(_req: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
     if (!session?.user?.email) {

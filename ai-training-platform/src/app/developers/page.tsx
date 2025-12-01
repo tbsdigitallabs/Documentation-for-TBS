@@ -86,7 +86,7 @@ export default async function DevelopersPage() {
         if (mods.length > 0) {
           otherModules.push({ class: classInfo, modules: mods });
         }
-      } catch (e) {
+      } catch (_e) {
         // Skip if role doesn't exist
       }
     }

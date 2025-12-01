@@ -14,7 +14,7 @@ export function Heading({
   level = 1,
   size 
 }: HeadingProps) {
-  const Component = `h${level}` as keyof JSX.IntrinsicElements;
+  const Component = `h${level}` as React.ElementType;
   
   const sizeClasses = {
     sm: level === 1 ? 'text-3xl' : level === 2 ? 'text-2xl' : 'text-xl',

@@ -2,10 +2,9 @@
 
 export const dynamic = 'force-dynamic';
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
-import { Loader2 } from "lucide-react";
 import ClientPageHeader from "@/components/ClientPageHeader";
 import { getClassRoute, CLASS_NAMES, CLASS_JOB_TITLES } from "@/lib/role-mapping";
 import type { OnboardingQuestion } from "@/app/api/onboarding/questions/route";
@@ -41,16 +40,7 @@ export default function OnboardingPage() {
         setMounted(true);
     }, []);
 
-    useEffect(() => {
-        if (!mounted) return;
-        if (status === "unauthenticated") {
-            router.push("/auth/signin");
-        } else if (status === "authenticated" && session) {
-            startOnboarding();
-        }
-    }, [mounted, status, session, router]);
-
-    const startOnboarding = async () => {
+    const startOnboarding = useCallback(async () => {
         setLoading(true);
         try {
             const response = await fetch("/api/onboarding/questions", {
@@ -116,7 +106,16 @@ export default function OnboardingPage() {
         } finally {
             setLoading(false);
         }
-    };
+    }, [session]);
+
+    useEffect(() => {
+        if (!mounted) return;
+        if (status === "unauthenticated") {
+            router.push("/auth/signin");
+        } else if (status === "authenticated" && session) {
+            startOnboarding();
+        }
+    }, [mounted, status, session, router, startOnboarding]);
 
     const handleAnswerSubmit = async () => {
         const currentQuestion = questions[currentQuestionIndex];

@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "../../auth/[...nextauth]/route";
 import { calculateLevel } from "@/lib/levelling";
 import { upsertUser, getUserByEmail } from "@/lib/user-store";
+import type { CosmeticLoadout } from "@/lib/levelling";
 
 /**
  * Award XP when a module is completed
@@ -129,7 +130,7 @@ export async function POST(req: NextRequest) {
           xp: newXP,
           image: session.user.profile?.profileImage || session.user.image || undefined,
           profileImage: session.user.profile?.profileImage,
-          cosmeticLoadout: session.user.profile?.cosmeticLoadout || existingUser?.cosmeticLoadout,
+          cosmeticLoadout: (session.user.profile as { cosmeticLoadout?: CosmeticLoadout | null } | undefined)?.cosmeticLoadout || existingUser?.cosmeticLoadout,
           completedModules: updatedCompletedModules, // Store FULL list in user store
         } as any);
       } catch (error) {

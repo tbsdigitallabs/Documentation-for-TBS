@@ -1,4 +1,4 @@
-import { getAllModules } from '@/lib/mdx';
+import { getAllModules, type ModuleMetadata } from '@/lib/mdx';
 import { Coins } from 'lucide-react';
 import { Heading } from '@/components/Heading';
 import { Section } from '@/components/Section';
@@ -51,7 +51,7 @@ export default async function SalesBusinessDevPage() {
     }
   }
   
-  let modules;
+  let modules: ModuleMetadata[];
   try {
     modules = getAllModules('sales');
   } catch (error) {
@@ -70,7 +70,7 @@ export default async function SalesBusinessDevPage() {
         if (mods.length > 0) {
           otherModules.push({ class: classInfo, modules: mods });
         }
-      } catch (e) {
+      } catch (_e) {
         // Skip if role doesn't exist
       }
     }

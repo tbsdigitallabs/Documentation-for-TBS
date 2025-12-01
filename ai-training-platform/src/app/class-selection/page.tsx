@@ -148,14 +148,8 @@ export default function ClassSelectionPage() {
                                     const Icon = classIcons[classItem.name] || BookOpen;
                                     const accentColor = classColors[classItem.name] || "var(--accent-magenta-500)";
                                     const isSelected = selectedClass === classItem.name;
-                                    // Force Cyberpunk names regardless of what constants.ts returns
-                                    let displayName = classItem.name;
-                                    // Check for both legacy keys and old DND names
-                                    if (displayName === "Developers" || displayName === "Artificer") displayName = "Netrunner";
-                                    if (displayName === "Designers" || displayName === "Bard") displayName = "Artisan";
-                                    if (displayName === "Project Managers" || displayName === "Paladin") displayName = "Fixer";
-                                    if (displayName === "Content Creators" || displayName === "Storyteller") displayName = "Media";
-                                    if (displayName === "Sales" || displayName === "Rogue") displayName = "Face";
+                                    // classItem.name is already the correct ClassName type (Netrunner, Artisan, etc.)
+                                    const displayName = classItem.name;
 
                                     return (
                                         <button

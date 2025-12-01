@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { Plus, Trash2, Save, X } from "lucide-react";
+import { Plus, Trash2, Save } from "lucide-react";
 import ClientPageHeader from "@/components/ClientPageHeader";
 import { Container } from "@/components/Container";
 
@@ -31,12 +31,12 @@ export default function AdminPage() {
         email.endsWith('@tbsdigitallabs.com') ||
         email.endsWith('@tbsdigitallabs.com.au')
       );
-      
+
       if (!isAdmin) {
         router.push("/");
         return;
       }
-      
+
       fetchEmails();
     }
   }, [status, session, router]);
@@ -60,18 +60,18 @@ export default function AdminPage() {
 
   const handleAddEmail = () => {
     if (!newEmail.trim()) return;
-    
+
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(newEmail.trim())) {
       setError("Invalid email format");
       return;
     }
-    
+
     if (emails.includes(newEmail.trim())) {
       setError("Email already in list");
       return;
     }
-    
+
     setEmails([...emails, newEmail.trim()]);
     setNewEmail("");
     setError(null);
@@ -86,14 +86,14 @@ export default function AdminPage() {
     setSaving(true);
     setError(null);
     setSuccess(false);
-    
+
     try {
       const response = await fetch("/api/admin/exception-emails", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ emails }),
       });
-      
+
       if (response.ok) {
         setSuccess(true);
         setTimeout(() => setSuccess(false), 3000);
@@ -123,7 +123,7 @@ export default function AdminPage() {
   return (
     <div className="min-h-screen bg-gradient-surface">
       <ClientPageHeader />
-      
+
       <main className="pt-20 pb-8 px-4 md:px-8 lg:px-12">
         <Container>
           <div className="max-w-4xl mx-auto">
@@ -213,8 +213,8 @@ export default function AdminPage() {
 
               <div className="mt-6 p-4 bg-surface-tertiary border border-border-primary rounded">
                 <p className="text-content-secondary mono-text text-xs">
-                  <strong className="text-content-primary">Note:</strong> Changes to exception emails are saved to the configuration file. 
-                  The authentication system will use these emails on the next request. If changes don't appear immediately, 
+                  <strong className="text-content-primary">Note:</strong> Changes to exception emails are saved to the configuration file.
+                  The authentication system will use these emails on the next request. If changes don't appear immediately,
                   a server restart may be required.
                 </p>
               </div>

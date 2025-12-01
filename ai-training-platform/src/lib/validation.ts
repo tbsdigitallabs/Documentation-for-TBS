@@ -2,6 +2,8 @@
  * Input validation utilities
  */
 
+import type { CosmeticLoadout } from './levelling';
+
 // Maximum lengths for various fields
 export const MAX_LENGTHS = {
     bio: 500,
@@ -64,6 +66,7 @@ export interface ProfileData {
   selectedClass?: string | null;
   hobbies?: string | null;
   systems?: string | null;
+  cosmeticLoadout?: CosmeticLoadout | null;
 }
 
 export function validateProfileData(data: unknown): ProfileData {

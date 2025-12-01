@@ -1,6 +1,7 @@
 import { getModuleBySlug, getModuleSlugs } from '@/lib/mdx';
 import Link from 'next/link';
-import { notFound, redirect } from 'next/navigation';
+import Image from 'next/image';
+import { notFound } from 'next/navigation';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import ThemeToggle from '@/components/ThemeToggle';
@@ -171,9 +172,11 @@ export default async function ModulePage({ params }: { params: Promise<{ role: s
                                         title="View Profile"
                                     >
                                         {session.user.profile?.profileImage || session.user.image ? (
-                                            <img
+                                            <Image
                                                 src={session.user.profile?.profileImage || session.user.image || ''}
                                                 alt={session.user.name || 'Profile'}
+                                                width={28}
+                                                height={28}
                                                 className="w-7 h-7 rounded-full object-cover"
                                             />
                                         ) : (

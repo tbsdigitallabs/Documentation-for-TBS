@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { Edit2, Save, X, Upload, Sparkles, Zap, Shield, Target, Brain, Cpu, Terminal, Loader2 } from "lucide-react";
@@ -53,6 +53,7 @@ interface UserProfile {
   level?: number;
   xp?: number;
   completedModules?: CompletedModule[];
+  cosmeticLoadout?: CosmeticLoadout | null;
 }
 
 const classIcons: Record<string, { icon: typeof Zap; color: string }> = {
@@ -93,9 +94,9 @@ export default function ProfilePage() {
     } else if (status === "authenticated" && session) {
       fetchProfile();
     }
-  }, [status, session, router]);
+  }, [status, session, router, fetchProfile]);
 
-  const fetchProfile = async () => {
+  const fetchProfile = useCallback(async () => {
     try {
       const response = await fetch("/api/profile");
       if (response.ok) {
@@ -108,8 +109,11 @@ export default function ProfilePage() {
         // Load cosmetic loadout from profile if available
         if (data.cosmeticLoadout) {
           setCosmeticLoadout(data.cosmeticLoadout);
-        } else if (session?.user?.profile?.cosmeticLoadout) {
-          setCosmeticLoadout(session.user.profile.cosmeticLoadout);
+        } else if (session?.user?.profile) {
+          const profileWithCosmetics = session.user.profile as UserProfile;
+          if (profileWithCosmetics.cosmeticLoadout) {
+            setCosmeticLoadout(profileWithCosmetics.cosmeticLoadout);
+          }
         }
       }
     } catch (error) {
@@ -117,7 +121,7 @@ export default function ProfilePage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [session]);
 
   const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -466,7 +470,7 @@ export default function ProfilePage() {
                       <ClassIcon className={`w-4 h-4 ${classColor}`} />
                       <span className={classColor}>{profile.selectedClass}</span>
                       <span className="text-content-tertiary">•</span>
-                      <span className="text-content-secondary">{classNames[profile.selectedClass]}</span>
+                      <span className="text-content-secondary">{classNames[profile.selectedClass as keyof typeof classNames] || profile.selectedClass}</span>
                     </div>
                   )}
                 </div>
@@ -621,7 +625,7 @@ export default function ProfilePage() {
                     <div className="p-4 bg-surface-card border border-dashed border-border-primary rounded text-center">
                       <div className="text-content-secondary text-sm mono-text">No missions completed</div>
                       <Link
-                        href={profile?.selectedClass ? `/${classNames[profile.selectedClass]?.toLowerCase().replace(/ & /g, '-').replace(/ /g, '-')}` : '/class-selection'}
+                        href={profile?.selectedClass ? `/${classNames[profile.selectedClass as keyof typeof classNames]?.toLowerCase().replace(/ & /g, '-').replace(/ /g, '-')}` : '/class-selection'}
                         className="mt-2 inline-block text-accent-readable-cyan text-xs mono-label hover:underline"
                       >
                         Begin Training

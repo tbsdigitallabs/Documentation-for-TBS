@@ -4,6 +4,7 @@ import { authOptions } from "../auth/[...nextauth]/route";
 import { validateProfileData } from "@/lib/validation";
 import { calculateLevel } from "@/lib/levelling";
 import { getUserByEmail, upsertUser } from "@/lib/user-store";
+import type { CosmeticLoadout } from "@/lib/levelling";
 
 interface CompletedModule {
     moduleId: string;
@@ -30,6 +31,7 @@ interface SessionUser {
         level?: number;
         xp?: number;
         completedModules?: CompletedModule[];
+        cosmeticLoadout?: CosmeticLoadout | null;
     };
 }
 

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import { cn } from '@/lib/utils';
 import { motion, useMotionTemplate, useMotionValue, useSpring } from 'framer-motion';
 
@@ -15,7 +15,7 @@ export function HoloCard({
   className,
   role
 }: HoloCardProps) {
-  const ref = useRef<HTMLDivElement>(null);
+  // ref removed - not used
 
   const x = useMotionValue(0);
   const y = useMotionValue(0);

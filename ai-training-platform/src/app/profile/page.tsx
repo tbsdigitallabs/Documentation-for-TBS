@@ -26,6 +26,7 @@ import {
 import { getXPForNextLevel, getLevelProgress, getExperienceLevelName, getUnlockedRewards, getNextReward, MAX_LEVEL, XP_THRESHOLDS, COSMETIC_REWARDS, TITLES, DEFAULT_LOADOUT, type CosmeticLoadout } from "@/lib/levelling";
 import Cropper from 'react-easy-crop';
 import getCroppedImg from '@/lib/image-utils';
+import { uploadImageFromSource } from '@/lib/file-upload';
 
 export const dynamic = 'force-dynamic';
 
@@ -285,22 +286,24 @@ export default function ProfilePage() {
         URL.revokeObjectURL(imagePreview);
       }
 
-      if (imageFile) {
-        const formData = new FormData();
-        formData.append("image", imageFile);
-        const uploadResponse = await fetch("/api/profile/upload-image", {
-          method: "POST",
-          body: formData,
+      // Upload image from either imageFile or imagePreview (handles File, data URL, blob URL, or server URL)
+      const imageSource = imageFile || imagePreview || null;
+      if (imageSource) {
+        console.log('[Profile Save] Uploading image', { 
+          hasImageFile: !!imageFile, 
+          hasImagePreview: !!imagePreview,
+          previewType: imagePreview ? (imagePreview.startsWith('data:') ? 'data' : imagePreview.startsWith('blob:') ? 'blob' : imagePreview.startsWith('/uploads/') ? 'server' : 'unknown') : null
         });
-        if (uploadResponse.ok) {
-          const uploadData = await uploadResponse.json();
-          imageUrl = uploadData.imageUrl;
-          // Immediately update preview to server URL (not blob URL)
-          if (imageUrl) {
-            setImagePreview(imageUrl);
-          }
+        
+        const uploadResult = await uploadImageFromSource(imageSource, "/api/profile/upload-image");
+        
+        if (uploadResult.success && uploadResult.imageUrl) {
+          imageUrl = uploadResult.imageUrl;
+          console.log('[Profile Save] Image uploaded successfully', { imageUrl });
+          // Update preview to server URL (not blob/data URL)
+          setImagePreview(imageUrl);
         } else {
-          console.error("Failed to upload image");
+          console.error("[Profile Save] Failed to upload image", uploadResult.error);
           setLoading(false);
           return;
         }

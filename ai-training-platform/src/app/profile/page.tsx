@@ -136,7 +136,11 @@ export default function ProfilePage() {
       setProfile(data);
       setEditedProfile(data);
       if (data.profileImage) {
+        console.log('[Profile] Setting imagePreview from fetched data', { profileImage: data.profileImage });
         setImagePreview(data.profileImage);
+      } else {
+        // Clear imagePreview if no profileImage
+        setImagePreview(null);
       }
       // Load cosmetic loadout from profile if available
       if (data.cosmeticLoadout) {
@@ -320,8 +324,15 @@ export default function ProfilePage() {
 
       if (response.ok) {
         const updated = await response.json();
+        console.log('[Profile Save] Response received', { 
+          updatedProfileImage: updated.profileImage,
+          imageUrl,
+          hasUpdated: !!updated
+        });
+        
         // Update profileImage in the response to ensure it's set
         const finalProfileImage = imageUrl || updated.profileImage;
+        console.log('[Profile Save] Final profile image', { finalProfileImage });
 
         setProfile({
           ...updated,
@@ -329,8 +340,11 @@ export default function ProfilePage() {
         });
 
         // CRITICAL: Always use server URL, never blob URL for persistence
-        if (finalProfileImage && !finalProfileImage.startsWith('blob:')) {
+        // Also clear imageFile since it's been uploaded
+        if (finalProfileImage && !finalProfileImage.startsWith('blob:') && !finalProfileImage.startsWith('data:')) {
           setImagePreview(finalProfileImage);
+          setImageFile(null); // Clear the file since it's been uploaded
+          console.log('[Profile Save] Set imagePreview to server URL', { finalProfileImage });
         }
 
         // Update session with the new profile data including image and cosmetic loadout

@@ -47,9 +47,18 @@ export function AvatarFrame({
       effectStyle && `effect-${effectStyle}`,
       className
     )}>
-      <div className="char-avatar-inner relative">
+      <div className="char-avatar-inner relative w-full aspect-square">
         {src ? (
-          <Image src={src} alt={alt || 'Avatar'} fill className="object-cover" />
+          <Image 
+            src={src} 
+            alt={alt || 'Avatar'} 
+            fill 
+            className="object-cover" 
+            unoptimized={src.startsWith('data:') || src.startsWith('blob:')}
+            onError={(e) => {
+              console.error('[AvatarFrame] Image load error:', src, e);
+            }}
+          />
         ) : (
           <div className="w-full h-full flex items-center justify-center bg-gradient-to-b from-accent-sage-100 to-accent-magenta-100 dark:from-accent-sage-500/10 dark:to-accent-magenta-500/10">
             <User className="w-1/2 h-1/2 text-accent-sage-400 dark:text-accent-sage-500/40" />

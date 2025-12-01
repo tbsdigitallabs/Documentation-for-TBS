@@ -151,12 +151,15 @@ export async function GET() {
         console.log('[Profile API] hasCosmeticLoadout:', !!cosmeticLoadout);
         console.log('[Profile API] totalTime:', `${totalTime}ms`);
         
+        // Don't spread profile.profileImage or profile.cosmeticLoadout as they might be null/undefined
+        // Set them explicitly from the user store values
+        const { profileImage: _, cosmeticLoadout: __, ...profileWithoutImages } = profile;
         const responseData = {
             id: user.id,
             name: user.name,
             email: user.email,
             image: user.image,
-            ...profile,
+            ...profileWithoutImages,
             xp: finalXP,
             level: finalLevel,
             completedModules: completedModules,

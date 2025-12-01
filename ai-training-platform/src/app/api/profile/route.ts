@@ -36,9 +36,23 @@ interface SessionUser {
 }
 
 export async function GET() {
+    console.log('[Profile API] GET request received');
+    const startTime = Date.now();
+    
     try {
+        console.log('[Profile API] Fetching session...');
+        const sessionStartTime = Date.now();
         const session = await getServerSession(authOptions);
+        const sessionTime = Date.now() - sessionStartTime;
+        console.log('[Profile API] Session fetched', { 
+            hasSession: !!session, 
+            hasUser: !!session?.user, 
+            email: session?.user?.email,
+            time: `${sessionTime}ms`
+        });
+        
         if (!session?.user?.email) {
+            console.warn('[Profile API] Unauthorized - no session or email');
             return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
         }
 
@@ -63,32 +77,54 @@ export async function GET() {
         let profileImage = profile.profileImage;
         let cosmeticLoadout = profile.cosmeticLoadout;
         
+        console.log('[Profile API] Initial profile data', {
+            completedModulesCount: completedModules.length,
+            hasProfileImage: !!profileImage,
+            hasCosmeticLoadout: !!cosmeticLoadout
+        });
+        
         // Fetch from user store once
         if (user.email) {
             try {
+                console.log('[Profile API] Fetching user from store...', { email: user.email });
+                const storeStartTime = Date.now();
                 const storedUser = getUserByEmail(user.email);
+                const storeTime = Date.now() - storeStartTime;
+                console.log('[Profile API] User store fetch completed', { 
+                    found: !!storedUser,
+                    time: `${storeTime}ms`,
+                    hasCompletedModules: !!storedUser?.completedModules,
+                    completedModulesCount: storedUser?.completedModules?.length || 0
+                });
+                
                 if (storedUser) {
                     // Use full completedModules list from user store for accurate XP calculation
                     if (storedUser.completedModules && storedUser.completedModules.length > completedModules.length) {
+                        console.log('[Profile API] Using full completedModules from store', {
+                            oldCount: completedModules.length,
+                            newCount: storedUser.completedModules.length
+                        });
                         completedModules = storedUser.completedModules;
                     }
                     // Fetch profileImage and cosmeticLoadout from user store (not from session/JWT)
                     if (storedUser.profileImage) {
                         profileImage = storedUser.profileImage;
+                        console.log('[Profile API] Using profileImage from store');
                     }
                     if (storedUser.cosmeticLoadout) {
                         cosmeticLoadout = storedUser.cosmeticLoadout;
+                        console.log('[Profile API] Using cosmeticLoadout from store');
                     }
                 }
             } catch (error) {
-                console.warn('Could not fetch user data from user store:', error);
+                console.warn('[Profile API] Could not fetch user data from user store:', error);
                 // Fall back to session data if user store fetch fails
             }
         }
-        
+
         // Calculate XP from FULL completed modules list to ensure accuracy
         let calculatedXP = completedModules.reduce((sum: number, module: CompletedModule) => sum + module.xpEarned, 0);
-        
+
         // Override for dev user if needed (if we manually set XP in JWT but have no modules)
         // This allows the dev user hack in authOptions to persist
         const isDevUser = user.email === 'dev@tbsdigitallabs.com.au' || user.email === 'david@thebigsmoke.com.au';
@@ -99,12 +135,22 @@ export async function GET() {
                 calculatedXP = storedXP;
             }
         }
-        
+
         // Always use calculated XP from completed modules (ensures data integrity)
         const finalXP = calculatedXP;
         const finalLevel = calculateLevel(finalXP);
 
-        return NextResponse.json({
+        const totalTime = Date.now() - startTime;
+        console.log('[Profile API] Preparing response', {
+            finalXP,
+            finalLevel,
+            completedModulesCount: completedModules.length,
+            hasProfileImage: !!profileImage,
+            hasCosmeticLoadout: !!cosmeticLoadout,
+            totalTime: `${totalTime}ms`
+        });
+        
+        const response = NextResponse.json({
             id: user.id,
             name: user.name,
             email: user.email,
@@ -116,8 +162,18 @@ export async function GET() {
             profileImage: profileImage || undefined,
             cosmeticLoadout: cosmeticLoadout || undefined,
         });
+        
+        console.log('[Profile API] Response sent successfully');
+        return response;
     } catch (error) {
-        console.error("Error fetching profile:", error);
+        const totalTime = Date.now() - startTime;
+        console.error("[Profile API] Error fetching profile:", error);
+        console.error("[Profile API] Error details:", {
+            name: error instanceof Error ? error.name : 'Unknown',
+            message: error instanceof Error ? error.message : String(error),
+            stack: error instanceof Error ? error.stack : undefined,
+            totalTime: `${totalTime}ms`
+        });
         return NextResponse.json({ error: "Failed to fetch profile" }, { status: 500 });
     }
 }
@@ -147,7 +203,7 @@ export async function PUT(req: NextRequest) {
         // Calculate XP and level from completed modules (preserve existing if no modules)
         let finalXP = existingUser?.xp || user.profile?.xp || 0;
         let finalLevel = existingUser?.level || user.profile?.level || 1;
-        
+
         if (existingUser?.completedModules && existingUser.completedModules.length > 0) {
             finalXP = existingUser.completedModules.reduce((sum: number, m: CompletedModule) => sum + m.xpEarned, 0);
             finalLevel = calculateLevel(finalXP);

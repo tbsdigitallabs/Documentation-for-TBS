@@ -87,25 +87,51 @@ export default function ProfilePage() {
   const [tempImageSrc, setTempImageSrc] = useState<string | null>(null);
 
   const fetchProfile = useCallback(async () => {
+    console.log('[Profile] fetchProfile called', { hasSession: !!session, sessionEmail: session?.user?.email });
+    setLoading(true);
+    
     try {
+      console.log('[Profile] Starting fetch to /api/profile');
+      const startTime = Date.now();
+      
       // Add timeout to prevent hanging
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+      const timeoutId = setTimeout(() => {
+        console.error('[Profile] Fetch timeout triggered after 10 seconds');
+        controller.abort();
+      }, 10000); // 10 second timeout
       
+      console.log('[Profile] Making fetch request...');
       const response = await fetch("/api/profile", {
         signal: controller.signal,
       });
       
+      const fetchTime = Date.now() - startTime;
+      console.log('[Profile] Fetch completed', { status: response.status, statusText: response.statusText, time: `${fetchTime}ms` });
+      
       clearTimeout(timeoutId);
       
       if (!response.ok) {
-        const errorData = await response.json().catch(() => ({ error: 'Unknown error' }));
-        console.error("Failed to fetch profile:", response.status, errorData);
+        console.error('[Profile] Response not OK', { status: response.status, statusText: response.statusText });
+        const errorData = await response.json().catch((e) => {
+          console.error('[Profile] Failed to parse error response', e);
+          return { error: 'Unknown error' };
+        });
+        console.error("[Profile] Failed to fetch profile:", response.status, errorData);
         setLoading(false);
         return;
       }
       
+      console.log('[Profile] Parsing response JSON...');
       const data = await response.json();
+      console.log('[Profile] Profile data received', { 
+        hasProfile: !!data, 
+        hasProfileImage: !!data.profileImage,
+        hasCosmeticLoadout: !!data.cosmeticLoadout,
+        level: data.level,
+        xp: data.xp
+      });
+      
       setProfile(data);
       setEditedProfile(data);
       if (data.profileImage) {
@@ -120,16 +146,51 @@ export default function ProfilePage() {
           setCosmeticLoadout(profileWithCosmetics.cosmeticLoadout);
         }
       }
+      console.log('[Profile] Profile state updated successfully');
     } catch (error) {
       if (error instanceof Error && error.name === 'AbortError') {
-        console.error("Profile fetch timed out after 10 seconds");
+        console.error("[Profile] Profile fetch timed out after 10 seconds", error);
       } else {
-        console.error("Failed to fetch profile:", error);
+        console.error("[Profile] Failed to fetch profile:", error);
+        console.error("[Profile] Error details:", {
+          name: error instanceof Error ? error.name : 'Unknown',
+          message: error instanceof Error ? error.message : String(error),
+          stack: error instanceof Error ? error.stack : undefined
+        });
       }
     } finally {
+      console.log('[Profile] Setting loading to false');
       setLoading(false);
     }
   }, [session]);
+
+  // Fetch profile on mount and when session changes
+  useEffect(() => {
+    console.log('[Profile] useEffect triggered', { 
+      status, 
+      hasSession: !!session, 
+      sessionEmail: session?.user?.email,
+      loading 
+    });
+    
+    if (status === 'loading') {
+      console.log('[Profile] Session still loading, waiting...');
+      return;
+    }
+    
+    if (status === 'unauthenticated') {
+      console.log('[Profile] User not authenticated, redirecting...');
+      router.push('/auth/signin');
+      return;
+    }
+    
+    if (status === 'authenticated' && session?.user?.email) {
+      console.log('[Profile] Session authenticated, fetching profile...');
+      fetchProfile();
+    } else {
+      console.warn('[Profile] Session status authenticated but no email', { status, session });
+    }
+  }, [status, session, fetchProfile, router]);
 
   const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];

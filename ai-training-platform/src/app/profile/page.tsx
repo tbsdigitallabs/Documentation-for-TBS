@@ -345,7 +345,14 @@ export default function ProfilePage() {
           setImagePreview(finalProfileImage);
           setImageFile(null); // Clear the file since it's been uploaded
           console.log('[Profile Save] Set imagePreview to server URL', { finalProfileImage });
+        } else if (!finalProfileImage) {
+          // Clear imagePreview if no image
+          setImagePreview(null);
+          setImageFile(null);
         }
+
+        // Refresh profile to ensure we have the latest data from server
+        await fetchProfile();
 
         // Update session with the new profile data including image and cosmetic loadout
         await update({

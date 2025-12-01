@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useContext, useState, useCallback, ReactNode } from 'react';
-import { ToastMessage, getRandomMessage } from '@/components/DavidToast';
+import { ToastMessage } from '@/components/DavidToast';
 
 interface Toast {
   id: string;
@@ -9,6 +9,43 @@ interface Toast {
 }
 
 type EncouragementType = 'moduleComplete' | 'levelUp' | 'firstModule' | 'streak' | 'rewardUnlocked';
+
+const ENCOURAGEMENT_MESSAGES: Record<EncouragementType, string[]> = {
+  moduleComplete: [
+    "Nice work, you're on fire!",
+    "Another one bites the dust!",
+    "Look at you go!",
+    "That's the spirit!",
+    "You're absolutely smashing it!",
+    "Keep that momentum going!",
+  ],
+  levelUp: [
+    "Level up! You're evolving!",
+    "New level unlocked. Impressive.",
+    "You're getting stronger!",
+    "The grind is paying off!",
+    "Look at those skills levelling up!",
+  ],
+  firstModule: [
+    "First module done! Welcome to the club.",
+    "And so the journey begins...",
+    "That's the first step sorted!",
+  ],
+  streak: [
+    "You're on a streak! Don't stop now!",
+    "Consistent effort, consistent results!",
+  ],
+  rewardUnlocked: [
+    "Ooh, shiny new reward!",
+    "You've earned something special!",
+    "New cosmetic unlocked. Looking good!",
+  ],
+};
+
+function getRandomMessage(type: EncouragementType): string {
+  const messages = ENCOURAGEMENT_MESSAGES[type];
+  return messages[Math.floor(Math.random() * messages.length)];
+}
 
 interface ToastContextType {
   showToast: (message: string) => void;

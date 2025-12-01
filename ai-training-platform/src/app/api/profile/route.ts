@@ -281,7 +281,15 @@ export async function PUT(req: NextRequest) {
         });
     } catch (error) {
         console.error("Error updating profile:", error);
-        return NextResponse.json({ error: "Failed to update profile" }, { status: 500 });
+        console.error("Error details:", {
+            name: error instanceof Error ? error.name : 'Unknown',
+            message: error instanceof Error ? error.message : String(error),
+            stack: error instanceof Error ? error.stack : undefined,
+        });
+        return NextResponse.json({ 
+            error: "Failed to update profile",
+            details: error instanceof Error ? error.message : String(error)
+        }, { status: 500 });
     }
 }
 

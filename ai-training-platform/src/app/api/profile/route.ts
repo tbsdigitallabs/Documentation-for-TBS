@@ -38,19 +38,19 @@ interface SessionUser {
 export async function GET() {
     console.log('[Profile API] GET request received');
     const startTime = Date.now();
-    
+
     try {
         console.log('[Profile API] Fetching session...');
         const sessionStartTime = Date.now();
         const session = await getServerSession(authOptions);
         const sessionTime = Date.now() - sessionStartTime;
-        console.log('[Profile API] Session fetched', { 
-            hasSession: !!session, 
-            hasUser: !!session?.user, 
+        console.log('[Profile API] Session fetched', {
+            hasSession: !!session,
+            hasUser: !!session?.user,
             email: session?.user?.email,
             time: `${sessionTime}ms`
         });
-        
+
         if (!session?.user?.email) {
             console.warn('[Profile API] Unauthorized - no session or email');
             return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -76,13 +76,13 @@ export async function GET() {
         let completedModules = profile.completedModules || [];
         let profileImage = profile.profileImage;
         let cosmeticLoadout = profile.cosmeticLoadout;
-        
+
         console.log('[Profile API] Initial profile data', {
             completedModulesCount: completedModules.length,
             hasProfileImage: !!profileImage,
             hasCosmeticLoadout: !!cosmeticLoadout
         });
-        
+
         // Fetch from user store once
         if (user.email) {
             try {
@@ -90,13 +90,13 @@ export async function GET() {
                 const storeStartTime = Date.now();
                 const storedUser = await getUserByEmail(user.email);
                 const storeTime = Date.now() - storeStartTime;
-                console.log('[Profile API] User store fetch completed', { 
+                console.log('[Profile API] User store fetch completed', {
                     found: !!storedUser,
                     time: `${storeTime}ms`,
                     hasCompletedModules: !!storedUser?.completedModules,
                     completedModulesCount: storedUser?.completedModules?.length || 0
                 });
-                
+
                 if (storedUser) {
                     // Use full completedModules list from user store for accurate XP calculation
                     if (storedUser.completedModules && storedUser.completedModules.length > completedModules.length) {
@@ -150,7 +150,7 @@ export async function GET() {
         console.log('[Profile API] profileImage truthy:', !!profileImage);
         console.log('[Profile API] hasCosmeticLoadout:', !!cosmeticLoadout);
         console.log('[Profile API] totalTime:', `${totalTime}ms`);
-        
+
         // Don't spread profile.profileImage or profile.cosmeticLoadout as they might be null/undefined
         // Set them explicitly from the user store values
         const { profileImage: _, cosmeticLoadout: __, ...profileWithoutImages } = profile;
@@ -166,12 +166,12 @@ export async function GET() {
             profileImage: profileImage || undefined,
             cosmeticLoadout: cosmeticLoadout || undefined,
         };
-        
+
         console.log('[Profile API] Response data profileImage:', responseData.profileImage);
         console.log('[Profile API] Response data profileImage type:', typeof responseData.profileImage);
-        
+
         const response = NextResponse.json(responseData);
-        
+
         console.log('[Profile API] Response sent successfully');
         return response;
     } catch (error) {
@@ -286,7 +286,7 @@ export async function PUT(req: NextRequest) {
             message: error instanceof Error ? error.message : String(error),
             stack: error instanceof Error ? error.stack : undefined,
         });
-        return NextResponse.json({ 
+        return NextResponse.json({
             error: "Failed to update profile",
             details: error instanceof Error ? error.message : String(error)
         }, { status: 500 });

@@ -91,6 +91,7 @@ export default function OnboardingImageUpload({
               width={192}
               height={192}
               className="w-full h-full object-cover"
+              unoptimized={!!imagePreview && (imagePreview.startsWith('data:') || imagePreview.startsWith('blob:') || imagePreview.startsWith('/api/images/'))}
             />
           </div>
           <div className="flex flex-col gap-3">

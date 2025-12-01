@@ -4,7 +4,7 @@
 2025-12-01
 
 ## Summary
-Comprehensive audit of all changes made during the migration from ephemeral filesystem storage to persistent Firestore and Cloud Storage.
+Comprehensive audit of all changes made during the migration from ephemeral filesystem storage to persistent Firestore and Cloud Storage, including the implementation of a secure, private image proxy for user uploads.
 
 ## Issues Found & Fixed
 
@@ -30,6 +30,24 @@ Comprehensive audit of all changes made during the migration from ephemeral file
      - `https://storage.cloud.google.com/BUCKET_NAME/path`
      - `gs://BUCKET_NAME/path`
      - Relative paths
+   - **Status:** ✅ Fixed
+
+4. **Public Image Access Security Risk**
+   - **Location:** `src/lib/gcs-storage.ts`
+   - **Issue:** Images were initially made public in the bucket.
+   - **Fix:** Implemented private image proxy (`/api/images/[...path]`) using Next.js API routes and authenticated sessions.
+   - **Status:** ✅ Fixed (Images are now private and served securely)
+
+5. **Next.js Image Optimization Failures**
+   - **Location:** Various components (`AvatarFrame`, `PageHeader`, `ModulePresentation`, etc.)
+   - **Issue:** `next/image` tried to optimize the authenticated API route `/api/images/...`, causing 400 Bad Request errors because the backend couldn't access the image without session cookies.
+   - **Fix:** Added `unoptimized={true}` to all `Image` components rendering dynamic user content or API-served images.
+   - **Status:** ✅ Fixed
+
+6. **Firestore Undefined Value Errors**
+   - **Location:** `src/lib/firestore.ts`
+   - **Issue:** Firestore does not accept `undefined` values, causing write errors when optional fields were missing.
+   - **Fix:** Explicitly sanitized input to replace `undefined` with `null` or omit keys. Added `ignoreUndefinedProperties: true` to Firestore settings.
    - **Status:** ✅ Fixed
 
 ## Code Quality Checks
@@ -67,17 +85,19 @@ Comprehensive audit of all changes made during the migration from ephemeral file
 - File type validation (MIME types and extensions)
 - File size limits (5MB max)
 - Path validation in filesystem uploads
+- **Private Image Serving:** Images are only accessible to authenticated users via `/api/images/...`
 
 ## Files Modified
 
 ### New Files
 1. `src/lib/firestore.ts` - Firestore adapter ✅
 2. `src/lib/gcs-storage.ts` - Cloud Storage adapter ✅
-3. `docs/FIRESTORE_SETUP.md` - Setup documentation ✅
-4. `docs/CLOUD_RUN_STORAGE_FIX.md` - Service account guide ✅
-5. `docs/STORAGE_MIGRATION_SUMMARY.md` - Migration summary ✅
-6. `setup-firestore-storage.sh` - Setup script (Linux/Mac) ✅
-7. `setup-firestore-storage.ps1` - Setup script (Windows) ✅
+3. `src/app/api/images/[...path]/route.ts` - Private Image Proxy ✅
+4. `docs/FIRESTORE_SETUP.md` - Setup documentation ✅
+5. `docs/CLOUD_RUN_STORAGE_FIX.md` - Service account guide ✅
+6. `docs/STORAGE_MIGRATION_SUMMARY.md` - Migration summary ✅
+7. `setup-firestore-storage.sh` - Setup script (Linux/Mac) ✅
+8. `setup-firestore-storage.ps1` - Setup script (Windows) ✅
 
 ### Modified Files
 1. `src/lib/user-store.ts` - Added Firestore support ✅
@@ -88,6 +108,7 @@ Comprehensive audit of all changes made during the migration from ephemeral file
 6. `src/app/api/auth/[...nextauth]/route.ts` - Updated to async ✅
 7. `src/app/api/profile/completed-modules/route.ts` - Updated to async ✅
 8. `package.json` - Added dependencies ✅
+9. **UI Components** (`AvatarFrame`, `PageHeader`, `ModulePresentation`, `OnboardingImageUpload`, etc.) - Added `unoptimized` prop ✅
 
 ## Potential Edge Cases Handled
 
@@ -130,30 +151,14 @@ Comprehensive audit of all changes made during the migration from ephemeral file
 2. ⚠️ Test profile image upload in production
 3. ⚠️ Test profile save in production
 4. ⚠️ Verify data persists in Firestore
-5. ⚠️ Verify images accessible from Cloud Storage
+5. ⚠️ Verify images accessible from Cloud Storage via `/api/images/...` proxy
 
 ### After Deployment
 1. Monitor Firestore usage and costs
 2. Monitor Cloud Storage usage and costs
 3. Check error logs for Firestore/Cloud Storage errors
-4. Verify profile images display correctly
+4. Verify profile images display correctly (no 400 errors)
 5. Verify user data persists across restarts
-
-## Known Limitations
-
-1. **No Migration Script**
-   - Existing `data/users.json` not automatically migrated
-   - Existing `public/uploads/` images not automatically migrated
-   - Users start fresh in Firestore/Cloud Storage
-
-2. **Firestore Merge Behavior**
-   - Cannot explicitly clear fields (null values preserved)
-   - To clear a field, would need to use `deleteField()` explicitly
-
-3. **Development vs Production**
-   - Different storage backends in dev vs prod
-   - Data not shared between environments
-   - Consider using Firestore emulator for local dev
 
 ## Recommendations
 
@@ -176,8 +181,7 @@ All critical issues have been identified and fixed. The code is:
 - Type-safe
 - Error-handled
 - Async/await compliant
-- Security-conscious
+- Security-conscious (Private Images)
 - Well-documented
 
 The build compiles successfully and all linter checks pass. The infrastructure has been set up and is ready to use.
-

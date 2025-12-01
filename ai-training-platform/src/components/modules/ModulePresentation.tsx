@@ -53,6 +53,7 @@ const components = {
                 height={400}
                 alt={props.alt || 'Module image'}
                 {...props}
+                unoptimized={props.src?.startsWith('/api/images/') || props.src?.startsWith('data:') || props.src?.startsWith('blob:')}
             />
         </div>
     ),
@@ -172,6 +173,7 @@ export function ModulePresentation({ content, onComplete }: ModulePresentationPr
                                             width={400}
                                             height={280}
                                             className="w-full h-auto max-h-[280px] object-contain"
+                                            unoptimized={currentSlideData.image.src.startsWith('/api/images/') || currentSlideData.image.src.startsWith('data:') || currentSlideData.image.src.startsWith('blob:')}
                                         />
                                     </div>
                                     

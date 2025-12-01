@@ -125,13 +125,14 @@ export default function ProfilePage() {
 
       console.log('[Profile] Parsing response JSON...');
       const data = await response.json();
-      console.log('[Profile] Profile data received', {
-        hasProfile: !!data,
-        hasProfileImage: !!data.profileImage,
-        hasCosmeticLoadout: !!data.cosmeticLoadout,
-        level: data.level,
-        xp: data.xp
-      });
+      console.log('[Profile] Profile data received');
+      console.log('[Profile] Has profile:', !!data);
+      console.log('[Profile] Profile image URL:', data.profileImage);
+      console.log('[Profile] Has profileImage:', !!data.profileImage);
+      console.log('[Profile] Profile image type:', typeof data.profileImage);
+      console.log('[Profile] Has cosmeticLoadout:', !!data.cosmeticLoadout);
+      console.log('[Profile] Level:', data.level);
+      console.log('[Profile] XP:', data.xp);
 
       setProfile(data);
       setEditedProfile(data);
@@ -303,11 +304,16 @@ export default function ProfilePage() {
 
         if (uploadResult.success && uploadResult.imageUrl) {
           imageUrl = uploadResult.imageUrl;
-          console.log('[Profile Save] Image uploaded successfully', { imageUrl });
+          console.log('[Profile Save] Image uploaded successfully');
+          console.log('[Profile Save] Image URL value:', imageUrl);
+          console.log('[Profile Save] Image URL type:', typeof imageUrl);
+          console.log('[Profile Save] Image URL length:', imageUrl?.length);
           // Update preview to server URL (not blob/data URL)
           setImagePreview(imageUrl);
         } else {
-          console.error("[Profile Save] Failed to upload image", uploadResult.error);
+          console.error("[Profile Save] Failed to upload image");
+          console.error("[Profile Save] Upload error:", uploadResult.error);
+          console.error("[Profile Save] Upload result:", JSON.stringify(uploadResult, null, 2));
           setLoading(false);
           return;
         }
@@ -324,15 +330,16 @@ export default function ProfilePage() {
 
       if (response.ok) {
         const updated = await response.json();
-        console.log('[Profile Save] Response received', { 
-          updatedProfileImage: updated.profileImage,
-          imageUrl,
-          hasUpdated: !!updated
-        });
+        console.log('[Profile Save] Response received');
+        console.log('[Profile Save] Updated profileImage from server:', updated.profileImage);
+        console.log('[Profile Save] ImageUrl from upload:', imageUrl);
+        console.log('[Profile Save] Has updated object:', !!updated);
         
         // Update profileImage in the response to ensure it's set
         const finalProfileImage = imageUrl || updated.profileImage;
-        console.log('[Profile Save] Final profile image', { finalProfileImage });
+        console.log('[Profile Save] Final profile image URL:', finalProfileImage);
+        console.log('[Profile Save] Final profile image type:', typeof finalProfileImage);
+        console.log('[Profile Save] Final profile image truthy:', !!finalProfileImage);
 
         setProfile({
           ...updated,
@@ -402,6 +409,14 @@ export default function ProfilePage() {
   const displayImage = editing && imagePreview && imagePreview.startsWith('blob:')
     ? imagePreview
     : (profile?.profileImage || profile?.image || imagePreview);
+  
+  // Debug logging for image display
+  console.log('[Profile Display] displayImage:', displayImage);
+  console.log('[Profile Display] profile?.profileImage:', profile?.profileImage);
+  console.log('[Profile Display] profile?.image:', profile?.image);
+  console.log('[Profile Display] imagePreview:', imagePreview);
+  console.log('[Profile Display] editing:', editing);
+  
   const ClassIcon = profile?.selectedClass ? classIcons[profile.selectedClass]?.icon || Zap : Zap;
   const classColor = profile?.selectedClass ? classIcons[profile.selectedClass]?.color || "text-accent-readable-cyan" : "text-accent-readable-cyan";
   const currentLevel = profile?.level || 1;

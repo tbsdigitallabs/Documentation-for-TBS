@@ -1,16 +1,18 @@
 "use client";
 
 import { createContext, useContext, useState, useCallback, ReactNode } from 'react';
-import { ToastMessage, getRandomMessage, ENCOURAGEMENT_MESSAGES } from '@/components/DavidToast';
+import { ToastMessage, getRandomMessage } from '@/components/DavidToast';
 
 interface Toast {
   id: string;
   message: string;
 }
 
+type EncouragementType = 'moduleComplete' | 'levelUp' | 'firstModule' | 'streak' | 'rewardUnlocked';
+
 interface ToastContextType {
   showToast: (message: string) => void;
-  showEncouragement: (type: keyof typeof ENCOURAGEMENT_MESSAGES) => void;
+  showEncouragement: (type: EncouragementType) => void;
 }
 
 const ToastContext = createContext<ToastContextType | null>(null);
@@ -23,7 +25,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
     setToasts(prev => [...prev, { id, message }]);
   }, []);
 
-  const showEncouragement = useCallback((type: keyof typeof ENCOURAGEMENT_MESSAGES) => {
+  const showEncouragement = useCallback((type: EncouragementType) => {
     const message = getRandomMessage(type);
     showToast(message);
   }, [showToast]);

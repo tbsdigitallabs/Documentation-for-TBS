@@ -29,11 +29,12 @@ $bucketExists = gsutil ls -b "gs://$BUCKET_NAME" 2>$null
 if (-not $bucketExists) {
   Write-Host "Creating Cloud Storage bucket..." -ForegroundColor Green
   gsutil mb -p $PROJECT_ID -c STANDARD -l $REGION "gs://$BUCKET_NAME"
-  Write-Host "Making bucket publicly readable..." -ForegroundColor Green
-  gsutil iam ch "allUsers:objectViewer" "gs://$BUCKET_NAME"
 } else {
   Write-Host "Cloud Storage bucket already exists" -ForegroundColor Green
 }
+
+# Keep bucket private - images are served through authenticated API route
+Write-Host "Bucket will remain private - images served through authenticated API" -ForegroundColor Green
 
 # Step 4: Grant Firestore permissions to service account
 Write-Host "`nGranting Firestore permissions to service account..." -ForegroundColor Yellow
@@ -41,21 +42,11 @@ gcloud projects add-iam-policy-binding $PROJECT_ID `
   --member="serviceAccount:$SERVICE_ACCOUNT" `
   --role="roles/datastore.user"
 
-# Step 5: Verify Storage Admin role (should already exist)
-Write-Host "`nVerifying Storage Admin role..." -ForegroundColor Yellow
-$hasStorageAdmin = gcloud projects get-iam-policy $PROJECT_ID `
-  --flatten="bindings[].members" `
-  --filter="bindings.members:serviceAccount:$SERVICE_ACCOUNT AND bindings.role:roles/storage.admin" `
-  --format="value(bindings.role)"
-
-if ($hasStorageAdmin) {
-  Write-Host "Storage Admin role already granted" -ForegroundColor Green
-} else {
-  Write-Host "Granting Storage Admin role..." -ForegroundColor Green
-  gcloud projects add-iam-policy-binding $PROJECT_ID `
-    --member="serviceAccount:$SERVICE_ACCOUNT" `
-    --role="roles/storage.admin"
-}
+# Step 5: Grant Storage Object Admin role
+Write-Host "`nGranting Storage Object Admin role..." -ForegroundColor Yellow
+gcloud projects add-iam-policy-binding $PROJECT_ID `
+  --member="serviceAccount:$SERVICE_ACCOUNT" `
+  --role="roles/storage.objectAdmin"
 
 Write-Host "`n✅ Setup complete!" -ForegroundColor Green
 Write-Host ""

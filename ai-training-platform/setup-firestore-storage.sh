@@ -30,11 +30,12 @@ echo "Checking Cloud Storage bucket..."
 if ! gsutil ls -b gs://$BUCKET_NAME 2>/dev/null; then
   echo "Creating Cloud Storage bucket..."
   gsutil mb -p $PROJECT_ID -c STANDARD -l $REGION gs://$BUCKET_NAME
-  echo "Making bucket publicly readable..."
-  gsutil iam ch allUsers:objectViewer gs://$BUCKET_NAME
 else
   echo "Cloud Storage bucket already exists"
 fi
+
+# Keep bucket private - images are served through authenticated API route
+echo "Bucket will remain private - images served through authenticated API"
 
 # Step 4: Grant Firestore permissions to service account
 echo "Granting Firestore permissions to service account..."
@@ -43,19 +44,12 @@ gcloud projects add-iam-policy-binding $PROJECT_ID \
   --role="roles/datastore.user" \
   --condition=None
 
-# Step 5: Verify Storage Admin role (should already exist)
-echo "Verifying Storage Admin role..."
-if gcloud projects get-iam-policy $PROJECT_ID \
-  --flatten="bindings[].members" \
-  --filter="bindings.members:serviceAccount:$SERVICE_ACCOUNT AND bindings.role:roles/storage.admin" \
-  --format="value(bindings.role)" | grep -q "storage.admin"; then
-  echo "Storage Admin role already granted"
-else
-  echo "Granting Storage Admin role..."
-  gcloud projects add-iam-policy-binding $PROJECT_ID \
-    --member="serviceAccount:$SERVICE_ACCOUNT" \
-    --role="roles/storage.admin"
-fi
+# Step 5: Grant Storage Object Admin role
+echo "Granting Storage Object Admin role..."
+gcloud projects add-iam-policy-binding $PROJECT_ID \
+  --member="serviceAccount:$SERVICE_ACCOUNT" \
+  --role="roles/storage.objectAdmin" \
+  --condition=None
 
 echo ""
 echo "✅ Setup complete!"

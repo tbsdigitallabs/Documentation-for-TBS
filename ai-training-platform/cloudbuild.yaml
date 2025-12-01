@@ -45,7 +45,7 @@ steps:
       - '--service-account'
       - 'learninglab-run@learninglab-478822.iam.gserviceaccount.com'
       - '--set-env-vars'
-      - 'NODE_ENV=production,NEXTAUTH_URL=https://learninglab.tbsdigitallabs.com'
+      - 'NODE_ENV=production,NEXTAUTH_URL=https://learninglab.tbsdigitallabs.com,GCS_BUCKET_NAME=learninglab-storage'
       - '--set-secrets'
       - 'GOOGLE_CLIENT_ID=google-client-id:latest,GOOGLE_CLIENT_SECRET=google-client-secret:latest,NEXTAUTH_SECRET=nextauth-secret:latest'
       - '--project'

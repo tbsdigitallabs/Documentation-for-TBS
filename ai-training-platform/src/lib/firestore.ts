@@ -17,18 +17,9 @@ function getFirestoreInstance(): Firestore {
   let app: App;
   if (getApps().length === 0) {
     // Use Application Default Credentials (ADC) in Cloud Run
-    // In local dev, set GOOGLE_APPLICATION_CREDENTIALS or use service account key
-    try {
-      // In Cloud Run, ADC is automatically available via the service account
-      // No explicit credentials needed - Firebase Admin SDK will use ADC
-      app = initializeApp({
-        projectId: process.env.GCP_PROJECT_ID || 'learninglab-478822',
-      });
-    } catch (error) {
-      console.error('Firebase Admin initialization error:', error);
-      // Fallback: try without explicit config (uses ADC)
-      app = initializeApp();
-    }
+    // On Cloud Run, ADC automatically detects project from metadata server
+    // For local dev, set GOOGLE_APPLICATION_CREDENTIALS env var to point to service account key
+    app = initializeApp();
   } else {
     app = getApps()[0];
   }
@@ -70,10 +61,10 @@ export async function upsertUser(user: Partial<StoredUser> & { email: string }):
   try {
     const db = getFirestoreInstance();
     const userRef = db.collection(COLLECTION_NAME).doc(user.email);
-    
+
     const existingDoc = await userRef.get();
     const existingData = existingDoc.exists ? (existingDoc.data() as StoredUser) : null;
-    
+
     const updatedUser: StoredUser = {
       id: user.id || user.email,
       email: user.email,
@@ -111,11 +102,11 @@ export async function getUserByEmail(email: string): Promise<StoredUser | null> 
   try {
     const db = getFirestoreInstance();
     const userDoc = await db.collection(COLLECTION_NAME).doc(email).get();
-    
+
     if (!userDoc.exists) {
       return null;
     }
-    
+
     return userDoc.data() as StoredUser;
   } catch (error) {
     console.error('Error getting user from Firestore:', error);

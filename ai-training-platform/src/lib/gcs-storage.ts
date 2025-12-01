@@ -14,15 +14,9 @@ function getStorageInstance(): Storage {
 
   // Initialize Cloud Storage
   // Uses Application Default Credentials (ADC) in Cloud Run
-  // In local dev, set GOOGLE_APPLICATION_CREDENTIALS or use service account key
-  try {
-    storage = new Storage({
-      projectId: process.env.GCP_PROJECT_ID || 'learninglab-478822',
-    });
-  } catch (error) {
-    console.error('Cloud Storage initialization error:', error);
-    throw new Error('Failed to initialize Cloud Storage');
-  }
+  // On Cloud Run, ADC automatically detects project from metadata server
+  // For local dev, set GOOGLE_APPLICATION_CREDENTIALS env var to point to service account key
+  storage = new Storage();
 
   return storage;
 }
@@ -93,8 +87,10 @@ export async function uploadImageToGCS(
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
 
-    // Upload to Cloud Storage
+    // Upload to Cloud Storage (keep files private)
     const gcsFile = bucket.file(filepath);
+    
+    // Upload file with metadata (file remains private)
     await gcsFile.save(buffer, {
       metadata: {
         contentType: file.type,
@@ -103,11 +99,11 @@ export async function uploadImageToGCS(
           uploadedAt: new Date().toISOString(),
         },
       },
-      public: true, // Make file publicly accessible
     });
 
-    // Return the public URL
-    const imageUrl = `https://storage.googleapis.com/${BUCKET_NAME}/${filepath}`;
+    // Return the API route URL that will serve the image (authenticated proxy)
+    // Store the filepath, not a public URL
+    const imageUrl = `/api/images/${filepath}`;
 
     return { success: true, imageUrl };
   } catch (error) {
@@ -129,12 +125,15 @@ export async function deleteImageFromGCS(imageUrl: string): Promise<boolean> {
 
     // Extract file path from URL
     // Handle multiple URL formats:
-    // - https://storage.googleapis.com/BUCKET_NAME/path/to/file.jpg
-    // - https://storage.cloud.google.com/BUCKET_NAME/path/to/file.jpg
+    // - /api/images/profiles/filename.jpg (API route format)
+    // - https://storage.googleapis.com/BUCKET_NAME/path/to/file.jpg (legacy public URL)
     // - gs://BUCKET_NAME/path/to/file.jpg
     let filepath: string;
-    
-    if (imageUrl.startsWith('gs://')) {
+
+    if (imageUrl.startsWith('/api/images/')) {
+      // API route format - extract path after /api/images/
+      filepath = imageUrl.replace('/api/images/', '');
+    } else if (imageUrl.startsWith('gs://')) {
       // gs:// format
       filepath = imageUrl.replace(`gs://${BUCKET_NAME}/`, '');
     } else if (imageUrl.includes(BUCKET_NAME)) {
@@ -142,7 +141,7 @@ export async function deleteImageFromGCS(imageUrl: string): Promise<boolean> {
       const bucketIndex = imageUrl.indexOf(BUCKET_NAME);
       filepath = imageUrl.substring(bucketIndex + BUCKET_NAME.length + 1);
     } else {
-      // Assume it's already a relative path
+      // Assume it's already a relative path (legacy local uploads)
       filepath = imageUrl.startsWith('/') ? imageUrl.substring(1) : imageUrl;
     }
 

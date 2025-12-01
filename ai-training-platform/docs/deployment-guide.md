@@ -79,7 +79,7 @@ gcloud run deploy learninglab \
   --platform managed \
   --allow-unauthenticated \
   --port 3000 \
-  --set-env-vars "NODE_ENV=production,NEXTAUTH_URL=https://learninglab.tbsdigitallabs.com" \
+  --set-env-vars "NODE_ENV=production,NEXTAUTH_URL=https://learninglab.tbsdigitallabs.com,GCS_BUCKET_NAME=learninglab-storage" \
   --set-secrets "GOOGLE_CLIENT_ID=google-client-id:latest,GOOGLE_CLIENT_SECRET=google-client-secret:latest,NEXTAUTH_SECRET=nextauth-secret:latest" \
   --service-account=learninglab-run@learninglab-478822.iam.gserviceaccount.com
 ```
@@ -104,7 +104,7 @@ gcloud run deploy learninglab \
   --allow-unauthenticated \
   --port=3000 \
   --project=learninglab-478822 \
-  --set-env-vars="NODE_ENV=production,NEXTAUTH_URL=https://learninglab.tbsdigitallabs.com" \
+  --set-env-vars="NODE_ENV=production,NEXTAUTH_URL=https://learninglab.tbsdigitallabs.com,GCS_BUCKET_NAME=learninglab-storage" \
   --set-secrets="GOOGLE_CLIENT_ID=google-client-id:latest,GOOGLE_CLIENT_SECRET=google-client-secret:latest,NEXTAUTH_SECRET=nextauth-secret:latest" \
   --service-account=learninglab-run@learninglab-478822.iam.gserviceaccount.com
 ```
@@ -174,6 +174,8 @@ Where `PROJECT_NUMBER` = `180424126672` for project `learninglab-478822`
 **Required Roles**:
 - `roles/secretmanager.secretAccessor` - To access secrets
 - `roles/run.invoker` - To invoke Cloud Run services
+- `roles/datastore.user` - To access Firestore database
+- `roles/storage.objectAdmin` - To access Cloud Storage
 
 ---
 
@@ -188,6 +190,7 @@ Where `PROJECT_NUMBER` = `180424126672` for project `learninglab-478822`
 | `NEXTAUTH_SECRET` | Secret Manager | NextAuth session encryption key |
 | `NEXTAUTH_URL` | Environment | Production URL: `https://learninglab.tbsdigitallabs.com` |
 | `NODE_ENV` | Environment | Set to `production` |
+| `GCS_BUCKET_NAME` | Environment | Cloud Storage bucket name (default: `learninglab-storage`) |
 
 ### Generating NEXTAUTH_SECRET
 
@@ -204,6 +207,96 @@ openssl rand -base64 32
    - Development: `http://localhost:3000/api/auth/callback/google`
    - Production: `https://learninglab.tbsdigitallabs.com/api/auth/callback/google`
 5. Copy Client ID and Client Secret to Secret Manager
+
+---
+
+## Firestore and Cloud Storage
+
+The application uses Firestore for user data persistence and Cloud Storage for image uploads. This replaces the ephemeral filesystem storage that was causing data loss in Cloud Run.
+
+### Required Setup
+
+**Before deploying**, run the setup script to create the necessary infrastructure:
+
+**Windows:**
+```powershell
+cd ai-training-platform
+.\setup-firestore-storage.ps1
+```
+
+**Linux/Mac:**
+```bash
+cd ai-training-platform
+chmod +x setup-firestore-storage.sh
+./setup-firestore-storage.sh
+```
+
+This script will:
+1. Enable Firestore and Cloud Storage APIs
+2. Create Firestore database (Native mode)
+3. Create Cloud Storage bucket (`learninglab-storage`)
+4. Grant necessary permissions to the service account
+
+### Environment Variables
+
+| Variable | Source | Description |
+|----------|--------|-------------|
+| `GCS_BUCKET_NAME` | Environment | Cloud Storage bucket name (default: `learninglab-storage`) |
+
+**Note:** The bucket name is set in `cloudbuild.yaml` and manual deployment commands. For local development, you can set `GCS_BUCKET_NAME` in `.env.local` or it will default to `learninglab-storage`.
+
+### Service Account Permissions
+
+The service account `learninglab-run@learninglab-478822.iam.gserviceaccount.com` needs the following roles:
+
+- `roles/datastore.user` - For Firestore database access
+- `roles/storage.objectAdmin` - For Cloud Storage uploads and management
+
+These permissions are automatically granted by the setup scripts. To verify or manually grant:
+
+```bash
+# Grant Firestore permissions
+gcloud projects add-iam-policy-binding learninglab-478822 \
+  --member="serviceAccount:learninglab-run@learninglab-478822.iam.gserviceaccount.com" \
+  --role="roles/datastore.user"
+
+# Grant Cloud Storage permissions
+gcloud projects add-iam-policy-binding learninglab-478822 \
+  --member="serviceAccount:learninglab-run@learninglab-478822.iam.gserviceaccount.com" \
+  --role="roles/storage.objectAdmin"
+```
+
+### Application Default Credentials (ADC)
+
+The application uses Application Default Credentials (ADC) for authentication:
+
+- **On Cloud Run**: ADC is automatically available via the service account. No configuration needed.
+- **Local Development**: Set `GOOGLE_APPLICATION_CREDENTIALS` environment variable to point to a service account key file:
+  ```bash
+  export GOOGLE_APPLICATION_CREDENTIALS=/path/to/service-account-key.json
+  ```
+
+### Manual Deployment Updates
+
+When deploying manually, include `GCS_BUCKET_NAME` in the environment variables:
+
+```bash
+gcloud run deploy learninglab \
+  --source . \
+  --region us-central1 \
+  --platform managed \
+  --allow-unauthenticated \
+  --port 3000 \
+  --set-env-vars "NODE_ENV=production,NEXTAUTH_URL=https://learninglab.tbsdigitallabs.com,GCS_BUCKET_NAME=learninglab-storage" \
+  --set-secrets "GOOGLE_CLIENT_ID=google-client-id:latest,GOOGLE_CLIENT_SECRET=google-client-secret:latest,NEXTAUTH_SECRET=nextauth-secret:latest" \
+  --service-account=learninglab-run@learninglab-478822.iam.gserviceaccount.com
+```
+
+### Related Documentation
+
+- [Firestore Setup Guide](./FIRESTORE_SETUP.md) - Detailed Firestore setup instructions
+- [Cloud Run Storage Fix](./CLOUD_RUN_STORAGE_FIX.md) - Service account permissions guide
+- [Storage Migration Summary](./STORAGE_MIGRATION_SUMMARY.md) - Overview of storage changes
 
 ---
 

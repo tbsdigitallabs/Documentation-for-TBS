@@ -2,9 +2,10 @@ import fs from 'fs';
 import path from 'path';
 import * as firestore from './firestore';
 
-// File-based user storage for leaderboard (development)
+// File-based user storage for leaderboard (development only)
 // Firestore storage (production)
 // Automatically switches based on environment
+// NOTE: data/users.json is only used in development - production uses Firestore
 
 const DATA_DIR = path.join(process.cwd(), 'data');
 const USERS_FILE = path.join(DATA_DIR, 'users.json');

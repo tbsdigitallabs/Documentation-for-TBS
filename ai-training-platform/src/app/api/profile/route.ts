@@ -36,20 +36,8 @@ interface SessionUser {
 }
 
 export async function GET() {
-    console.log('[Profile API] GET request received');
-    const startTime = Date.now();
-
     try {
-        console.log('[Profile API] Fetching session...');
-        const sessionStartTime = Date.now();
         const session = await getServerSession(authOptions);
-        const sessionTime = Date.now() - sessionStartTime;
-        console.log('[Profile API] Session fetched', {
-            hasSession: !!session,
-            hasUser: !!session?.user,
-            email: session?.user?.email,
-            time: `${sessionTime}ms`
-        });
 
         if (!session?.user?.email) {
             console.warn('[Profile API] Unauthorized - no session or email');
@@ -77,43 +65,22 @@ export async function GET() {
         let profileImage = profile.profileImage;
         let cosmeticLoadout = profile.cosmeticLoadout;
 
-        console.log('[Profile API] Initial profile data', {
-            completedModulesCount: completedModules.length,
-            hasProfileImage: !!profileImage,
-            hasCosmeticLoadout: !!cosmeticLoadout
-        });
-
         // Fetch from user store once
         if (user.email) {
             try {
-                console.log('[Profile API] Fetching user from store...', { email: user.email });
-                const storeStartTime = Date.now();
                 const storedUser = await getUserByEmail(user.email);
-                const storeTime = Date.now() - storeStartTime;
-                console.log('[Profile API] User store fetch completed', {
-                    found: !!storedUser,
-                    time: `${storeTime}ms`,
-                    hasCompletedModules: !!storedUser?.completedModules,
-                    completedModulesCount: storedUser?.completedModules?.length || 0
-                });
 
                 if (storedUser) {
                     // Use full completedModules list from user store for accurate XP calculation
                     if (storedUser.completedModules && storedUser.completedModules.length > completedModules.length) {
-                        console.log('[Profile API] Using full completedModules from store', {
-                            oldCount: completedModules.length,
-                            newCount: storedUser.completedModules.length
-                        });
                         completedModules = storedUser.completedModules;
                     }
                     // Fetch profileImage and cosmeticLoadout from user store (not from session/JWT)
                     if (storedUser.profileImage) {
                         profileImage = storedUser.profileImage;
-                        console.log('[Profile API] Using profileImage from store');
                     }
                     if (storedUser.cosmeticLoadout) {
                         cosmeticLoadout = storedUser.cosmeticLoadout;
-                        console.log('[Profile API] Using cosmeticLoadout from store');
                     }
                 }
             } catch (error) {
@@ -125,11 +92,10 @@ export async function GET() {
         // Calculate XP from FULL completed modules list to ensure accuracy
         let calculatedXP = completedModules.reduce((sum: number, module: CompletedModule) => sum + module.xpEarned, 0);
 
-        // Override for dev user if needed (if we manually set XP in JWT but have no modules)
-        // This allows the dev user hack in authOptions to persist
+        // Override for dev users if stored XP is higher (handles cases where XP was manually set)
         const isDevUser = user.email === 'dev@tbsdigitallabs.com.au' || user.email === 'david@thebigsmoke.com.au';
         if (isDevUser) {
-            // For dev users, use stored XP if it's higher (handles David's 10000 XP case)
+            // For dev users, use stored XP if it's higher than calculated from modules
             const storedXP = profile.xp || 0;
             if (storedXP > calculatedXP) {
                 calculatedXP = storedXP;
@@ -139,17 +105,6 @@ export async function GET() {
         // Always use calculated XP from completed modules (ensures data integrity)
         const finalXP = calculatedXP;
         const finalLevel = calculateLevel(finalXP);
-
-        const totalTime = Date.now() - startTime;
-        console.log('[Profile API] Preparing response');
-        console.log('[Profile API] finalXP:', finalXP);
-        console.log('[Profile API] finalLevel:', finalLevel);
-        console.log('[Profile API] completedModulesCount:', completedModules.length);
-        console.log('[Profile API] profileImage value:', profileImage);
-        console.log('[Profile API] profileImage type:', typeof profileImage);
-        console.log('[Profile API] profileImage truthy:', !!profileImage);
-        console.log('[Profile API] hasCosmeticLoadout:', !!cosmeticLoadout);
-        console.log('[Profile API] totalTime:', `${totalTime}ms`);
 
         // Don't spread profile.profileImage or profile.cosmeticLoadout as they might be null/undefined
         // Set them explicitly from the user store values
@@ -167,22 +122,9 @@ export async function GET() {
             cosmeticLoadout: cosmeticLoadout || undefined,
         };
 
-        console.log('[Profile API] Response data profileImage:', responseData.profileImage);
-        console.log('[Profile API] Response data profileImage type:', typeof responseData.profileImage);
-
-        const response = NextResponse.json(responseData);
-
-        console.log('[Profile API] Response sent successfully');
-        return response;
+        return NextResponse.json(responseData);
     } catch (error) {
-        const totalTime = Date.now() - startTime;
         console.error("[Profile API] Error fetching profile:", error);
-        console.error("[Profile API] Error details:", {
-            name: error instanceof Error ? error.name : 'Unknown',
-            message: error instanceof Error ? error.message : String(error),
-            stack: error instanceof Error ? error.stack : undefined,
-            totalTime: `${totalTime}ms`
-        });
         return NextResponse.json({ error: "Failed to fetch profile" }, { status: 500 });
     }
 }
@@ -223,17 +165,6 @@ export async function PUT(req: NextRequest) {
         const profileImageToSave = data.profileImage || validatedProfile.profileImage || existingUser?.profileImage || user.profile?.profileImage;
         const cosmeticLoadoutToSave = data.cosmeticLoadout || validatedProfile.cosmeticLoadout || existingUser?.cosmeticLoadout || user.profile?.cosmeticLoadout;
 
-        console.log('[Profile PUT] Saving profileImage');
-        console.log('[Profile PUT] Request data.profileImage:', data.profileImage);
-        console.log('[Profile PUT] Request data.profileImage type:', typeof data.profileImage);
-        console.log('[Profile PUT] Request data.profileImage truthy:', !!data.profileImage);
-        console.log('[Profile PUT] Validated profileImage:', validatedProfile.profileImage);
-        console.log('[Profile PUT] Existing user profileImage:', existingUser?.profileImage);
-        console.log('[Profile PUT] User profile profileImage:', user.profile?.profileImage);
-        console.log('[Profile PUT] Final profileImageToSave:', profileImageToSave);
-        console.log('[Profile PUT] Final profileImageToSave type:', typeof profileImageToSave);
-        console.log('[Profile PUT] Final profileImageToSave truthy:', !!profileImageToSave);
-
         // Save profile data to user store (including profileImage and cosmeticLoadout)
         await upsertUser({
             email: session.user.email,
@@ -261,7 +192,6 @@ export async function PUT(req: NextRequest) {
 
         // Verify the saved data by fetching from user store
         const savedUser = await getUserByEmail(session.user.email);
-        console.log('[Profile PUT] Saved user profileImage:', savedUser?.profileImage);
 
         // Return updated profile data (including profileImage from user store)
         // IMPORTANT: Don't spread validatedProfile.profileImage as it might be undefined/null

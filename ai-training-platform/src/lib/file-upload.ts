@@ -80,30 +80,17 @@ export async function uploadImage(
                         })
                         .webp({ quality: 85, effort: 4 }) // Convert to WebP for better compression
                         .toBuffer();
-                    
+
                     buffer = Buffer.from(optimizedBuffer);
                     wasOptimized = true;
-                    
-                    console.log('[File Upload] Image optimized', {
-                        originalSize,
-                        optimizedSize: buffer.length,
-                        reduction: `${((1 - buffer.length / originalSize) * 100).toFixed(1)}%`,
-                        originalDimensions: `${metadata.width}x${metadata.height}`,
-                    });
                 } else {
                     // Just convert to WebP for better compression without resizing
                     const optimizedBuffer = await sharpInstance
                         .webp({ quality: 85, effort: 4 })
                         .toBuffer();
-                    
+
                     buffer = Buffer.from(optimizedBuffer);
                     wasOptimized = true;
-                    
-                    console.log('[File Upload] Image converted to WebP', {
-                        originalSize,
-                        optimizedSize: buffer.length,
-                        reduction: `${((1 - buffer.length / originalSize) * 100).toFixed(1)}%`,
-                    });
                 }
             } catch (optimizationError) {
                 console.warn('[File Upload] Image optimization failed, using original', {
@@ -115,13 +102,12 @@ export async function uploadImage(
 
         // Use Cloud Storage in production, local filesystem in development
         const useCloudStorage = process.env.NODE_ENV === 'production' || process.env.USE_CLOUD_STORAGE === 'true';
-        
+
         if (useCloudStorage) {
-            console.log('[File Upload] Using Cloud Storage');
             // Determine final extension and MIME type based on optimization
             const finalExtension = wasOptimized ? 'webp' : fileExtension;
             const finalMimeType = wasOptimized ? 'image/webp' : file.type;
-            
+
             // Create a new File object with optimized buffer for GCS upload
             const optimizedFile = new File([buffer], file.name.replace(/\.[^.]+$/, `.${finalExtension}`), {
                 type: finalMimeType,
@@ -130,7 +116,7 @@ export async function uploadImage(
         }
 
         // Local filesystem fallback for development
-        console.log('[File Upload] Using local filesystem');
+        // NOTE: public/uploads/ is only used in development - production uses Cloud Storage
         const sanitizedEmail = userEmail.replace(/[^a-zA-Z0-9@._-]/g, "_").substring(0, 100);
 
         // Create uploads directory if it doesn't exist

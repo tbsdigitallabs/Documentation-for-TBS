@@ -176,7 +176,7 @@ export function ModulePresentation({ content, onComplete }: ModulePresentationPr
                                             unoptimized={currentSlideData.image.src.startsWith('/api/images/') || currentSlideData.image.src.startsWith('data:') || currentSlideData.image.src.startsWith('blob:')}
                                         />
                                     </div>
-                                    
+
                                     {/* Text Content - Flows around image on large screens */}
                                     <div className="prose prose-lg prose-invert max-w-none">
                                         <MDXRemote {...currentSlideData.serialized} components={components} />

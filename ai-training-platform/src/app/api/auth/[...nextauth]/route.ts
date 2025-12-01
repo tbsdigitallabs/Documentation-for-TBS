@@ -260,9 +260,7 @@ export const authOptions: NextAuthOptions = {
         token.name = user.name
         // CRITICAL: Don't store user.image in token.picture - it can be large
         // Store image URL in user store instead if needed
-        // token.picture = user.image // REMOVED to prevent 431 errors
         // CRITICAL: Don't store onboardingCompleted in token - only include if true
-        // token.onboardingCompleted = false // REMOVED - only include if true to save space
         // CRITICAL: Keep initial profile ABSOLUTE MINIMAL to prevent 431 errors
         // Only include essential fields, no arrays, no optional fields
         const isDev = user.email === 'dev@tbsdigitallabs.com.au' || user.email === 'david@thebigsmoke.com.au';

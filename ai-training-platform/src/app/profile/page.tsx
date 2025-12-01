@@ -88,13 +88,9 @@ export default function ProfilePage() {
   const [tempImageSrc, setTempImageSrc] = useState<string | null>(null);
 
   const fetchProfile = useCallback(async () => {
-    console.log('[Profile] fetchProfile called', { hasSession: !!session, sessionEmail: session?.user?.email });
     setLoading(true);
 
     try {
-      console.log('[Profile] Starting fetch to /api/profile');
-      const startTime = Date.now();
-
       // Add timeout to prevent hanging
       const controller = new AbortController();
       const timeoutId = setTimeout(() => {
@@ -102,18 +98,13 @@ export default function ProfilePage() {
         controller.abort();
       }, 10000); // 10 second timeout
 
-      console.log('[Profile] Making fetch request...');
       const response = await fetch("/api/profile", {
         signal: controller.signal,
       });
 
-      const fetchTime = Date.now() - startTime;
-      console.log('[Profile] Fetch completed', { status: response.status, statusText: response.statusText, time: `${fetchTime}ms` });
-
       clearTimeout(timeoutId);
 
       if (!response.ok) {
-        console.error('[Profile] Response not OK', { status: response.status, statusText: response.statusText });
         const errorData = await response.json().catch((e) => {
           console.error('[Profile] Failed to parse error response', e);
           return { error: 'Unknown error' };
@@ -123,23 +114,11 @@ export default function ProfilePage() {
         return;
       }
 
-      console.log('[Profile] Parsing response JSON...');
       const data = await response.json();
-      console.log('[Profile] Profile data received');
-      console.log('[Profile] Full data object:', JSON.stringify(data, null, 2));
-      console.log('[Profile] Has profile:', !!data);
-      console.log('[Profile] Profile image URL:', data.profileImage);
-      console.log('[Profile] Has profileImage:', !!data.profileImage);
-      console.log('[Profile] Profile image type:', typeof data.profileImage);
-      console.log('[Profile] Profile image value check:', data.profileImage === null ? 'null' : data.profileImage === undefined ? 'undefined' : data.profileImage);
-      console.log('[Profile] Has cosmeticLoadout:', !!data.cosmeticLoadout);
-      console.log('[Profile] Level:', data.level);
-      console.log('[Profile] XP:', data.xp);
 
       setProfile(data);
       setEditedProfile(data);
       if (data.profileImage) {
-        console.log('[Profile] Setting imagePreview from fetched data', { profileImage: data.profileImage });
         setImagePreview(data.profileImage);
       } else {
         // Clear imagePreview if no profileImage
@@ -154,48 +133,31 @@ export default function ProfilePage() {
           setCosmeticLoadout(profileWithCosmetics.cosmeticLoadout);
         }
       }
-      console.log('[Profile] Profile state updated successfully');
     } catch (error) {
       if (error instanceof Error && error.name === 'AbortError') {
         console.error("[Profile] Profile fetch timed out after 10 seconds", error);
       } else {
         console.error("[Profile] Failed to fetch profile:", error);
-        console.error("[Profile] Error details:", {
-          name: error instanceof Error ? error.name : 'Unknown',
-          message: error instanceof Error ? error.message : String(error),
-          stack: error instanceof Error ? error.stack : undefined
-        });
       }
     } finally {
-      console.log('[Profile] Setting loading to false');
       setLoading(false);
     }
   }, [session]);
 
   // Fetch profile on mount and when session changes
   useEffect(() => {
-    console.log('[Profile] useEffect triggered', {
-      status,
-      hasSession: !!session,
-      sessionEmail: session?.user?.email,
-      loading
-    });
-
     if (status === 'loading') {
-      console.log('[Profile] Session still loading, waiting...');
       return;
     }
 
     if (status === 'unauthenticated') {
-      console.log('[Profile] User not authenticated, redirecting...');
       router.push('/auth/signin');
       return;
     }
 
     if (status === 'authenticated' && session?.user?.email) {
-      console.log('[Profile] Session authenticated, fetching profile...');
       fetchProfile();
-    } else {
+    } else if (status === 'authenticated') {
       console.warn('[Profile] Session status authenticated but no email', { status, session });
     }
   }, [status, session, fetchProfile, router]);
@@ -296,33 +258,18 @@ export default function ProfilePage() {
       // Upload image from either imageFile or imagePreview (handles File, data URL, blob URL, or server URL)
       const imageSource = imageFile || imagePreview || null;
       if (imageSource) {
-        console.log('[Profile Save] Uploading image', {
-          hasImageFile: !!imageFile,
-          hasImagePreview: !!imagePreview,
-          previewType: imagePreview ? (imagePreview.startsWith('data:') ? 'data' : imagePreview.startsWith('blob:') ? 'blob' : imagePreview.startsWith('/uploads/') ? 'server' : 'unknown') : null
-        });
-
         const uploadResult = await uploadImageFromSource(imageSource, "/api/profile/upload-image");
 
         if (uploadResult.success && uploadResult.imageUrl) {
           imageUrl = uploadResult.imageUrl;
-          console.log('[Profile Save] Image uploaded successfully');
-          console.log('[Profile Save] Image URL value:', imageUrl);
-          console.log('[Profile Save] Image URL type:', typeof imageUrl);
-          console.log('[Profile Save] Image URL length:', imageUrl?.length);
           // Update preview to server URL (not blob/data URL)
           setImagePreview(imageUrl);
         } else {
-          console.error("[Profile Save] Failed to upload image");
-          console.error("[Profile Save] Upload error:", uploadResult.error);
-          console.error("[Profile Save] Upload result:", JSON.stringify(uploadResult, null, 2));
+          console.error("[Profile Save] Failed to upload image:", uploadResult.error);
           setLoading(false);
           return;
         }
       }
-
-      console.log('[Profile Save] Sending PUT request with profileImage:', imageUrl);
-      console.log('[Profile Save] editedProfile:', editedProfile);
       
       const response = await fetch("/api/profile", {
         method: "PUT",
@@ -332,24 +279,12 @@ export default function ProfilePage() {
           profileImage: imageUrl,
         }),
       });
-      
-      console.log('[Profile Save] PUT response status:', response.status);
-      console.log('[Profile Save] PUT response ok:', response.ok);
 
       if (response.ok) {
         const updated = await response.json();
-        console.log('[Profile Save] Response received');
-        console.log('[Profile Save] Full updated object:', JSON.stringify(updated, null, 2));
-        console.log('[Profile Save] Updated profileImage from server:', updated.profileImage);
-        console.log('[Profile Save] Updated profileImage type:', typeof updated.profileImage);
-        console.log('[Profile Save] ImageUrl from upload:', imageUrl);
-        console.log('[Profile Save] Has updated object:', !!updated);
 
         // Update profileImage in the response to ensure it's set
         const finalProfileImage = imageUrl || updated.profileImage;
-        console.log('[Profile Save] Final profile image URL:', finalProfileImage);
-        console.log('[Profile Save] Final profile image type:', typeof finalProfileImage);
-        console.log('[Profile Save] Final profile image truthy:', !!finalProfileImage);
 
         setProfile({
           ...updated,
@@ -361,7 +296,6 @@ export default function ProfilePage() {
         if (finalProfileImage && !finalProfileImage.startsWith('blob:') && !finalProfileImage.startsWith('data:')) {
           setImagePreview(finalProfileImage);
           setImageFile(null); // Clear the file since it's been uploaded
-          console.log('[Profile Save] Set imagePreview to server URL', { finalProfileImage });
         } else if (!finalProfileImage) {
           // Clear imagePreview if no image
           setImagePreview(null);
@@ -418,13 +352,6 @@ export default function ProfilePage() {
   const displayImage = editing && imagePreview
     ? imagePreview
     : (profile?.profileImage || profile?.image);
-
-  // Debug logging for image display
-  console.log('[Profile Display] displayImage:', displayImage);
-  console.log('[Profile Display] profile?.profileImage:', profile?.profileImage);
-  console.log('[Profile Display] profile?.image:', profile?.image);
-  console.log('[Profile Display] imagePreview:', imagePreview);
-  console.log('[Profile Display] editing:', editing);
 
   const ClassIcon = profile?.selectedClass ? classIcons[profile.selectedClass]?.icon || Zap : Zap;
   const classColor = profile?.selectedClass ? classIcons[profile.selectedClass]?.color || "text-accent-readable-cyan" : "text-accent-readable-cyan";

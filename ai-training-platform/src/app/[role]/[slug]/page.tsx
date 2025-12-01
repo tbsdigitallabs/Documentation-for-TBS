@@ -76,10 +76,6 @@ export default async function ModulePage({ params }: { params: Promise<{ role: s
         ? 'sales' 
         : role;
     
-    // Debug logging for sales modules
-    if (role === 'sales-business-dev') {
-        console.log(`Loading sales module: role=${role}, slug=${slug}, contentRole=${contentRole}`);
-    }
 
     // Check foundation requirement for non-foundation modules
     // SAFETY: This check is wrapped in try-catch to ensure it NEVER blocks access on error
@@ -100,7 +96,7 @@ export default async function ModulePage({ params }: { params: Promise<{ role: s
           try {
             const { getUserByEmail } = await import('@/lib/user-store');
             if (session.user.email) {
-              const storedUser = getUserByEmail(session.user.email);
+              const storedUser = await getUserByEmail(session.user.email);
               if (storedUser?.completedModules && storedUser.completedModules.length > completedModules.length) {
                 // Use full list from user store for foundation check
                 completedModules = storedUser.completedModules;

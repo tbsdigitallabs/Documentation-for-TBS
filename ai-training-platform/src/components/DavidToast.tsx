@@ -58,9 +58,6 @@ export function ToastMessage({ message, onClose, duration = 4000 }: DavidToastPr
   );
 }
 
-// Named export as DavidToast for ToastContext (alias for ToastMessage)
-export { ToastMessage as DavidToast };
-
 // Encouragement messages for different achievements
 export const ENCOURAGEMENT_MESSAGES = {
   moduleComplete: [

@@ -8,6 +8,7 @@ import { BookOpen, Hammer, Sparkles, Shield, Scroll, Coins, Lock, AlertTriangle 
 import { getClassRoute, getAllClasses, CLASS_NAMES, type ClassInfo } from "@/lib/role-mapping";
 import ClientPageHeader from "@/components/ClientPageHeader";
 import { Leaderboard } from "@/components/Leaderboard";
+import { ArmorySidebar } from "@/components/ArmorySidebar";
 import { hasCompletedFoundation } from "@/lib/foundation-check";
 
 export default function ClassSelectionPage() {
@@ -90,15 +91,15 @@ export default function ClassSelectionPage() {
             {session?.user?.profile && (() => {
                 // Check if user has flag indicating all modules completed (David's case)
                 const hasAllCompleted = (session.user.profile as any)?.hasAllModulesCompleted;
-                
+
                 // For client-side check, use session modules (limited to 10)
                 // Full check happens server-side on role pages
                 const completedModules = session.user.profile.completedModules || [];
-                
+
                 // If user has flag, skip foundation requirement
                 // Otherwise check with available modules (may be incomplete list, but better than blocking)
                 const hasFoundation = hasAllCompleted || hasCompletedFoundation(completedModules);
-                
+
                 if (!hasFoundation) {
                     return (
                         <div className="px-5 mb-6">
@@ -136,14 +137,19 @@ export default function ClassSelectionPage() {
                 return null;
             })()}
 
-            {/* Class Selection with Leaderboard */}
+            {/* Class Selection with Armory and Leaderboard */}
             <div className="px-5 pb-8">
-                <div className="max-w-6xl mx-auto">
-                    <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-                        {/* Main Content */}
-                        <div className="lg:col-span-3">
+                <div className="max-w-7xl mx-auto">
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                        {/* Armory Sidebar - Left */}
+                        <div className="lg:col-span-3 order-2 lg:order-1">
+                            <ArmorySidebar />
+                        </div>
+
+                        {/* Main Content - Center */}
+                        <div className="lg:col-span-6 order-1 lg:order-2">
                             <h2 className="text-xl font-heading font-bold text-content-primary mb-6 leading-tight tracking-tight text-center lg:text-left">Select Your Role</h2>
-                            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
+                            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 gap-4">
                                 {classes.map((classItem) => {
                                     const Icon = classIcons[classItem.name] || BookOpen;
                                     const accentColor = classColors[classItem.name] || "var(--accent-magenta-500)";
@@ -175,8 +181,8 @@ export default function ClassSelectionPage() {
                             </div>
                         </div>
 
-                        {/* Leaderboard Sidebar */}
-                        <div className="lg:col-span-1">
+                        {/* Leaderboard Sidebar - Right */}
+                        <div className="lg:col-span-3 order-3">
                             <Leaderboard />
                         </div>
                     </div>

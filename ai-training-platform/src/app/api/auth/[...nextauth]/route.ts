@@ -327,7 +327,9 @@ export const authOptions: NextAuthOptions = {
           let totalXP = 0;
 
           // Add all foundation modules first (Session 0)
-          const foundationModules = ['02-admin-automation', '03-ai-cybersecurity-best-practices', '04-ai-landscape-2025', 'sora-setup'];
+          // Foundation modules are only those that start with numbers (01-, 02-, etc.)
+          // Exclude tool modules like 'sora-setup' which are not foundation modules
+          const foundationModules = ['02-admin-automation', '03-ai-cybersecurity-best-practices', '04-ai-landscape-2025'];
           foundationModules.forEach(moduleSlug => {
             const moduleId = `session-0/${moduleSlug}`;
             const moduleName = moduleSlug.replace(/^\d+-/, '').replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
@@ -510,8 +512,21 @@ export const authOptions: NextAuthOptions = {
 
           token.profile = minimalUpdatedProfile;
         }
-        if (sessionData.onboardingCompleted !== undefined) {
-          token.onboardingCompleted = sessionData.onboardingCompleted
+        // CRITICAL: Only store onboardingCompleted if true (skip false to save space)
+        // Don't set it to false - undefined is smaller than false in JSON
+        if (sessionData.onboardingCompleted === true) {
+          token.onboardingCompleted = true;
+        }
+        // CRITICAL: When onboarding completes, save profileImage to user store
+        if (sessionData.onboardingCompleted && sessionData.profile && (sessionData.profile as any).profileImage && token.email) {
+          try {
+            await upsertUser({
+              email: token.email,
+              profileImage: (sessionData.profile as any).profileImage,
+            } as any);
+          } catch (storeError) {
+            console.error('Error storing profileImage during onboarding:', storeError);
+          }
         }
       }
       return token

@@ -144,3 +144,15 @@ export async function getUserByEmail(email: string): Promise<StoredUser | null> 
   return users.find(u => u.email === email) || null;
 }
 
+export async function getAllUsers(): Promise<StoredUser[]> {
+  if (useFirestore) {
+    console.log('[User Store] Using Firestore for getAllUsers');
+    // Firestore doesn't have getAllUsers, use getLeaderboard which returns all users
+    return await firestore.getLeaderboard();
+  }
+
+  // Local filesystem fallback for development
+  console.log('[User Store] Using local filesystem for getAllUsers');
+  return readUsers();
+}
+

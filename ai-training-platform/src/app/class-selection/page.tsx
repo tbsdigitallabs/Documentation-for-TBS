@@ -148,6 +148,35 @@ export default function ClassSelectionPage() {
 
                         {/* Main Content - Center */}
                         <div className="lg:col-span-6 order-1 lg:order-2">
+                            {/* Foundation Training Widget */}
+                            <div className="mb-6">
+                                <Link href="/session-0" className="block glass-card rounded-xl p-6 hover:scale-[1.02] transition-all border-2 border-accent-magenta-500/30 hover:border-accent-magenta-500/50">
+                                    <div className="flex items-start gap-4">
+                                        <div className="flex-shrink-0">
+                                            <div className="inline-flex items-center justify-center p-3 rounded-xl bg-accent-magenta-500/20 border border-accent-magenta-500/30">
+                                                <BookOpen className="w-6 h-6 text-accent-magenta-500" />
+                                            </div>
+                                        </div>
+                                        <div className="flex-1 min-w-0">
+                                            <h3 className="text-lg font-heading font-bold text-content-primary mb-2">
+                                                Foundation Training
+                                            </h3>
+                                            <p className="text-sm text-content-secondary mb-3">
+                                                Master the fundamentals of AI tools and concepts that apply to all team members. Complete these modules before accessing role-specific training.
+                                            </p>
+                                            <div className="flex items-center gap-2 text-xs text-content-secondary">
+                                                <span className="mono-text">Core Systems</span>
+                                                <span>•</span>
+                                                <span className="mono-text">Required First</span>
+                                            </div>
+                                        </div>
+                                        <div className="flex-shrink-0">
+                                            <span className="text-accent-magenta-500 text-sm font-medium">Start →</span>
+                                        </div>
+                                    </div>
+                                </Link>
+                            </div>
+
                             <h2 className="text-xl font-heading font-bold text-content-primary mb-6 leading-tight tracking-tight text-center lg:text-left">Select Your Role</h2>
                             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 gap-4">
                                 {classes.map((classItem) => {

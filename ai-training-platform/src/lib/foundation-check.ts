@@ -29,7 +29,10 @@ export function getFoundationModuleIds(): string[] {
       // No foundation modules = no requirement, allow access
       return [];
     }
-    return modules.map(module => `session-0/${module.slug}`).filter(Boolean);
+    // Foundation modules are only those that start with numbers (01-, 02-, etc.)
+    // Exclude tool modules like 'sora-setup' which are not foundation modules
+    const foundationModules = modules.filter(module => /^\d+-/.test(module.slug));
+    return foundationModules.map(module => `session-0/${module.slug}`).filter(Boolean);
   } catch (error) {
     // On any error, return empty array to allow access (fail open)
     // This prevents the foundation check from blocking users if there's a file system issue

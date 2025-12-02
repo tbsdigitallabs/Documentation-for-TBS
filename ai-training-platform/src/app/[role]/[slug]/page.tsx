@@ -186,7 +186,7 @@ export default async function ModulePage({ params }: { params: Promise<{ role: s
         <header className="border-b border-border-primary bg-surface-primary sticky top-0 z-50 flex-shrink-0">
           <div className="px-4 py-1.5 max-w-7xl mx-auto">
             <div className="flex items-center justify-between">
-              <Link href={role === 'session-0' ? '/session-0' : `/${role}`} className="py-1 px-2 -ml-2 rounded-lg hover:bg-white/10 transition-colors group flex items-center gap-2">
+              <Link href={role === 'session-0' ? '/session-0' : role === 'shared' ? '/class-selection' : `/${role}`} className="py-1 px-2 -ml-2 rounded-lg hover:bg-white/10 transition-colors group flex items-center gap-2">
                 <ArrowLeft className="w-4 h-4 text-content-secondary group-hover:text-content-primary" />
                 <span className="text-sm text-content-secondary group-hover:text-content-primary">Back to overview</span>
               </Link>
@@ -226,8 +226,8 @@ export default async function ModulePage({ params }: { params: Promise<{ role: s
               Class Selection
             </Link>
             <span>/</span>
-            <Link href={role === 'session-0' ? '/session-0' : `/${role}`} className="hover:text-content-primary transition-colors capitalize">
-              {role === 'session-0' ? 'Session 0' : role === 'sales-business-dev' ? 'Sales & Business Dev' : role.replace(/-/g, ' ')}
+            <Link href={role === 'session-0' ? '/session-0' : role === 'shared' ? '/class-selection' : `/${role}`} className="hover:text-content-primary transition-colors capitalize">
+              {role === 'session-0' ? 'Session 0' : role === 'shared' ? 'Class Selection' : role === 'sales-business-dev' ? 'Sales & Business Dev' : role.replace(/-/g, ' ')}
             </Link>
             <span>/</span>
             <span className="text-content-primary font-medium">{metadata.title}</span>

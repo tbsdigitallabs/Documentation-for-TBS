@@ -54,7 +54,7 @@ export function AvatarFrame({
             alt={alt || 'Avatar'} 
             fill 
             className="object-cover" 
-            unoptimized={src.startsWith('data:') || src.startsWith('blob:') || src.startsWith('/api/images/')}
+            unoptimized={src.startsWith('data:') || src.startsWith('blob:') || src.startsWith('/api/images/') || src.includes('dicebear.com')}
             onError={(e) => {
               console.error('[AvatarFrame] Image load error:', src, e);
             }}

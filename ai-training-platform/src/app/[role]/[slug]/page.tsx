@@ -88,45 +88,73 @@ export default async function ModulePage({ params }: { params: Promise<{ role: s
         // Check if user has flag indicating all modules completed (David's case)
         const hasAllCompleted = (session.user.profile as any)?.hasAllModulesCompleted;
         
-        // Get completedModules from session (limited to 10 most recent)
-        let completedModules = session.user.profile.completedModules || [];
+        // CRITICAL: Always fetch full list from user store for foundation check
+        // Session only has 10 most recent modules (or none for accounts with hasAllModulesCompleted flag)
+        // We need the COMPLETE list to accurately check foundation completion
+        let completedModules: Array<{ moduleId: string }> = [];
         
-        // If user has flag or we need to check foundation, fetch full list from user store
-        if (hasAllCompleted || completedModules.length < 10) {
+        if (session.user.email) {
           try {
             const { getUserByEmail } = await import('@/lib/user-store');
-            if (session.user.email) {
-              const storedUser = await getUserByEmail(session.user.email);
-              if (storedUser?.completedModules && storedUser.completedModules.length > completedModules.length) {
-                // Use full list from user store for foundation check
-                completedModules = storedUser.completedModules;
-              }
+            const storedUser = await getUserByEmail(session.user.email);
+            if (storedUser?.completedModules && Array.isArray(storedUser.completedModules)) {
+              // Use full list from user store - this is the authoritative source
+              completedModules = storedUser.completedModules;
+            } else {
+              // If user store has no modules, fall back to session (might have recent modules)
+              completedModules = session.user.profile.completedModules || [];
             }
           } catch (storeError) {
-            // If user store fetch fails, use session modules (fail gracefully)
-            console.warn('Could not fetch from user store, using session modules:', storeError);
+            // If user store fetch fails, fall back to session modules (fail gracefully)
+            console.error('[Foundation Check] Could not fetch from user store, using session modules:', storeError);
+            completedModules = session.user.profile.completedModules || [];
           }
+        } else {
+          // No email in session - use session modules as fallback
+          completedModules = session.user.profile.completedModules || [];
         }
         
-        const foundationModuleIds = getFoundationModuleIds();
+        // If user has hasAllModulesCompleted flag, skip foundation check (they've completed everything)
+        if (hasAllCompleted) {
+          // User has completed all modules, allow access
+          console.log('[Foundation Check] User has hasAllModulesCompleted flag, skipping foundation check');
+        } else {
         
-        // If no foundation modules exist, allow access (no requirement)
-        if (foundationModuleIds.length > 0) {
-          const hasFoundation = hasCompletedFoundation(completedModules);
+          const foundationModuleIds = getFoundationModuleIds();
           
-          if (!hasFoundation) {
-            try {
-              const incompleteModules = getIncompleteFoundationModules(completedModules);
-              
-              return (
-                <FoundationRequirement 
-                  incompleteModules={incompleteModules}
-                  totalFoundationModules={foundationModuleIds.length}
-                />
-              );
-            } catch (reqError) {
-              // If showing requirement fails, allow access
-              console.error('Error showing foundation requirement (allowing access):', reqError);
+          // If no foundation modules exist, allow access (no requirement)
+          if (foundationModuleIds.length > 0) {
+            const hasFoundation = hasCompletedFoundation(completedModules);
+            
+            console.log('[Foundation Check]', {
+              email: session.user.email,
+              foundationModuleIds,
+              completedModuleIds: completedModules.map(m => m.moduleId),
+              hasFoundation,
+              completedModulesCount: completedModules.length,
+            });
+            
+            if (!hasFoundation) {
+              try {
+                const incompleteModules = getIncompleteFoundationModules(completedModules);
+                
+                console.log('[Foundation Check] User has not completed foundation:', {
+                  incompleteModules,
+                  totalRequired: foundationModuleIds.length,
+                });
+                
+                return (
+                  <FoundationRequirement 
+                    incompleteModules={incompleteModules}
+                    totalFoundationModules={foundationModuleIds.length}
+                  />
+                );
+              } catch (reqError) {
+                // If showing requirement fails, allow access
+                console.error('Error showing foundation requirement (allowing access):', reqError);
+              }
+            } else {
+              console.log('[Foundation Check] User has completed foundation, allowing access');
             }
           }
         }

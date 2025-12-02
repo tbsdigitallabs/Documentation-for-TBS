@@ -28,22 +28,52 @@ export default async function SalesBusinessDevPage() {
   // Check foundation requirement
   if (session?.user?.profile) {
     try {
-      const completedModules = session.user.profile.completedModules || [];
-      const hasFoundation = hasCompletedFoundation(completedModules);
+      // Check if user has flag indicating all modules completed (David's case)
+      const hasAllCompleted = (session.user.profile as any)?.hasAllModulesCompleted;
       
-      if (!hasFoundation) {
-        const foundationModuleIds = getFoundationModuleIds();
-        const incompleteModules = getIncompleteFoundationModules(completedModules);
+      // CRITICAL: Always fetch full list from user store for foundation check
+      // Session only has 10 most recent modules (or none for accounts with hasAllModulesCompleted flag)
+      let completedModules: Array<{ moduleId: string }> = [];
+      
+      if (session.user.email) {
+        try {
+          const { getUserByEmail } = await import('@/lib/user-store');
+          const storedUser = await getUserByEmail(session.user.email);
+          if (storedUser?.completedModules && Array.isArray(storedUser.completedModules)) {
+            // Use full list from user store - this is the authoritative source
+            completedModules = storedUser.completedModules;
+          } else {
+            // If user store has no modules, fall back to session (might have recent modules)
+            completedModules = session.user.profile.completedModules || [];
+          }
+        } catch (storeError) {
+          console.error('[Foundation Check] Could not fetch from user store, using session modules:', storeError);
+          completedModules = session.user.profile.completedModules || [];
+        }
+      } else {
+        completedModules = session.user.profile.completedModules || [];
+      }
+      
+      // If user has hasAllModulesCompleted flag, skip foundation check
+      if (hasAllCompleted) {
+        // User has completed all modules, allow access
+      } else {
+        const hasFoundation = hasCompletedFoundation(completedModules);
         
-        return (
-          <div className="min-h-screen bg-gradient-surface">
-            <PageHeader session={session} />
-            <FoundationRequirement 
-              incompleteModules={incompleteModules}
-              totalFoundationModules={foundationModuleIds.length}
-            />
-          </div>
-        );
+        if (!hasFoundation) {
+          const foundationModuleIds = getFoundationModuleIds();
+          const incompleteModules = getIncompleteFoundationModules(completedModules);
+          
+          return (
+            <div className="min-h-screen bg-gradient-surface">
+              <PageHeader session={session} />
+              <FoundationRequirement 
+                incompleteModules={incompleteModules}
+                totalFoundationModules={foundationModuleIds.length}
+              />
+            </div>
+          );
+        }
       }
     } catch (error) {
       console.error('Error checking foundation requirement:', error);

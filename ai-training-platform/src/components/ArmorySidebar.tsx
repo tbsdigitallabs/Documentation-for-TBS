@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Wrench, BookOpen, Shield, TrendingUp, Video } from "lucide-react";
+import { Wrench, BookOpen, Video, Code, MessageSquare, Sparkles, Image, Search, FileText, Palette, Zap } from "lucide-react";
 
 interface ArmoryModule {
     slug: string;
@@ -13,45 +13,94 @@ interface ArmoryModule {
 
 // Map module slugs to icons
 const moduleIcons: Record<string, typeof Wrench> = {
-    "02-admin-automation": Wrench,
-    "03-ai-cybersecurity-best-practices": Shield,
-    "04-ai-landscape-2025": TrendingUp,
     "sora-setup": Video,
+    "cursor-ide": Code,
+    "claude": MessageSquare,
+    "chatgpt": MessageSquare,
+    "github-copilot": Code,
+    "midjourney": Image,
+    "runway-ml": Video,
+    "perplexity": Search,
+    "notion-ai": FileText,
+    "figma-ai": Palette,
+    "claude-desktop": Zap,
 };
 
 // Fallback icon
 const defaultIcon = BookOpen;
 
-// Shared modules - these are the "tools" modules available to all roles
-// Exclude foundation modules (01-*) as those are in Session 0
+// Armory modules - AI tools and their SOPs only (excluding foundation modules)
+// These are specific tools and standard operating procedures for using them
 const sharedModules: ArmoryModule[] = [
-    {
-        slug: "02-admin-automation",
-        title: "Personal Admin Automation",
-        description: "Learn how to reclaim 5+ hours of your week by automating admin tasks using AI.",
-        estimatedTime: "30 minutes",
-        difficulty: "Beginner",
-    },
-    {
-        slug: "03-ai-cybersecurity-best-practices",
-        title: "AI Cybersecurity Best Practices",
-        description: "Learn how to safely integrate AI tools into your workflow while protecting company IP and sensitive data.",
-        estimatedTime: "45 minutes",
-        difficulty: "Intermediate",
-    },
-    {
-        slug: "04-ai-landscape-2025",
-        title: "The AI Landscape: Late 2025 Edition",
-        description: "From Chatbots to Agents: A strategic overview of the major AI players—Anthropic, OpenAI, DeepSeek, and the new wave of Autonomous Agents.",
-        estimatedTime: "15 mins",
-        difficulty: "Intermediate",
-    },
     {
         slug: "sora-setup",
         title: "Sora 2 Setup Guide",
         description: "Step-by-step instructions for TBS Digital Labs team members to access Sora 2 for training and professional use.",
         estimatedTime: "10 minutes",
         difficulty: "Beginner",
+    },
+    {
+        slug: "cursor-ide",
+        title: "Cursor IDE SOP",
+        description: "Standard operating procedures for using Cursor IDE, the AI-powered code editor for enhanced development workflows.",
+        estimatedTime: "20 minutes",
+        difficulty: "Beginner",
+    },
+    {
+        slug: "claude",
+        title: "Claude (Anthropic) SOP",
+        description: "Best practices and workflows for using Claude AI assistant for coding, writing, and analysis tasks.",
+        estimatedTime: "15 minutes",
+        difficulty: "Beginner",
+    },
+    {
+        slug: "chatgpt",
+        title: "ChatGPT (OpenAI) SOP",
+        description: "Guidelines for using ChatGPT effectively in professional contexts, including prompt engineering and workflow integration.",
+        estimatedTime: "15 minutes",
+        difficulty: "Beginner",
+    },
+    {
+        slug: "github-copilot",
+        title: "GitHub Copilot SOP",
+        description: "Setup and usage guidelines for GitHub Copilot AI code completion tool in your development environment.",
+        estimatedTime: "15 minutes",
+        difficulty: "Beginner",
+    },
+    {
+        slug: "midjourney",
+        title: "Midjourney SOP",
+        description: "Standard operating procedures for using Midjourney AI image generation for design and creative projects.",
+        estimatedTime: "20 minutes",
+        difficulty: "Intermediate",
+    },
+    {
+        slug: "runway-ml",
+        title: "Runway ML SOP",
+        description: "Workflow guidelines for using Runway ML's AI video and image generation tools in production.",
+        estimatedTime: "25 minutes",
+        difficulty: "Intermediate",
+    },
+    {
+        slug: "perplexity",
+        title: "Perplexity AI SOP",
+        description: "Best practices for using Perplexity AI research assistant for information gathering and fact-checking.",
+        estimatedTime: "10 minutes",
+        difficulty: "Beginner",
+    },
+    {
+        slug: "notion-ai",
+        title: "Notion AI SOP",
+        description: "Guidelines for leveraging Notion AI features for documentation, project management, and knowledge organisation.",
+        estimatedTime: "15 minutes",
+        difficulty: "Beginner",
+    },
+    {
+        slug: "figma-ai",
+        title: "Figma AI SOP",
+        description: "Standard operating procedures for using Figma's AI-powered design tools and automation features.",
+        estimatedTime: "20 minutes",
+        difficulty: "Intermediate",
     },
 ];
 
@@ -70,7 +119,7 @@ export function ArmorySidebar() {
                 <h3 className="text-lg font-heading font-bold text-content-primary">Armory</h3>
             </div>
             <p className="text-sm text-content-secondary mb-4">
-                Shared tools and resources available to all roles
+                AI tools and their standard operating procedures
             </p>
             <div className="space-y-2">
                 {sharedModules.map((module) => {

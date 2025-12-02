@@ -1,0 +1,144 @@
+[1mdiff --git a/ai-training-platform/src/app/[role]/[slug]/page.tsx b/ai-training-platform/src/app/[role]/[slug]/page.tsx[m
+[1mindex 99eb1d70..49707a7a 100644[m
+[1m--- a/ai-training-platform/src/app/[role]/[slug]/page.tsx[m
+[1m+++ b/ai-training-platform/src/app/[role]/[slug]/page.tsx[m
+[36m@@ -26,7 +26,7 @@[m [mexport async function generateStaticParams() {[m
+             'sales': 'sales',[m
+             'shared': 'shared',[m
+         };[m
+[31m-        [m
+[32m+[m
+         const params = [];[m
+ [m
+         for (const [routeRole, contentRole] of Object.entries(roleMappings)) {[m
+[36m@@ -70,74 +70,74 @@[m [mexport default async function ModulePage({ params }: { params: Promise<{ role: s[m
+     const session = await getServerSession(authOptions);[m
+ [m
+     // Map route slugs to content directory names[m
+[31m-    const contentRole = role === 'session-0' [m
+[31m-      ? 'shared' [m
+[31m-      : role === 'sales-business-dev' [m
+[31m-        ? 'sales' [m
+[31m-        : role;[m
+[31m-    [m
+[32m+[m[32m    const contentRole = role === 'session-0'[m
+[32m+[m[32m        ? 'shared'[m
+[32m+[m[32m        : role === 'sales-business-dev'[m
+[32m+[m[32m            ? 'sales'[m
+[32m+[m[32m            : role;[m
+[32m+[m
+ [m
+     // Check foundation requirement for non-foundation modules[m
+     // SAFETY: This check is wrapped in try-catch to ensure it NEVER blocks access on error[m
+     const moduleId = role === 'session-0' ? `session-0/${slug}` : `${role}/${slug}`;[m
+     const isFoundation = isFoundationModule(moduleId);[m
+[31m-    [m
+[32m+[m
+     // Skip foundation check entirely if it's a foundation module[m
+     if (!isFoundation && session?.user?.profile) {[m
+[31m-      try {[m
+[31m-        // Check if user has flag indicating all modules completed (David's case)[m
+[31m-        const hasAllCompleted = (session.user.profile as any)?.hasAllModulesCompleted;[m
+[31m-        [m
+[31m-        // Get completedModules from session (limited to 10 most recent)[m
+[31m-        let completedModules = session.user.profile.completedModules || [];[m
+[31m-        [m
+[31m-        // If user has flag or we need to check foundation, fetch full list from user store[m
+[31m-        if (hasAllCompleted || completedModules.length < 10) {[m
+[31m-          try {[m
+[31m-            const { getUserByEmail } = await import('@/lib/user-store');[m
+[31m-            if (session.user.email) {[m
+[31m-              const storedUser = await getUserByEmail(session.user.email);[m
+[31m-              if (storedUser?.completedModules && storedUser.completedModules.length > completedModules.length) {[m
+[31m-                // Use full list from user store for foundation check[m
+[31m-                completedModules = storedUser.completedModules;[m
+[31m-              }[m
+[32m+[m[32m        try {[m
+[32m+[m[32m            // Check if user has flag indicating all modules completed (David's case)[m
+[32m+[m[32m            const hasAllCompleted = (session.user.profile as any)?.hasAllModulesCompleted;[m
+[32m+[m
+[32m+[m[32m            // Get completedModules from session (limited to 10 most recent)[m
+[32m+[m[32m            let completedModules = session.user.profile.completedModules || [];[m
+[32m+[m
+[32m+[m[32m            // If user has flag or we need to check foundation, fetch full list from user store[m
+[32m+[m[32m            if (hasAllCompleted || completedModules.length < 10) {[m
+[32m+[m[32m                try {[m
+[32m+[m[32m                    const { getUserByEmail } = await import('@/lib/user-store');[m
+[32m+[m[32m                    if (session.user.email) {[m
+[32m+[m[32m                        const storedUser = await getUserByEmail(session.user.email);[m
+[32m+[m[32m                        if (storedUser?.completedModules && storedUser.completedModules.length > completedModules.length) {[m
+[32m+[m[32m                            // Use full list from user store for foundation check[m
+[32m+[m[32m                            completedModules = storedUser.completedModules;[m
+[32m+[m[32m                        }[m
+[32m+[m[32m                    }[m
+[32m+[m[32m                } catch (storeError) {[m
+[32m+[m[32m                    // If user store fetch fails, use session modules (fail gracefully)[m
+[32m+[m[32m                    console.warn('Could not fetch from user store, using session modules:', storeError);[m
+[32m+[m[32m                }[m
+             }[m
+[31m-          } catch (storeError) {[m
+[31m-            // If user store fetch fails, use session modules (fail gracefully)[m
+[31m-            console.warn('Could not fetch from user store, using session modules:', storeError);[m
+[31m-          }[m
+[31m-        }[m
+[31m-        [m
+[31m-        const foundationModuleIds = getFoundationModuleIds();[m
+[31m-        [m
+[31m-        // If no foundation modules exist, allow access (no requirement)[m
+[31m-        if (foundationModuleIds.length > 0) {[m
+[31m-          const hasFoundation = hasCompletedFoundation(completedModules);[m
+[31m-          [m
+[31m-          if (!hasFoundation) {[m
+[31m-            try {[m
+[31m-              const incompleteModules = getIncompleteFoundationModules(completedModules);[m
+[31m-              [m
+[31m-              return ([m
+[31m-                <FoundationRequirement [m
+[31m-                  incompleteModules={incompleteModules}[m
+[31m-                  totalFoundationModules={foundationModuleIds.length}[m
+[31m-                />[m
+[31m-              );[m
+[31m-            } catch (reqError) {[m
+[31m-              // If showing requirement fails, allow access[m
+[31m-              console.error('Error showing foundation requirement (allowing access):', reqError);[m
+[32m+[m
+[32m+[m[32m            const foundationModuleIds = getFoundationModuleIds();[m
+[32m+[m
+[32m+[m[32m            // If no foundation modules exist, allow access (no requirement)[m
+[32m+[m[32m            if (foundationModuleIds.length > 0) {[m
+[32m+[m[32m                const hasFoundation = hasCompletedFoundation(completedModules);[m
+[32m+[m
+[32m+[m[32m                if (!hasFoundation) {[m
+[32m+[m[32m                    try {[m
+[32m+[m[32m                        const incompleteModules = getIncompleteFoundationModules(completedModules);[m
+[32m+[m
+[32m+[m[32m                        return ([m
+[32m+[m[32m                            <FoundationRequirement[m
+[32m+[m[32m                                incompleteModules={incompleteModules}[m
+[32m+[m[32m                                totalFoundationModules={foundationModuleIds.length}[m
+[32m+[m[32m                            />[m
+[32m+[m[32m                        );[m
+[32m+[m[32m                    } catch (reqError) {[m
+[32m+[m[32m                        // If showing requirement fails, allow access[m
+[32m+[m[32m                        console.error('Error showing foundation requirement (allowing access):', reqError);[m
+[32m+[m[32m                    }[m
+[32m+[m[32m                }[m
+             }[m
+[31m-          }[m
+[32m+[m[32m        } catch (error) {[m
+[32m+[m[32m            // CRITICAL: On ANY error, allow access to prevent blocking users[m
+[32m+[m[32m            // This ensures the foundation check can never cause a 403 or block access[m
+[32m+[m[32m            console.error('Error in foundation check (allowing access):', error);[m
+[32m+[m[32m            // Continue to render the module normally - fail open[m
+         }[m
+[31m-      } catch (error) {[m
+[31m-        // CRITICAL: On ANY error, allow access to prevent blocking users[m
+[31m-        // This ensures the foundation check can never cause a 403 or block access[m
+[31m-        console.error('Error in foundation check (allowing access):', error);[m
+[31m-        // Continue to render the module normally - fail open[m
+[31m-      }[m
+     }[m
+[31m-    [m
+[32m+[m
+     // If no session, allow access (auth middleware will handle redirect)[m
+ 

@@ -46,11 +46,11 @@ export default async function Session0Page() {
         <Container size="xl">
           {modules.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
-              {modules.map((module) => (
+              {modules.map((module, index) => (
                 <HoloCard key={module.slug} className="flex flex-col h-full">
                   <div className="mb-6">
                     <span className="mono-label text-accent-magenta-500 px-2 py-1 rounded-md bg-accent-magenta-5 border border-accent-magenta-20 inline-block">
-                      MISSION {module.slug.split('-')[0].padStart(2, '0')}
+                      MISSION {(index + 1).toString().padStart(2, '0')}
                     </span>
                   </div>
                   <h2 className="heading-3 text-content-primary mb-4 flex-grow">{module.title}</h2>

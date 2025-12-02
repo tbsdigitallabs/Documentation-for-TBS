@@ -74,7 +74,7 @@ export function Questionnaire({ questions, onComplete }: QuestionnaireProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [questions, shuffleKey]);
 
-    // Get role from pathname for dashboard link (e.g., /developers/01-foundation -> /developers)
+    // Get role from pathname for dashboard link (e.g., /developers/foundation -> /developers)
     const rolePath = useMemo(() => {
         const parts = pathname.split('/');
         return parts.length >= 2 ? `/${parts[1]}` : '/';

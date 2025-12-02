@@ -29,9 +29,21 @@ export function getFoundationModuleIds(): string[] {
       // No foundation modules = no requirement, allow access
       return [];
     }
-    // Foundation modules are only those that start with numbers (01-, 02-, etc.)
-    // Exclude tool modules like 'sora-setup' which are not foundation modules
-    const foundationModules = modules.filter(module => /^\d+-/.test(module.slug));
+    // Foundation modules = all shared modules EXCEPT tool modules (Armory)
+    // Tool modules are identified by being in the Armory sidebar
+    const toolModuleSlugs = [
+      'sora-setup',
+      'cursor-ide',
+      'claude',
+      'chatgpt',
+      'github-copilot',
+      'midjourney',
+      'runway-ml',
+      'perplexity',
+      'notion-ai',
+      'figma-ai',
+    ];
+    const foundationModules = modules.filter(module => !toolModuleSlugs.includes(module.slug));
     return foundationModules.map(module => `session-0/${module.slug}`).filter(Boolean);
   } catch (error) {
     // On any error, return empty array to allow access (fail open)

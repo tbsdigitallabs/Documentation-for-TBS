@@ -300,39 +300,50 @@ export const authOptions: NextAuthOptions = {
             developers: {
               route: 'developers',
               contentDir: 'developers',
-              modules: ['01-foundation', '02-automated-research-pipelines', '03-ai-assisted-testing', '04-refactoring-legacy-code', '05-documenting-proprietary-systems']
+              modules: ['foundation', 'automated-research-pipelines', 'ai-assisted-testing', 'refactoring-legacy-code', 'documenting-proprietary-systems']
             },
             designers: {
               route: 'designers',
               contentDir: 'designers',
-              modules: ['01-ai-ui-ux-workflow', '02-generative-assets', '03-design-systems-ai']
+              modules: ['ai-ui-ux-workflow', 'generative-assets', 'design-systems-ai']
             },
             'project-managers': {
               route: 'project-managers',
               contentDir: 'project-managers',
-              modules: ['01-strategy-foundations', '02-ai-research-strategy', '03-ai-internal-data', '04-strategy-workflows', '05-qa-validation', '06-asana-automation', '07-meeting-governance']
+              modules: ['strategy-foundations', 'ai-research-strategy', 'ai-internal-data', 'strategy-workflows', 'qa-validation', 'asana-automation', 'meeting-governance']
             },
             'content-creators': {
               route: 'content-creators',
               contentDir: 'content-creators',
-              modules: ['01-pr-angles', '02-creative-systems', '03-video-generation']
+              modules: ['pr-angles', 'creative-systems', 'video-generation']
             },
             'sales-business-dev': {
               route: 'sales-business-dev',
               contentDir: 'sales',
-              modules: ['01-gtm-planning', '02-lead-gen-systems', '03-hubspot-hygiene', '04-automated-reporting']
+              modules: ['gtm-planning', 'lead-gen-systems', 'hubspot-hygiene', 'automated-reporting']
             }
           };
 
           let totalXP = 0;
 
           // Add all foundation modules first (Session 0)
-          // Foundation modules are only those that start with numbers (01-, 02-, etc.)
-          // Exclude tool modules like 'sora-setup' which are not foundation modules
-          const foundationModules = ['02-admin-automation', '03-ai-cybersecurity-best-practices', '04-ai-landscape-2025'];
+          // Foundation modules = all shared modules EXCEPT tool modules (Armory)
+          const toolModuleSlugs = [
+            'sora-setup',
+            'cursor-ide',
+            'claude',
+            'chatgpt',
+            'github-copilot',
+            'midjourney',
+            'runway-ml',
+            'perplexity',
+            'notion-ai',
+            'figma-ai',
+          ]; // Tool modules excluded from foundation
+          const foundationModules = ['admin-automation', 'ai-cybersecurity-best-practices', 'ai-landscape-2025'];
           foundationModules.forEach(moduleSlug => {
             const moduleId = `session-0/${moduleSlug}`;
-            const moduleName = moduleSlug.replace(/^\d+-/, '').replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+            const moduleName = moduleSlug.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
             const xpEarned = 75;
             totalXP += xpEarned;
 

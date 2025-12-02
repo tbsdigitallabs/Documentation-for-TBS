@@ -10,6 +10,7 @@ export type ModuleMetadata = {
     estimatedTime?: string;
     difficulty?: string;
     prerequisites?: string;
+    order?: number; // Optional order field for custom sorting
     slug: string;
     role: string;
     questions?: Array<{
@@ -74,7 +75,17 @@ export function getAllModules(role: string): ModuleMetadata[] {
             }
         })
         .filter((module): module is ModuleMetadata => module !== null)
-        // Sort by filename (01, 02, etc.)
-        .sort((a, b) => (a.slug > b.slug ? 1 : -1));
+        // Sort by order field if present, otherwise by title, then by slug
+        .sort((a, b) => {
+            if (a.order !== undefined && b.order !== undefined) {
+                return a.order - b.order;
+            }
+            if (a.order !== undefined) return -1;
+            if (b.order !== undefined) return 1;
+            if (a.title && b.title) {
+                return a.title.localeCompare(b.title);
+            }
+            return a.slug.localeCompare(b.slug);
+        });
     return modules;
 }

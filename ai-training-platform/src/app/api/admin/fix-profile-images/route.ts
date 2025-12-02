@@ -161,6 +161,7 @@ export async function POST(req: NextRequest) {
     
     return NextResponse.json({
       message: 'Profile images fixed successfully. This endpoint can now be safely deleted.',
+      note: 'Users may need to refresh their browser (Ctrl+F5) or sign out/in to see updated images in the header. The profile page will show the correct images immediately.',
       ...result,
     });
   } catch (error) {

@@ -13,6 +13,7 @@ export default function HeaderNav() {
     const [scrolled, setScrolled] = useState(false);
     const [mounted, setMounted] = useState(false);
     const [showUserMenu, setShowUserMenu] = useState(false);
+    const [profileImage, setProfileImage] = useState<string | null>(null);
     const { data: session } = useSession();
     const menuRef = useRef<HTMLDivElement>(null);
 
@@ -24,6 +25,26 @@ export default function HeaderNav() {
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
+
+    // Fetch profile image from API (not included in session to prevent 431 errors)
+    useEffect(() => {
+        if (session?.user?.email) {
+            fetch('/api/profile')
+                .then(res => res.json())
+                .then(data => {
+                    if (data.profileImage) {
+                        setProfileImage(data.profileImage);
+                    } else if (data.image) {
+                        setProfileImage(data.image);
+                    }
+                })
+                .catch(err => {
+                    console.warn('[HeaderNav] Failed to fetch profile image:', err);
+                });
+        } else {
+            setProfileImage(null);
+        }
+    }, [session?.user?.email]);
 
     // Close menu when clicking outside
     useEffect(() => {
@@ -95,14 +116,14 @@ export default function HeaderNav() {
                                 onClick={() => setShowUserMenu(!showUserMenu)}
                                 className="flex items-center gap-2 px-2 py-1 rounded-full bg-surface-secondary hover:bg-surface-hover transition-colors text-content-secondary hover:text-content-primary"
                             >
-                                {session.user.image || session.user.profile?.profileImage ? (
+                                {profileImage || session.user.image ? (
                                     <Image
-                                        src={session.user.profile?.profileImage || session.user.image || ''}
+                                        src={profileImage || session.user.image || ''}
                                         alt={session.user.name || 'Profile'}
                                         width={32}
                                         height={32}
                                         className="w-8 h-8 rounded-full object-cover"
-                                        unoptimized={(session.user.profile?.profileImage || session.user.image || '').startsWith('/api/images/')}
+                                        unoptimized={(profileImage || session.user.image || '').startsWith('/api/images/')}
                                     />
                                 ) : (
                                     <div className="w-8 h-8 rounded-full bg-surface-tertiary flex items-center justify-center">

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { Suspense, useState, useEffect, useCallback } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { Edit2, Save, X, Upload, Sparkles, Zap, Shield, Target, Brain, Cpu, Terminal, Loader2 } from "lucide-react";
@@ -27,8 +27,6 @@ import { getXPForNextLevel, getLevelProgress, getExperienceLevelName, getUnlocke
 import Cropper from 'react-easy-crop';
 import getCroppedImg from '@/lib/image-utils';
 import { uploadImageFromSource } from '@/lib/file-upload-client';
-
-export const dynamic = 'force-dynamic';
 
 interface CompletedModule {
   moduleId: string;
@@ -66,7 +64,7 @@ const classIcons: Record<string, { icon: typeof Zap; color: string }> = {
   [CLASS_NAMES.SALES]: { icon: Target, color: "text-accent-sales-business" },
 };
 
-export default function ProfilePage() {
+function ProfilePageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [profile, setProfile] = useState<UserProfile | null>(null);
@@ -774,5 +772,22 @@ export default function ProfilePage() {
         </div>
       )}
     </div>
+  );
+}
+
+export default function ProfilePage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen bg-gradient-surface flex items-center justify-center">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-cyber-cyan mx-auto mb-4" />
+            <p className="text-content-secondary mono-text text-sm">LOADING PERSONNEL FILE...</p>
+          </div>
+        </div>
+      }
+    >
+      <ProfilePageContent />
+    </Suspense>
   );
 }

@@ -53,6 +53,11 @@ export interface StoredUser {
     quizScore?: number;
   }>;
   lastUpdated: string;
+  // New audit fields
+  firstSeen?: string;
+  lastSeen?: string;
+  accessDenied?: boolean;
+  deniedReason?: string;
 }
 
 const COLLECTION_NAME = 'users';
@@ -64,13 +69,14 @@ export async function upsertUser(user: Partial<StoredUser> & { email: string }):
 
     const existingDoc = await userRef.get();
     const existingData = existingDoc.exists ? (existingDoc.data() as StoredUser) : null;
+    const now = new Date().toISOString();
 
     // Build user object, only including fields that are not undefined
     // CRITICAL: If completedModules is provided, use it (replace existing array)
     // Otherwise, preserve existing completedModules
     const providedCompletedModules = (user as any).completedModules;
-    const finalCompletedModules = providedCompletedModules !== undefined 
-      ? providedCompletedModules 
+    const finalCompletedModules = providedCompletedModules !== undefined
+      ? providedCompletedModules
       : (existingData?.completedModules ?? []);
 
     const updatedUser: any = {
@@ -80,7 +86,10 @@ export async function upsertUser(user: Partial<StoredUser> & { email: string }):
       level: user.level ?? existingData?.level ?? 1,
       xp: user.xp ?? existingData?.xp ?? 0,
       completedModules: finalCompletedModules,
-      lastUpdated: new Date().toISOString(),
+      lastUpdated: now,
+      lastSeen: now,
+      accessDenied: user.accessDenied ?? false,
+      deniedReason: user.deniedReason ?? null,
     };
 
     // Add optional fields only if they have values (avoid undefined)
@@ -105,6 +114,10 @@ export async function upsertUser(user: Partial<StoredUser> & { email: string }):
       if (user.xp === undefined && existingData.xp > updatedUser.xp) {
         updatedUser.xp = existingData.xp;
       }
+      // Preserve firstSeen
+      updatedUser.firstSeen = existingData.firstSeen || now;
+    } else {
+      updatedUser.firstSeen = now;
     }
 
     // Remove any remaining undefined values (Firestore doesn't allow undefined)
@@ -112,8 +125,8 @@ export async function upsertUser(user: Partial<StoredUser> & { email: string }):
       Object.entries(updatedUser).filter(([_, value]) => value !== undefined)
     );
 
-    await userRef.set(cleanedUser, { merge: true, ignoreUndefinedProperties: true });
-    return cleanedUser as StoredUser;
+    await userRef.set(cleanedUser, { merge: true });
+    return cleanedUser as unknown as StoredUser;
   } catch (error) {
     console.error('Error upserting user to Firestore:', error);
     throw error;
@@ -155,6 +168,18 @@ export async function getLeaderboard(): Promise<StoredUser[]> {
     return users;
   } catch (error) {
     console.error('Error getting leaderboard from Firestore:', error);
+    return [];
+  }
+}
+
+export async function getAllUsers(): Promise<StoredUser[]> {
+  try {
+    const db = getFirestoreInstance();
+    // Get all users, no filtering
+    const snapshot = await db.collection(COLLECTION_NAME).get();
+    return snapshot.docs.map(doc => doc.data() as StoredUser);
+  } catch (error) {
+    console.error('Error getting all users from Firestore:', error);
     return [];
   }
 }

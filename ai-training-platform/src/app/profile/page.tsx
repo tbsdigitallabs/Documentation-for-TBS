@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { Edit2, Save, X, Upload, Sparkles, Zap, Shield, Target, Brain, Cpu, Terminal, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -68,12 +68,14 @@ const classIcons: Record<string, { icon: typeof Zap; color: string }> = {
 
 export default function ProfilePage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
   const [editing, setEditing] = useState(false);
   const [editedProfile, setEditedProfile] = useState<UserProfile>({});
 
   const { data: session, status, update } = useSession();
+  const viewingUserEmail = searchParams.get('user');
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [generatingAvatar, setGeneratingAvatar] = useState(false);
@@ -98,7 +100,11 @@ export default function ProfilePage() {
         controller.abort();
       }, 10000); // 10 second timeout
 
-      const response = await fetch("/api/profile", {
+      const url = viewingUserEmail 
+        ? `/api/profile?user=${encodeURIComponent(viewingUserEmail)}`
+        : "/api/profile";
+      
+      const response = await fetch(url, {
         signal: controller.signal,
       });
 
@@ -142,7 +148,7 @@ export default function ProfilePage() {
     } finally {
       setLoading(false);
     }
-  }, [session]);
+  }, [session, viewingUserEmail]);
 
   // Fetch profile on mount and when session changes
   useEffect(() => {
@@ -155,12 +161,15 @@ export default function ProfilePage() {
       return;
     }
 
-    if (status === 'authenticated' && session?.user?.email) {
+    // Allow viewing other users' profiles if user param is provided
+    if (viewingUserEmail) {
+      fetchProfile();
+    } else if (status === 'authenticated' && session?.user?.email) {
       fetchProfile();
     } else if (status === 'authenticated') {
       console.warn('[Profile] Session status authenticated but no email', { status, session });
     }
-  }, [status, session, fetchProfile, router]);
+  }, [status, session, fetchProfile, router, viewingUserEmail]);
 
   const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -387,44 +396,46 @@ export default function ProfilePage() {
                 <div className="h-4 w-px bg-border-primary hidden sm:block" />
                 <span className="mono-text text-xs text-accent-readable-magenta font-semibold">CLEARANCE: ACTIVE</span>
               </div>
-              <div className="flex items-center gap-3">
-                {!editing ? (
-                  <button
-                    onClick={() => setEditing(true)}
-                    className="flex items-center gap-2 px-4 py-2 bg-surface-secondary border border-border-primary text-accent-readable-cyan hover:bg-surface-hover rounded mono-label transition-all"
-                  >
-                    <Edit2 className="w-3 h-3" />
-                    Modify
-                  </button>
-                ) : (
-                  <>
+              {!viewingUserEmail && (
+                <div className="flex items-center gap-3">
+                  {!editing ? (
                     <button
-                      onClick={handleSave}
-                      disabled={loading}
-                      className="btn-primary flex items-center justify-center gap-2 px-4 py-2 rounded mono-label transition-all shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+                      onClick={() => setEditing(true)}
+                      className="flex items-center gap-2 px-4 py-2 bg-surface-secondary border border-border-primary text-accent-readable-cyan hover:bg-surface-hover rounded mono-label transition-all"
                     >
-                      <Save className="w-3 h-3" />
-                      Save
+                      <Edit2 className="w-3 h-3" />
+                      Modify
                     </button>
-                    <button
-                      onClick={() => {
-                        // Revoke any blob URLs when canceling
-                        if (imagePreview && imagePreview.startsWith('blob:')) {
-                          URL.revokeObjectURL(imagePreview);
-                        }
-                        setEditing(false);
-                        setEditedProfile(profile || {});
-                        setImageFile(null);
-                        setImagePreview(profile?.profileImage || profile?.image || null);
-                      }}
-                      className="flex items-center gap-2 px-4 py-2 bg-red-100 dark:bg-red-500/10 border border-red-300 dark:border-red-500/30 text-red-700 dark:text-red-400 hover:bg-red-200 dark:hover:bg-red-500/20 rounded mono-label transition-all"
-                    >
-                      <X className="w-3 h-3" />
-                      Cancel
-                    </button>
-                  </>
-                )}
-              </div>
+                  ) : (
+                    <>
+                      <button
+                        onClick={handleSave}
+                        disabled={loading}
+                        className="btn-primary flex items-center justify-center gap-2 px-4 py-2 rounded mono-label transition-all shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+                      >
+                        <Save className="w-3 h-3" />
+                        Save
+                      </button>
+                      <button
+                        onClick={() => {
+                          // Revoke any blob URLs when canceling
+                          if (imagePreview && imagePreview.startsWith('blob:')) {
+                            URL.revokeObjectURL(imagePreview);
+                          }
+                          setEditing(false);
+                          setEditedProfile(profile || {});
+                          setImageFile(null);
+                          setImagePreview(profile?.profileImage || profile?.image || null);
+                        }}
+                        className="flex items-center gap-2 px-4 py-2 bg-red-100 dark:bg-red-500/10 border border-red-300 dark:border-red-500/30 text-red-700 dark:text-red-400 hover:bg-red-200 dark:hover:bg-red-500/20 rounded mono-label transition-all"
+                      >
+                        <X className="w-3 h-3" />
+                        Cancel
+                      </button>
+                    </>
+                  )}
+                </div>
+              )}
             </CharacterSheetHeader>
 
             {/* Main Content Grid */}
@@ -440,7 +451,7 @@ export default function ProfilePage() {
                     frameStyle={cosmeticLoadout.equippedFrame?.replace('frame-', '') as any || 'starter'}
                     effectStyle={cosmeticLoadout.equippedEffect?.replace('effect-', '')}
                   />
-                  {editing && (
+                  {!viewingUserEmail && editing && (
                     <label className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 bg-cyber-cyan text-oxford-blue rounded px-3 py-1.5 cursor-pointer hover:bg-cyber-cyan/80 transition-colors flex items-center gap-2 mono-label z-10">
                       <Upload className="w-3 h-3" />
                       Upload
@@ -524,7 +535,7 @@ export default function ProfilePage() {
                   <span className="text-lg font-semibold">{getExperienceLevelName(currentLevel)}</span>
                 </DataPanel>
 
-                {editing && (
+                {!viewingUserEmail && editing && (
                   <button
                     onClick={handleGenerateAvatar}
                     disabled={generatingAvatar}
@@ -596,7 +607,7 @@ export default function ProfilePage() {
                     Personnel Data
                   </div>
 
-                  {editing ? (
+                  {!viewingUserEmail && editing ? (
                     <div className="space-y-4">
                       <div>
                         <label className="block mono-label text-content-tertiary mb-1">Bio</label>

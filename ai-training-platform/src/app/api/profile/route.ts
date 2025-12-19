@@ -35,13 +35,53 @@ interface SessionUser {
     };
 }
 
-export async function GET() {
+export async function GET(req: NextRequest) {
     try {
         const session = await getServerSession(authOptions);
 
         if (!session?.user?.email) {
             console.warn('[Profile API] Unauthorized - no session or email');
             return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+        }
+
+        // Check if viewing another user's profile
+        const { searchParams } = new URL(req.url);
+        const viewingUserEmail = searchParams.get('user');
+        const targetEmail = viewingUserEmail || session.user.email;
+
+        // If viewing another user, fetch their data from user store
+        if (viewingUserEmail && viewingUserEmail !== session.user.email) {
+            try {
+                const targetUser = await getUserByEmail(viewingUserEmail);
+                if (!targetUser) {
+                    return NextResponse.json({ error: "User not found" }, { status: 404 });
+                }
+
+                // Return the viewed user's profile (read-only)
+                return NextResponse.json({
+                    id: targetUser.id,
+                    name: targetUser.name,
+                    email: targetUser.email,
+                    image: targetUser.image,
+                    profileImage: targetUser.profileImage,
+                    bio: targetUser.bio || null,
+                    role: targetUser.role || null,
+                    skills: targetUser.skills || [],
+                    interests: targetUser.interests || [],
+                    learningGoals: targetUser.learningGoals || null,
+                    experienceLevel: targetUser.experienceLevel || null,
+                    selectedClass: targetUser.selectedClass || null,
+                    hobbies: targetUser.hobbies || null,
+                    systems: targetUser.systems || null,
+                    level: targetUser.level || 1,
+                    xp: targetUser.xp || 0,
+                    completedModules: targetUser.completedModules || [],
+                    cosmeticLoadout: targetUser.cosmeticLoadout || null,
+                });
+            } catch (error) {
+                console.error('[Profile API] Error fetching target user:', error);
+                return NextResponse.json({ error: "Failed to fetch user profile" }, { status: 500 });
+            }
         }
 
         const user = session.user as SessionUser;

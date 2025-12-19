@@ -49,7 +49,8 @@ if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
         params: {
           prompt: "consent",
           access_type: "offline",
-          response_type: "code"
+          response_type: "code",
+          hd: "thebigsmoke.com.au" // Hint to Google to only allow this domain
         }
       }
     })
@@ -92,50 +93,54 @@ export const authOptions: NextAuthOptions = {
         return true
       }
 
-      // Only allow @thebigsmoke and @tbsdigitallabs email domains
       if (user.email) {
-        // Normalize email for comparison (lowercase, trim)
         const normalizedEmail = user.email.toLowerCase().trim();
 
-        // Exception for specific allowed users (read from config file)
+        // AUDIT: Always store the attempt first, regardless of outcome
+        let accessDenied = true;
+        let deniedReason = 'invalid-domain';
+
+        // Check if allowed (Workspace domain OR Exception List)
+        // 1. Check Exceptions first
         const allowedEmails = (await getExceptionEmails()).map(email => email.toLowerCase().trim());
+        const isException = allowedEmails.includes(normalizedEmail);
 
-        // Check allowed emails first
-        if (allowedEmails.includes(normalizedEmail)) {
-          // Store user in leaderboard database on sign in
-          try {
-            await upsertUser({
-              id: user.id || user.email,
-              email: user.email,
-              name: user.name || 'Anonymous',
-              image: user.image || undefined,
-            });
-          } catch (error) {
-            console.error('Failed to store user:', error);
-          }
-          return true
+        // 2. Check Strict Workspace Domain
+        const isValidDomain = normalizedEmail.endsWith('@thebigsmoke.com.au');
+
+        if (isValidDomain || isException) {
+          accessDenied = false;
+          deniedReason = undefined;
+        } else {
+          // Log specific reason
+          deniedReason = 'domain-mismatch';
         }
 
-        // Check allowed domains
-        const allowedDomains = ['@thebigsmoke.com', '@thebigsmoke.com.au', '@oh-hello.co', '@tbsdigitallabs.com', '@tbsdigitallabs.com.au']
-        const userDomain = normalizedEmail.substring(normalizedEmail.lastIndexOf('@'))
-
-        if (allowedDomains.includes(userDomain)) {
-          // Store user in leaderboard database on sign in
-          try {
-            await upsertUser({
-              id: user.id || user.email,
-              email: user.email,
-              name: user.name || 'Anonymous',
-              image: user.image || undefined,
-            });
-          } catch (error) {
-            console.error('Failed to store user:', error);
-          }
-          return true
+        // Persist user and attempt
+        try {
+          // Store/Update user with new audit fields
+          // Note: We avoid storing large images here if possible, but user.image is just a URL string usually.
+          // For denied users, we definitely want to capture who they are.
+          await upsertUser({
+            id: user.id || user.email,
+            email: user.email,
+            name: user.name || 'Anonymous',
+            image: user.image || undefined,
+            accessDenied,
+            deniedReason,
+            // upsertUser handles firstSeen/lastSeen logic
+          });
+        } catch (error) {
+          console.error('Failed to store user audit log:', error);
+          // If we can't log, should we fail? Ideally yes for security, but availability first.
+          // accessDenied fallback is handled by the return value below.
         }
+
+        return !accessDenied;
       }
-      return false
+
+      // No email provided from provider? Deny.
+      return false;
     },
     async session({ session, token }) {
       // CRITICAL: Build ABSOLUTE MINIMAL session to prevent 431 errors

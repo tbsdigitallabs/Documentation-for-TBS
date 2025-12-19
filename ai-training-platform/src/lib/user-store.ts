@@ -44,6 +44,11 @@ export interface StoredUser {
     quizScore?: number;
   }>;
   lastUpdated: string;
+  // New audit fields
+  firstSeen?: string;
+  lastSeen?: string;
+  accessDenied?: boolean;
+  deniedReason?: string;
 }
 
 function ensureDataDir() {
@@ -84,7 +89,10 @@ export async function upsertUser(user: Partial<StoredUser> & { email: string }):
   console.log('[User Store] Using local filesystem');
   const users = readUsers();
   const existingIndex = users.findIndex(u => u.email === user.email);
-  
+
+  const now = new Date().toISOString();
+
+  // Prepare the base object for updates
   const updatedUser: StoredUser = {
     id: user.id || user.email,
     email: user.email,
@@ -96,7 +104,11 @@ export async function upsertUser(user: Partial<StoredUser> & { email: string }):
     profileImage: user.profileImage,
     cosmeticLoadout: user.cosmeticLoadout,
     completedModules: (user as any).completedModules,
-    lastUpdated: new Date().toISOString(),
+    lastUpdated: now,
+    lastSeen: now,
+    accessDenied: user.accessDenied ?? false,
+    deniedReason: user.deniedReason,
+    // firstSeen will be set below if new
   };
 
   if (existingIndex >= 0) {
@@ -107,13 +119,17 @@ export async function upsertUser(user: Partial<StoredUser> & { email: string }):
       // Keep higher XP/level if not provided
       level: user.level ?? users[existingIndex].level,
       xp: user.xp ?? users[existingIndex].xp,
+      // Preserve firstSeen
+      firstSeen: users[existingIndex].firstSeen || now,
     };
   } else {
+    // New user
+    updatedUser.firstSeen = now;
     users.push(updatedUser);
   }
 
   writeUsers(users);
-  return updatedUser;
+  return existingIndex >= 0 ? users[existingIndex] : updatedUser;
 }
 
 export async function getLeaderboard(): Promise<StoredUser[]> {
@@ -125,7 +141,7 @@ export async function getLeaderboard(): Promise<StoredUser[]> {
   // Local filesystem fallback for development
   console.log('[User Store] Using local filesystem for leaderboard');
   const users = readUsers();
-  
+
   // Filter out excluded accounts and sort by XP
   return users
     .filter(user => !EXCLUDED_EMAILS.includes(user.email.toLowerCase()))
@@ -147,8 +163,7 @@ export async function getUserByEmail(email: string): Promise<StoredUser | null> 
 export async function getAllUsers(): Promise<StoredUser[]> {
   if (useFirestore) {
     console.log('[User Store] Using Firestore for getAllUsers');
-    // Firestore doesn't have getAllUsers, use getLeaderboard which returns all users
-    return await firestore.getLeaderboard();
+    return await firestore.getAllUsers();
   }
 
   // Local filesystem fallback for development

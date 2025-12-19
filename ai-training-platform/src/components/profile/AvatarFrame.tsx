@@ -25,35 +25,35 @@ const frameClasses: Record<FrameStyle, string> = {
   legendary: 'frame-legendary',
 };
 
-export function AvatarFrame({ 
-  src, 
-  alt = 'Avatar', 
-  size = 'md', 
+export function AvatarFrame({
+  src,
+  alt = 'Avatar',
+  size = 'md',
   frameStyle = 'starter',
   effectStyle,
-  className 
+  className
 }: AvatarFrameProps) {
   const sizeClasses = {
     sm: 'max-w-[120px]',
     md: 'max-w-[180px]',
     lg: 'max-w-[220px]'
   };
-  
+
   return (
     <div className={cn(
-      'char-avatar-frame mx-auto', 
-      sizeClasses[size], 
+      'char-avatar-frame mx-auto',
+      sizeClasses[size],
       frameClasses[frameStyle],
       effectStyle && `effect-${effectStyle}`,
       className
     )}>
       <div className="char-avatar-inner relative w-full aspect-square">
         {src ? (
-          <Image 
-            src={src} 
-            alt={alt || 'Avatar'} 
-            fill 
-            className="object-cover" 
+          <Image
+            src={src}
+            alt={alt || 'Avatar'}
+            fill
+            className="object-cover"
             unoptimized={src.startsWith('data:') || src.startsWith('blob:') || src.startsWith('/api/images/') || src.includes('dicebear.com')}
             onError={(e) => {
               console.error('[AvatarFrame] Image load error:', src, e);

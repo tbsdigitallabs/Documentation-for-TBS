@@ -2,7 +2,7 @@
 
 import { useTheme } from './ThemeProvider';
 import { useEffect, useState, useRef } from 'react';
-import { Zap, Sun } from 'lucide-react';
+import { Zap, Sun, Moon } from 'lucide-react';
 
 interface PopupPosition {
   placement: 'top' | 'bottom' | 'left' | 'right';
@@ -227,7 +227,7 @@ export default function ThemeToggle() {
           }}
         >
           {theme === 'dark' ? (
-            <Zap className="h-3.5 w-3.5 text-accent-sage-400" />
+            <Moon className="h-3.5 w-3.5 text-accent-sage-400" />
           ) : (
             <Sun className="h-3.5 w-3.5 text-amber-500" />
           )}

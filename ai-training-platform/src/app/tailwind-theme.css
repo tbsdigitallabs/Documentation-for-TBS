@@ -54,6 +54,10 @@
     --accent-magenta-500: var(--color-light-magenta);
     
     /* Sage Palette - Generated from #61BDBA */
+    --accent-sage-100: color-mix(in srgb, var(--color-sage), white 80%);
+    --accent-sage-200: color-mix(in srgb, var(--color-sage), white 60%);
+    --accent-sage-300: color-mix(in srgb, var(--color-sage), white 40%);
+    --accent-sage-400: color-mix(in srgb, var(--color-sage), white 20%);
     --accent-sage-500: var(--color-sage);
     --accent-sage-600: color-mix(in srgb, var(--color-sage), black 10%);
     --accent-sage-700: color-mix(in srgb, var(--color-sage), black 20%);

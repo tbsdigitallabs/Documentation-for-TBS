@@ -1,6 +1,6 @@
 import { getAllModules } from '@/lib/mdx';
 import Link from 'next/link';
-import { BookOpen } from 'lucide-react';
+import { BookOpen, CheckCircle } from 'lucide-react';
 import { HoloCard } from '@/components/HoloCard';
 import { Button } from '@/components/ui/button';
 import { Heading } from '@/components/Heading';
@@ -16,6 +16,24 @@ export default async function Session0Page() {
   // Session 0 uses 'shared' role for foundational content
   const modules = getAllModules('shared');
   const session = await getServerSession(authOptions);
+
+  // Fetch completed modules for UI status
+  let completedModules: Array<{ moduleId: string }> = [];
+
+  if (session?.user?.email) {
+    try {
+      const { getUserByEmail } = await import('@/lib/user-store');
+      const storedUser = await getUserByEmail(session.user.email);
+      completedModules = storedUser?.completedModules || session.user.profile?.completedModules || [];
+    } catch (e) {
+      console.error('Error fetching user progress:', e);
+      completedModules = session.user.profile?.completedModules || [];
+    }
+  } else if (session?.user?.profile?.completedModules) {
+    completedModules = session.user.profile.completedModules;
+  }
+
+  const completedModuleIds = completedModules.map(m => m.moduleId);
 
   return (
     <div className="min-h-screen bg-gradient-surface">
@@ -64,9 +82,20 @@ export default async function Session0Page() {
                   </div>
 
                   <Link href={`/session-0/${module.slug}`} className="mt-auto">
-                    <Button variant="default" size="lg" className="w-full">
-                      Deploy
-                    </Button>
+                    {completedModuleIds.includes(`session-0/${module.slug}`) ? (
+                      <Button
+                        variant="outline"
+                        size="lg"
+                        className="w-full border-green-500/50 text-green-600 hover:bg-green-500/10 hover:text-green-700 bg-green-500/5 backdrop-blur-sm"
+                      >
+                        <CheckCircle className="w-4 h-4 mr-2" />
+                        Completed
+                      </Button>
+                    ) : (
+                      <Button variant="default" size="lg" className="w-full">
+                        Deploy
+                      </Button>
+                    )}
                   </Link>
                 </HoloCard>
               ))}

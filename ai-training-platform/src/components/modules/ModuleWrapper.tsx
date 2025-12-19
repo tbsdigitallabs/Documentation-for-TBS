@@ -24,12 +24,12 @@ export function ModuleWrapper({ content, questions }: ModuleWrapperProps) {
     const moduleId = `${role}/${moduleSlug}`;
     const moduleName = moduleSlug.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
 
-    const handlePresentationComplete = () => {
+    const handlePresentationComplete = async () => {
         if (questions && questions.length > 0) {
             setMode('questionnaire');
         } else {
             // No quiz, award XP immediately
-            awardXP(0, 0);
+            await awardXP(0, 0);
         }
     };
 
@@ -53,7 +53,7 @@ export function ModuleWrapper({ content, questions }: ModuleWrapperProps) {
 
             if (response.ok) {
                 const data = await response.json();
-                
+
                 // Update session with new XP and level
                 await update({
                     profile: data.profile,

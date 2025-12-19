@@ -24,17 +24,19 @@ const classToRouteSlug: Record<string, string> = {
 export default async function ProjectManagersPage() {
   const session = await getServerSession(authOptions);
   const userClass = session?.user?.profile?.selectedClass;
-  
+
+  // Track completed modules for both foundation check and UI status
+  let completedModules: Array<{ moduleId: string }> = [];
+
   // Check foundation requirement
   if (session?.user?.profile) {
     try {
       // Check if user has flag indicating all modules completed (David's case)
       const hasAllCompleted = (session.user.profile as any)?.hasAllModulesCompleted;
-      
+
       // CRITICAL: Always fetch full list from user store for foundation check
       // Session only has 10 most recent modules (or none for accounts with hasAllModulesCompleted flag)
-      let completedModules: Array<{ moduleId: string }> = [];
-      
+
       if (session.user.email) {
         try {
           const { getUserByEmail } = await import('@/lib/user-store');
@@ -53,21 +55,21 @@ export default async function ProjectManagersPage() {
       } else {
         completedModules = session.user.profile.completedModules || [];
       }
-      
+
       // If user has hasAllModulesCompleted flag, skip foundation check
       if (hasAllCompleted) {
         // User has completed all modules, allow access
       } else {
         const hasFoundation = hasCompletedFoundation(completedModules);
-        
+
         if (!hasFoundation) {
           const foundationModuleIds = getFoundationModuleIds();
           const incompleteModules = getIncompleteFoundationModules(completedModules);
-          
+
           return (
             <div className="min-h-screen bg-gradient-surface">
               <PageHeader session={session} />
-              <FoundationRequirement 
+              <FoundationRequirement
                 incompleteModules={incompleteModules}
                 totalFoundationModules={foundationModuleIds.length}
               />
@@ -80,7 +82,7 @@ export default async function ProjectManagersPage() {
       // On error, allow access to prevent blocking users
     }
   }
-  
+
   const modules = getAllModules('project-managers');
 
   const otherClasses = getAllClasses().filter(c => c.name !== CLASS_NAMES.PROJECT_MANAGERS && c.name !== CLASS_NAMES.FOUNDATION);
@@ -137,6 +139,7 @@ export default async function ProjectManagersPage() {
         otherModules={otherModules}
         accentColor="var(--color-accent-project-managers)"
         description="Enhance your strategic capabilities with AI-powered tools."
+        completedModules={completedModules.map(m => m.moduleId)}
       />
     </div>
   );

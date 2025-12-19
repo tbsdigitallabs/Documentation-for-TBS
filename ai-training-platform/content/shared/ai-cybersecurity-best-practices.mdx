@@ -122,20 +122,30 @@ The goal isn't to ban AI tools from our workflows. Instead, we create secure tes
 
 **Before integrating AI into any production workflow:**
 
-1. **Set up a sandbox environment**
-   - Use non-production data
-   - Create synthetic test cases
-   - Use anonymised or dummy data that mirrors real structure
+<div className="grid gap-4 mt-4">
 
-2. **Test with non-sensitive examples**
-   - Generic code patterns (not your proprietary logic)
-   - Public domain content (not client-specific work)
-   - Example scenarios (not real project details)
+<div className="bg-surface-tertiary/50 p-4 rounded-xl border border-white/10">
+**1. Set up a sandbox environment**
+- Use non-production data
+- Create synthetic test cases
+- Use anonymised or dummy data that mirrors real structure
+</div>
 
-3. **Validate outputs carefully**
-   - Review all AI-generated content for accuracy
-   - Check for data leakage or unexpected outputs
-   - Verify the AI hasn't memorised or stored sensitive data
+<div className="bg-surface-tertiary/50 p-4 rounded-xl border border-white/10">
+**2. Test with non-sensitive examples**
+- Generic code patterns (not your proprietary logic)
+- Public domain content (not client-specific work)
+- Example scenarios (not real project details)
+</div>
+
+<div className="bg-surface-tertiary/50 p-4 rounded-xl border border-white/10">
+**3. Validate outputs carefully**
+- Review all AI-generated content for accuracy
+- Check for data leakage or unexpected outputs
+- Verify the AI hasn't memorised or stored sensitive data
+</div>
+
+</div>
 
 ### Step 2: Data Sanitisation Techniques
 
@@ -333,12 +343,12 @@ after an initial meeting. Use placeholder company names."
 
 Before using any AI tool with company-related work, ask:
 
-- [ ] **Is this data sensitive?** (IP, client data, proprietary info)
-- [ ] **Have I sanitised the data?** (Removed credentials, identifiers, sensitive details)
-- [ ] **Am I using the right tool?** (Public vs enterprise vs self-hosted)
-- [ ] **Have I tested in isolation?** (Sandbox environment, non-production data)
-- [ ] **Can I verify the output?** (Review for accuracy and data leakage)
-- [ ] **Is this compliant?** (Meets legal and regulatory requirements)
+- **Is this data sensitive?** (IP, client data, proprietary info)
+- **Have I sanitised the data?** (Removed credentials, identifiers, sensitive details)
+- **Am I using the right tool?** (Public vs enterprise vs self-hosted)
+- **Have I tested in isolation?** (Sandbox environment, non-production data)
+- **Can I verify the output?** (Review for accuracy and data leakage)
+- **Is this compliant?** (Meets legal and regulatory requirements)
 
 **If any answer is uncertain, use enterprise solutions or consult with security/compliance teams.**
 
@@ -391,45 +401,60 @@ Before using any AI tool with company-related work, ask:
 
 ### Scenario 1: Developer Needs Help with Authentication
 
+<div className="grid md:grid-cols-2 gap-4">
+<div className="bg-red-500/10 border border-red-500/20 p-4 rounded-xl">
 **❌ Unsafe Approach:**
 ```
 Pastes entire authentication system code into ChatGPT:
 "Here's our login system. How can I improve it?"
 ```
-
+</div>
+<div className="bg-green-500/10 border border-green-500/20 p-4 rounded-xl">
 **✅ Safe Approach:**
 ```
 "Show me a generic authentication flow using OAuth2. 
 I'll adapt the pattern to our specific implementation."
 ```
+</div>
+</div>
 
 ### Scenario 2: Designer Creating Client Brand Assets
 
+<div className="grid md:grid-cols-2 gap-4">
+<div className="bg-red-500/10 border border-red-500/20 p-4 rounded-xl">
 **❌ Unsafe Approach:**
 ```
 Uploads client brand guidelines to AI image generator:
 "Create designs using these exact brand colours and guidelines."
 ```
-
+</div>
+<div className="bg-green-500/10 border border-green-500/20 p-4 rounded-xl">
 **✅ Safe Approach:**
 ```
 "Generate a modern tech brand aesthetic with a professional palette. 
 I'll refine this with our client's specific brand requirements."
 ```
+</div>
+</div>
 
 ### Scenario 3: Content Creator Writing Client Campaign
 
+<div className="grid md:grid-cols-2 gap-4">
+<div className="bg-red-500/10 border border-red-500/20 p-4 rounded-xl">
 **❌ Unsafe Approach:**
 ```
 Pastes client messaging strategy and campaign brief:
 "Write social media posts using this strategy."
 ```
-
+</div>
+<div className="bg-green-500/10 border border-green-500/20 p-4 rounded-xl">
 **✅ Safe Approach:**
 ```
 "Create generic social media post templates for a B2B tech campaign. 
 I'll customise these with our client's specific messaging."
 ```
+</div>
+</div>
 
 ---
 

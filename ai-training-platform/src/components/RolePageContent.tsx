@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { ChevronDown, ChevronUp } from 'lucide-react';
+import { ChevronDown, ChevronUp, CheckCircle } from 'lucide-react';
 import { HoloCard } from '@/components/HoloCard';
 import { Button } from '@/components/ui/button';
 import { Section } from '@/components/Section';
@@ -18,6 +18,7 @@ interface RolePageContentProps {
     otherModules: Array<{ class: ClassInfo; modules: ModuleMetadata[] }>;
     accentColor: string;
     description: string;
+    completedModules?: string[];
 }
 
 // Map class names to route slugs
@@ -37,6 +38,7 @@ export default function RolePageContent({
     otherModules,
     accentColor,
     description,
+    completedModules = [],
 }: RolePageContentProps) {
     const [mounted, setMounted] = useState(false);
     const [showMore, setShowMore] = useState(false);
@@ -87,13 +89,24 @@ export default function RolePageContent({
                                     <span className="flex items-center gap-2">🎯 {module.difficulty || "Intermediate"}</span>
                                 </div>
                                 <Link href={`/${roleSlug}/${module.slug}`} className="mt-auto">
-                                    <Button
-                                        variant="default"
-                                        size="lg"
-                                        className="w-full"
-                                    >
-                                        Deploy
-                                    </Button>
+                                    {completedModules.includes(`${roleSlug}/${module.slug}`) ? (
+                                        <Button
+                                            variant="outline"
+                                            size="lg"
+                                            className="w-full border-green-500/50 text-green-600 hover:bg-green-500/10 hover:text-green-700 bg-green-500/5 backdrop-blur-sm"
+                                        >
+                                            <CheckCircle className="w-4 h-4 mr-2" />
+                                            Completed
+                                        </Button>
+                                    ) : (
+                                        <Button
+                                            variant="default"
+                                            size="lg"
+                                            className="w-full"
+                                        >
+                                            Deploy
+                                        </Button>
+                                    )}
                                 </Link>
                             </HoloCard>
                         ))}

@@ -9,7 +9,7 @@ import { serialize } from 'next-mdx-remote/serialize';
 
 interface ModulePresentationProps {
     content: string; // Raw MDX content
-    onComplete: () => void;
+    onComplete: () => void | Promise<void>;
 }
 
 // Custom MDX Components - Responsive text sizing
@@ -71,6 +71,7 @@ export function ModulePresentation({ content, onComplete }: ModulePresentationPr
     const [slides, setSlides] = useState<string[]>([]);
     const [currentSlide, setCurrentSlide] = useState(0);
     const [slideData, setSlideData] = useState<SlideData[]>([]);
+    const [isCompleting, setIsCompleting] = useState(false);
 
     // Split content into slides based on horizontal rules '---'
     useEffect(() => {
@@ -108,11 +109,16 @@ export function ModulePresentation({ content, onComplete }: ModulePresentationPr
         }
     }, [content]);
 
-    const handleNext = () => {
+    const handleNext = async () => {
         if (currentSlide < slides.length - 1) {
             setCurrentSlide(prev => prev + 1);
         } else {
-            onComplete();
+            setIsCompleting(true);
+            try {
+                await onComplete();
+            } finally {
+                setIsCompleting(false);
+            }
         }
     };
 

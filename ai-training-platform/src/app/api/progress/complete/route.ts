@@ -34,7 +34,7 @@ export async function POST(req: NextRequest) {
     // Session only has 10 most recent modules (to prevent 431 errors), but we need all for XP
     // ALWAYS fetch from user store first to get the complete, authoritative list
     let completedModules: Array<{ moduleId: string; moduleName: string; completedAt: string; xpEarned: number; quizScore?: number }> = [];
-    
+
     // Fetch full list from user store if available (this is the source of truth)
     if (session.user.email) {
       try {
@@ -56,7 +56,7 @@ export async function POST(req: NextRequest) {
       // No email in session - use session modules as fallback
       completedModules = session.user.profile?.completedModules || [];
     }
-    
+
     // Check if module is already completed (using full list)
     const alreadyCompleted = completedModules.find(
       (m) => m.moduleId === moduleId
@@ -66,7 +66,7 @@ export async function POST(req: NextRequest) {
       // Calculate current XP from full list
       const currentXPFromModules = completedModules.reduce((sum, m) => sum + m.xpEarned, 0);
       const currentLevelFromXP = calculateLevel(currentXPFromModules);
-      
+
       return NextResponse.json({
         success: false,
         alreadyCompleted: true,
@@ -110,13 +110,13 @@ export async function POST(req: NextRequest) {
       quizScore: quizScore !== undefined ? quizScore : undefined,
     };
 
-    const updatedCompletedModules = [...completedModules, newCompletedModule];
+    let updatedCompletedModules = [...completedModules, newCompletedModule];
 
     // CRITICAL: Limit completedModules in session update to prevent 431 errors
     // Store only the 10 most recent modules in the session/JWT token
     // Full list is stored in user store above
     const limitedCompletedModules = updatedCompletedModules.slice(-10);
-    
+
     // Update session with new XP, level, and limited completed modules
     const updatedProfile = {
       ...session.user.profile,
@@ -130,7 +130,7 @@ export async function POST(req: NextRequest) {
       try {
         // Get existing user to preserve cosmetic loadout if not in session
         const existingUser = await getUserByEmail(session.user.email);
-        
+
         // CRITICAL: Verify we're not overwriting existing modules
         // If existing user has more modules than we're about to save, something is wrong
         if (existingUser?.completedModules && existingUser.completedModules.length > updatedCompletedModules.length) {
@@ -141,7 +141,7 @@ export async function POST(req: NextRequest) {
           updatedCompletedModules = [...existingUser.completedModules, ...newModules];
           console.log(`[PROGRESS SAVE] Merged modules: ${updatedCompletedModules.length} total (${newModules.length} new)`);
         }
-        
+
         // Store FULL completedModules list in user store (not limited to 10)
         await upsertUser({
           email: session.user.email,
@@ -154,7 +154,7 @@ export async function POST(req: NextRequest) {
           cosmeticLoadout: (session.user.profile as { cosmeticLoadout?: CosmeticLoadout | null } | undefined)?.cosmeticLoadout || existingUser?.cosmeticLoadout,
           completedModules: updatedCompletedModules, // Store FULL list in user store
         } as any);
-        
+
         console.log(`[PROGRESS SAVE] Successfully saved progress for ${session.user.email}: ${updatedCompletedModules.length} modules, ${newXP} XP, Level ${newLevel}`);
       } catch (error) {
         // CRITICAL ERROR: User store save failed - progress will be lost on session expiry

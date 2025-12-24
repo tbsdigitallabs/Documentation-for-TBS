@@ -11,6 +11,7 @@ export default function SignIn() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [version, setVersion] = useState("0.0");
+  const [isDev, setIsDev] = useState(false);
 
   useEffect(() => {
     // Get version - for client component, we'll fetch it from an API route
@@ -20,6 +21,9 @@ export default function SignIn() {
       .then(res => res.json())
       .then(data => setVersion(data.version || "0.0"))
       .catch(() => setVersion("0.0"));
+
+    // Check if we're in development (localhost)
+    setIsDev(window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1');
   }, []);
 
   const handleGoogleSignIn = async () => {
@@ -132,7 +136,7 @@ export default function SignIn() {
           </button>
 
           {/* Dev Skip Auth Button (Development Only) */}
-          {/* {isDev && (
+          {isDev && (
             <>
               <div className="my-4 flex items-center">
                 <div className="flex-1 border-t border-border-primary"></div>
@@ -154,7 +158,7 @@ export default function SignIn() {
                 )}
               </button>
             </>
-          )} */}
+          )}
         </div>
 
         {/* Theme Toggle */}

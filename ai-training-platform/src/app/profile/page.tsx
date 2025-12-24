@@ -98,10 +98,10 @@ function ProfilePageContent() {
         controller.abort();
       }, 10000); // 10 second timeout
 
-      const url = viewingUserEmail 
+      const url = viewingUserEmail
         ? `/api/profile?user=${encodeURIComponent(viewingUserEmail)}`
         : "/api/profile";
-      
+
       const response = await fetch(url, {
         signal: controller.signal,
       });
@@ -277,7 +277,7 @@ function ProfilePageContent() {
           return;
         }
       }
-      
+
       const response = await fetch("/api/profile", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
